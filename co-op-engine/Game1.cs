@@ -1,12 +1,11 @@
 ﻿#region Using Statements
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
+using System;
+using System.Collections.Generic;
+using MonoGameExtensions;
+
 #endregion
 
 namespace co_op_engine
@@ -19,11 +18,16 @@ namespace co_op_engine
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Texture2D plainWhiteTexture;
+
         public Game1()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            plainWhiteTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
+            this.Window.SetPosition(new Point(0,0));
         }
 
         /// <summary>
@@ -83,7 +87,9 @@ namespace co_op_engine
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(plainWhiteTexture, new Rectangle(10, 10, 10, 10), Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
