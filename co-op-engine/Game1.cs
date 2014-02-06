@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using MonoGameExtensions;
+using co_op_engine.Utility;
 
 #endregion
 
@@ -19,6 +20,8 @@ namespace co_op_engine
         SpriteBatch spriteBatch;
 
         Texture2D plainWhiteTexture;
+        Color defaultDrawingColor;
+        int testVar = 1;
 
         public Game1()
             : base()
@@ -38,8 +41,13 @@ namespace co_op_engine
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            GameTimerManager.Instance.SetTimer(100, s => { 
+                testVar = this.ChangeColor(false, 5);
+                GameTimerManager.Instance.SetTimer(100, t => ChangeColor(true, 20));
+            });
 
+            GameTimerManager.Instance.SetTimer(300, t => ChangeColor(true, 20));
+            GameTimerManager.Instance.SetTimer(400, t => ChangeColor(true, 20));
             base.Initialize();
         }
 
@@ -73,8 +81,7 @@ namespace co_op_engine
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
+            GameTimerManager.Instance.Update();
 
             base.Update(gameTime);
         }
@@ -88,10 +95,23 @@ namespace co_op_engine
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            spriteBatch.Draw(plainWhiteTexture, new Rectangle(10, 10, 10, 10), Color.White);
+            spriteBatch.Draw(plainWhiteTexture, new Rectangle(10, 10, 10, 10), defaultDrawingColor);
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public int ChangeColor(bool well, int huh)
+        {
+            if (defaultDrawingColor == Color.White)
+            {
+                defaultDrawingColor = Color.Black;
+            }
+            else
+            {
+                defaultDrawingColor = Color.White;
+            }
+            return 50;
         }
     }
 }
