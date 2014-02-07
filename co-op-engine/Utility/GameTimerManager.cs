@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace co_op_engine.Utility
 {
     public delegate void GameTimerCallback(object state);
-    public class GameTimerManager
+    class GameTimerManager
     {
         private List<GameTimer> Timers = new List<GameTimer>();
 
@@ -25,23 +26,23 @@ namespace co_op_engine.Utility
           }
        }
 
-        public GameTimer SetTimer(int frames, GameTimerCallback callback)
+        public GameTimer SetTimer(int frames, GameTimerCallback callback, Entity.GameObject owner)
         {
-            var newTimer = new GameTimer(frames, callback);
+            var newTimer = new GameTimer(frames, callback, owner);
             Timers.Add(newTimer);
             return newTimer;
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             var timersToUpdate = Timers.Where(t => !t.ShouldDelete).ToArray();
             int upd = timersToUpdate.Count();
             for (int i = 0; i < upd; i++)
             {
-                timersToUpdate[i].Tick();
+                timersToUpdate[i].Update(gameTime);
                 if (timersToUpdate[i].Finished)
                 {
-                    timersToUpdate[i].initiateCallback();
+                    timersToUpdate[i].InitiateCallback();
                     timersToUpdate[i].MarkForDeletion();
                 }
             }
@@ -60,29 +61,35 @@ namespace co_op_engine.Utility
         }
     }
 
-    public class GameTimer
+    class GameTimer
     {
-        int Frames;
+        TimeSpan TimeLeft;
         GameTimerCallback Callback;
 
         public bool ShouldDelete = false;
 
-        public bool Finished { get { return Frames <= 0; } }
+        public bool Finished { get { return TimeLeft <= TimeSpan.Zero; } }
 
-        public GameTimer(int frames, GameTimerCallback callback)
+        public GameTimer(int timeSeed, GameTimerCallback callback, Entity.GameObject owner)
         {
-            Frames = frames;
+            TimeLeft = TimeSpan.FromMilliseconds(timeSeed);
+            owner.OnDeath += HandleOwnerDeath;
             Callback = callback;
         }
 
-        public void Tick()
+        public void Update(GameTime gameTime)
         {
-            Frames--;
+            TimeLeft -= gameTime.ElapsedGameTime;
         }
 
-        public void initiateCallback()
+        public void InitiateCallback()
         {
             Callback(null);
+        }
+
+        private void HandleOwnerDeath(object sender, EventArgs e)
+        {
+            MarkForDeletion();
         }
 
         public void MarkForDeletion()

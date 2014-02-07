@@ -19,17 +19,14 @@ namespace co_op_engine
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Texture2D plainWhiteTexture;
-        Color defaultDrawingColor;
-        int testVar = 1;
+        Entity.GameObject devObject;
 
         public Game1()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            plainWhiteTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
+        
             this.Window.SetPosition(new Point(0,0));
         }
 
@@ -41,13 +38,11 @@ namespace co_op_engine
         /// </summary>
         protected override void Initialize()
         {
-            GameTimerManager.Instance.SetTimer(100, s => { 
-                testVar = this.ChangeColor(false, 5);
-                GameTimerManager.Instance.SetTimer(100, t => ChangeColor(true, 20));
-            });
+            var plainWhiteTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
+            devObject = new Entity.GameObject(plainWhiteTexture);
 
-            GameTimerManager.Instance.SetTimer(300, t => ChangeColor(true, 20));
-            GameTimerManager.Instance.SetTimer(400, t => ChangeColor(true, 20));
+            
             base.Initialize();
         }
 
@@ -81,7 +76,9 @@ namespace co_op_engine
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            GameTimerManager.Instance.Update();
+            GameTimerManager.Instance.Update(gameTime);
+
+            devObject.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -95,23 +92,13 @@ namespace co_op_engine
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            spriteBatch.Draw(plainWhiteTexture, new Rectangle(10, 10, 10, 10), defaultDrawingColor);
+            //spriteBatch.Draw(plainWhiteTexture, new Rectangle(10, 10, 10, 10), defaultDrawingColor);
+            devObject.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        public int ChangeColor(bool well, int huh)
-        {
-            if (defaultDrawingColor == Color.White)
-            {
-                defaultDrawingColor = Color.Black;
-            }
-            else
-            {
-                defaultDrawingColor = Color.White;
-            }
-            return 50;
-        }
+        
     }
 }
