@@ -50,6 +50,7 @@
     <Compile Include="Entity\GameObject.cs" />
     <Compile Include="Entity\PhysicsBase.cs" />
     <Compile Include="Entity\RenderBase.cs" />
+    <Compile Include="Networking\TcpServerClientObjects.cs" />
     <Compile Include="Physics\ElasticQuadTree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
