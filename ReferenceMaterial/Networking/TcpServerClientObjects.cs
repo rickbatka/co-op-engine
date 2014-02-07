@@ -15,9 +15,11 @@ namespace ReferenceMaterial.Networking
         public event EventHandler OnReceiveMessage;
         public event EventHandler OnConnected;
         public event EventHandler OnServerLostConnect;
+        public event EventHandler OnNetworkError;
 
         TcpClient client;
         IPEndPoint serverEndPoint;
+
 
         public BasicClient(string IP, int port)
         {
@@ -60,6 +62,10 @@ namespace ReferenceMaterial.Networking
             }
             catch
             {
+                if (OnNetworkError != null)
+                {
+                    OnNetworkError(this, null);
+                }
             }
         }
 
@@ -69,6 +75,7 @@ namespace ReferenceMaterial.Networking
             {
                 NetworkStream stream = client.GetStream();
                 BinaryFormatter formatter = new BinaryFormatter();
+#warning refactor while to be conditional on connection, but more reliable than client.connected
                 while (true)
                 {
                     object transmission = formatter.Deserialize(stream);
@@ -80,6 +87,10 @@ namespace ReferenceMaterial.Networking
             }
             catch
             {
+                if (OnNetworkError != null)
+                {
+                    OnNetworkError(this, null);
+                }
             }
 
             try
@@ -87,7 +98,9 @@ namespace ReferenceMaterial.Networking
                 client.Close();
             }
             catch
-            { }
+            {
+                //not an error, this happens if the socket was cleaned up normally and couldn't close...
+            }
             if (OnServerLostConnect != null)
             {
                 OnServerLostConnect(this, null);
@@ -99,15 +112,16 @@ namespace ReferenceMaterial.Networking
     {
         private TcpListener tcpListener;
         private Thread listenThread;
-
         private TcpClient client;
 
         public event EventHandler OnReceiveMessage;
         public event EventHandler OnClientConnect;
         public event EventHandler OnClientDisconnect;
+        public event EventHandler OnNetworkError;
 
         public BaseServer(int port)
         {
+#warning this can throw and should be refactored to handle it... may not be a good idea in constructor.
             this.tcpListener = new TcpListener(IPAddress.Any, port);
         }
 
@@ -136,18 +150,28 @@ namespace ReferenceMaterial.Networking
 
         public void SendTransmission(object transmission)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            NetworkStream stream = client.GetStream();
-            formatter.Serialize(stream, transmission);
+            try
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                NetworkStream stream = client.GetStream();
+                formatter.Serialize(stream, transmission);
+            }
+            catch
+            {
+                if (OnNetworkError != null)
+                {
+                    OnNetworkError(this, null);
+                }
+            }
         }
 
         private void HandleClientComm(object client)
         {
             TcpClient tcpClient = (TcpClient)client;
-            NetworkStream clientStream = tcpClient.GetStream();
-            BinaryFormatter formatter = new BinaryFormatter();
             try
             {
+                NetworkStream clientStream = tcpClient.GetStream();
+                BinaryFormatter formatter = new BinaryFormatter();
                 while (true)
                 {
                     object transmission = formatter.Deserialize(clientStream);
@@ -159,6 +183,10 @@ namespace ReferenceMaterial.Networking
             }
             catch
             {
+                if (OnNetworkError != null)
+                {
+                    OnNetworkError(this, null);
+                }
             }
 
             if (OnClientDisconnect != null)
@@ -171,8 +199,15 @@ namespace ReferenceMaterial.Networking
                 tcpClient.Close();
                 tcpListener.Stop();
             }
-            catch { }
+            catch 
+            {
+                //not neccessarily an error... sometimes due to overzealous socket recycling
+            }
 
+            if (OnClientDisconnect != null)
+            {
+                OnClientDisconnect(this, null);
+            }
         }
     }
 }
