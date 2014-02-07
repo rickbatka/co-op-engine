@@ -35,7 +35,10 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Entity\ActionBase.cs" />
     <Compile Include="Entity\GameObject.cs" />
+    <Compile Include="Entity\PhysicsBase.cs" />
+    <Compile Include="Entity\RenderBase.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="MonoGameExtensions.cs" />
     <Compile Include="Program.cs" />
