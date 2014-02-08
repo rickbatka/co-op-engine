@@ -9,8 +9,6 @@ using ReferenceMaterial.Entity.EntityComponents;
 
 namespace ReferenceMaterial.Physics
 {
-
-
 	class ElasticQuadTree
 	{
 		const int NODE_CAPACITY = 1;
