@@ -26,7 +26,7 @@ namespace co_op_engine.Utility
           }
        }
 
-        public GameTimer SetTimer(int frames, GameTimerCallback callback, Entity.GameObject owner)
+        public GameTimer SetTimer(int frames, GameTimerCallback callback, Components.GameObject owner)
         {
             var newTimer = new GameTimer(frames, callback, owner);
             Timers.Add(newTimer);
@@ -70,7 +70,7 @@ namespace co_op_engine.Utility
 
         public bool Finished { get { return TimeLeft <= TimeSpan.Zero; } }
 
-        public GameTimer(int timeSeed, GameTimerCallback callback, Entity.GameObject owner)
+        public GameTimer(int timeSeed, GameTimerCallback callback, Components.GameObject owner)
         {
             TimeLeft = TimeSpan.FromMilliseconds(timeSeed);
             owner.OnDeath += HandleOwnerDeath;

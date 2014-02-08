@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using MonoGameExtensions;
 using co_op_engine.Utility;
+using co_op_engine.Components;
 
 #endregion
 
@@ -19,15 +20,14 @@ namespace co_op_engine
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Entity.GameObject devObject;
+        Components.GameObject devObject;
 
         public Game1()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-        
-            this.Window.SetPosition(new Point(0,0));
+            Components.Add(new InputHandler(this));
         }
 
         /// <summary>
@@ -40,8 +40,7 @@ namespace co_op_engine
         {
             var plainWhiteTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
             plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
-            devObject = new Entity.GameObject(plainWhiteTexture);
-
+            devObject = new GameObject(plainWhiteTexture);
             
             base.Initialize();
         }
@@ -74,11 +73,14 @@ namespace co_op_engine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if(InputHandler.ButtonPressed(Buttons.Back, PlayerIndex.One) || InputHandler.KeyPressed(Keys.Escape))
                 Exit();
             GameTimerManager.Instance.Update(gameTime);
 
             devObject.Update(gameTime);
+
+            //@TODO FIX for some reason I have to have this here or my window is way off the top left. I think due to my resolution / scaling.
+            this.Window.SetPosition(new Point(50, 50));
 
             base.Update(gameTime);
         }

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using co_op_engine.Components.Conduct;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace co_op_engine.Entity
+namespace co_op_engine.Components.Conduct
 {
     /// <summary>
     /// houses the logic of the object, how it behaves thinks
     /// and makes decisions.  has all events relating to decision
     /// making and input.
     /// </summary>
-    abstract class ActionBase
+    abstract class BrainBase : IIntelligent
     {
+        protected GameObject owner;
         //movement direction vect
         //object state manager? (maybe make it generic enough for all game objects
 
@@ -20,7 +20,12 @@ namespace co_op_engine.Entity
         //constructor takes dataobject to populate values, could be aggregate like a 
         // higher level dataobject with a base dataobject component passed through
 
-        abstract public void Update(Microsoft.Xna.Framework.GameTime gameTime);
-        abstract public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch);
+        public BrainBase(GameObject owner)
+        {
+            this.owner = owner;
+        }
+
+        abstract public void Update(GameTime gameTime);
+        abstract public void Draw(SpriteBatch spriteBatch);
     }
 }
