@@ -127,5 +127,10 @@ namespace co_op_engine.Utility
         {
             return (Left < value.Right && Right > value.Left && Top < value.Bottom && Bottom > value.Top);
         }
+
+        public static RectangleFloat FromRectangle(Rectangle input)
+        {
+            return new RectangleFloat(input.X, input.Y, input.Width, input.Height);
+        }
     }
 }

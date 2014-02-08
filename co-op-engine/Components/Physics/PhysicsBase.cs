@@ -1,4 +1,5 @@
-﻿using co_op_engine.Components;
+﻿using co_op_engine.Collections;
+using co_op_engine.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,6 +13,13 @@ namespace co_op_engine.Components.Physics
     {
         protected Rectangle boundingBox;
         public Rectangle BoundingBox { get { return boundingBox; } }
+        
+        private ElasticQuadTree currentQuad;
+        public ElasticQuadTree CurrentQuad
+        {
+            get { return currentQuad; }
+            protected set { currentQuad = value; }
+        }
 
         protected GameObject owner;
         //velocity vect

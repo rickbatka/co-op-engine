@@ -4,6 +4,7 @@ using co_op_engine.Components.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using co_op_engine.Collections;
 
 namespace co_op_engine.Components
 {
@@ -55,6 +56,7 @@ namespace co_op_engine.Components
         #region IPhysical
 
         public Rectangle BoundingBox { get { return physicsComponent.BoundingBox; } }
+        public ElasticQuadTree CurrentQuad { get { return physicsComponent.CurrentQuad; } }
 
         #endregion
 
