@@ -52,6 +52,22 @@ namespace ReferenceMaterial.Networking
             { }
         }
 
+        public void Disconnect()
+        {
+            try
+            {
+                //probably should send disconnect object to alert server to clean up
+                client.Close();
+            }
+            catch
+            {
+                if (OnNetworkError != null)
+                {
+                    OnNetworkError(this, null);
+                }
+            }
+        }
+
         public void SendTransmission(object transmission)
         {
             try
@@ -108,11 +124,12 @@ namespace ReferenceMaterial.Networking
         }
     }
 
+
     class BaseServer
     {
         private TcpListener tcpListener;
         private Thread listenThread;
-        private TcpClient client;
+        private List<TcpClient> clients;
 
         public event EventHandler OnReceiveMessage;
         public event EventHandler OnClientConnect;
@@ -123,6 +140,7 @@ namespace ReferenceMaterial.Networking
         {
 #warning this can throw and should be refactored to handle it... may not be a good idea in constructor.
             this.tcpListener = new TcpListener(IPAddress.Any, port);
+            this.clients = new List<TcpClient>();
         }
 
         public void StartListening()
@@ -132,35 +150,70 @@ namespace ReferenceMaterial.Networking
             this.listenThread.Start();
         }
 
-        private void ListenForClients()
-        {
-            this.tcpListener.Start();
-
-            client = this.tcpListener.AcceptTcpClient();
-            client.Client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
-            if (OnClientConnect != null)
-            {
-                OnClientConnect(this, null);
-            }
-
-            Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClientComm));
-            clientThread.IsBackground = true;
-            clientThread.Start(client);
-        }
-
-        public void SendTransmission(object transmission)
+        public void StopListening()
         {
             try
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                NetworkStream stream = client.GetStream();
-                formatter.Serialize(stream, transmission);
+                this.tcpListener.Stop();
             }
             catch
             {
                 if (OnNetworkError != null)
                 {
                     OnNetworkError(this, null);
+                }
+            }
+        }
+
+        private void ListenForClients()
+        {
+            try
+            {
+                this.tcpListener.Start();
+
+#warning this should be conditional at some point.... somehow, networks can suck sometimes...
+                while (true)
+                {
+                    var client = this.tcpListener.AcceptTcpClient();
+                    client.Client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
+
+                    clients.Add(client);
+
+                    if (OnClientConnect != null)
+                    {
+                        OnClientConnect(this, null);
+                    }
+
+                    Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClientComm));
+                    clientThread.IsBackground = true;
+                    clientThread.Start(client);
+                }
+            }
+            catch
+            {
+                if (OnNetworkError != null)
+                {
+                    OnNetworkError(this, null);
+                }
+            }
+        }
+
+        public void SendTransmissionToAll(object transmission)
+        {
+            foreach (var client in clients)
+            {
+                try
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    NetworkStream stream = client.GetStream();
+                    formatter.Serialize(stream, transmission);
+                }
+                catch
+                {
+                    if (OnNetworkError != null)
+                    {
+                        OnNetworkError(this, null);
+                    }
                 }
             }
         }
@@ -172,6 +225,8 @@ namespace ReferenceMaterial.Networking
             {
                 NetworkStream clientStream = tcpClient.GetStream();
                 BinaryFormatter formatter = new BinaryFormatter();
+
+#warning another loop that should be conditional, this one might even spin out of control in certain situations...
                 while (true)
                 {
                     object transmission = formatter.Deserialize(clientStream);
@@ -199,7 +254,7 @@ namespace ReferenceMaterial.Networking
                 tcpClient.Close();
                 tcpListener.Stop();
             }
-            catch 
+            catch
             {
                 //not neccessarily an error... sometimes due to overzealous socket recycling
             }
@@ -208,6 +263,38 @@ namespace ReferenceMaterial.Networking
             {
                 OnClientDisconnect(this, null);
             }
+        }
+
+        public void DropAllClientsAndCloseDown()
+        {
+            try
+            {
+                this.tcpListener.Stop();
+            }
+            catch
+            {
+                if (OnNetworkError != null)
+                {
+                    OnNetworkError(this, null);
+                }
+            }
+
+            foreach (var client in clients)
+            {
+                try
+                {
+#warning should add disconnect object signal here for client notifiaction
+                    client.Close();
+                }
+                catch
+                {
+                    if (OnNetworkError != null)
+                    {
+                        OnNetworkError(this, null);
+                    }
+                }
+            }
+            clients.Clear();
         }
     }
 }
