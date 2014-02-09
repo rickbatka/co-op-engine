@@ -10,7 +10,7 @@ namespace ReferenceMaterial.Entity
 	class GameObject
 	{
 		//components here:
-		public BrainBase BrainComponent;
+	
 		public PhysicsBase PhysicsComponent;
 		public RenderBase RenderComponent;
 
@@ -19,7 +19,7 @@ namespace ReferenceMaterial.Entity
 		
 		public void Update(GameTime gameTime)
 		{
-			BrainComponent.Update(gameTime);
+            //BrainComponent.Update(gameTime);
 			PhysicsComponent.Update(gameTime);
 			RenderComponent.Update(gameTime);
 		}
@@ -28,7 +28,7 @@ namespace ReferenceMaterial.Entity
 		//rendering
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			BrainComponent.Draw(spriteBatch);
+            //BrainComponent.Draw(spriteBatch);
 			PhysicsComponent.Draw(spriteBatch);
 			RenderComponent.Draw(spriteBatch);
 		}

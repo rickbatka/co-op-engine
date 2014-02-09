@@ -46,7 +46,6 @@
     <Compile Include="Entity\EntityComponents\BasicRender.cs" />
     <Compile Include="Entity\EntityComponents\CollidablePhysics.cs" />
     <Compile Include="Entity\EntityComponents\FollowBrain.cs" />
-    <Compile Include="Entity\EntityComponents\KeyboardBrain.cs" />
     <Compile Include="Entity\GameObject.cs" />
     <Compile Include="Entity\PhysicsBase.cs" />
     <Compile Include="Entity\RenderBase.cs" />

@@ -27,10 +27,10 @@ namespace ReferenceMaterial.Entity.EntityComponents
 		public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
 		{
 			//don't bother doing anything unless it is moving
-			if (velocity != Vector2.Zero || owner.BrainComponent.MoveDirection != Vector2.Zero)
-			{
-				Move(owner.BrainComponent.MoveDirection);
-			}
+            //if (velocity != Vector2.Zero || owner.BrainComponent.MoveDirection != Vector2.Zero)
+            //{
+            //    Move(owner.BrainComponent.MoveDirection);
+            //}
 			SyncBoundry();
 		}
 

@@ -16,12 +16,12 @@ namespace ReferenceMaterial.Entity.EntityComponents
 			:base(owner)
 		{
 			//animator = new CharacterAnimator(animationData);
-			this.spriteSheet = spriteSheet;
+            //this.spriteSheet = spriteSheet;
 
-			owner.BrainComponent.AttemptingToMove += HandleAttemptToMoveEvent;
-			owner.BrainComponent.StopAttemptingToMove += HandleStopAttemptingToMoveEvent;
-			owner.BrainComponent.StartAction += HandleStartActionEvent;
-			owner.BrainComponent.CancelAction += HandleCancelActionEvent;
+            //owner.BrainComponent.AttemptingToMove += HandleAttemptToMoveEvent;
+            //owner.BrainComponent.StopAttemptingToMove += HandleStopAttemptingToMoveEvent;
+            //owner.BrainComponent.StartAction += HandleStartActionEvent;
+            //owner.BrainComponent.CancelAction += HandleCancelActionEvent;
 		}
 
 		private void HandleAttemptToMoveEvent()
