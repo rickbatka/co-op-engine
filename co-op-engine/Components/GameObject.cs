@@ -42,7 +42,7 @@ namespace co_op_engine.Components
             renderComponent.Update(gameTime);
         }
 
-        //inside these regions is where the necessary interface pass-thru stuff happens to make it all possible
+        //Interface pass-thru
         #region IRenderable
 
         public Texture2D Texture { get { return renderComponent.Texture; } }
@@ -62,7 +62,9 @@ namespace co_op_engine.Components
 
         #region IMovable
 
-        public Vector2 MovementDirection { get { return movementComponent.MovementDirection; } }
+        public Vector2 Velocity { get { return movementComponent.Velocity; } }
+        public Vector2 Acceleration { get { return movementComponent.Acceleration; } }
+        public Vector2 InputMovementVector { get { return movementComponent.InputMovementVector; } }
         public Vector2 Position { get { return movementComponent.Position; } }
         public int Width { get { return movementComponent.Width; } }
         public int Height { get { return movementComponent.Height; } }

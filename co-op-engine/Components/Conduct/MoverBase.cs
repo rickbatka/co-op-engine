@@ -9,9 +9,20 @@ namespace co_op_engine.Components.Conduct
 {
     abstract class MoverBase : IMovable
     {
+        protected float friction = 0.5f;
+        protected float speedLimit = 2000f;
+        protected float accelerationModifier = 400f;
+
         protected GameObject owner;
-        protected Vector2 movementDirection;
-        public Vector2 MovementDirection { get { return movementDirection; } }
+
+        protected Vector2 velocity;
+        public Vector2 Velocity { get { return velocity; } }
+
+        protected Vector2 acceleration;
+        public Vector2 Acceleration { get { return acceleration; } }
+        
+        protected Vector2 inputMovementVector;
+        public Vector2 InputMovementVector { get { return inputMovementVector; } }
 
         protected Vector2 position;
         public Vector2 Position { get { return position; } }
