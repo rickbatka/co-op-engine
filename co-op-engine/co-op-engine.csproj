@@ -36,11 +36,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Collections\ElasticQuadTree.cs" />
-    <Compile Include="Components\Conduct\BrainBase.cs" />
-    <Compile Include="Components\Conduct\IIntelligent.cs" />
-    <Compile Include="Components\Conduct\IMovable.cs" />
-    <Compile Include="Components\Conduct\MoverBase.cs" />
-    <Compile Include="Components\Conduct\TempKeyboardMover.cs" />
+    <Compile Include="Components\Brains\BrainBase.cs" />
+    <Compile Include="Components\Brains\ISentient.cs" />
+    <Compile Include="Components\Brains\PlayerBrain.cs" />
+    <Compile Include="Components\Input\IHumanInput.cs" />
+    <Compile Include="Components\Input\PlayerControlInput.cs" />
+    <Compile Include="Components\Movement\IMovable.cs" />
+    <Compile Include="Components\Movement\MoverBase.cs" />
     <Compile Include="Components\GameObject.cs" />
     <Compile Include="Components\Physics\IPhysical.cs" />
     <Compile Include="Components\Physics\NonCollidingPhysics.cs" />

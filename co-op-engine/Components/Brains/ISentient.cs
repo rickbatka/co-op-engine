@@ -1,17 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace co_op_engine.Components.Rendering
+namespace co_op_engine.Components.Brains
 {
-    public interface IRenderable
+    interface ISentient
     {
-        Texture2D Texture { get; }
         void Draw(SpriteBatch spriteBatch);
-
         void Update(GameTime gameTime);
     }
 }

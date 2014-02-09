@@ -1,73 +1,89 @@
-﻿using co_op_engine.Components.Conduct;
+﻿using co_op_engine.Collections;
+using co_op_engine.Components.Brains;
+using co_op_engine.Components.Input;
+using co_op_engine.Components.Movement;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using co_op_engine.Collections;
 
 namespace co_op_engine.Components
 {
-    class GameObject : IRenderable, IPhysical, IMovable, IIntelligent
+    class GameObject : IRenderable, IPhysical, IMovable, ISentient
     {
-        MoverBase movementComponent;
-        PhysicsBase physicsComponent;
-        RenderBase renderComponent;
+        IMovable mover;
+        IPhysical physics;
+        IRenderable renderer;
+        ISentient brain;
 
         public event EventHandler OnDeath;
 
         public GameObject(Texture2D tex)
         {
+            /////////////////////////////////////////
             //@TODO set these up in factory probably
-            if (movementComponent == null)
+            if (mover == null)
             {
-                movementComponent = new TempKeyboardMover(this);
+                mover = new MoverBase(this);
             }
 
-            if (renderComponent == null)
+            if (renderer == null)
             {
-                renderComponent = new BasicRenderer(this, tex);
+                renderer = new BasicRenderer(this, tex);
             }
 
-            if (physicsComponent == null)
+            if (physics == null)
             {
-                physicsComponent = new NonCollidingPhysics(this);
+                physics = new NonCollidingPhysics(this);
             }
+
+            if (brain == null)
+            {
+                brain = new PlayerBrain(this, new PlayerControlInput());
+            }
+
+            //@END temp setup code
+            /////////////////////////////////////////
         }
 
         public void Update(GameTime gameTime)
         {
-            movementComponent.Update(gameTime);
-            physicsComponent.Update(gameTime);
-            renderComponent.Update(gameTime);
+            brain.Update(gameTime);
+            physics.Update(gameTime);
+   
+            mover.Update(gameTime);
+            renderer.Update(gameTime);
+            
         }
 
         //Interface pass-thru
         #region IRenderable
 
-        public Texture2D Texture { get { return renderComponent.Texture; } }
+        public Texture2D Texture { get { return renderer.Texture; } }
         public void Draw(SpriteBatch spriteBatch) 
         { 
-            renderComponent.Draw(spriteBatch);
+            renderer.Draw(spriteBatch);
         }
 
         #endregion
 
         #region IPhysical
 
-        public Rectangle BoundingBox { get { return physicsComponent.BoundingBox; } }
-        public ElasticQuadTree CurrentQuad { get { return physicsComponent.CurrentQuad; } }
+        public Rectangle BoundingBox { get { return physics.BoundingBox; } }
+        public ElasticQuadTree CurrentQuad { get { return physics.CurrentQuad; } }
 
         #endregion
 
         #region IMovable
 
-        public Vector2 Velocity { get { return movementComponent.Velocity; } }
-        public Vector2 Acceleration { get { return movementComponent.Acceleration; } }
-        public Vector2 InputMovementVector { get { return movementComponent.InputMovementVector; } }
-        public Vector2 Position { get { return movementComponent.Position; } }
-        public int Width { get { return movementComponent.Width; } }
-        public int Height { get { return movementComponent.Height; } }
+        public Vector2 Velocity { get { return mover.Velocity; } }
+        public Vector2 Acceleration { get { return mover.Acceleration; } }
+        public Vector2 InputMovementVector { set { mover.InputMovementVector = value; } }
+        public Vector2 Position { get { return mover.Position; } }
+        public bool IsBoosting { set { mover.IsBoosting = value; } }
+        public int Width { get { return mover.Width; } }
+        public int Height { get { return mover.Height; } }
 
         #endregion
 
