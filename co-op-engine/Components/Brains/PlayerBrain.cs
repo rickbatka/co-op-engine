@@ -10,7 +10,7 @@ using System.Text;
 namespace co_op_engine.Components.Brains
 {
 
-    class PlayerBrain : BrainBase
+    class PlayerBrain : BrainBase, ISentient
     {
         private IHumanInput input;
 

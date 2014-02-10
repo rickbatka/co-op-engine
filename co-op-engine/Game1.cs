@@ -1,12 +1,13 @@
 ﻿#region Using Statements
+using co_op_engine.Components;
+using co_op_engine.Components.Brains.AI;
+using co_op_engine.ServiceProviders;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
 using MonoGameExtensions;
-using co_op_engine.Utility;
-using co_op_engine.Components;
+using System.Collections.Generic;
 
 #endregion
 
@@ -15,12 +16,14 @@ namespace co_op_engine
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Game
+    public class Game1 : Game, IActorInformationProvider
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Components.GameObject devObject;
+        List<GameObject> Players = new List<GameObject>();
+        List<GameObject> Enemies = new List<GameObject>();
+        GameObject devPlayerObject;
 
         public Game1()
             : base()
@@ -38,11 +41,29 @@ namespace co_op_engine
         /// </summary>
         protected override void Initialize()
         {
+            GameServicesProvider.Install(this);
+            RegisterServices();
+
+            ///////////////////////////////////////////////////////////
+            // @TODO move to factory
             var plainWhiteTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
             plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
-            devObject = new GameObject(plainWhiteTexture);
+            devPlayerObject = new GameObject();
+            devPlayerObject.SetupDevTempComponents(plainWhiteTexture);
+            Players.Add(devPlayerObject);
+
+            var devEnemy = new GameObject();
+            devEnemy.SetBrain(new StepFollow(devEnemy));
+            devEnemy.SetupDevTempComponents(plainWhiteTexture);
+            Enemies.Add(devEnemy);
+            ///////////////////////////////////////////////////////////
             
             base.Initialize();
+        }
+
+        private void RegisterServices()
+        {
+            GameServicesProvider.AddService(typeof(IActorInformationProvider), this);
         }
 
         /// <summary>
@@ -77,7 +98,15 @@ namespace co_op_engine
                 Exit();
             GameTimerManager.Instance.Update(gameTime);
 
-            devObject.Update(gameTime);
+            foreach (var player in Players)
+            {
+                player.Update(gameTime);
+            }
+
+            foreach (var enemy in Enemies)
+            {
+                enemy.Update(gameTime);
+            }
 
             //@TODO FIX for some reason I have to have this here or my window is way off the top left. I think due to my resolution / scaling.
             this.Window.SetPosition(new Point(50, 50));
@@ -94,13 +123,30 @@ namespace co_op_engine
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            //spriteBatch.Draw(plainWhiteTexture, new Rectangle(10, 10, 10, 10), defaultDrawingColor);
-            devObject.Draw(spriteBatch);
+
+            foreach (var player in Players)
+            {
+                player.Draw(spriteBatch);
+            }
+
+            foreach (var enemy in Enemies)
+            {
+                enemy.Draw(spriteBatch);
+            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        
+        #region IActorInformationProvider
+
+        public List<GameObject> GetPlayers()
+        {
+            return Players;
+        }
+
+        #endregion
+
     }
 }

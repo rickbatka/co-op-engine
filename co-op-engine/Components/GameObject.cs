@@ -10,7 +10,7 @@ using System;
 
 namespace co_op_engine.Components
 {
-    class GameObject : IRenderable, IPhysical, IMovable, ISentient
+    public class GameObject : IRenderable, IPhysical, IMovable, ISentient
     {
         IMovable mover;
         IPhysical physics;
@@ -19,7 +19,17 @@ namespace co_op_engine.Components
 
         public event EventHandler OnDeath;
 
-        public GameObject(Texture2D tex)
+        public GameObject()
+        {
+
+        }
+
+        public void SetBrain(ISentient brain)
+        {
+            this.brain = brain;
+        }
+
+        public void SetupDevTempComponents(Texture2D tex)
         {
             /////////////////////////////////////////
             //@TODO set these up in factory probably
@@ -40,7 +50,7 @@ namespace co_op_engine.Components
 
             if (brain == null)
             {
-                brain = new PlayerBrain(this, new PlayerControlInput());
+                this.brain = new PlayerBrain(this, new PlayerControlInput());
             }
 
             //@END temp setup code

@@ -12,7 +12,7 @@ namespace co_op_engine.Collections
     /// <summary>
     /// A Quadtree that expands it's query boundaries based on the largest child object in it's collection
     /// </summary>
-    class ElasticQuadTree
+    public class ElasticQuadTree
     {
         RectangleFloat bounds;
         RectangleFloat queryBounds;

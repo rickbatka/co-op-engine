@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Collections\ElasticQuadTree.cs" />
+    <Compile Include="Components\Brains\AI\StepFollow.cs" />
     <Compile Include="Components\Brains\BrainBase.cs" />
     <Compile Include="Components\Brains\ISentient.cs" />
     <Compile Include="Components\Brains\PlayerBrain.cs" />
@@ -54,6 +55,8 @@
     <Compile Include="MonoGameExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceProviders\GameServicesProvider.cs" />
+    <Compile Include="ServiceProviders\IActorInformationProvider.cs" />
     <Compile Include="Utility\GameTimerManager.cs" />
     <Compile Include="Utility\InputHandler.cs" />
     <Compile Include="Utility\RectangleFloat.cs" />
