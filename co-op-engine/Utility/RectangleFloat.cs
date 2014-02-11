@@ -31,7 +31,22 @@ namespace co_op_engine.Utility
 
         public static bool operator ==(RectangleFloat a, RectangleFloat b)
         {
-            return (a.X == b.X && a.Y == b.Y && a.Width == b.Width && a.Height == b.Height);
+            return a.Equals(b);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() == typeof(RectangleFloat))
+            {
+                var a = (RectangleFloat)obj;
+                return (a.X == this.X && a.Y == this.Y && a.Width == this.Width && a.Height == this.Height);
+            }
+            return false;
         }
 
         public float Bottom

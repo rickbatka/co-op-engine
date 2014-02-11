@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -35,7 +36,9 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Collections\Animation.cs" />
     <Compile Include="Collections\ElasticQuadTree.cs" />
+    <Compile Include="Collections\TileSheet.cs" />
     <Compile Include="Components\Brains\AI\StepFollow.cs" />
     <Compile Include="Components\Brains\BrainBase.cs" />
     <Compile Include="Components\Brains\ISentient.cs" />
@@ -48,6 +51,7 @@
     <Compile Include="Components\Physics\IPhysical.cs" />
     <Compile Include="Components\Physics\NonCollidingPhysics.cs" />
     <Compile Include="Components\Physics\PhysicsBase.cs" />
+    <Compile Include="Components\Rendering\AnimatedRenderer.cs" />
     <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
     <Compile Include="Components\Rendering\BasicRenderer.cs" />
