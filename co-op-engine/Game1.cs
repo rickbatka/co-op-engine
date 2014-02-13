@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameExtensions;
 using System.Collections.Generic;
+using co_op_engine.Collections;
 
 #endregion
 
@@ -76,6 +77,8 @@ namespace co_op_engine
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            var animation = AnimatedRectangle.BuildFromAsset(@"content/exampleAnimationMetaData.txt");
         }
 
         /// <summary>
