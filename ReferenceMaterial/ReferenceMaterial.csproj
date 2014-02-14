@@ -51,7 +51,7 @@
     <Compile Include="Entity\PhysicsBase.cs" />
     <Compile Include="Entity\RenderBase.cs" />
     <Compile Include="Networking\TcpServerClientObjects.cs" />
-    <Compile Include="Physics\ElasticQuadTree.cs" />
+    <Compile Include="Physics\ElasticQuadTree_OLD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

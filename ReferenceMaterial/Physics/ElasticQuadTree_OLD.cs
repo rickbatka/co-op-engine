@@ -9,7 +9,7 @@ using ReferenceMaterial.Entity.EntityComponents;
 
 namespace ReferenceMaterial.Physics
 {
-	class ElasticQuadTree
+	class ElasticQuadTree_OLD
 	{
 		const int NODE_CAPACITY = 1;
 
@@ -21,23 +21,23 @@ namespace ReferenceMaterial.Physics
 			get { return NW != null; }
 		}
 
-		ElasticQuadTree parent;
+		ElasticQuadTree_OLD parent;
 
-		ElasticQuadTree NW;
-		ElasticQuadTree SW;
-		ElasticQuadTree NE;
-		ElasticQuadTree SE;
+		ElasticQuadTree_OLD NW;
+		ElasticQuadTree_OLD SW;
+		ElasticQuadTree_OLD NE;
+		ElasticQuadTree_OLD SE;
 
 		//main methods
 
-		public ElasticQuadTree(FloatRect boundingBox)
+		public ElasticQuadTree_OLD(FloatRect boundingBox)
 		{
 			objects = new List<GameObject>();
 			boundary = boundingBox;
 			queryableBoundry = boundingBox;
 		}
 
-		public ElasticQuadTree(FloatRect boundingBox, ElasticQuadTree parent)
+		public ElasticQuadTree_OLD(FloatRect boundingBox, ElasticQuadTree_OLD parent)
 		{
 			objects = new List<GameObject>();
 			this.boundary = boundingBox;
@@ -138,10 +138,10 @@ namespace ReferenceMaterial.Physics
 		public void Split()
 		{
 			//instantiate each quadrant
-			NW = new ElasticQuadTree(new FloatRect(boundary.X, boundary.Y, boundary.Width / 2, boundary.Height / 2), this);
-			SW = new ElasticQuadTree(new FloatRect(boundary.X, boundary.Y + boundary.Height / 2, boundary.Width / 2, boundary.Height / 2), this);
-			NE = new ElasticQuadTree(new FloatRect(boundary.X + boundary.Width / 2, boundary.Y, boundary.Width / 2, boundary.Height / 2), this);
-			SE = new ElasticQuadTree(new FloatRect(boundary.X + boundary.Width / 2, boundary.Y + boundary.Height / 2, boundary.Width / 2, boundary.Height / 2), this);
+			NW = new ElasticQuadTree_OLD(new FloatRect(boundary.X, boundary.Y, boundary.Width / 2, boundary.Height / 2), this);
+			SW = new ElasticQuadTree_OLD(new FloatRect(boundary.X, boundary.Y + boundary.Height / 2, boundary.Width / 2, boundary.Height / 2), this);
+			NE = new ElasticQuadTree_OLD(new FloatRect(boundary.X + boundary.Width / 2, boundary.Y, boundary.Width / 2, boundary.Height / 2), this);
+			SE = new ElasticQuadTree_OLD(new FloatRect(boundary.X + boundary.Width / 2, boundary.Y + boundary.Height / 2, boundary.Width / 2, boundary.Height / 2), this);
 
 			//divy out children
 			foreach (GameObject go in objects)

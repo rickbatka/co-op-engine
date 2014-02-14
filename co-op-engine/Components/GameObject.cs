@@ -29,7 +29,7 @@ namespace co_op_engine.Components
             this.brain = brain;
         }
 
-        public void SetupDevTempComponents(Texture2D tex)
+        public void SetupDevTempComponents(Texture2D tex, ElasticQuadTree tree)
         {
             /////////////////////////////////////////
             //@TODO set these up in factory probably
@@ -45,7 +45,8 @@ namespace co_op_engine.Components
 
             if (physics == null)
             {
-                physics = new NonCollidingPhysics(this);
+                physics = new NonCollidingPhysics(this, tree);
+                physics.Init();
             }
 
             if (brain == null)
@@ -81,7 +82,7 @@ namespace co_op_engine.Components
         #region IPhysical
 
         public Rectangle BoundingBox { get { return physics.BoundingBox; } }
-        public ElasticQuadTree CurrentQuad { get { return physics.CurrentQuad; } }
+        public ElasticQuadTree CurrentQuad { get { return physics.CurrentQuad; } set { physics.CurrentQuad = value; } }
 
         #endregion
 
@@ -97,5 +98,11 @@ namespace co_op_engine.Components
 
         #endregion
 
+
+
+        public void Init()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -61,16 +61,14 @@ namespace co_op_engine
             var plainWhiteTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
             plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
             devPlayerObject = new GameObject();
-            devPlayerObject.SetupDevTempComponents(plainWhiteTexture);
+            devPlayerObject.SetupDevTempComponents(plainWhiteTexture, tree);
             Players.Add(devPlayerObject);
 
             var devEnemy = new GameObject();
             devEnemy.SetBrain(new StepFollow(devEnemy));
-            devEnemy.SetupDevTempComponents(plainWhiteTexture);
+            devEnemy.SetupDevTempComponents(plainWhiteTexture, tree);
             Enemies.Add(devEnemy);
 
-            tree.MasterInsert(devEnemy);
-            tree.MasterInsert(devPlayerObject);
             ///////////////////////////////////////////////////////////
             
             base.Initialize();

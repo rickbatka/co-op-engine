@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using co_op_engine.Components;
+using co_op_engine.Components.Physics;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -71,7 +72,11 @@ namespace co_op_engine.Collections
         }
 
 
-        public bool Contains(Vector2 location) { return false; }
+        public bool Contains(Vector2 location) 
+        {
+ 
+            return false; 
+        }
         public bool Remove(GameObject newObject) { return false; }
         public void Draw(SpriteBatch spriteBatch, Texture2D drawTexture)
         {
@@ -119,6 +124,7 @@ namespace co_op_engine.Collections
                 if (containedObject == null)
                 {
                     containedObject = newObject;
+                    newObject.CurrentQuad = this;
                     if (parent != null)
                     {
                         InflateBoundry(newObject);
@@ -274,5 +280,18 @@ namespace co_op_engine.Collections
 
             queryBounds.Inflate(inflateXBy, inflateYBy);
         }
+
+        public void NotfyOfMovement(GameObject ownedObject)
+        {
+            if (!bounds.ContainsInclusive(ownedObject.Position))
+            {
+                if (containedObject == ownedObject)
+                {
+                    containedObject = null;
+                }
+                MasterInsert(ownedObject);
+            }
+        }
+
     }
 }

@@ -53,7 +53,7 @@ namespace co_op_engine.Utility
         {
             get
             {
-                return X + Height;
+                return Y + Height;
             }
         }
 

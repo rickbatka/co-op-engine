@@ -10,7 +10,7 @@ namespace ReferenceMaterial.Entity.EntityComponents
 	class CollidablePhysics : PhysicsBase
 	{
 		//needed to be public for the quadtree dual dependancy
-		public ElasticQuadTree currentQuad;
+		public ElasticQuadTree_OLD currentQuad;
 
 		Vector2 velocity;
 		float friction = 0.8f;

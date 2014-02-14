@@ -11,9 +11,10 @@ namespace co_op_engine.Components.Physics
     interface IPhysical
     {
         Rectangle BoundingBox { get; }
-        ElasticQuadTree CurrentQuad { get; }
+        ElasticQuadTree CurrentQuad { get; set; }
 
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
+        void Init();
     }
 }
