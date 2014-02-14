@@ -77,10 +77,10 @@ namespace co_op_engine.Components.Brains.AI
         { 
             float x = 0f;
             float y = 0f;
-            x = currentTarget.Position.X < owner.Position.X ? -1 : x;
-            x = currentTarget.Position.X > owner.Position.X ? 1 : x;
-            y = currentTarget.Position.Y < owner.Position.Y ? -1 : y;
-            y = currentTarget.Position.Y > owner.Position.Y ? 1 : y;
+            x = currentTarget.Position.X < owner.Position.X ? -.1f : x;
+            x = currentTarget.Position.X > owner.Position.X ? .1f : x;
+            y = currentTarget.Position.Y < owner.Position.Y ? -.1f : y;
+            y = currentTarget.Position.Y > owner.Position.Y ? .1f : y;
             return new Vector2(x, y);
         }
 
