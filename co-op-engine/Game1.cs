@@ -59,6 +59,7 @@ namespace co_op_engine
             tree = new ElasticQuadTree(RectangleFloat.FromRectangle(screenRectangle), null);
             
             var plainWhiteTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            var arrowTexture = Content.Load<Texture2D>("arrow");
             plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
             devPlayerObject = new GameObject();
             devPlayerObject.SetupDevTempComponents(plainWhiteTexture, tree);
@@ -66,7 +67,7 @@ namespace co_op_engine
 
             var devEnemy = new GameObject();
             devEnemy.SetBrain(new StepFollow(devEnemy));
-            devEnemy.SetupDevTempComponents(plainWhiteTexture, tree);
+            devEnemy.SetupDevTempComponents(arrowTexture, tree);
             Enemies.Add(devEnemy);
 
             ///////////////////////////////////////////////////////////
