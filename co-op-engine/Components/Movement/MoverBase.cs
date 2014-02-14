@@ -23,7 +23,7 @@ namespace co_op_engine.Components.Movement
         public Vector2 InputMovementVector { set { inputMovementVector = value; } }
 
         protected Vector2 position;
-        public Vector2 Position { get { return position; } }
+        public Vector2 Position { get { return position; } set { position = value; } }
 
         protected int width;
         public int Width { get { return width; } }

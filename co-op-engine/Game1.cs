@@ -17,19 +17,22 @@ namespace co_op_engine
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Game, IActorInformationProvider
+    public class Game1 : Game, IActorInformationProvider, IGraphicsInformationProvider
     {
         Rectangle screenRectangle;
+        const int gridSize = 32;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         List<GameObject> Players = new List<GameObject>();
         List<GameObject> Enemies = new List<GameObject>();
+        List<GameObject> Towers = new List<GameObject>();
         GameObject devPlayerObject;
         
         ElasticQuadTree tree;
-        Texture2D devOutline;
+
+        public Texture2D devOutline;
 
         public Game1()
             : base()
@@ -57,18 +60,6 @@ namespace co_op_engine
             ///////////////////////////////////////////////////////////
             // @TODO move to factory
             tree = new ElasticQuadTree(RectangleFloat.FromRectangle(screenRectangle), null);
-            
-            var plainWhiteTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            var arrowTexture = Content.Load<Texture2D>("arrow");
-            plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
-            devPlayerObject = new GameObject();
-            devPlayerObject.SetupDevTempComponents(plainWhiteTexture, tree);
-            Players.Add(devPlayerObject);
-
-            var devEnemy = new GameObject();
-            devEnemy.SetBrain(new StepFollow(devEnemy));
-            devEnemy.SetupDevTempComponents(arrowTexture, tree);
-            Enemies.Add(devEnemy);
 
             ///////////////////////////////////////////////////////////
             
@@ -78,6 +69,7 @@ namespace co_op_engine
         private void RegisterServices()
         {
             GameServicesProvider.AddService(typeof(IActorInformationProvider), this);
+            GameServicesProvider.AddService(typeof(IGraphicsInformationProvider), this);
         }
 
         /// <summary>
@@ -90,6 +82,26 @@ namespace co_op_engine
             spriteBatch = new SpriteBatch(GraphicsDevice);
             devOutline = new Texture2D(graphics.GraphicsDevice, 1, 1);
             devOutline.SetData<Color>(new Color[] { Color.White });
+
+            ///////////////////////////////////////////////////////////
+            // @TODO move to factory
+            var plainWhiteTexture = Content.Load<Texture2D>("pixel");
+            var arrowTexture = Content.Load<Texture2D>("arrow");
+            plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
+            devPlayerObject = new GameObject();
+            devPlayerObject.SetupDevTempComponents(plainWhiteTexture, tree);
+            Players.Add(devPlayerObject);
+
+            var devEnemy = new GameObject();
+            devEnemy.SetBrain(new StepFollow(devEnemy));
+            devEnemy.SetupDevTempComponents(arrowTexture, tree);
+            Enemies.Add(devEnemy);
+
+            var towerTexture = Content.Load<Texture2D>("tower");
+            var devTower = TowerFactory.GetDoNothingTower(this, tree, towerTexture, plainWhiteTexture);
+            Towers.Add(devTower);
+
+            ///////////////////////////////////////////////////////////
 
             // TODO: use this.Content to load your game content here
 
@@ -126,6 +138,11 @@ namespace co_op_engine
                 enemy.Update(gameTime);
             }
 
+            foreach (var tower in Towers)
+            {
+                tower.Update(gameTime);
+            }
+
             //@TODO FIX for some reason I have to have this here or my window is way off the top left. I think due to my resolution / scaling.
             this.Window.SetPosition(new Point(50, 50));
 
@@ -142,7 +159,7 @@ namespace co_op_engine
 
             spriteBatch.Begin();
 
-            tree.Draw(spriteBatch, devOutline);
+            //tree.Draw(spriteBatch, devOutline);
 
             foreach (var player in Players)
             {
@@ -152,6 +169,11 @@ namespace co_op_engine
             foreach (var enemy in Enemies)
             {
                 enemy.Draw(spriteBatch);
+            }
+
+            foreach (var tower in Towers)
+            {
+                tower.Draw(spriteBatch);
             }
 
             spriteBatch.End();
@@ -165,6 +187,13 @@ namespace co_op_engine
         {
             return Players;
         }
+
+        #endregion
+
+        #region IGraphicsInformationProvider
+
+        public Rectangle ScreenRectangle { get { return screenRectangle; } }
+        public int GridSize { get { return gridSize; } }
 
         #endregion
 

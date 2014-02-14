@@ -16,7 +16,7 @@ namespace co_op_engine.ServiceProviders
 
         public static void AddService(Type type, Object provider)
         {
-            game.Services.AddService(typeof(IActorInformationProvider), provider);
+            game.Services.AddService(type, provider);
         }
 
         public static object GetService(Type type)

@@ -24,6 +24,21 @@ namespace co_op_engine.Components
 
         }
 
+        public void SetMover(IMovable mover)
+        {
+            this.mover = mover;
+        }
+
+        public void SetPhysics(IPhysical physics)
+        {
+            this.physics = physics;
+        }
+
+        public void SetRenderer(IRenderable renderer)
+        {
+            this.renderer = renderer;
+        }
+
         public void SetBrain(ISentient brain)
         {
             this.brain = brain;
@@ -75,6 +90,7 @@ namespace co_op_engine.Components
         public void Draw(SpriteBatch spriteBatch) 
         { 
             renderer.Draw(spriteBatch);
+            brain.Draw(spriteBatch);
         }
 
         #endregion
@@ -91,7 +107,7 @@ namespace co_op_engine.Components
         public Vector2 Velocity { get { return mover.Velocity; } }
         public Vector2 Acceleration { get { return mover.Acceleration; } }
         public Vector2 InputMovementVector { set { mover.InputMovementVector = value; } }
-        public Vector2 Position { get { return mover.Position; } }
+        public Vector2 Position { get { return mover.Position; } set { mover.Position = value; } }
         public bool IsBoosting { set { mover.IsBoosting = value; } }
         public int Width { get { return mover.Width; } }
         public int Height { get { return mover.Height; } }

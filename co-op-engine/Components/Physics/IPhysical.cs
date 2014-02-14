@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.Components.Physics
 {
-    interface IPhysical
+    public interface IPhysical
     {
         Rectangle BoundingBox { get; }
         ElasticQuadTree CurrentQuad { get; set; }

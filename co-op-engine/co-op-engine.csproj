@@ -44,7 +44,10 @@
     <Compile Include="Components\Brains\BrainBase.cs" />
     <Compile Include="Components\Brains\ISentient.cs" />
     <Compile Include="Components\Brains\PlayerBrain.cs" />
+    <Compile Include="Components\Brains\TowerBrains\BasicTowerBrain.cs" />
     <Compile Include="Components\Input\IHumanInput.cs" />
+    <Compile Include="Components\Input\ITowerPlacingInput.cs" />
+    <Compile Include="Components\Input\KeyMouseTowerPlacingInput.cs" />
     <Compile Include="Components\Input\PlayerControlInput.cs" />
     <Compile Include="Components\Movement\IMovable.cs" />
     <Compile Include="Components\Movement\MoverBase.cs" />
@@ -56,7 +59,9 @@
     <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
     <Compile Include="Components\Rendering\BasicRenderer.cs" />
+    <Compile Include="Components\TowerFactory.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="ServiceProviders\IGraphicsInformationProvider.cs" />
     <Compile Include="MonoGameExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +108,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\knightsheet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\pixel.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\tower.png">
