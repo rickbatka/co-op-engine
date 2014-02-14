@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using co_op_engine.Utility;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.Components.Movement
@@ -39,7 +40,7 @@ namespace co_op_engine.Components.Movement
 
             /////////////////////////////////////////
             //@TODO set these up in factory probably
-            this.position = new Vector2(50, 50);
+            this.position = new Vector2(MechanicSingleton.Instance.rand.Next(0,80));
             this.width = 50;
             this.height = 50;
             //@END temp setup code

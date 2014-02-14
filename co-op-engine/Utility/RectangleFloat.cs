@@ -147,5 +147,10 @@ namespace co_op_engine.Utility
         {
             return new RectangleFloat(input.X, input.Y, input.Width, input.Height);
         }
+
+        public Rectangle ToRectangle()
+        {
+            return new Rectangle((int)X, (int)Y, (int)Width, (int)Height);
+        }
     }
 }

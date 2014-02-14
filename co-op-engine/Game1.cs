@@ -19,19 +19,28 @@ namespace co_op_engine
     /// </summary>
     public class Game1 : Game, IActorInformationProvider
     {
+        Rectangle screenRectangle;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         List<GameObject> Players = new List<GameObject>();
         List<GameObject> Enemies = new List<GameObject>();
         GameObject devPlayerObject;
+        
+        ElasticQuadTree tree;
+        Texture2D devOutline;
 
         public Game1()
             : base()
         {
+            screenRectangle = new Rectangle(0,0,512,512);
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Components.Add(new InputHandler(this));
+            graphics.PreferredBackBufferHeight = screenRectangle.Height;
+            graphics.PreferredBackBufferWidth = screenRectangle.Width;
         }
 
         /// <summary>
@@ -47,6 +56,8 @@ namespace co_op_engine
 
             ///////////////////////////////////////////////////////////
             // @TODO move to factory
+            tree = new ElasticQuadTree(RectangleFloat.FromRectangle(screenRectangle), null);
+            
             var plainWhiteTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
             plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
             devPlayerObject = new GameObject();
@@ -57,6 +68,9 @@ namespace co_op_engine
             devEnemy.SetBrain(new StepFollow(devEnemy));
             devEnemy.SetupDevTempComponents(plainWhiteTexture);
             Enemies.Add(devEnemy);
+
+            tree.MasterInsert(devEnemy);
+            tree.MasterInsert(devPlayerObject);
             ///////////////////////////////////////////////////////////
             
             base.Initialize();
@@ -75,6 +89,8 @@ namespace co_op_engine
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            devOutline = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            devOutline.SetData<Color>(new Color[] { Color.White });
 
             // TODO: use this.Content to load your game content here
 
@@ -126,6 +142,8 @@ namespace co_op_engine
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
+
+            tree.Draw(spriteBatch, devOutline);
 
             foreach (var player in Players)
             {

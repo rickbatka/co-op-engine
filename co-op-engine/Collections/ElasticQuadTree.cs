@@ -73,7 +73,32 @@ namespace co_op_engine.Collections
 
         public bool Contains(Vector2 location) { return false; }
         public bool Remove(GameObject newObject) { return false; }
-        public void Draw(SpriteBatch spriteBatch, Texture2D drawTexture) { }
+        public void Draw(SpriteBatch spriteBatch, Texture2D drawTexture)
+        {
+            if (!IsParent)
+            {
+                float r, g, b;
+                r = (float)MechanicSingleton.Instance.rand.NextDouble();
+                g = (float)MechanicSingleton.Instance.rand.NextDouble();
+                b = (float)MechanicSingleton.Instance.rand.NextDouble();
+
+                spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(),
+                    new Color((float)MechanicSingleton.Instance.rand.NextDouble(),
+                        (float)MechanicSingleton.Instance.rand.NextDouble(),
+                        (float)MechanicSingleton.Instance.rand.NextDouble(),0.3f));
+                spriteBatch.Draw(drawTexture, bounds.ToRectangle(),
+                    new Color((float)MechanicSingleton.Instance.rand.NextDouble(),
+                        (float)MechanicSingleton.Instance.rand.NextDouble(),
+                        (float)MechanicSingleton.Instance.rand.NextDouble(),0.3f));
+            }
+            else
+            {
+                NW.Draw(spriteBatch, drawTexture);
+                SW.Draw(spriteBatch, drawTexture);
+                NE.Draw(spriteBatch, drawTexture);
+                SE.Draw(spriteBatch, drawTexture);
+            }
+        }
 
         /// <summary>
         /// attempts to insert the object into the query
@@ -106,6 +131,10 @@ namespace co_op_engine.Collections
             if (!IsParent)
             {
                 Split();
+                if (parent != null)
+                {
+                    InflateBoundry(newObject);
+                }
             }
 
             //insert it into children
@@ -207,10 +236,14 @@ namespace co_op_engine.Collections
         private void Split()
         {
             //build em up
+            //nw left top
             NW = new ElasticQuadTree(new RectangleFloat(bounds.Left, bounds.Top, bounds.Width / 2, bounds.Height / 2), this);
+            //ne center, top
             NE = new ElasticQuadTree(new RectangleFloat(bounds.Left + bounds.Width / 2, bounds.Top, bounds.Width / 2, bounds.Height / 2), this);
-            SW = new ElasticQuadTree(new RectangleFloat(bounds.Left, bounds.Y, bounds.Width / 2, bounds.Height / 2), this);
-            SE = new ElasticQuadTree(new RectangleFloat(bounds.Left + bounds.Width / 2, bounds.Top, bounds.Width / 2, bounds.Height / 2), this);
+            //sw left center
+            SW = new ElasticQuadTree(new RectangleFloat(bounds.Left, bounds.Top + bounds.Height / 2, bounds.Width / 2, bounds.Height / 2), this);
+            //se center center
+            SE = new ElasticQuadTree(new RectangleFloat(bounds.Left + bounds.Width / 2, bounds.Top + bounds.Height / 2, bounds.Width / 2, bounds.Height / 2), this);
 
             //insert children (this may not work... new strategy)
             Insert(containedObject);
@@ -226,7 +259,7 @@ namespace co_op_engine.Collections
             float currentXInflation = (bounds.Width - queryBounds.Width) / 2;
             float currentYInflation = (bounds.Height - queryBounds.Height) / 2;
 
-            float inflateXBy=0;
+            float inflateXBy = 0;
             float inflateYBy = 0;
 
             if (currentXInflation < newObject.BoundingBox.Width / 2)
