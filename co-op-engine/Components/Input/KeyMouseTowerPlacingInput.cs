@@ -50,10 +50,8 @@ namespace co_op_engine.Components.Input
             newY = LockToGrid(newY);
 
             // lock to screen
-            if (pos.X < graphicsInfo.ScreenRectangle.Left) newX = 0;
-            if (pos.X + towerPlacingBox.Width >= graphicsInfo.ScreenRectangle.Right) newX = graphicsInfo.ScreenRectangle.Right - towerPlacingBox.Width ;
-            if (pos.Y < graphicsInfo.ScreenRectangle.Top) newY = 0;
-            if (pos.Y + towerPlacingBox.Height >= graphicsInfo.ScreenRectangle.Bottom) newY = graphicsInfo.ScreenRectangle.Bottom - towerPlacingBox.Height;
+            newX = MathHelper.Clamp(newX, 0, graphicsInfo.ScreenRectangle.Right - towerPlacingBox.Width);
+            newY = MathHelper.Clamp(newY, 0, graphicsInfo.ScreenRectangle.Bottom - towerPlacingBox.Height);
 
             return new Vector2(newX, newY);
         }
@@ -61,18 +59,7 @@ namespace co_op_engine.Components.Input
         private float LockToGrid(float val)
         {
             float gridSize = graphicsInfo.GridSize;
-            float mod = val % gridSize;
-
-            if (mod < (gridSize / 2))
-            {
-                val -= mod;
-            }
-            else if (mod >= (gridSize / 2))
-            {
-                val += gridSize - mod;
-            }
-
-            return val;
+            return ((int)(val / gridSize)) * gridSize;
         }
 
         private void ListenForClicks()
