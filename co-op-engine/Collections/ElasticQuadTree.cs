@@ -71,13 +71,25 @@ namespace co_op_engine.Collections
             }
         }
 
-
-        public bool Contains(Vector2 location) 
+        /// <summary>
+        /// removes and kicks off a verify
+        /// </summary>
+        /// <param name="newObject">object to remove</param>
+        /// <returns>if the object was removed</returns>
+        public bool Remove(GameObject newObject)
         {
- 
-            return false; 
+            if (containedObject == newObject)
+            {
+                containedObject = null;
+                if (parent != null)
+                {
+                    parent.Verify();
+                }
+                return true;
+            }
+            return false;
         }
-        public bool Remove(GameObject newObject) { return false; }
+
         public void Draw(SpriteBatch spriteBatch, Texture2D drawTexture)
         {
             if (!IsParent)
@@ -90,11 +102,11 @@ namespace co_op_engine.Collections
                 spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(),
                     new Color((float)MechanicSingleton.Instance.rand.NextDouble(),
                         (float)MechanicSingleton.Instance.rand.NextDouble(),
-                        (float)MechanicSingleton.Instance.rand.NextDouble(),0.3f));
+                        (float)MechanicSingleton.Instance.rand.NextDouble(), 0.3f));
                 spriteBatch.Draw(drawTexture, bounds.ToRectangle(),
                     new Color((float)MechanicSingleton.Instance.rand.NextDouble(),
                         (float)MechanicSingleton.Instance.rand.NextDouble(),
-                        (float)MechanicSingleton.Instance.rand.NextDouble(),0.3f));
+                        (float)MechanicSingleton.Instance.rand.NextDouble(), 0.3f));
             }
             else
             {
@@ -183,7 +195,15 @@ namespace co_op_engine.Collections
                 gathered.AddRange(SE.GatherAll());
                 return gathered;
             }
-            return new List<GameObject>() { containedObject };
+            else
+            {
+                List<GameObject> obj = new List<GameObject>();
+                if (containedObject != null)
+                {
+                    obj.Add(containedObject);
+                }
+                return obj;
+            }
         }
 
         /// <summary>
@@ -198,11 +218,11 @@ namespace co_op_engine.Collections
                 NW = SW = NE = SE = null;//ugly but it works better for this circumstance
                 parent.Verify();
             }
-            else if (children == 1) //means we can collapse the quad's children and move it on up with the jeffersons
+            else //means we can collapse the quad's children and move it on up with the jeffersons
             {
                 var objects = GatherAll();
                 NW = SW = NE = SE = null;
-                containedObject = objects[0]; // this should work... if it doesn't something else if wrong
+                objects.ForEach(o => Insert(o));
             }
         }
 
@@ -285,11 +305,10 @@ namespace co_op_engine.Collections
         {
             if (!bounds.ContainsInclusive(ownedObject.Position))
             {
-                if (containedObject == ownedObject)
+                if (Remove(ownedObject))
                 {
-                    containedObject = null;
+                    MasterInsert(ownedObject);
                 }
-                MasterInsert(ownedObject);
             }
         }
 

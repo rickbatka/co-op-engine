@@ -40,7 +40,7 @@ namespace co_op_engine.Components.Movement
 
             /////////////////////////////////////////
             //@TODO set these up in factory probably
-            this.position = new Vector2(MechanicSingleton.Instance.rand.Next(0,80));
+            this.position = new Vector2(MechanicSingleton.Instance.rand.Next(1,500));
             this.width = 50;
             this.height = 50;
             //@END temp setup code
