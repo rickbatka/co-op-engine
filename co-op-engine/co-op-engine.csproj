@@ -39,7 +39,7 @@
     <Compile Include="Collections\AnimatedRectangle.cs" />
     <Compile Include="Collections\ElasticQuadTree.cs" />
     <Compile Include="Collections\ThreadSafeBuffer.cs" />
-    <Compile Include="Collections\TileSheet.cs" />
+    <Compile Include="Collections\AnimationSet.cs" />
     <Compile Include="Components\Brains\AI\DoNothingBrain.cs" />
     <Compile Include="Components\Brains\AI\StepFollow.cs" />
     <Compile Include="Components\Brains\BrainBase.cs" />

@@ -14,9 +14,9 @@ namespace co_op_engine.Components.Rendering
     class AnimatedRenderer : RenderBase, IRenderable
     {
         int currentState; // will be enumerated later
-        private TileSheet tileSheet;
+        private AnimationSet tileSheet;
 
-        public AnimatedRenderer(GameObject owner, Texture2D texture, TileSheet tileSheet)
+        public AnimatedRenderer(GameObject owner, Texture2D texture, AnimationSet tileSheet)
             :base(owner, texture)
         {
             currentState = 0;

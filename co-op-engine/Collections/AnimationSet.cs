@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace co_op_engine.Collections
 {
-    public class TileSheet
+    public class AnimationSet
     {
         //@TODO
         // change int to enumeration once we've figured out enumations
@@ -14,7 +14,7 @@ namespace co_op_engine.Collections
         private int currentState = 0;
 
         //@TODO stub constructor that hardcodes one single animation, need it to actually read list of animations from file
-        public TileSheet(AnimatedRectangle animatedRectangle)
+        public AnimationSet(AnimatedRectangle animatedRectangle)
         {
             animations = new Dictionary<int, AnimatedRectangle>();
             animations.Add(0, animatedRectangle);
@@ -22,13 +22,7 @@ namespace co_op_engine.Collections
 
         public AnimatedRectangle GetCurrentAnimationRectangle()
         {
-            var anim = TryGetAnimation(currentState);
-            if (anim == null)
-            {
-                anim = TryGetAnimation(0);
-            }
-
-            return anim;
+            return TryGetAnimation(currentState) ?? TryGetAnimation(0);
         }
 
         public void Update(GameTime gameTime)

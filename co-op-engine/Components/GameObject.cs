@@ -44,35 +44,6 @@ namespace co_op_engine.Components
             this.brain = brain;
         }
 
-        public void SetupDevTempComponents(Texture2D tex, ElasticQuadTree tree)
-        {
-            /////////////////////////////////////////
-            //@TODO set these up in factory probably
-            if (mover == null)
-            {
-                mover = new MoverBase(this);
-            }
-
-            if (renderer == null)
-            {
-                renderer = new RenderBase(this, tex);
-            }
-
-            if (physics == null)
-            {
-                physics = new NonCollidingPhysics(this, tree);
-                physics.Init();
-            }
-
-            if (brain == null)
-            {
-                this.brain = new PlayerBrain(this, new PlayerControlInput());
-            }
-
-            //@END temp setup code
-            /////////////////////////////////////////
-        }
-
         public void Update(GameTime gameTime)
         {
             brain.Update(gameTime);

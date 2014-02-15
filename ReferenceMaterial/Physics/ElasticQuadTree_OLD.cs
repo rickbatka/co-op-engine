@@ -107,7 +107,7 @@ namespace ReferenceMaterial.Physics
 
 			throw new Exception("shouldn't get here");
 
-			return false;
+			//return false;
 		}
 
 		private void InflateBoundary(GameObject newObject)

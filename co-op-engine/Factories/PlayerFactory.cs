@@ -10,18 +10,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.World.Level;
 
 namespace co_op_engine.Factories
 {
-    public class PlayerFactory
+    class PlayerFactory
     {
-        public static GameObject GetPlayer(Game1 theGame, ElasticQuadTree tree, Texture2D texture, TileSheet tileSheet)
+        public static GameObject GetPlayer(ObjectContainer container, Texture2D texture, AnimationSet animations)
         {
             var player = new GameObject();
             player.SetMover(new MoverBase(player));
-            player.SetPhysics(new NonCollidingPhysics(player, tree));
-            player.SetRenderer(new AnimatedRenderer(player, texture, tileSheet));
+            player.SetPhysics(new NonCollidingPhysics(player));
+            player.SetRenderer(new AnimatedRenderer(player, texture, animations));
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
+
+            container.AddObject(player);
+            container.SetPlayer(player);
 
             return player;
         }

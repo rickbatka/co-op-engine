@@ -81,10 +81,7 @@ namespace co_op_engine.Collections
             if (containedObject == newObject)
             {
                 containedObject = null;
-                if (parent != null)
-                {
-                    parent.Verify();
-                }
+                queryBounds = bounds;
                 return true;
             }
             return false;
@@ -94,8 +91,6 @@ namespace co_op_engine.Collections
         {
             if (!IsParent)
             {
-
-
                 spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(), Color.White);
                 spriteBatch.Draw(drawTexture, bounds.ToRectangle(), Color.White);
             }
@@ -105,6 +100,7 @@ namespace co_op_engine.Collections
                 SW.Draw(spriteBatch, drawTexture);
                 NE.Draw(spriteBatch, drawTexture);
                 SE.Draw(spriteBatch, drawTexture);
+                spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(), Color.White);
             }
         }
 
@@ -146,11 +142,27 @@ namespace co_op_engine.Collections
                 }
             }
 
-            //insert it into children
-            if (NW.Insert(newObject)) return true;
-            else if (SW.Insert(newObject)) return true;
-            else if (NE.Insert(newObject)) return true;
-            else if (SE.Insert(newObject)) return true;
+            //insert it into children derp yes repeated code....
+            if (NW.Insert(newObject))
+            {
+                InflateBoundry(newObject);
+                return true;
+            }
+            else if (SW.Insert(newObject))
+            {
+                InflateBoundry(newObject);
+                return true;
+            }
+            else if (NE.Insert(newObject))
+            {
+                InflateBoundry(newObject);
+                return true;
+            }
+            else if (SE.Insert(newObject))
+            {
+                InflateBoundry(newObject);
+                return true;
+            }
 
             throw new Exception("couldn't insert into quadtree because it didn't fit into subquads");
         }
@@ -202,18 +214,30 @@ namespace co_op_engine.Collections
         /// </summary>
         private void Verify()
         {
-            //if it's 0, collapse check parent
-            var children = ChildCount();
-            if (children == 0)
+            if (IsParent)
             {
-                NW = SW = NE = SE = null;//ugly but it works better for this circumstance
-                parent.Verify();
+                //if it's 0, collapse check parent
+                var children = ChildCount();
+                if (children == 0)
+                {
+                    NW = SW = NE = SE = null;//ugly but it works better for this circumstance
+                    parent.Verify();
+                }
+                else if (children == 1)
+                {
+                    var objects = GatherAll()[0];
+                    NW = SW = NE = SE = null;
+                    containedObject = objects;
+                    parent.Verify();
+                }
+                else
+                {
+                    //nothing
+                }
             }
-            else //means we can collapse the quad's children and move it on up with the jeffersons
+            else
             {
-                var objects = GatherAll();
-                NW = SW = NE = SE = null;
-                objects.ForEach(o => Insert(o));
+                parent.Verify();
             }
         }
 
@@ -262,8 +286,14 @@ namespace co_op_engine.Collections
             //se center center
             SE = new ElasticQuadTree(new RectangleFloat(bounds.Left + bounds.Width / 2, bounds.Top + bounds.Height / 2, bounds.Width / 2, bounds.Height / 2), this);
 
-            //insert children (this may not work... new strategy)
-            Insert(containedObject);
+            var temp = containedObject;
+            containedObject = null;
+
+            if (NW.Insert(temp)) return;
+            else if (SW.Insert(temp)) return;
+            else if (NE.Insert(temp)) return;
+            else if (SE.Insert(temp)) return;
+
             containedObject = null;
         }
 
@@ -300,6 +330,7 @@ namespace co_op_engine.Collections
                 {
                     MasterInsert(ownedObject);
                 }
+                Verify();
             }
         }
 

@@ -36,8 +36,8 @@ namespace co_op_engine.Components.Rendering
         private Rectangle GetDrawTarget()
         {
             return new Rectangle(
-                x: (int)owner.Position.X,
-                y: (int)owner.Position.Y,
+                x: (int)(owner.Position.X - owner.Width/2),
+                y: (int)(owner.Position.Y - owner.Height/2),
                 width: owner.Width,
                 height: owner.Height
             );

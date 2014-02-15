@@ -34,19 +34,12 @@ namespace co_op_engine.Components.Physics
 
         //physicsBase( dataobject ) I like the concept of pairing large data driven classes with data objects loaded from editors
 
-        public PhysicsBase(GameObject owner, ElasticQuadTree tree)
+        public PhysicsBase(GameObject owner)
         {
-            currentQuad = tree;
             this.owner = owner;
 
             //@TOSO get position, width, height from player
             this.boundingBox = new Rectangle((int)(owner.Position.X - boundingBox.Width/2), (int)(owner.Position.Y-boundingBox.Height/2), owner.Width, owner.Height);
-
-        }
-
-        public void Init()
-        {
-            currentQuad.MasterInsert(owner);
         }
 
         abstract public void Update(GameTime gameTime);

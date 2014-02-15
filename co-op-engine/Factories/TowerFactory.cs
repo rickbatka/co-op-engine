@@ -11,18 +11,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.World.Level;
 
 namespace co_op_engine.Factories
 {
-    public class TowerFactory
+    class TowerFactory
     {
-        public static GameObject GetDoNothingTower(Game1 theGame, ElasticQuadTree tree, Texture2D texture, Texture2D placingZoneTexture)
+        public static GameObject GetDoNothingTower(ObjectContainer container, Texture2D texture, Texture2D placingZoneTexture)
         {
             var tower = new GameObject();
             tower.SetMover(new MoverBase(tower));
-            tower.SetPhysics(new NonCollidingPhysics(tower, tree));
+            tower.SetPhysics(new NonCollidingPhysics(tower));
             tower.SetRenderer(new RenderBase(tower, texture));
             tower.SetBrain(new BasicTowerBrain(tower, placingZoneTexture, new KeyMouseTowerPlacingInput(tower.BoundingBox)));
+
+            container.AddObject(tower);
 
             return tower;
         }

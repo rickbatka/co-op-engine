@@ -7,8 +7,8 @@ namespace co_op_engine.Components.Physics
     class NonCollidingPhysics : PhysicsBase, IPhysical
     {
 
-        public NonCollidingPhysics(GameObject owner, ElasticQuadTree tree)
-            : base(owner, tree)
+        public NonCollidingPhysics(GameObject owner)
+            : base(owner)
         { }
 
         override public void Update(GameTime gameTime)

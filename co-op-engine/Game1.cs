@@ -10,6 +10,7 @@ using MonoGameExtensions;
 using System.Collections.Generic;
 using co_op_engine.Collections;
 using co_op_engine.Factories;
+using co_op_engine.World.Level;
 
 #endregion
 
@@ -30,18 +31,23 @@ namespace co_op_engine
         private Texture2D arrowTexture;
         private Texture2D knightTexture;
 
-        List<GameObject> Players = new List<GameObject>();
-        List<GameObject> Enemies = new List<GameObject>();
-        List<GameObject> Towers = new List<GameObject>();
+        ObjectContainer container;
 
-        GameObject devPlayerObject;
+        //List<GameObject> Players = new List<GameObject>();
+        //List<GameObject> Enemies = new List<GameObject>();
+        //List<GameObject> Towers = new List<GameObject>();
+
+        //GameObject devPlayerObject;
+        //ElasticQuadTree tree;
+
         Texture2D DEBUG_GRID_TEXTURE;
-        ElasticQuadTree tree;
 
         public Game1()
             : base()
         {
             screenRectangle = new Rectangle(0,0,800,600);
+
+            container = new ObjectContainer(screenRectangle);
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -61,12 +67,6 @@ namespace co_op_engine
             GameServicesProvider.Install(this);
             RegisterServices();
 
-            ///////////////////////////////////////////////////////////
-            // @TODO move to factory
-            tree = new ElasticQuadTree(RectangleFloat.FromRectangle(screenRectangle), null);
-
-            ///////////////////////////////////////////////////////////
-            
             base.Initialize();
         }
 
@@ -93,25 +93,29 @@ namespace co_op_engine
             towerTexture = Content.Load<Texture2D>("tower");
             knightTexture = Content.Load<Texture2D>("knightsheet");
             var animation = AnimatedRectangle.BuildFromAsset(@"content/exampleAnimationMetaData.txt");
+            var animations = new AnimationSet(animation);
 
             ///////////////////////////////////////////////////////////
             
             //@TODO move to level setup
-            Players.Add(PlayerFactory.GetPlayer(this, tree, knightTexture, new TileSheet(animation)));
+            PlayerFactory.GetPlayer(container, knightTexture, animations);
 
-            //@TODO EnemyFactory
-            var devEnemy = new GameObject();
-            //devEnemy.SetBrain(new StepFollow(devEnemy));
-            devEnemy.SetBrain(new DoNothingBrain(devEnemy));
-            devEnemy.SetupDevTempComponents(arrowTexture, tree);
-            Enemies.Add(devEnemy);
+            //Players.Add(PlayerFactory.GetPlayer(this, tree, knightTexture, new TileSheet(animation)));
 
+            ////@TODO EnemyFactory
+            //var devEnemy = new GameObject();
+            ////devEnemy.SetBrain(new StepFollow(devEnemy));
+            //devEnemy.SetBrain(new DoNothingBrain(devEnemy));
+            //devEnemy.SetupDevTempComponents(arrowTexture, tree);
+            //Enemies.Add(devEnemy);
+
+            TowerFactory.GetDoNothingTower(container, towerTexture, plainWhiteTexture);
             
-            var devTower = TowerFactory.GetDoNothingTower(this, tree, towerTexture, plainWhiteTexture);
-            Towers.Add(devTower);
+            //var devTower = TowerFactory.GetDoNothingTower(this, tree, towerTexture, plainWhiteTexture);
+            //Towers.Add(devTower);
 
-            
 
+            this.Window.SetPosition(new Point(50, 50)); //moved it here cause it couldn't be moved if it was being updated every game loop
             
         }
 
@@ -135,23 +139,10 @@ namespace co_op_engine
                 Exit();
             GameTimerManager.Instance.Update(gameTime);
 
-            foreach (var player in Players)
-            {
-                player.Update(gameTime);
-            }
-
-            foreach (var enemy in Enemies)
-            {
-                enemy.Update(gameTime);
-            }
-
-            foreach (var tower in Towers)
-            {
-                tower.Update(gameTime);
-            }
+            container.UpdateAll(gameTime);
 
             //@TODO FIX for some reason I have to have this here or my window is way off the top left. I think due to my resolution / scaling.
-            this.Window.SetPosition(new Point(50, 50));
+            
 
             base.Update(gameTime);
         }
@@ -166,36 +157,29 @@ namespace co_op_engine
 
             spriteBatch.Begin();
 
-            tree.Draw(spriteBatch, DEBUG_GRID_TEXTURE);
+            container.DrawAll(spriteBatch);
+            container.DebugDraw(spriteBatch, DEBUG_GRID_TEXTURE);
+            //tree.Draw(spriteBatch, DEBUG_GRID_TEXTURE);
 
-            foreach (var player in Players)
-            {
-                player.Draw(spriteBatch);
-            }
+            //foreach (var player in Players)
+            //{
+            //    player.Draw(spriteBatch);
+            //}
 
-            foreach (var enemy in Enemies)
-            {
-                enemy.Draw(spriteBatch);
-            }
+            //foreach (var enemy in Enemies)
+            //{
+            //    enemy.Draw(spriteBatch);
+            //}
 
-            foreach (var tower in Towers)
-            {
-                tower.Draw(spriteBatch);
-            }
+            //foreach (var tower in Towers)
+            //{
+            //    tower.Draw(spriteBatch);
+            //}
 
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
-
-        #region IActorInformationProvider
-
-        public List<GameObject> GetPlayers()
-        {
-            return Players;
-        }
-
-        #endregion
 
         #region IGraphicsInformationProvider
 
@@ -204,5 +188,9 @@ namespace co_op_engine
 
         #endregion
 
+        public List<GameObject> GetPlayers()
+        {
+            return container.GetPlayers();
+        }
     }
 }

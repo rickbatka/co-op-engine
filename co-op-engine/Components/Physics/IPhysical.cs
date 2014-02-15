@@ -15,6 +15,5 @@ namespace co_op_engine.Components.Physics
 
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
-        void Init();
     }
 }
