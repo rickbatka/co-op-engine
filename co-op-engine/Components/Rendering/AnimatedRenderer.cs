@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using co_op_engine.Collections;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace co_op_engine.Components.Rendering
 {
@@ -13,13 +14,13 @@ namespace co_op_engine.Components.Rendering
     class AnimatedRenderer : RenderBase, IRenderable
     {
         int currentState; // will be enumerated later
-        //some object that holds the information
+        private TileSheet tileSheet;
 
-        public AnimatedRenderer(Texture2D texture, TileSheet tileSheet, GameObject owner)
-            :base(owner)
+        public AnimatedRenderer(GameObject owner, Texture2D texture, TileSheet tileSheet)
+            :base(owner, texture)
         {
             currentState = 0;
-            this._texture = texture;
+            this.tileSheet = tileSheet;
         }
 
         private void HandleStateChange(GameObject sender, int state)
@@ -28,12 +29,17 @@ namespace co_op_engine.Components.Rendering
             currentState = state;
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
+            tileSheet.Update(gameTime);
+            currentDrawRectangle = tileSheet.GetCurrentAnimationRectangle().CurrentDrawRectangle;
+            base.Update(gameTime);
         }
 
-        public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
+            //spriteBatch.Draw()
+            base.Draw(spriteBatch);
         }
     }
 }

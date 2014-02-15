@@ -58,8 +58,8 @@
     <Compile Include="Components\Rendering\AnimatedRenderer.cs" />
     <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
-    <Compile Include="Components\Rendering\BasicRenderer.cs" />
-    <Compile Include="Components\TowerFactory.cs" />
+    <Compile Include="Factories\PlayerFactory.cs" />
+    <Compile Include="Factories\TowerFactory.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="ServiceProviders\IGraphicsInformationProvider.cs" />
     <Compile Include="MonoGameExtensions.cs" />

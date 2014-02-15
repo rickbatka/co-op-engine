@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGameExtensions;
 using System.Collections.Generic;
 using co_op_engine.Collections;
+using co_op_engine.Factories;
 
 #endregion
 
@@ -24,20 +25,21 @@ namespace co_op_engine
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private Texture2D plainWhiteTexture;
+        private Texture2D towerTexture;
+        private Texture2D arrowTexture;
+        private Texture2D knightTexture;
 
         List<GameObject> Players = new List<GameObject>();
         List<GameObject> Enemies = new List<GameObject>();
         List<GameObject> Towers = new List<GameObject>();
-        GameObject devPlayerObject;
         
         ElasticQuadTree tree;
-
-        public Texture2D devOutline;
 
         public Game1()
             : base()
         {
-            screenRectangle = new Rectangle(0,0,512,512);
+            screenRectangle = new Rectangle(0,0,800,600);
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -78,34 +80,34 @@ namespace co_op_engine
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+            // Create a new SpriteBatch, load textures
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            devOutline = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            devOutline.SetData<Color>(new Color[] { Color.White });
+
+            plainWhiteTexture = Content.Load<Texture2D>("pixel");
+            plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
+            arrowTexture = Content.Load<Texture2D>("arrow");
+            towerTexture = Content.Load<Texture2D>("tower");
+            knightTexture = Content.Load<Texture2D>("knightsheet");
+            var animation = AnimatedRectangle.BuildFromAsset(@"content/exampleAnimationMetaData.txt");
 
             ///////////////////////////////////////////////////////////
-            // @TODO move to factory
-            var plainWhiteTexture = Content.Load<Texture2D>("pixel");
-            var arrowTexture = Content.Load<Texture2D>("arrow");
-            plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
-            devPlayerObject = new GameObject();
-            devPlayerObject.SetupDevTempComponents(plainWhiteTexture, tree);
-            Players.Add(devPlayerObject);
+            
+            //@TODO move to level setup
+            Players.Add(PlayerFactory.GetPlayer(this, tree, knightTexture, new TileSheet(animation)));
 
+            //@TODO EnemyFactory
             var devEnemy = new GameObject();
             devEnemy.SetBrain(new StepFollow(devEnemy));
             devEnemy.SetupDevTempComponents(arrowTexture, tree);
             Enemies.Add(devEnemy);
 
-            var towerTexture = Content.Load<Texture2D>("tower");
+            
             var devTower = TowerFactory.GetDoNothingTower(this, tree, towerTexture, plainWhiteTexture);
             Towers.Add(devTower);
 
-            ///////////////////////////////////////////////////////////
+            
 
-            // TODO: use this.Content to load your game content here
-
-            var animation = AnimatedRectangle.BuildFromAsset(@"content/exampleAnimationMetaData.txt");
+            
         }
 
         /// <summary>

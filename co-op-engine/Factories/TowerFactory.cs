@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Collections;
+using co_op_engine.Components;
 using co_op_engine.Components.Brains.TowerBrains;
 using co_op_engine.Components.Input;
 using co_op_engine.Components.Movement;
@@ -11,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace co_op_engine.Components
+namespace co_op_engine.Factories
 {
     public class TowerFactory
     {
@@ -20,7 +21,7 @@ namespace co_op_engine.Components
             var tower = new GameObject();
             tower.SetMover(new MoverBase(tower));
             tower.SetPhysics(new NonCollidingPhysics(tower, tree));
-            tower.SetRenderer(new BasicRenderer(tower, texture));
+            tower.SetRenderer(new RenderBase(tower, texture));
             tower.SetBrain(new BasicTowerBrain(tower, placingZoneTexture, new KeyMouseTowerPlacingInput(tower.BoundingBox)));
 
             return tower;

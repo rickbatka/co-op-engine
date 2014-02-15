@@ -10,7 +10,7 @@ namespace co_op_engine.Collections
     /// <summary>
     /// all you need to do is update it and you are good to go
     /// </summary>
-    class AnimatedRectangle
+    public class AnimatedRectangle
     {
         //array of rectangles
         int currentFrameIndex;
@@ -47,7 +47,7 @@ namespace co_op_engine.Collections
             currentFrameTimer -= gameTime.ElapsedGameTime;
             if (currentFrameTimer <= TimeSpan.Zero)
             {
-                currentFrameIndex = (currentFrameIndex + 1) % (frames.Length - 1);
+                currentFrameIndex = (currentFrameIndex + 1) > (frames.Length - 1) ? 0 : currentFrameIndex + 1;
                 currentFrameTimer = TimeSpan.FromMilliseconds(frames[currentFrameIndex].FrameTime);
             }
         }
