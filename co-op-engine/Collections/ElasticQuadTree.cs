@@ -94,19 +94,10 @@ namespace co_op_engine.Collections
         {
             if (!IsParent)
             {
-                float r, g, b;
-                r = (float)MechanicSingleton.Instance.rand.NextDouble();
-                g = (float)MechanicSingleton.Instance.rand.NextDouble();
-                b = (float)MechanicSingleton.Instance.rand.NextDouble();
 
-                spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(),
-                    new Color((float)MechanicSingleton.Instance.rand.NextDouble(),
-                        (float)MechanicSingleton.Instance.rand.NextDouble(),
-                        (float)MechanicSingleton.Instance.rand.NextDouble(), 0.3f));
-                spriteBatch.Draw(drawTexture, bounds.ToRectangle(),
-                    new Color((float)MechanicSingleton.Instance.rand.NextDouble(),
-                        (float)MechanicSingleton.Instance.rand.NextDouble(),
-                        (float)MechanicSingleton.Instance.rand.NextDouble(), 0.3f));
+
+                spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(), Color.White);
+                spriteBatch.Draw(drawTexture, bounds.ToRectangle(), Color.White);
             }
             else
             {
@@ -282,8 +273,8 @@ namespace co_op_engine.Collections
         /// <param name="newObject">object inserted</param>
         private void InflateBoundry(GameObject newObject)
         {
-            float currentXInflation = (bounds.Width - queryBounds.Width) / 2;
-            float currentYInflation = (bounds.Height - queryBounds.Height) / 2;
+            float currentXInflation = (queryBounds.Width - bounds.Width) / 2;
+            float currentYInflation = (queryBounds.Height - bounds.Height) / 2;
 
             float inflateXBy = 0;
             float inflateYBy = 0;

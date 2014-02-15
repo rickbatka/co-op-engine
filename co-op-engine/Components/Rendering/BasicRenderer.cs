@@ -28,12 +28,7 @@ namespace co_op_engine.Components.Rendering
 
         private Rectangle GetDrawTarget()
         {
-            return new Rectangle(
-                x: (int)owner.Position.X,
-                y: (int)owner.Position.Y,
-                width: owner.Width,
-                height: owner.Height
-            );
+            return owner.BoundingBox;
         }
     }
 }

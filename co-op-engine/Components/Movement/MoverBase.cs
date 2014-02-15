@@ -7,7 +7,7 @@ namespace co_op_engine.Components.Movement
     class MoverBase : IMovable
     {
         protected float friction = 0.5f;
-        protected float speedLimit = 2000f;
+        protected float speedLimit = 200f;
         protected float accelerationModifier = 400f;
         protected float boostingModifier = 1.5f;
 
@@ -57,6 +57,13 @@ namespace co_op_engine.Components.Movement
             if ((velocity + acceleration).Length() < speedLimit)
             {
                 velocity += acceleration;
+            }
+            else
+            {
+#warning quick fix, this was a bad setup before leading to only accellerating if < speed, needs in betweens
+                velocity += acceleration;
+                velocity.Normalize();
+                velocity *= speedLimit;
             }
 
             acceleration = Vector2.Zero;

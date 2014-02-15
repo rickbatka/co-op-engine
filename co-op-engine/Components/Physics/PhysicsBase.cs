@@ -40,7 +40,7 @@ namespace co_op_engine.Components.Physics
             this.owner = owner;
 
             //@TOSO get position, width, height from player
-            this.boundingBox = new Rectangle((int)owner.Position.X, (int)owner.Position.Y, owner.Width, owner.Height);
+            this.boundingBox = new Rectangle((int)(owner.Position.X - boundingBox.Width/2), (int)(owner.Position.Y-boundingBox.Height/2), owner.Width, owner.Height);
 
         }
 

@@ -29,10 +29,10 @@ namespace co_op_engine
         List<GameObject> Enemies = new List<GameObject>();
         List<GameObject> Towers = new List<GameObject>();
         GameObject devPlayerObject;
-        
-        ElasticQuadTree tree;
 
-        public Texture2D devOutline;
+        Texture2D DEBUG_GRID_TEXTURE;
+
+        ElasticQuadTree tree;
 
         public Game1()
             : base()
@@ -80,8 +80,7 @@ namespace co_op_engine
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            devOutline = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            devOutline.SetData<Color>(new Color[] { Color.White });
+            DEBUG_GRID_TEXTURE = Content.Load<Texture2D>("grid");
 
             ///////////////////////////////////////////////////////////
             // @TODO move to factory
@@ -93,7 +92,8 @@ namespace co_op_engine
             Players.Add(devPlayerObject);
 
             var devEnemy = new GameObject();
-            devEnemy.SetBrain(new StepFollow(devEnemy));
+            //devEnemy.SetBrain(new StepFollow(devEnemy));
+            devEnemy.SetBrain(new DoNothingBrain(devEnemy));
             devEnemy.SetupDevTempComponents(arrowTexture, tree);
             Enemies.Add(devEnemy);
 
@@ -159,7 +159,7 @@ namespace co_op_engine
 
             spriteBatch.Begin();
 
-            //tree.Draw(spriteBatch, devOutline);
+            tree.Draw(spriteBatch, DEBUG_GRID_TEXTURE);
 
             foreach (var player in Players)
             {
