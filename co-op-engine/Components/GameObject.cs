@@ -55,7 +55,7 @@ namespace co_op_engine.Components
 
             if (renderer == null)
             {
-                renderer = new BasicRenderer(this, tex);
+                renderer = new RenderBase(this, tex);
             }
 
             if (physics == null)
