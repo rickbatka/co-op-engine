@@ -228,6 +228,7 @@ namespace co_op_engine.Collections
                     var objects = GatherAll()[0];
                     NW = SW = NE = SE = null;
                     containedObject = objects;
+                    objects.CurrentQuad = this;
                     parent.Verify();
                 }
                 else
