@@ -8,7 +8,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Input
 {
-    class PlayerControlInput : IHumanInput 
+    class PlayerControlInput
     {
         //@TODO the key mappings could live in this class
         public Vector2 GetMovement()

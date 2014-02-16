@@ -13,7 +13,7 @@ namespace co_op_engine.Components.Input
         public Vector2 Coords;
     }
 
-    public class KeyMouseTowerPlacingInput : ITowerPlacingInput
+    public class KeyMouseTowerPlacingInput
     {
         IGraphicsInformationProvider graphicsInfo;
         Rectangle towerPlacingBox;

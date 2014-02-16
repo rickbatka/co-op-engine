@@ -11,7 +11,7 @@ namespace co_op_engine.Components.Rendering
     /// <summary>
     /// moves things and has an object state that updates based on direction, movement etc
     /// </summary>
-    class AnimatedRenderer : RenderBase, IRenderable
+    class AnimatedRenderer : RenderBase
     {
         int currentState; // will be enumerated later
         private AnimationSet tileSheet;

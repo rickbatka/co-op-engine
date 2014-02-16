@@ -141,7 +141,6 @@ namespace co_op_engine
 
             container.UpdateAll(gameTime);
 
-            //@TODO FIX for some reason I have to have this here or my window is way off the top left. I think due to my resolution / scaling.
             
 
             base.Update(gameTime);

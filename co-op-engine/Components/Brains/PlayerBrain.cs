@@ -1,5 +1,4 @@
 ﻿using co_op_engine.Components.Input;
-using co_op_engine.Components.Movement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -10,11 +9,11 @@ using System.Text;
 namespace co_op_engine.Components.Brains
 {
 
-    class PlayerBrain : BrainBase, ISentient
+    class PlayerBrain : BrainBase
     {
-        private IHumanInput input;
+        private PlayerControlInput input;
 
-        public PlayerBrain(GameObject owner, IHumanInput input)
+        public PlayerBrain(GameObject owner, PlayerControlInput input)
             : base(owner)
         {
             this.input = input;
@@ -30,14 +29,7 @@ namespace co_op_engine.Components.Brains
 
         private void HandleActions()
         {
-            if (input.IsPressingRunButton())
-            {
-                owner.IsBoosting = true;
-            }
-            else
-            {
-                owner.IsBoosting = false;
-            }
+
         }
 
         private void HandleMovement()

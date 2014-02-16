@@ -16,7 +16,7 @@ namespace co_op_engine.Components.Brains.AI
         CoolingDown,
         ChasingPlayer
     }
-    class StepFollow : BrainBase, ISentient
+    class StepFollow : BrainBase
     {
         private State currentState;
         private GameObject currentTarget;

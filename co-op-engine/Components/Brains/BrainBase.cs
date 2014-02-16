@@ -1,5 +1,4 @@
-﻿using co_op_engine.Components.Movement;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Brains
 {
-    abstract class BrainBase : ISentient
+    public abstract class BrainBase
     {
         protected GameObject owner;
 

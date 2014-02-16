@@ -1,7 +1,6 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components.Brains;
 using co_op_engine.Components.Input;
-using co_op_engine.Components.Movement;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
 using Microsoft.Xna.Framework;
@@ -10,12 +9,22 @@ using System;
 
 namespace co_op_engine.Components
 {
-    public class GameObject : IRenderable, IPhysical, IMovable, ISentient
+    public class GameObject 
     {
-        IMovable mover;
-        IPhysical physics;
-        IRenderable renderer;
-        ISentient brain;
+        PhysicsBase physics;
+        RenderBase renderer;
+        BrainBase brain;
+
+        public Texture2D Texture;
+        public Rectangle BoundingBox;
+        public ElasticQuadTree CurrentQuad;
+        public Vector2 Velocity;
+        public Vector2 Acceleration;
+        public Vector2 InputMovementVector;
+        public Vector2 Position;
+        public int Width;
+        public int Height;
+
 
         public event EventHandler OnDeath;
 
@@ -24,22 +33,17 @@ namespace co_op_engine.Components
 
         }
 
-        public void SetMover(IMovable mover)
-        {
-            this.mover = mover;
-        }
-
-        public void SetPhysics(IPhysical physics)
+        public void SetPhysics(PhysicsBase physics)
         {
             this.physics = physics;
         }
 
-        public void SetRenderer(IRenderable renderer)
+        public void SetRenderer(RenderBase renderer)
         {
             this.renderer = renderer;
         }
 
-        public void SetBrain(ISentient brain)
+        public void SetBrain(BrainBase brain)
         {
             this.brain = brain;
         }
@@ -48,44 +52,15 @@ namespace co_op_engine.Components
         {
             brain.Update(gameTime);
             physics.Update(gameTime);
-   
-            mover.Update(gameTime);
+            
             renderer.Update(gameTime);
             
         }
-
-        //Interface pass-thru
-        #region IRenderable
-
-        public Texture2D Texture { get { return renderer.Texture; } }
         public void Draw(SpriteBatch spriteBatch) 
         { 
             renderer.Draw(spriteBatch);
             brain.Draw(spriteBatch);
         }
-
-        #endregion
-
-        #region IPhysical
-
-        public Rectangle BoundingBox { get { return physics.BoundingBox; } }
-        public ElasticQuadTree CurrentQuad { get { return physics.CurrentQuad; } set { physics.CurrentQuad = value; } }
-
-        #endregion
-
-        #region IMovable
-
-        public Vector2 Velocity { get { return mover.Velocity; } }
-        public Vector2 Acceleration { get { return mover.Acceleration; } }
-        public Vector2 InputMovementVector { set { mover.InputMovementVector = value; } }
-        public Vector2 Position { get { return mover.Position; } set { mover.Position = value; } }
-        public bool IsBoosting { set { mover.IsBoosting = value; } }
-        public int Width { get { return mover.Width; } }
-        public int Height { get { return mover.Height; } }
-
-        #endregion
-
-
 
         public void Init()
         {

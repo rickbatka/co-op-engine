@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.Components.Physics
 {
-    class NonCollidingPhysics : PhysicsBase, IPhysical
+    class NonCollidingPhysics : PhysicsBase
     {
 
         public NonCollidingPhysics(GameObject owner)
@@ -13,9 +13,11 @@ namespace co_op_engine.Components.Physics
 
         override public void Update(GameTime gameTime)
         {
-            CurrentQuad.NotfyOfMovement(owner);
-            boundingBox.X = (int)(owner.Position.X - boundingBox.Width / 2);
-            boundingBox.Y = (int)(owner.Position.Y - boundingBox.Height / 2);
+            owner.CurrentQuad.NotfyOfMovement(owner);
+            owner.BoundingBox.X = (int)(owner.Position.X - owner.BoundingBox.Width / 2);
+            owner.BoundingBox.Y = (int)(owner.Position.Y - owner.BoundingBox.Height / 2);
+
+            base.Update(gameTime);
         }
         override public void Draw(SpriteBatch spriteBatch)
         { }

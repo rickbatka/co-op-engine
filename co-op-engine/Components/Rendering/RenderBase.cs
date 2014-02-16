@@ -8,11 +8,8 @@ using System.Text;
 
 namespace co_op_engine.Components.Rendering
 {
-    class RenderBase : IRenderable
+    public class RenderBase
     {
-        protected Texture2D texture;
-        public Texture2D Texture { get { return texture; } }
-
         protected readonly GameObject owner;
 
         protected Rectangle? currentDrawRectangle = null;
@@ -20,7 +17,7 @@ namespace co_op_engine.Components.Rendering
         public RenderBase(GameObject owner, Texture2D texture)
         {
             this.owner = owner;
-            this.texture = texture;
+            this.owner.Texture = texture;
         }
 
         virtual public void Update(GameTime gameTime)
@@ -30,7 +27,7 @@ namespace co_op_engine.Components.Rendering
 
         virtual public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, GetDrawTarget(), currentDrawRectangle, Color.White);
+            spriteBatch.Draw(owner.Texture, GetDrawTarget(), currentDrawRectangle, Color.White);
         }
 
         private Rectangle GetDrawTarget()

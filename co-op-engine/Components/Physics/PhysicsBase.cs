@@ -1,5 +1,6 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,40 +10,54 @@ namespace co_op_engine.Components.Physics
     /// contains the physical representation of the object
     /// in the level.  implementations can be physical or not.
     /// </summary>
-    abstract class PhysicsBase : IPhysical
+    public class PhysicsBase
     {
-        protected Rectangle boundingBox;
-        public Rectangle BoundingBox { get { return boundingBox; } }
-        
-        private ElasticQuadTree currentQuad;
-        public ElasticQuadTree CurrentQuad
-        {
-            get { return currentQuad; }
-            set { currentQuad = value; }
-        }
+        protected float friction = 0.5f;
+        protected float speedLimit = 200f;
+        protected float accelerationModifier = 400f;
+        protected float boostingModifier = 1.5f;
 
         protected GameObject owner;
-        //velocity vect
-        //max velocity scalar
-        //force scalar
-        //friction scalar
-        //position vect
-        //bounding box rect
-        //facing direction (radial or enum, undecided) scalar/vect
-
-        //events 
-
-        //physicsBase( dataobject ) I like the concept of pairing large data driven classes with data objects loaded from editors
 
         public PhysicsBase(GameObject owner)
         {
             this.owner = owner;
 
-            //@TOSO get position, width, height from player
-            this.boundingBox = new Rectangle((int)(owner.Position.X - boundingBox.Width/2), (int)(owner.Position.Y-boundingBox.Height/2), owner.Width, owner.Height);
+            /////////////////////////////////////////
+            //@TODO set these up in factory probably
+            this.owner.Position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 500));
+            this.owner.Width = 50;
+            this.owner.Height = 50;
+            //@END temp setup code
+            /////////////////////////////////////////
+
+            //@TODO get position, width, height from player
+            this.owner.BoundingBox = new Rectangle((int)(this.owner.Position.X - this.owner.BoundingBox.Width / 2), (int)(this.owner.Position.Y - this.owner.BoundingBox.Height / 2), this.owner.Width, this.owner.Height);
         }
 
-        abstract public void Update(GameTime gameTime);
-        abstract public void Draw(SpriteBatch spriteBatch);
+        virtual public void Update(GameTime gameTime)
+        {
+            owner.Acceleration = (owner.InputMovementVector * accelerationModifier);
+
+            owner.Velocity *= friction;
+
+            if ((owner.Velocity + owner.Acceleration).Length() < speedLimit)
+            {
+                owner.Velocity += owner.Acceleration;
+            }
+            else
+            {
+#warning quick fix, this was a bad setup before leading to only accellerating if < speed, needs in betweens
+                owner.Velocity += owner.Acceleration;
+                owner.Velocity.Normalize();
+                owner.Velocity *= speedLimit;
+            }
+
+            owner.Acceleration = Vector2.Zero;
+
+            owner.Position += owner.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        }
+
+        virtual public void Draw(SpriteBatch spriteBatch) { }
     }
 }

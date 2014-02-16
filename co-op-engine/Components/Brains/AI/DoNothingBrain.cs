@@ -5,7 +5,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Brains.AI
 {
-    class DoNothingBrain : BrainBase, ISentient
+    class DoNothingBrain : BrainBase
     {
         public DoNothingBrain(GameObject owner)
             : base(owner)
