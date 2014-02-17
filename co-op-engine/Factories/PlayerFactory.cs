@@ -18,7 +18,8 @@ namespace co_op_engine.Factories
         public static GameObject GetPlayer(ObjectContainer container, Texture2D texture, AnimationSet animations)
         {
             var player = new GameObject();
-            player.SetPhysics(new NonCollidingPhysics(player));
+            player.SetPhysics(new CollidingPhysics(player));
+            //player.SetPhysics(new NonCollidingPhysics(player));
             player.SetRenderer(new AnimatedRenderer(player, texture, animations));
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
 

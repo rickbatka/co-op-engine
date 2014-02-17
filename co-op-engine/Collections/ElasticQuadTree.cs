@@ -70,6 +70,10 @@ namespace co_op_engine.Collections
                 return Query(queryBounds);
             }
         }
+        public List<GameObject> MasterQuery(Rectangle queryBounds)
+        {
+            return MasterQuery(RectangleFloat.FromRectangle(queryBounds));
+        }
 
         /// <summary>
         /// removes and kicks off a verify
@@ -91,7 +95,7 @@ namespace co_op_engine.Collections
         {
             if (!IsParent)
             {
-                spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(), Color.White);
+                //spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(), Color.White);
                 spriteBatch.Draw(drawTexture, bounds.ToRectangle(), Color.White);
             }
             else
@@ -231,10 +235,7 @@ namespace co_op_engine.Collections
                     objects.CurrentQuad = this;
                     parent.Verify();
                 }
-                else
-                {
-                    //nothing
-                }
+                //if it's more than 1, do nothing
             }
             else
             {
@@ -247,12 +248,12 @@ namespace co_op_engine.Collections
         /// </summary>
         /// <param name="queryBounds">the area to query</param>
         /// <returns>objects that collide with the query</returns>
-        private List<GameObject> Query(RectangleFloat queryBounds)
+        private List<GameObject> Query(RectangleFloat query)
         {
             var preparedObjects = new List<GameObject>();
 
             //if it's not here, return the empty one
-            if (!queryBounds.Intersects(queryBounds))
+            if (!queryBounds.Intersects(query))
             {
                 return preparedObjects;
             }
@@ -260,15 +261,18 @@ namespace co_op_engine.Collections
             //if it's not a parent add and return
             if (!IsParent)
             {
-                preparedObjects.Add(containedObject);
+                if (containedObject != null && containedObject.BoundingBox.Intersects(query.ToRectangle()))
+                {
+                    preparedObjects.Add(containedObject);
+                }
                 return preparedObjects;
             }
 
             //get objects in children
-            preparedObjects.AddRange(NW.Query(queryBounds));
-            preparedObjects.AddRange(NE.Query(queryBounds));
-            preparedObjects.AddRange(SW.Query(queryBounds));
-            preparedObjects.AddRange(SE.Query(queryBounds));
+            preparedObjects.AddRange(NW.Query(query));
+            preparedObjects.AddRange(NE.Query(query));
+            preparedObjects.AddRange(SW.Query(query));
+            preparedObjects.AddRange(SE.Query(query));
             return preparedObjects;
         }
 

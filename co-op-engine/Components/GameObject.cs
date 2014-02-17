@@ -59,6 +59,7 @@ namespace co_op_engine.Components
         public void Draw(SpriteBatch spriteBatch) 
         { 
             renderer.Draw(spriteBatch);
+            physics.Draw(spriteBatch);
             brain.Draw(spriteBatch);
         }
 

@@ -56,6 +56,8 @@ namespace co_op_engine.Components.Physics
             owner.Acceleration = Vector2.Zero;
 
             owner.Position += owner.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            owner.BoundingBox.X = (int)(owner.Position.X - owner.BoundingBox.Width / 2);
+            owner.BoundingBox.Y = (int)(owner.Position.Y - owner.BoundingBox.Height / 2);
         }
 
         virtual public void Draw(SpriteBatch spriteBatch) { }

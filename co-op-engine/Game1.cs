@@ -40,7 +40,7 @@ namespace co_op_engine
         //GameObject devPlayerObject;
         //ElasticQuadTree tree;
 
-        Texture2D DEBUG_GRID_TEXTURE;
+        public static Texture2D DEBUG_GRID_TEXTURE;
 
         public Game1()
             : base()
