@@ -50,6 +50,7 @@ namespace co_op_engine
             container = new ObjectContainer(screenRectangle);
 
             graphics = new GraphicsDeviceManager(this);
+
             Content.RootDirectory = "Content";
             Components.Add(new InputHandler(this));
             graphics.PreferredBackBufferHeight = screenRectangle.Height;
@@ -153,27 +154,12 @@ namespace co_op_engine
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null);
 
             container.DrawAll(spriteBatch);
             container.DebugDraw(spriteBatch, DEBUG_GRID_TEXTURE);
-            //tree.Draw(spriteBatch, DEBUG_GRID_TEXTURE);
 
-            //foreach (var player in Players)
-            //{
-            //    player.Draw(spriteBatch);
-            //}
 
-            //foreach (var enemy in Enemies)
-            //{
-            //    enemy.Draw(spriteBatch);
-            //}
-
-            //foreach (var tower in Towers)
-            //{
-            //    tower.Draw(spriteBatch);
-            //}
 
             spriteBatch.End();
 
