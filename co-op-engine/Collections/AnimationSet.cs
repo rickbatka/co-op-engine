@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace co_op_engine.Collections
 {
@@ -10,14 +11,36 @@ namespace co_op_engine.Collections
     {
         //@TODO
         // change int to enumeration once we've figured out enumations
-        Dictionary<int, AnimatedRectangle> animations;
+        Dictionary<int, AnimatedRectangle> animations = new Dictionary<int,AnimatedRectangle>();
         private int currentState = 0;
 
-        //@TODO stub constructor that hardcodes one single animation, need it to actually read list of animations from file
-        public AnimationSet(AnimatedRectangle animatedRectangle)
+        public AnimationSet() { }
+
+        public static AnimationSet BuildFromAsset(string file)
         {
-            animations = new Dictionary<int, AnimatedRectangle>();
-            animations.Add(0, animatedRectangle);
+            var animationSet = new AnimationSet();
+            var lines = File.ReadAllLines(file);
+            int animationIndex = 0;
+
+            List<string> currentlyBuildingAnimationLines = new List<string>();
+            foreach (var line in lines)
+            { 
+                if(line.StartsWith(";"))
+                {
+                    if (currentlyBuildingAnimationLines.Count > 0)
+                    {
+                        animationSet.animations.Add(animationIndex, AnimatedRectangle.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>()));
+                    }
+                    animationIndex = int.Parse(line.Substring(1));
+                    continue;
+                }
+                currentlyBuildingAnimationLines.Add(line);
+            }
+
+            //dont forget the last animation!
+            animationSet.animations.Add(animationIndex, AnimatedRectangle.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>()));
+
+            return animationSet;
         }
 
         public AnimatedRectangle GetCurrentAnimationRectangle()

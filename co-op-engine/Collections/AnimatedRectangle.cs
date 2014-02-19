@@ -52,20 +52,6 @@ namespace co_op_engine.Collections
             }
         }
 
-        //should be split into data class to pass in
-        public static AnimatedRectangle BuildFromAsset(string file)
-        {
-            
-            //lets assume a syntax!
-            //time<x,y,w,h><x,y,w,h>... this frame has 2 rectangles
-            //time<x,y,w,h> this frame has 1 rectangle
-
-            //let's leave it volatile for now, we want to know if it can't resolve the path
-            var lines = File.ReadAllLines(file);
-
-            return BuildFromDataLines(lines);
-        }
-
         public static AnimatedRectangle BuildFromDataLines(string[] lineData)
         {
             List<Frame> frameList = new List<Frame>();
