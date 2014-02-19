@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Components.Input;
+using co_op_engine.Events;
 using co_op_engine.ServiceProviders;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;

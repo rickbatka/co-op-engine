@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using co_op_engine.Collections;
-using Microsoft.Xna.Framework.Graphics;
+﻿using co_op_engine.Collections;
+using co_op_engine.Events;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace co_op_engine.Components.Rendering
 {
@@ -14,25 +13,31 @@ namespace co_op_engine.Components.Rendering
     class AnimatedRenderer : RenderBase
     {
         int currentState; // will be enumerated later
-        private AnimationSet tileSheet;
+        int currentDirection;
+        private AnimationSet animationSet;
 
-        public AnimatedRenderer(GameObject owner, Texture2D texture, AnimationSet tileSheet)
+        public AnimatedRenderer(GameObject owner, Texture2D texture, AnimationSet animationSet)
             :base(owner, texture)
         {
-            currentState = 0;
-            this.tileSheet = tileSheet;
+            currentState = AnimationSet.ANIM_STATE_DEFAULT_IDLE_SOUTH;
+            currentDirection = Constants.South;
+            this.animationSet = animationSet;
         }
 
-        private void HandleStateChange(GameObject sender, int state)
+        public void HandleStateChange(object sender, EventArgs args)
         {
-            //we can worry about the sender later, maybe leave it open so they can have a unified dance ai, who knows ^_^
-            currentState = state;
+            animationSet.currentState = (int) ((ActorStateChangedEventArgs)args).NewState;
+        }
+
+        public void HandleDirectionChange(object sender, EventArgs args)
+        {
+            animationSet.currentFacingDirection = (int)((ActorDirectionChangedEventArgs)args).NewDirection;
         }
 
         public override void Update(GameTime gameTime)
         {
-            tileSheet.Update(gameTime);
-            currentDrawRectangle = tileSheet.GetCurrentAnimationRectangle().CurrentDrawRectangle;
+            animationSet.Update(gameTime);
+            currentDrawRectangle = animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle;
             base.Update(gameTime);
         }
 

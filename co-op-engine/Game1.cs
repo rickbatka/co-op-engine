@@ -92,9 +92,9 @@ namespace co_op_engine
             plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
             arrowTexture = Content.Load<Texture2D>("arrow");
             towerTexture = Content.Load<Texture2D>("tower");
-            knightTexture = Content.Load<Texture2D>("knightsheet");
-            var animation = AnimatedRectangle.BuildFromAsset(@"content/exampleAnimationMetaData.txt");
-            var animations = new AnimationSet(animation);
+            knightTexture = Content.Load<Texture2D>("ww");
+
+            var animations = AnimationSet.BuildFromAsset("content/ww.txt");
 
             ///////////////////////////////////////////////////////////
             

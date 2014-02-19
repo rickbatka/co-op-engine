@@ -243,7 +243,10 @@ namespace co_op_engine.Collections
             }
             else
             {
-                parent.Verify();
+                if (parent != null) //temp bug fix not sure why this was null...
+                {
+                    parent.Verify();
+                }
             }
         }
 

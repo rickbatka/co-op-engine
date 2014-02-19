@@ -1,76 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace co_op_engine.Collections
 {
     public class AnimationSet
     {
-        //@TODO
-        // change int to enumeration once we've figured out enumations
-        Dictionary<int, AnimatedRectangle> animations;
-        private int currentState = 0;
+        public static readonly int ANIM_STATE_DEFAULT_IDLE_SOUTH = 0;
 
-        //@TODO stub constructor that hardcodes one single animation, need it to actually read list of animations from file
-        public AnimationSet(AnimatedRectangle animatedRectangle)
+        // indexed as such: animations[state, direction]
+        Dictionary<int, AnimatedRectangle[]> animations = new Dictionary<int, AnimatedRectangle[]>();
+        public int currentState = ANIM_STATE_DEFAULT_IDLE_SOUTH;
+        public int currentFacingDirection = Constants.South;
+
+        public AnimationSet() { }
+
+        public static AnimationSet BuildFromAsset(string file)
         {
-            animations = new Dictionary<int, AnimatedRectangle>();
-            animations.Add(0, animatedRectangle);
+            var animationSet = new AnimationSet();
+            var lines = File.ReadAllLines(file);
+            int animationIndex = 0;
+            int directionIndex = 0;
+
+            List<string> currentlyBuildingAnimationLines = new List<string>();
+            foreach (var line in lines)
+            { 
+                if(line.StartsWith(";"))
+                {
+                    if (currentlyBuildingAnimationLines.Count > 0)
+                    {
+                        if (!animationSet.animations.ContainsKey(animationIndex))
+                        {
+                            animationSet.animations.Add(animationIndex, new AnimatedRectangle[4]);
+                        }
+                        animationSet.animations[animationIndex][directionIndex] = AnimatedRectangle.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>());
+                    }
+                    var indexes = line.Split(';');
+                    animationIndex = int.Parse(indexes[1]);
+                    directionIndex = int.Parse(indexes[2]);
+                    currentlyBuildingAnimationLines = new List<string>();
+                    continue;
+                }
+                currentlyBuildingAnimationLines.Add(line);
+            }
+
+            //dont forget the last animation!
+            animationSet.animations[animationIndex][directionIndex] = AnimatedRectangle.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>());
+
+            return animationSet;
         }
 
         public AnimatedRectangle GetCurrentAnimationRectangle()
         {
-            return TryGetAnimation(currentState) ?? TryGetAnimation(0);
+            return TryGetAnimation(currentState, currentFacingDirection) ?? TryGetAnimation(ANIM_STATE_DEFAULT_IDLE_SOUTH, Constants.South);
         }
 
         public void Update(GameTime gameTime)
         {
-            var curAnimation = TryGetAnimation(currentState);
+            var curAnimation = TryGetAnimation(currentState, currentFacingDirection);
             if (curAnimation != null)
             {
                 curAnimation.Update(gameTime);
             }
         }
 
-        //@TODO another enumeration deferral of decision, takes an enum 
-        //and tries to get the animation for it(will do nothing if we
-        //don't set an animation) did this because it's generic enough 
-        //for things that may not have walking animations but walk....
-        public AnimatedRectangle TryGetAnimation(int state)
+        public AnimatedRectangle TryGetAnimation(int state, int facingDirection)
         {
             if (animations.ContainsKey(state))
             {
-                return animations[state];
+                return animations[state][facingDirection];
             }
             return null;
-        }
-
-        public static void ReadFromFile(string filename)
-        {
-            //@TODO
-            //read file
-            //parse file
-            //separate out into grid
-            //resolve grid to state enumeration
-            //build up dictionary of animations
-
-            //lets assume syntax
-            //<enumeration>
-            //{
-            //  data
-            //  data
-            //  data
-            //}
-            //<enumeration>
-            //{
-            //  data
-            //  data
-            //  data
-            //}
-
-            throw new NotImplementedException();
         }
     }
 }
