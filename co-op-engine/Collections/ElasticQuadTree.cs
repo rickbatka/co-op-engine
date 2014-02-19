@@ -233,7 +233,11 @@ namespace co_op_engine.Collections
                     NW = SW = NE = SE = null;
                     containedObject = objects;
                     objects.CurrentQuad = this;
-                    parent.Verify();
+                    
+                    if (parent != null) //doh, forgot that the master quad doesn't have a parent...
+                    {
+                        parent.Verify();
+                    }
                 }
                 //if it's more than 1, do nothing
             }
