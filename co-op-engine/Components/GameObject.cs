@@ -24,13 +24,12 @@ namespace co_op_engine.Components
         public Vector2 Position;
         public int Width;
         public int Height;
-
+        public int ID;
 
         public event EventHandler OnDeath;
 
         public GameObject()
         {
-
         }
 
         public void SetPhysics(PhysicsBase physics)

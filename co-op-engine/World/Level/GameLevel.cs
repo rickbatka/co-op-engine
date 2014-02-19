@@ -7,5 +7,10 @@ namespace co_op_engine.World.Level
 {
     class GameLevel
     {
+        ObjectContainer objects;
+
+        public GameLevel()
+        {
+        }
     }
 }

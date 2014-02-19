@@ -56,6 +56,10 @@
     <Compile Include="Factories\PlayerFactory.cs" />
     <Compile Include="Factories\TowerFactory.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Networking\CommandObject.cs" />
+    <Compile Include="Networking\Commands\AddObjectCommand.cs" />
+    <Compile Include="Networking\TcpClient.cs" />
+    <Compile Include="Networking\TcpServer.cs" />
     <Compile Include="ServiceProviders\IGraphicsInformationProvider.cs" />
     <Compile Include="MonoGameExtensions.cs" />
     <Compile Include="Program.cs" />
