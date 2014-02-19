@@ -1,8 +1,8 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components.Brains;
-using co_op_engine.Components.Input;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,9 +11,9 @@ namespace co_op_engine.Components
 {
     public class GameObject 
     {
-        PhysicsBase physics;
-        RenderBase renderer;
-        BrainBase brain;
+        public PhysicsBase physics;
+        public RenderBase renderer;
+        public BrainBase brain;
 
         public Texture2D Texture;
         public Rectangle BoundingBox;
@@ -24,6 +24,8 @@ namespace co_op_engine.Components
         public Vector2 Position;
         public int Width;
         public int Height;
+        public int FacingDirection;
+        public ActorState currentActorState;
 
 
         public event EventHandler OnDeath;

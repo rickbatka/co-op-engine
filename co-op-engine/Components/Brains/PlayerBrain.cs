@@ -1,14 +1,10 @@
 ﻿using co_op_engine.Components.Input;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace co_op_engine.Components.Brains
 {
-
     class PlayerBrain : BrainBase
     {
         private PlayerControlInput input;
@@ -25,6 +21,7 @@ namespace co_op_engine.Components.Brains
         {
             HandleActions();
             HandleMovement();
+            SetState();
         }
 
         private void HandleActions()
@@ -35,6 +32,25 @@ namespace co_op_engine.Components.Brains
         private void HandleMovement()
         {
             owner.InputMovementVector = input.GetMovement();
+        }
+
+        private void SetState()
+        {
+            var newPlayerState = owner.currentActorState;
+
+            if (owner.InputMovementVector.X != 0 || owner.InputMovementVector.Y != 0)
+            {
+                newPlayerState = ActorState.Walking;
+            }
+            else 
+            {
+                newPlayerState = ActorState.Idle;
+            }
+
+            if (newPlayerState != owner.currentActorState)
+            {
+                ChangeState(newPlayerState);
+            }
         }
 
     }

@@ -19,9 +19,13 @@ namespace co_op_engine.Factories
         {
             var player = new GameObject();
             player.SetPhysics(new CollidingPhysics(player));
-            //player.SetPhysics(new NonCollidingPhysics(player));
-            player.SetRenderer(new AnimatedRenderer(player, texture, animations));
+            var renderer = new AnimatedRenderer(player, texture, animations);
+            player.SetRenderer(renderer);
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
+
+            // wire up the events between components
+            player.brain.OnActorStateChanged += renderer.HandleStateChange;
+            player.physics.OnActorDirectionChanged += renderer.HandleDirectionChange;
 
             container.AddObject(player);
             container.SetPlayer(player);
