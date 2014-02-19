@@ -74,7 +74,7 @@ namespace co_op_engine.Components.Physics
                 else
                 {
                     owner.Position.Y += yOverlap / 2;
-                    collide.Position.X -= yOverlap / 2;
+                    collide.Position.Y -= yOverlap / 2;
                 }
             }
             owner.CurrentQuad.NotfyOfMovement(owner);
