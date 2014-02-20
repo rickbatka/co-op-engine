@@ -1,5 +1,4 @@
-﻿using co_op_engine.Events;
-using co_op_engine.ServiceProviders;
+﻿using co_op_engine.ServiceProviders;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,12 +8,18 @@ using System.Text;
 
 namespace co_op_engine.Components.Input
 {
+    public delegate void CoordsUpdatedEventHandler(KeyMouseTowerPlacingInput sender, CoordEventArgs coordData);
+    public struct CoordEventArgs
+    {
+        public Vector2 Coords;
+    }
+
     public class KeyMouseTowerPlacingInput
     {
         IGraphicsInformationProvider graphicsInfo;
         Rectangle towerPlacingBox;
         public event EventHandler OnPlacementAttempted;
-        public event EventHandler OnCoordsUpdated;
+        public event CoordsUpdatedEventHandler OnCoordsUpdated;
         
         public KeyMouseTowerPlacingInput(Rectangle towerPlacingBox) 
         {
@@ -32,8 +37,11 @@ namespace co_op_engine.Components.Input
         {
             var pos = InputHandler.MousePositionVector();
             var lockedPos = LockToScreenGrid(pos);
-
-            OnCoordsUpdated(this, new CoordEventArgs() {Coords = lockedPos });
+            
+            if (OnCoordsUpdated != null)
+            {
+                OnCoordsUpdated(this, new CoordEventArgs() { Coords = lockedPos });
+            }
         }
 
         private Vector2 LockToScreenGrid(Vector2 pos)

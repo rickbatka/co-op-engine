@@ -1,17 +1,21 @@
-﻿using co_op_engine.Events;
-using co_op_engine.Utility;
+﻿using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace co_op_engine.Components.Brains
 {
-    
-    
+    public delegate void ActorChangeStateEventHandler(BrainBase sender, ActorStateChangedEventArgs data);
+    public struct ActorStateChangedEventArgs
+    {
+        public ActorState OldState;
+        public ActorState NewState;
+    }
+
     public class BrainBase
     {
         protected GameObject owner;
-        public event EventHandler OnActorStateChanged;
+        public event ActorChangeStateEventHandler OnActorStateChanged;
 
         public BrainBase(GameObject owner)
         {

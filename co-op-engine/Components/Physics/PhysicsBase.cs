@@ -1,6 +1,5 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components;
-using co_op_engine.Events;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +7,12 @@ using System;
 
 namespace co_op_engine.Components.Physics
 {
+    public delegate void ActorDirectionChangedEventHandler (PhysicsBase sender, ActorDirectionChangedEventArgs directionData);
+    public struct ActorDirectionChangedEventArgs
+    {
+        public int OldDirection;
+        public int NewDirection;
+    }
     /// <summary>
     /// contains the physical representation of the object
     /// in the level.  implementations can be physical or not.
@@ -19,7 +24,7 @@ namespace co_op_engine.Components.Physics
         protected float accelerationModifier = 400f;
         protected float boostingModifier = 1.5f;
 
-        public event EventHandler OnActorDirectionChanged;
+        public event ActorDirectionChangedEventHandler OnActorDirectionChanged;
 
         protected GameObject owner;
 

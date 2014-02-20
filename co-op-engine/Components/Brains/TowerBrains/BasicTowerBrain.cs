@@ -1,5 +1,4 @@
 ﻿using co_op_engine.Components.Input;
-using co_op_engine.Events;
 using co_op_engine.ServiceProviders;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
@@ -61,11 +60,11 @@ namespace co_op_engine.Components.Brains.TowerBrains
 			currentState = State.Built;
 		}
 
-		void HandleCoordsUpdated(object sender, EventArgs args)
+		void HandleCoordsUpdated(KeyMouseTowerPlacingInput sender, CoordEventArgs coordData)
 		{
 			if (currentState == State.Placing)
 			{
-				var screenLockedCoords = ((CoordEventArgs)args).Coords;
+				var screenLockedCoords = coordData.Coords;
 				owner.Position = screenLockedCoords;
 			}
 		}

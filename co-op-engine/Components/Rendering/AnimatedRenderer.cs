@@ -1,5 +1,4 @@
 ﻿using co_op_engine.Collections;
-using co_op_engine.Events;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,14 +23,14 @@ namespace co_op_engine.Components.Rendering
             this.animationSet = animationSet;
         }
 
-        public void HandleStateChange(object sender, EventArgs args)
+        public void HandleStateChange(co_op_engine.Components.Brains.BrainBase sender, co_op_engine.Components.Brains.ActorStateChangedEventArgs data)
         {
-            animationSet.currentState = (int) ((ActorStateChangedEventArgs)args).NewState;
+            animationSet.currentState =  (int)data.NewState;
         }
 
-        public void HandleDirectionChange(object sender, EventArgs args)
+        public void HandleDirectionChange(co_op_engine.Components.Physics.PhysicsBase sender, co_op_engine.Components.Physics.ActorDirectionChangedEventArgs directionData)
         {
-            animationSet.currentFacingDirection = (int)((ActorDirectionChangedEventArgs)args).NewDirection;
+            animationSet.currentFacingDirection = (int)directionData.NewDirection;
         }
 
         public override void Update(GameTime gameTime)

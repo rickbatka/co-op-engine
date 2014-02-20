@@ -53,7 +53,6 @@
     <Compile Include="Components\Physics\PhysicsBase.cs" />
     <Compile Include="Components\Rendering\AnimatedRenderer.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
-    <Compile Include="Events\EventDefinitions.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
     <Compile Include="Factories\TowerFactory.cs" />
     <Compile Include="Game1.cs" />
