@@ -19,6 +19,7 @@ namespace co_op_engine.Factories
         public static GameObject GetDoNothingTower(ObjectContainer container, Texture2D texture, Texture2D placingZoneTexture)
         {
             var tower = new GameObject();
+            tower.UnShovable = true;
             tower.SetPhysics(new NonCollidingPhysics(tower));
             tower.SetRenderer(new RenderBase(tower, texture));
             tower.SetBrain(new BasicTowerBrain(tower, placingZoneTexture, new KeyMouseTowerPlacingInput(tower.BoundingBox)));

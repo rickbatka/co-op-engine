@@ -20,9 +20,11 @@ namespace co_op_engine.Components.Physics
             base.Update(gameTime); //moved
 
             var colliders = owner.CurrentQuad.MasterQuery(owner.BoundingBox);
-            if (colliders.Any(u => u != this.owner)) //probably a more efficient check
+
+            if (!owner.UnShovable && colliders.Any(u => u != this.owner)) //probably a more efficient check
             {
                 //there is a collision
+                colliders.Remove(owner);
                 if (OnCollision != null)
                 {
                     OnCollision(this.owner, colliders);
@@ -48,15 +50,14 @@ namespace co_op_engine.Components.Physics
             //take largest collider and resolve it only, this should remove problem of getting stuck 
             // on static walls because you will always be colliding more with the closest wall, 
             // correctly resolving the collision.
-            var collide = collidors.Where(u => u != this.owner).First();
 
             GameObject biggest = collidors[0];
             Point biggestOverlap = Point.Zero;
             foreach (var obj in collidors)
             {
                 var currentPoint = new Point(
-                    -(Math.Abs(collide.BoundingBox.X - owner.BoundingBox.X) - ((owner.BoundingBox.Width + collide.BoundingBox.Width) / 2)),
-                    -(Math.Abs(collide.BoundingBox.Y - owner.BoundingBox.Y) - ((owner.BoundingBox.Height + collide.BoundingBox.Height) / 2)));
+                    -(Math.Abs(obj.BoundingBox.X - owner.BoundingBox.X) - ((owner.BoundingBox.Width + obj.BoundingBox.Width) / 2)),
+                    -(Math.Abs(obj.BoundingBox.Y - owner.BoundingBox.Y) - ((owner.BoundingBox.Height + obj.BoundingBox.Height) / 2)));
 
                 if ((biggestOverlap.X * biggestOverlap.Y) < (currentPoint.X * currentPoint.Y))
                 {
@@ -68,34 +69,50 @@ namespace co_op_engine.Components.Physics
             int xOverlap = biggestOverlap.X;
             int yOverlap = biggestOverlap.Y;
 
+            int mod = biggest.UnShovable ? 1 : 2;
             if (xOverlap < yOverlap)
             {
-                if (owner.Position.X < collide.Position.X)
+                if (owner.Position.X < biggest.Position.X)
                 {
-                    owner.Position.X -= xOverlap / 2;
-                    collide.Position.X += xOverlap / 2;
+                    owner.Position.X -= xOverlap / mod;
+                    if (!biggest.UnShovable)
+                    {
+                        biggest.Position.X += xOverlap / mod;
+                    }
                 }
                 else
                 {
-                    owner.Position.X += xOverlap / 2;
-                    collide.Position.X -= xOverlap / 2;
+                    owner.Position.X += xOverlap / mod;
+                    if (!biggest.UnShovable)
+                    {
+                        biggest.Position.X -= xOverlap / mod;
+                    }
                 }
             }
             else
             {
-                if (owner.Position.Y < collide.Position.Y)
+                if (owner.Position.Y < biggest.Position.Y)
                 {
-                    owner.Position.Y -= yOverlap / 2;
-                    collide.Position.Y += yOverlap / 2;
+                    owner.Position.Y -= yOverlap / mod;
+                    if (!biggest.UnShovable)
+                    {
+                        biggest.Position.Y += yOverlap / mod;
+                    }
                 }
                 else
                 {
-                    owner.Position.Y += yOverlap / 2;
-                    collide.Position.Y -= yOverlap / 2;
+                    owner.Position.Y += yOverlap / mod;
+                    if (!biggest.UnShovable)
+                    {
+                        biggest.Position.Y -= yOverlap / mod;
+                    }
                 }
             }
             owner.CurrentQuad.NotfyOfMovement(owner);
-            collide.CurrentQuad.NotfyOfMovement(collide);
+            this.VerifyBoundingBox();
+
+            biggest.CurrentQuad.NotfyOfMovement(biggest);
+            biggest.physics.VerifyBoundingBox();
         }
     }
 }

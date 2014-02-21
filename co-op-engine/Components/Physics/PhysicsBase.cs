@@ -66,9 +66,14 @@ namespace co_op_engine.Components.Physics
             owner.Acceleration = Vector2.Zero;
 
             owner.Position += owner.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            VerifyBoundingBox();
+            SetFacingDirection();
+        }
+
+        public void VerifyBoundingBox()
+        {
             owner.BoundingBox.X = (int)(owner.Position.X - owner.BoundingBox.Width / 2);
             owner.BoundingBox.Y = (int)(owner.Position.Y - owner.BoundingBox.Height / 2);
-            SetFacingDirection();
         }
 
         private void SetFacingDirection()

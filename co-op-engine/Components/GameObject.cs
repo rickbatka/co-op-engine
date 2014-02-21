@@ -26,7 +26,8 @@ namespace co_op_engine.Components
         public int Height;
         public int ID;
         public int FacingDirection;
-        public ActorState currentActorState;
+        public ActorState currentActorState = ActorState.Idle;
+        public bool UnShovable = false;
 
         public event EventHandler OnDeath;
 
