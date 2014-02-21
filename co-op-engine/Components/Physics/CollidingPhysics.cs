@@ -45,11 +45,28 @@ namespace co_op_engine.Components.Physics
             //this is gonna be a depth resolution collision
             //only using first one for now, could use others later
 
+            //take largest collider and resolve it only, this should remove problem of getting stuck 
+            // on static walls because you will always be colliding more with the closest wall, 
+            // correctly resolving the collision.
             var collide = collidors.Where(u => u != this.owner).First();
 
+            GameObject biggest = collidors[0];
+            Point biggestOverlap = Point.Zero;
+            foreach (var obj in collidors)
+            {
+                var currentPoint = new Point(
+                    -(Math.Abs(collide.BoundingBox.X - owner.BoundingBox.X) - ((owner.BoundingBox.Width + collide.BoundingBox.Width) / 2)),
+                    -(Math.Abs(collide.BoundingBox.Y - owner.BoundingBox.Y) - ((owner.BoundingBox.Height + collide.BoundingBox.Height) / 2)));
 
-            int xOverlap = -(Math.Abs(collide.BoundingBox.X - owner.BoundingBox.X) - ((owner.BoundingBox.Width + collide.BoundingBox.Width) / 2));
-            int yOverlap = -(Math.Abs(collide.BoundingBox.Y - owner.BoundingBox.Y) - ((owner.BoundingBox.Height + collide.BoundingBox.Height) / 2));
+                if ((biggestOverlap.X * biggestOverlap.Y) < (currentPoint.X * currentPoint.Y))
+                {
+                    biggestOverlap = currentPoint;
+                    biggest = obj;
+                }
+            }
+
+            int xOverlap = biggestOverlap.X;
+            int yOverlap = biggestOverlap.Y;
 
             if (xOverlap < yOverlap)
             {
