@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using co_op_engine.Collections;
 using co_op_engine.Factories;
 using co_op_engine.World.Level;
+using co_op_engine.GameStates;
 
 #endregion
 
@@ -21,11 +22,11 @@ namespace co_op_engine
     /// </summary>
     public class Game1 : Game, IActorInformationProvider, IGraphicsInformationProvider
     {
-        Rectangle screenRectangle;
+        public Rectangle screenRectangle;
         const int gridSize = 32;
 
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
         private Texture2D plainWhiteTexture;
         private Texture2D towerTexture;
         private Texture2D arrowTexture;
@@ -33,12 +34,7 @@ namespace co_op_engine
 
         ObjectContainer container;
 
-        //List<GameObject> Players = new List<GameObject>();
-        //List<GameObject> Enemies = new List<GameObject>();
-        //List<GameObject> Towers = new List<GameObject>();
-
-        //GameObject devPlayerObject;
-        //ElasticQuadTree tree;
+        GameState CurrentGameState;
 
         public static Texture2D DEBUG_GRID_TEXTURE;
 
@@ -55,6 +51,8 @@ namespace co_op_engine
             Components.Add(new InputHandler(this));
             graphics.PreferredBackBufferHeight = screenRectangle.Height;
             graphics.PreferredBackBufferWidth = screenRectangle.Width;
+
+            CurrentGameState = new GamePlay(this);
         }
 
         /// <summary>
@@ -66,7 +64,7 @@ namespace co_op_engine
         protected override void Initialize()
         {
             GameServicesProvider.Install(this);
-            RegisterServices();
+            //RegisterServices();
 
             base.Initialize();
         }
@@ -86,34 +84,36 @@ namespace co_op_engine
             // Create a new SpriteBatch, load textures
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            CurrentGameState.LoadContent();
             DEBUG_GRID_TEXTURE = Content.Load<Texture2D>("grid");
 
-            plainWhiteTexture = Content.Load<Texture2D>("pixel");
-            plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
-            arrowTexture = Content.Load<Texture2D>("arrow");
-            towerTexture = Content.Load<Texture2D>("tower");
-            knightTexture = Content.Load<Texture2D>("ww");
+            //plainWhiteTexture = Content.Load<Texture2D>("pixel");
+            //plainWhiteTexture.SetData<Color>(new Color[] { Color.White });
+            //arrowTexture = Content.Load<Texture2D>("arrow");
+            //towerTexture = Content.Load<Texture2D>("tower");
+            //knightTexture = Content.Load<Texture2D>("ww");
 
-            var animations = AnimationSet.BuildFromAsset("content/ww.txt");
+            //var animations = AnimationSet.BuildFromAsset("content/ww.txt");
 
-            ///////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////
             
-            //@TODO move to level setup
-            PlayerFactory.GetPlayer(container, knightTexture, animations);
+            ////@TODO move to level setup
+            //PlayerFactory.GetPlayer(container, knightTexture, animations);
 
-            //Players.Add(PlayerFactory.GetPlayer(this, tree, knightTexture, new TileSheet(animation)));
+            ////Players.Add(PlayerFactory.GetPlayer(this, tree, knightTexture, new TileSheet(animation)));
 
-            ////@TODO EnemyFactory
-            //var devEnemy = new GameObject();
-            ////devEnemy.SetBrain(new StepFollow(devEnemy));
-            //devEnemy.SetBrain(new DoNothingBrain(devEnemy));
-            //devEnemy.SetupDevTempComponents(arrowTexture, tree);
-            //Enemies.Add(devEnemy);
+            //////@TODO EnemyFactory
+            ////var devEnemy = new GameObject();
+            //////devEnemy.SetBrain(new StepFollow(devEnemy));
+            ////devEnemy.SetBrain(new DoNothingBrain(devEnemy));
+            ////devEnemy.SetupDevTempComponents(arrowTexture, tree);
+            ////Enemies.Add(devEnemy);
 
-            TowerFactory.GetDoNothingTower(container, towerTexture, plainWhiteTexture);
+            //TowerFactory.GetDoNothingTower(container, towerTexture, plainWhiteTexture);
             
-            //var devTower = TowerFactory.GetDoNothingTower(this, tree, towerTexture, plainWhiteTexture);
-            //Towers.Add(devTower);
+            
+            ////var devTower = TowerFactory.GetDoNothingTower(this, tree, towerTexture, plainWhiteTexture);
+            ////Towers.Add(devTower);
 
 
             this.Window.SetPosition(new Point(50, 50)); //moved it here cause it couldn't be moved if it was being updated every game loop
@@ -140,9 +140,9 @@ namespace co_op_engine
                 Exit();
             GameTimerManager.Instance.Update(gameTime);
 
-            container.UpdateAll(gameTime);
+            //container.UpdateAll(gameTime);
 
-            
+            CurrentGameState.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -154,14 +154,17 @@ namespace co_op_engine
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null);
 
-            container.DrawAll(spriteBatch);
-            container.DebugDraw(spriteBatch, DEBUG_GRID_TEXTURE);
+            CurrentGameState.Draw(gameTime);
+
+            //spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null);
+
+            //container.DrawAll(spriteBatch);
+            //container.DebugDraw(spriteBatch, DEBUG_GRID_TEXTURE);
 
 
 
-            spriteBatch.End();
+            //spriteBatch.End();
 
             base.Draw(gameTime);
         }

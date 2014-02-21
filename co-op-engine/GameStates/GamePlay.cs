@@ -87,12 +87,12 @@ namespace co_op_engine.GameStates
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            GameRef.SpriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null);
+            GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null);
 
-            container.DrawAll(GameRef.SpriteBatch);
-            container.DebugDraw(GameRef.SpriteBatch, DEBUG_GRID_TEXTURE);
+            container.DrawAll(GameRef.spriteBatch);
+            container.DebugDraw(GameRef.spriteBatch, DEBUG_GRID_TEXTURE);
 
-            GameRef.SpriteBatch.End();
+            GameRef.spriteBatch.End();
         }
 
         public List<GameObject> GetPlayers()

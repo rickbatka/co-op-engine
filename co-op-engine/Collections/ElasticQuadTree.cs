@@ -167,7 +167,8 @@ namespace co_op_engine.Collections
                 InflateBoundry(newObject);
                 return true;
             }
-
+            
+            //return false;
             throw new Exception("couldn't insert into quadtree because it didn't fit into subquads");
         }
 
@@ -336,7 +337,7 @@ namespace co_op_engine.Collections
 
         public void NotfyOfMovement(GameObject ownedObject)
         {
-            if (!bounds.ContainsInclusive(ownedObject.Position))
+            if (!bounds.ContainsInclusive(ownedObject.Position) || containedObject != ownedObject)
             {
                 if (Remove(ownedObject))
                 {
