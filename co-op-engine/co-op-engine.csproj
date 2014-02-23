@@ -41,7 +41,6 @@
     <Compile Include="Collections\ThreadSafeBuffer.cs" />
     <Compile Include="Collections\AnimationSet.cs" />
     <Compile Include="Components\Brains\AI\DoNothingBrain.cs" />
-    <Compile Include="Components\Brains\AI\StepFollow.cs" />
     <Compile Include="Components\Brains\BrainBase.cs" />
     <Compile Include="Components\Brains\PlayerBrain.cs" />
     <Compile Include="Components\Brains\TowerBrains\BasicTowerBrain.cs" />
@@ -53,6 +52,7 @@
     <Compile Include="Components\Physics\PhysicsBase.cs" />
     <Compile Include="Components\Rendering\AnimatedRenderer.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
+    <Compile Include="Content\AssetRepository.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
     <Compile Include="Factories\TowerFactory.cs" />
     <Compile Include="Game1.cs" />
@@ -64,12 +64,9 @@
     <Compile Include="Networking\Commands\AddObjectCommand.cs" />
     <Compile Include="Networking\TcpClient.cs" />
     <Compile Include="Networking\TcpServer.cs" />
-    <Compile Include="ServiceProviders\IGraphicsInformationProvider.cs" />
     <Compile Include="MonoGameExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceProviders\GameServicesProvider.cs" />
-    <Compile Include="ServiceProviders\IActorInformationProvider.cs" />
     <Compile Include="UIElements\Button.cs" />
     <Compile Include="UIElements\Control.cs" />
     <Compile Include="UIElements\ControlManager.cs" />

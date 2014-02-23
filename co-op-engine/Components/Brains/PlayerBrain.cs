@@ -31,7 +31,7 @@ namespace co_op_engine.Components.Brains
         {
             if (input.DidJustPressPlaceTowerButton())
             {
-                
+                TowerFactory.Instance.GetDoNothingTower();
             }
         }
 

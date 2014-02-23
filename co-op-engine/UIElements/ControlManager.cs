@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.UIElements
 {
-    class ControlManager
+    public class ControlManager
     {
         List<Control> controls;
 

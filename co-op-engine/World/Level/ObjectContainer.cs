@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using co_op_engine.Collections;
 using co_op_engine.Components;
-using co_op_engine.ServiceProviders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.World.Level
 {
-    public class ObjectContainer : IActorInformationProvider
+    public class ObjectContainer
     {
         //needs spacial and iterative reference to objects, and probably even a unique indexable heap/binary tree
         ElasticQuadTree quadTree;
@@ -32,9 +31,9 @@ namespace co_op_engine.World.Level
 
         public void UpdateAll(GameTime gameTime)
         {
-            foreach (var obj in gameObjects)
+            for (int i = 0; i < gameObjects.Count; i++ )
             {
-                obj.Update(gameTime);
+                gameObjects[i].Update(gameTime);
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using co_op_engine.Content;
 
 namespace co_op_engine.Components.Physics
 {
@@ -39,7 +40,7 @@ namespace co_op_engine.Components.Physics
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Game1.DEBUG_GRID_TEXTURE, this.owner.BoundingBox, Color.White);
+            spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, this.owner.BoundingBox, Color.White);
         }
 
         private void HandleCollision(List<GameObject> collidors)
