@@ -113,7 +113,7 @@ namespace co_op_engine.Components.Physics
             }
             owner.FacingDirection = newDirection;
 
-            if (OnActorDirectionChanged != null)
+            if (newDirection != oldDirection && OnActorDirectionChanged != null)
             {
                 OnActorDirectionChanged(this, new ActorDirectionChangedEventArgs() { OldDirection = oldDirection, NewDirection = newDirection });
             }
