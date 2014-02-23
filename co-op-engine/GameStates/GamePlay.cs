@@ -21,7 +21,6 @@ namespace co_op_engine.GameStates
         private Texture2D knightTexture;
 
         ObjectContainer container;
-
         //List<GameObject> Players = new List<GameObject>();
         //List<GameObject> Enemies = new List<GameObject>();
         //List<GameObject> Towers = new List<GameObject>();
@@ -35,12 +34,12 @@ namespace co_op_engine.GameStates
             : base(game)
         {
             container = new ObjectContainer(GameRef.screenRectangle);
+            Camera.Instantiate(GameRef.screenRectangle);
         }
 
         public override void LoadContent()
         {
             RegisterServices();
-
 
             DEBUG_GRID_TEXTURE = GameRef.Content.Load<Texture2D>("grid");
 
@@ -87,7 +86,7 @@ namespace co_op_engine.GameStates
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null);
+            GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null,null,Camera.Instance.Transformation);
 
             container.DrawAll(GameRef.spriteBatch);
             container.DebugDraw(GameRef.spriteBatch, DEBUG_GRID_TEXTURE);
