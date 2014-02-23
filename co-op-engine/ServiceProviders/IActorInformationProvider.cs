@@ -6,7 +6,7 @@ using System.Text;
 
 namespace co_op_engine.ServiceProviders
 {
-    interface IActorInformationProvider
+    public interface IActorInformationProvider
     {
         List<GameObject> GetPlayers();
     }

@@ -20,7 +20,7 @@ namespace co_op_engine
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Game, IActorInformationProvider, IGraphicsInformationProvider
+    public class Game1 : Game
     {
         public Rectangle screenRectangle;
         const int gridSize = 32;
@@ -32,8 +32,6 @@ namespace co_op_engine
         private Texture2D arrowTexture;
         private Texture2D knightTexture;
 
-        ObjectContainer container;
-
         GameState CurrentGameState;
 
         public static Texture2D DEBUG_GRID_TEXTURE;
@@ -42,9 +40,6 @@ namespace co_op_engine
             : base()
         {
             screenRectangle = new Rectangle(0,0,800,600);
-
-            container = new ObjectContainer(screenRectangle);
-
             graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
@@ -63,16 +58,7 @@ namespace co_op_engine
         /// </summary>
         protected override void Initialize()
         {
-            GameServicesProvider.Install(this);
-            //RegisterServices();
-
             base.Initialize();
-        }
-
-        private void RegisterServices()
-        {
-            GameServicesProvider.AddService(typeof(IActorInformationProvider), this);
-            GameServicesProvider.AddService(typeof(IGraphicsInformationProvider), this);
         }
 
         /// <summary>
@@ -169,16 +155,5 @@ namespace co_op_engine
             base.Draw(gameTime);
         }
 
-        #region IGraphicsInformationProvider
-
-        public Rectangle ScreenRectangle { get { return screenRectangle; } }
-        public int GridSize { get { return gridSize; } }
-
-        #endregion
-
-        public List<GameObject> GetPlayers()
-        {
-            return container.GetPlayers();
-        }
     }
 }

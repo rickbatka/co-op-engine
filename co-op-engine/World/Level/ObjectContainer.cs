@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.World.Level
 {
-    class ObjectContainer : IActorInformationProvider
+    public class ObjectContainer : IActorInformationProvider
     {
         //needs spacial and iterative reference to objects, and probably even a unique indexable heap/binary tree
         ElasticQuadTree quadTree;

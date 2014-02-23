@@ -16,7 +16,7 @@ namespace co_op_engine.Factories
 {
     class TowerFactory
     {
-        public static GameObject GetDoNothingTower(ObjectContainer container, Texture2D texture, Texture2D placingZoneTexture)
+        public static GameObject GetDoNothingTower(Game1 gameRef, Texture2D texture, Texture2D placingZoneTexture)
         {
             var tower = new GameObject();
             tower.UnShovable = true;
@@ -24,7 +24,7 @@ namespace co_op_engine.Factories
             tower.SetRenderer(new RenderBase(tower, texture));
             tower.SetBrain(new BasicTowerBrain(tower, placingZoneTexture, new KeyMouseTowerPlacingInput(tower.BoundingBox)));
 
-            container.AddObject(tower);
+            gameRef.container.AddObject(tower);
 
             return tower;
         }

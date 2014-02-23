@@ -59,6 +59,7 @@
     <Compile Include="GameStates\GamePlay.cs" />
     <Compile Include="GameStates\GameState.cs" />
     <Compile Include="GameStates\StartMenu.cs" />
+    <Compile Include="IContainsObjects.cs" />
     <Compile Include="Networking\CommandObject.cs" />
     <Compile Include="Networking\Commands\AddObjectCommand.cs" />
     <Compile Include="Networking\TcpClient.cs" />

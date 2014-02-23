@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Components.Input;
+using co_op_engine.Factories;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,7 +29,10 @@ namespace co_op_engine.Components.Brains
 
         private void HandleActions()
         {
-
+            if (input.DidJustPressPlaceTowerButton())
+            {
+                
+            }
         }
 
         private void HandleMovement()

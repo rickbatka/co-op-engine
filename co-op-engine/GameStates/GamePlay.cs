@@ -39,7 +39,6 @@ namespace co_op_engine.GameStates
 
         public override void LoadContent()
         {
-            RegisterServices();
 
             DEBUG_GRID_TEXTURE = GameRef.Content.Load<Texture2D>("grid");
 
@@ -70,12 +69,6 @@ namespace co_op_engine.GameStates
             //var devTower = TowerFactory.GetDoNothingTower(this, tree, towerTexture, plainWhiteTexture);
             //Towers.Add(devTower);
 
-        }
-
-        private void RegisterServices()
-        {
-            GameServicesProvider.AddService(typeof(IActorInformationProvider), GameRef);
-            GameServicesProvider.AddService(typeof(IGraphicsInformationProvider), GameRef);
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
