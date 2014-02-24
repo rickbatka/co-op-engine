@@ -57,7 +57,7 @@ namespace co_op_engine.GameStates
             container.DrawAll(GameRef.spriteBatch);
 
 
-            //container.DebugDraw(GameRef.spriteBatch, AssetRepository.Instance.DebugGridTexture);
+            container.DebugDraw(GameRef.spriteBatch, AssetRepository.Instance.DebugGridTexture);
 
             GameRef.spriteBatch.End();
         }

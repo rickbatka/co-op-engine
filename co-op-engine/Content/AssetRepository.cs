@@ -18,9 +18,11 @@ namespace co_op_engine.Content
         public Texture2D PlainWhiteTexture;
         public Texture2D TowerTexture;
         public Texture2D ArrowTexture;
-        public Texture2D KnightTexture;
+        public Texture2D HeroTexture;
+        public Texture2D SwordTexture;
 
-        public AnimationSet KnightAnimations;
+        public AnimationSet HeroAnimations;
+        public AnimationSet SwordAnimations;
 
         private AssetRepository(Game1 gameRef)
         {
@@ -40,9 +42,11 @@ namespace co_op_engine.Content
             PlainWhiteTexture.SetData<Color>(new Color[] { Color.White });
             ArrowTexture = gameRef.Content.Load<Texture2D>("arrow");
             TowerTexture = gameRef.Content.Load<Texture2D>("tower");
-            KnightTexture = gameRef.Content.Load<Texture2D>("ww");
+            HeroTexture = gameRef.Content.Load<Texture2D>("HeroNoArms");
+            SwordTexture = gameRef.Content.Load<Texture2D>("Sword");
 
-            KnightAnimations = AnimationSet.BuildFromAsset("content/ww.txt");
+            HeroAnimations = AnimationSet.BuildFromAsset("content/HeroNoArmsData.txt");
+            SwordAnimations = AnimationSet.BuildFromAsset("content/SwordData.txt");
         }
     }
 }

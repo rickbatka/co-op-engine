@@ -35,8 +35,8 @@ namespace co_op_engine.Components.Physics
             /////////////////////////////////////////
             //@TODO set these up in factory probably
             this.owner.Position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 500));
-            this.owner.Width = 50;
-            this.owner.Height = 50;
+            this.owner.Width = 80;
+            this.owner.Height = 80;
             //@END temp setup code
             /////////////////////////////////////////
 
