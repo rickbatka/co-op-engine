@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -36,8 +37,13 @@ namespace co_op_engine.Networking
 
         public void StartHosting()
         {
-            //instantiate listener
-            //start listen loop
+            if (listener == null)
+            {
+                //instantiate listener
+                listener = new TcpListener(IPAddress.Any, PORT);
+                //start listen loop
+                listenThread.Start();
+            }
         }
 
         public void StopHostingAndCleanup()
@@ -55,14 +61,51 @@ namespace co_op_engine.Networking
 
         public void ListenLoop()
         {
-            //listen
-            //add to list
-            //send to clientrecv loop
+            try
+            {
+                listener.Start();
+                while (true) //an always listening server!!! UNLIMITED PLAYERS!! MWAHAHAHA
+                {
+                    TcpClient inClient = listener.AcceptTcpClient();
+                    inClient.Client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
+
+                    clients.Add(inClient);
+                    Thread inClientRecvThread = new Thread(new ParameterizedThreadStart(ClientRecvLoop));
+                    inClientRecvThread.IsBackground = true;
+                    clientThreads.Add(inClientRecvThread);
+
+                    inClientRecvThread.Start(inClient);
+                }
+            }
+            catch (Exception e)
+            {
+                if (OnNetworkError != null)
+                {
+                    OnNetworkError(e, null);
+                }
+            }
+            finally
+            {
+                try
+                {
+                    listener.Stop();
+                }
+                catch
+                { }
+                listener = null;
+            }
         }
 
         public void ClientRecvLoop(object clientObj)
         {
             NetworkClient client = (NetworkClient)clientObj;
+            //network protocol hands have schecten however we need some handshaking of our own for establishing player numbers, etc.
+            
+            //need to do locked check against player number increment
+            //send client a struct dictating player number and other date
+
+            //receive client information and set a client object
+            //build a command object for adding a network player with this info
 
             //listen for chatter
             //send chatter to output
