@@ -5,8 +5,14 @@ using System.Text;
 
 namespace co_op_engine.Networking
 {
-    class TcpServer
+    class NetworkClient
     {
+
+
+        public void ConnectToGame()
+        {
+        }
+
         public void QueueCommand(CommandObject command)
         {
         }
