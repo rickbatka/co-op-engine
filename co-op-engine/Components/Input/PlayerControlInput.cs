@@ -42,11 +42,6 @@ namespace co_op_engine.Components.Input
             return inputVector;
         }
 
-        public bool DidJustPressPlaceTowerButton()
-        {
-            return InputHandler.KeyPressed(Keys.T);
-        }
-
         public bool IsPressingRunButton()
         {
             return InputHandler.KeyDown(Keys.Space);

@@ -20,9 +20,13 @@ namespace co_op_engine.Content
         public Texture2D ArrowTexture;
         public Texture2D HeroTexture;
         public Texture2D SwordTexture;
+        public Texture2D AxeTexture;
+        public Texture2D MaceTexture;
 
         public AnimationSet HeroAnimations;
         public AnimationSet SwordAnimations;
+        public AnimationSet AxeAnimations;
+        public AnimationSet MaceAnimations;
 
         private AssetRepository(Game1 gameRef)
         {
@@ -44,9 +48,13 @@ namespace co_op_engine.Content
             TowerTexture = gameRef.Content.Load<Texture2D>("tower");
             HeroTexture = gameRef.Content.Load<Texture2D>("HeroNoArms");
             SwordTexture = gameRef.Content.Load<Texture2D>("Sword");
+            AxeTexture = gameRef.Content.Load<Texture2D>("Axe");
+            MaceTexture = gameRef.Content.Load<Texture2D>("Mace");
 
             HeroAnimations = AnimationSet.BuildFromAsset("content/HeroNoArmsData.txt");
             SwordAnimations = AnimationSet.BuildFromAsset("content/SwordData.txt");
+            AxeAnimations = AnimationSet.BuildFromAsset("content/AxeData.txt");
+            MaceAnimations = AnimationSet.BuildFromAsset("content/MaceData.txt");
         }
     }
 }

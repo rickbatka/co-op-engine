@@ -43,17 +43,36 @@ namespace co_op_engine.Factories
             // wire up the events between components
             player.brain.OnActorStateChanged += renderer.HandleStateChange;
             player.physics.OnActorDirectionChanged += renderer.HandleDirectionChange;
-
-            //create sword
-            var sword = new Sword(player);
-            var swordRenderer = new AnimatedRenderer(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations);
-            sword.SetRenderer(swordRenderer);
-            player.EquipWeapon(sword);
+            player.EquipWeapon(GetSword(player));
 
             gameRef.container.AddObject(player);
             gameRef.container.SetPlayer(player);
 
             return player;
+        }
+
+        public MeleeWeapon GetSword(GameObject owner)
+        {
+            var sword = new MeleeWeapon(owner);
+            var swordRenderer = new AnimatedRenderer(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations);
+            sword.SetRenderer(swordRenderer);
+            return sword;
+        }
+
+        public MeleeWeapon GetAxe(GameObject owner)
+        {
+            var axe = new MeleeWeapon(owner);
+            var axeRenderer = new AnimatedRenderer(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations);
+            axe.SetRenderer(axeRenderer);
+            return axe;
+        }
+
+        public MeleeWeapon GetMace(GameObject owner)
+        {
+            var mace = new MeleeWeapon(owner);
+            var maceRenderer = new AnimatedRenderer(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations);
+            mace.SetRenderer(maceRenderer);
+            return mace;
         }
     }
 }

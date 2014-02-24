@@ -10,9 +10,9 @@ using System.Text;
 
 namespace co_op_engine.Components.Weapons
 {
-    public class Sword : WeaponBase
+    public class MeleeWeapon : WeaponBase
     {
-        public Sword(GameObject owner)
+        public MeleeWeapon(GameObject owner)
             : base(owner)
         { }
 
