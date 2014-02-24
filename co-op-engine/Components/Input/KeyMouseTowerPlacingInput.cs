@@ -1,4 +1,4 @@
-﻿using co_op_engine.ServiceProviders;
+﻿using co_op_engine.GameStates;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using System;
@@ -16,14 +16,14 @@ namespace co_op_engine.Components.Input
 
     public class KeyMouseTowerPlacingInput
     {
-        IGraphicsInformationProvider graphicsInfo;
+        GamePlay gameRef;
         Rectangle towerPlacingBox;
         public event EventHandler OnPlacementAttempted;
         public event CoordsUpdatedEventHandler OnCoordsUpdated;
         
-        public KeyMouseTowerPlacingInput(Rectangle towerPlacingBox) 
+        public KeyMouseTowerPlacingInput(GamePlay gameRef, Rectangle towerPlacingBox) 
         {
-            graphicsInfo = (IGraphicsInformationProvider)GameServicesProvider.GetService(typeof(IGraphicsInformationProvider));
+            this.gameRef = gameRef;
             this.towerPlacingBox = towerPlacingBox;
         }
 
@@ -54,15 +54,15 @@ namespace co_op_engine.Components.Input
             newY = LockToGrid(newY);
 
             // lock to screen
-            newX = MathHelper.Clamp(newX, 0, graphicsInfo.ScreenRectangle.Right - towerPlacingBox.Width);
-            newY = MathHelper.Clamp(newY, 0, graphicsInfo.ScreenRectangle.Bottom - towerPlacingBox.Height);
+            newX = MathHelper.Clamp(newX, 0, gameRef.ScreenRectangle.Right - towerPlacingBox.Width);
+            newY = MathHelper.Clamp(newY, 0, gameRef.ScreenRectangle.Bottom - towerPlacingBox.Height);
 
             return new Vector2(newX, newY);
         }
 
         private float LockToGrid(float val)
         {
-            float gridSize = graphicsInfo.GridSize;
+            float gridSize = gameRef.GridSize;
             return ((int)(val / gridSize)) * gridSize;
         }
 

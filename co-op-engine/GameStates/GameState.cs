@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace co_op_engine.GameStates
 {
-    abstract class GameState
+    public abstract class GameState
     {
         protected Game1 GameRef;
 

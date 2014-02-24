@@ -121,6 +121,14 @@ namespace co_op_engine.Collections
                 return false;
             }
 
+            if (containedObject != null && newObject.Position == containedObject.Position)
+            {
+                newObject.Position.X += 1;
+                newObject.Position.Y += 1;
+                MasterInsert(newObject);
+                return true;
+            }
+
             //if it's null, set it to the object
             if (!IsParent)
             {
@@ -167,8 +175,8 @@ namespace co_op_engine.Collections
                 InflateBoundry(newObject);
                 return true;
             }
+
             
-            //return false;
             throw new Exception("couldn't insert into quadtree because it didn't fit into subquads");
         }
 
