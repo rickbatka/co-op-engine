@@ -56,7 +56,7 @@ namespace co_op_engine.GameStates
             GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null,null,Camera.Instance.Transformation);
             container.DrawAll(GameRef.spriteBatch);
 
-
+            //@DEBUGDRAW DEBUG DRAW
             //container.DebugDraw(GameRef.spriteBatch, AssetRepository.Instance.DebugGridTexture);
 
             GameRef.spriteBatch.End();

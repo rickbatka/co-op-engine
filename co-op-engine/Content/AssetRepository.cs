@@ -18,9 +18,15 @@ namespace co_op_engine.Content
         public Texture2D PlainWhiteTexture;
         public Texture2D TowerTexture;
         public Texture2D ArrowTexture;
-        public Texture2D KnightTexture;
+        public Texture2D HeroTexture;
+        public Texture2D SwordTexture;
+        public Texture2D AxeTexture;
+        public Texture2D MaceTexture;
 
-        public AnimationSet KnightAnimations;
+        public AnimationSet HeroAnimations;
+        public AnimationSet SwordAnimations;
+        public AnimationSet AxeAnimations;
+        public AnimationSet MaceAnimations;
 
         private AssetRepository(Game1 gameRef)
         {
@@ -40,9 +46,15 @@ namespace co_op_engine.Content
             PlainWhiteTexture.SetData<Color>(new Color[] { Color.White });
             ArrowTexture = gameRef.Content.Load<Texture2D>("arrow");
             TowerTexture = gameRef.Content.Load<Texture2D>("tower");
-            KnightTexture = gameRef.Content.Load<Texture2D>("ww");
+            HeroTexture = gameRef.Content.Load<Texture2D>("HeroNoArms");
+            SwordTexture = gameRef.Content.Load<Texture2D>("Sword");
+            AxeTexture = gameRef.Content.Load<Texture2D>("Axe");
+            MaceTexture = gameRef.Content.Load<Texture2D>("Mace");
 
-            KnightAnimations = AnimationSet.BuildFromAsset("content/ww.txt");
+            HeroAnimations = AnimationSet.BuildFromAsset("content/HeroNoArmsData.txt");
+            SwordAnimations = AnimationSet.BuildFromAsset("content/SwordData.txt");
+            AxeAnimations = AnimationSet.BuildFromAsset("content/AxeData.txt");
+            MaceAnimations = AnimationSet.BuildFromAsset("content/MaceData.txt");
         }
     }
 }

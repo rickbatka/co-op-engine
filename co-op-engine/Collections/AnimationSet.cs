@@ -46,8 +46,15 @@ namespace co_op_engine.Collections
                 currentlyBuildingAnimationLines.Add(line);
             }
 
-            //dont forget the last animation!
-            animationSet.animations[animationIndex][directionIndex] = AnimatedRectangle.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>());
+            if (currentlyBuildingAnimationLines.Count > 0)
+            {
+                //dont forget the last animation! repeated code...
+                if (!animationSet.animations.ContainsKey(animationIndex))
+                {
+                    animationSet.animations.Add(animationIndex, new AnimatedRectangle[4]);
+                }
+                animationSet.animations[animationIndex][directionIndex] = AnimatedRectangle.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>());
+            }
 
             return animationSet;
         }
@@ -59,7 +66,7 @@ namespace co_op_engine.Collections
 
         public void Update(GameTime gameTime)
         {
-            var curAnimation = TryGetAnimation(currentState, currentFacingDirection);
+            var curAnimation = GetCurrentAnimationRectangle();
             if (curAnimation != null)
             {
                 curAnimation.Update(gameTime);

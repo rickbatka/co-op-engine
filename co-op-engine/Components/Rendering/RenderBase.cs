@@ -10,14 +10,14 @@ namespace co_op_engine.Components.Rendering
 {
     public class RenderBase
     {
-        protected readonly GameObject owner;
+        protected readonly IRenderable owner;
 
         protected Rectangle? currentDrawRectangle = null;
 
-        public RenderBase(GameObject owner, Texture2D texture)
+        public RenderBase(IRenderable owner, Texture2D texture)
         {
             this.owner = owner;
-            this.owner.Texture = texture;
+            this.owner.TextureProp = texture;
         }
 
         virtual public void Update(GameTime gameTime)
@@ -27,16 +27,16 @@ namespace co_op_engine.Components.Rendering
 
         virtual public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(owner.Texture, GetDrawTarget(), currentDrawRectangle, Color.White);
+            spriteBatch.Draw(owner.TextureProp, GetDrawTarget(), currentDrawRectangle, Color.White);
         }
 
         private Rectangle GetDrawTarget()
         {
             return new Rectangle(
-                x: (int)(owner.Position.X - owner.Width/2),
-                y: (int)(owner.Position.Y - owner.Height/2),
-                width: owner.Width,
-                height: owner.Height
+                x: (int)(owner.PositionProp.X - owner.WidthProp/2),
+                y: (int)(owner.PositionProp.Y - owner.HeightProp/2),
+                width: owner.WidthProp,
+                height: owner.HeightProp
             );
         }
     }

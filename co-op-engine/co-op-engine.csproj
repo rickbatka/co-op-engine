@@ -51,7 +51,10 @@
     <Compile Include="Components\Physics\NonCollidingPhysics.cs" />
     <Compile Include="Components\Physics\PhysicsBase.cs" />
     <Compile Include="Components\Rendering\AnimatedRenderer.cs" />
+    <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
+    <Compile Include="Components\Weapons\MeleeWeapon.cs" />
+    <Compile Include="Components\Weapons\WeaponBase.cs" />
     <Compile Include="Content\AssetRepository.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
     <Compile Include="Factories\TowerFactory.cs" />
@@ -59,7 +62,6 @@
     <Compile Include="GameStates\GamePlay.cs" />
     <Compile Include="GameStates\GameState.cs" />
     <Compile Include="GameStates\StartMenu.cs" />
-    <Compile Include="IContainsObjects.cs" />
     <Compile Include="Networking\CommandObject.cs" />
     <Compile Include="Networking\Commands\AddObjectCommand.cs" />
     <Compile Include="Networking\NetworkClient.cs" />
@@ -100,6 +102,12 @@
     <Content Include="Content\arrow.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Axe.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\AxeData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\coin.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -115,11 +123,29 @@
     <Content Include="Content\grid.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\HeroNoArms.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\HeroNoArmsData.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\knightsheet.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Mace.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\MaceData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\pixel.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sword.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\SwordData.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\tower.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -2,6 +2,7 @@
 using co_op_engine.Components.Brains;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
+using co_op_engine.Components.Weapons;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,11 +10,12 @@ using System;
 
 namespace co_op_engine.Components
 {
-    public class GameObject 
+    public class GameObject : IRenderable
     {
         public PhysicsBase physics;
         public RenderBase renderer;
         public BrainBase brain;
+        public WeaponBase Weapon;
 
         public Texture2D Texture;
         public Rectangle BoundingBox;
@@ -50,24 +52,44 @@ namespace co_op_engine.Components
             this.brain = brain;
         }
 
+        public void EquipWeapon(WeaponBase weapon)
+        {
+            this.Weapon = weapon;
+        }
+
         public void Update(GameTime gameTime)
         {
             brain.Update(gameTime);
             physics.Update(gameTime);
-            
             renderer.Update(gameTime);
-            
+
+            if(Weapon != null)
+            {
+                Weapon.Update(gameTime);
+            }
         }
         public void Draw(SpriteBatch spriteBatch) 
-        { 
+        {
             renderer.Draw(spriteBatch);
             physics.Draw(spriteBatch);
             brain.Draw(spriteBatch);
+
+            if (Weapon != null)
+            {
+                Weapon.Draw(spriteBatch);
+            }
         }
 
         public void Init()
         {
             throw new NotImplementedException();
         }
+
+        public Texture2D TextureProp { get { return Texture; } set { Texture = value; } }
+        public Vector2 PositionProp { get { return Position; } set { Position = value; } }
+        public int WidthProp { get { return Width; } }
+        public int HeightProp { get { return Height; } }
+        public ActorState CurrentActorStateProp { get { return currentActorState; } }
+        public int FacingDirectionProp { get { return FacingDirection; } }
     }
 }
