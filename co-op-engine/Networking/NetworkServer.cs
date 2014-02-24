@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using co_op_engine.Collections;
@@ -48,6 +49,32 @@ namespace co_op_engine.Networking
 
         public void StopHostingAndCleanup()
         {
+            listener.Stop();
+            listener = null;
+
+            foreach (var thread in clientThreads)
+            {
+                try
+                {
+                    thread.Abort();
+                }
+                catch
+                { }
+            }
+
+            clientThreads.Clear();
+
+            foreach (var client in clients)
+            {
+                try
+                {
+                    client.Close();
+                }
+                catch
+                { }
+            }
+
+            clients.Clear();
         }
 
         public void QueueCommand(CommandObject command)
@@ -98,17 +125,62 @@ namespace co_op_engine.Networking
 
         public void ClientRecvLoop(object clientObj)
         {
-            NetworkClient client = (NetworkClient)clientObj;
-            //network protocol hands have schecten however we need some handshaking of our own for establishing player numbers, etc.
-            
-            //need to do locked check against player number increment
-            //send client a struct dictating player number and other date
+            TcpClient client = (TcpClient)clientObj;
+            try
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                NetworkStream netStream = client.GetStream();
+                //network protocol hands have schecten however we need some handshaking of our own for establishing player numbers, etc.
 
-            //receive client information and set a client object
-            //build a command object for adding a network player with this info
+                //need to do locked check against player number increment
+                //send client a struct dictating player number and other date
 
-            //listen for chatter
-            //send chatter to output
+                //receive client information and set a client object
+                //build a command object for adding a network player with this info
+
+                while (true)
+                {
+                    //blocks here
+                    CommandObject command = (CommandObject)formatter.Deserialize(netStream);
+
+                    //send chatter to output
+                    EchoAllOthers(client, command, formatter);
+
+                    outputBuffer.AddToList(command);
+                }
+            }
+            catch (Exception e)
+            {
+                if (OnNetworkError != null)
+                {
+                    OnNetworkError(e, null);
+                }
+            }
+            finally
+            {
+                try
+                {
+                    client.Close();
+
+                    lock (clients)
+                    {
+                        clients.Remove(client);
+                    }
+                }
+                catch
+                { }
+            }
+        }
+
+        private void EchoAllOthers(TcpClient client, CommandObject command, BinaryFormatter formatter)
+        {
+            for (int i = 0; i < clients.Count(); ++i)
+            {
+                if (clients[i] != client)
+                {
+                    formatter.Serialize(client.GetStream(), command);
+                }
+            }
         }
     }
 }
