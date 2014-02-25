@@ -36,14 +36,14 @@ namespace co_op_engine.Utility
         {
             Position = Vector2.Zero;
             Speed = 4f;
-            Zoom = 1f;
+            Zoom = 3f;
             ViewportRectangle = viewportRect;
         }
 
         private Camera(Rectangle viewportRect, Vector2 position)
         {
             Speed = 4f;
-            Zoom = 1f;
+            Zoom = 3f;
             ViewportRectangle = viewportRect;
             Position = position;
         }

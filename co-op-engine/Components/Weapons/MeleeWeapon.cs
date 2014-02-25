@@ -25,5 +25,10 @@ namespace co_op_engine.Components.Weapons
         {
             base.Update(gameTime);
         }
+
+        override public void DebugDraw(SpriteBatch spriteBatch)
+        {
+            base.DebugDraw(spriteBatch);
+        }
     }
 }
