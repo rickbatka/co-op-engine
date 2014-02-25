@@ -27,6 +27,10 @@ namespace co_op_engine.Factories
         public GameObject GetDoNothingTower()
         {
             var tower = new GameObject();
+
+            tower.WidthProp = 32;
+            tower.HeightProp = 32;
+
             tower.UnShovable = true;
             tower.SetPhysics(new NonCollidingPhysics(tower));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture));

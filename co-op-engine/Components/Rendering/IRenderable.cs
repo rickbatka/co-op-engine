@@ -12,8 +12,8 @@ namespace co_op_engine.Components.Rendering
     {
         Texture2D TextureProp { get; set; }
         Vector2 PositionProp { get; }
-        int WidthProp { get; }
-        int HeightProp { get; }
+        int WidthProp { get; set; }
+        int HeightProp { get; set; }
         ActorState CurrentActorStateProp { get; }
         int FacingDirectionProp { get; }
     }

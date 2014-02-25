@@ -13,6 +13,8 @@ using co_op_engine.World.Level;
 using co_op_engine.GameStates;
 using co_op_engine.Content;
 using co_op_engine.Components.Weapons;
+using Microsoft.Xna.Framework;
+using co_op_engine.Utility;
 
 namespace co_op_engine.Factories
 {
@@ -35,11 +37,13 @@ namespace co_op_engine.Factories
         public GameObject GetPlayer()
         {
             var player = new GameObject();
+            player.Position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 100));
+
             player.SetPhysics(new CollidingPhysics(player));
             var renderer = new AnimatedRenderer(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
             player.SetRenderer(renderer);
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
-
+            
             // wire up the events between components
             player.brain.OnActorStateChanged += renderer.HandleStateChange;
             player.physics.OnActorDirectionChanged += renderer.HandleDirectionChange;
@@ -54,6 +58,7 @@ namespace co_op_engine.Factories
         public MeleeWeapon GetSword(GameObject owner)
         {
             var sword = new MeleeWeapon(owner);
+
             var swordRenderer = new AnimatedRenderer(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations);
             sword.SetRenderer(swordRenderer);
             return sword;

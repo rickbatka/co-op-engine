@@ -20,7 +20,7 @@ namespace co_op_engine.Components.Physics
     public class PhysicsBase
     {
         protected float friction = 0.5f;
-        protected float speedLimit = 200f;
+        protected float speedLimit = 150f;
         protected float accelerationModifier = 400f;
         protected float boostingModifier = 1.5f;
 
@@ -31,18 +31,7 @@ namespace co_op_engine.Components.Physics
         public PhysicsBase(GameObject owner)
         {
             this.owner = owner;
-
-            /////////////////////////////////////////
-            //@TODO set these up in factory probably
-            this.owner.Position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 500));
-            this.owner.Width = 80;
-            this.owner.Height = 80;
-            //@END temp setup code
-            /////////////////////////////////////////
-
-            
-            this.owner.BoundingBox = new Rectangle((int)(this.owner.Position.X - this.owner.BoundingBox.Width / 2), (int)(this.owner.Position.Y - this.owner.BoundingBox.Height / 2), this.owner.Width, this.owner.Height);
-            this.owner.FacingDirection = Constants.South;
+            this.owner.FacingDirection = Constants.South;            
         }
 
         virtual public void Update(GameTime gameTime)
@@ -72,8 +61,7 @@ namespace co_op_engine.Components.Physics
 
         public void VerifyBoundingBox()
         {
-            owner.BoundingBox.X = (int)(owner.Position.X - owner.BoundingBox.Width / 2);
-            owner.BoundingBox.Y = (int)(owner.Position.Y - owner.BoundingBox.Height / 2);
+            owner.BoundingBox = new Rectangle((int)(this.owner.Position.X - this.owner.BoundingBox.Width / 2), (int)(this.owner.Position.Y - this.owner.BoundingBox.Height / 2), this.owner.Width, this.owner.Height);
         }
 
         private void SetFacingDirection()
@@ -120,5 +108,7 @@ namespace co_op_engine.Components.Physics
         }
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
+
+        virtual public void DebugDraw(SpriteBatch spriteBatch) { }
     }
 }

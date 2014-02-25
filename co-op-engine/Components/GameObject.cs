@@ -77,7 +77,12 @@ namespace co_op_engine.Components
             if (Weapon != null)
             {
                 Weapon.Draw(spriteBatch);
+                //Weapon.DebugDraw(spriteBatch);
             }
+
+            //@TODO DEBUGDRAW DEBUG DRAW
+            //renderer.DebugDraw(spriteBatch);
+            physics.DebugDraw(spriteBatch);
         }
 
         public void Init()
@@ -87,8 +92,8 @@ namespace co_op_engine.Components
 
         public Texture2D TextureProp { get { return Texture; } set { Texture = value; } }
         public Vector2 PositionProp { get { return Position; } set { Position = value; } }
-        public int WidthProp { get { return Width; } }
-        public int HeightProp { get { return Height; } }
+        public int WidthProp { get { return Width; } set { Width = value; } }
+        public int HeightProp { get { return Height; } set { Height = value; } }
         public ActorState CurrentActorStateProp { get { return currentActorState; } }
         public int FacingDirectionProp { get { return FacingDirection; } }
     }

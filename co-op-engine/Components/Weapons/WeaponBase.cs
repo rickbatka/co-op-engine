@@ -18,14 +18,17 @@ namespace co_op_engine.Components.Weapons
         protected Texture2D texture;
         public Texture2D TextureProp { get { return texture; } set { texture = value; } }
         public Vector2 PositionProp { get { return owner.Position; } }
-        public int WidthProp { get { return owner.Width; } }
-        public int HeightProp { get { return owner.Height; } }
+        public int Width;
+        public int WidthProp { get { return Width; } set { Width = value; } }
+        public int Height;
+        public int HeightProp { get { return Height; } set { Height = value; } }
         public ActorState CurrentActorStateProp { get { return owner.currentActorState; } }
         public int FacingDirectionProp { get { return owner.FacingDirection; } }
 
         public WeaponBase(GameObject owner)
         {
             this.owner = owner;
+
         }
 
         public void SetRenderer(AnimatedRenderer renderer)
@@ -36,6 +39,8 @@ namespace co_op_engine.Components.Weapons
         virtual public void Update(GameTime gameTime)
         {
             renderer.Update(gameTime);
+            this.Width = renderer.animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle.Width;
+            this.Height = renderer.animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle.Height;
         }
 
         virtual public void Draw(SpriteBatch spriteBatch)
@@ -43,6 +48,10 @@ namespace co_op_engine.Components.Weapons
             renderer.Draw(spriteBatch);
         }
 
+        virtual public void DebugDraw(SpriteBatch spriteBatch)
+        {
+            renderer.DebugDraw(spriteBatch);
+        }
 
     }
 }

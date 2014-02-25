@@ -11,7 +11,7 @@ namespace co_op_engine.Components.Rendering
     /// </summary>
     public class AnimatedRenderer : RenderBase
     {
-        private AnimationSet animationSet;
+        public AnimationSet animationSet;
 
         public AnimatedRenderer(IRenderable owner, Texture2D texture, AnimationSet animationSet)
             :base(owner, texture)
@@ -35,6 +35,10 @@ namespace co_op_engine.Components.Rendering
             animationSet.currentFacingDirection = (int)owner.FacingDirectionProp;
             animationSet.Update(gameTime);
             currentDrawRectangle = animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle;
+
+            owner.WidthProp = currentDrawRectangle.Value.Width;
+            owner.HeightProp = currentDrawRectangle.Value.Height;
+
             base.Update(gameTime);
         }
 

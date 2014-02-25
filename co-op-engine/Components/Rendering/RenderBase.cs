@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Components.Rendering;
+using co_op_engine.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -28,6 +29,11 @@ namespace co_op_engine.Components.Rendering
         virtual public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(owner.TextureProp, GetDrawTarget(), currentDrawRectangle, Color.White);
+        }
+
+        virtual public void DebugDraw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(AssetRepository.Instance.PlainWhiteTexture, GetDrawTarget(), currentDrawRectangle, Color.White);
         }
 
         private Rectangle GetDrawTarget()
