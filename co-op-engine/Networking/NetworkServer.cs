@@ -19,8 +19,19 @@ namespace co_op_engine.Networking
         public event EventHandler OnNetworkError;
 
         private ThreadSafeBuffer<CommandObject> inputBuffer;
+		public ThreadSafeBuffer<CommandObject> Input
+		{
+			get { return inputBuffer; }
+		}
+		
         private ThreadSafeBuffer<CommandObject> outputBuffer;
+		public ThreadSafeBuffer<CommandObject> Output
+		{
+			get { return outputBuffer; }
+		}
+		
         private Thread listenThread;
+		private Thread sendThread;
         private List<Thread> clientThreads;
         private List<TcpClient> clients;
         private TcpListener listener;
@@ -34,6 +45,9 @@ namespace co_op_engine.Networking
 
             listenThread = new Thread(new ThreadStart(ListenLoop));
             listenThread.IsBackground = true;
+			
+			sendThread = new Thread(new ThreadStart(SendLoop));
+			sendThread.IsBackground = true;
         }
 
         public void StartHosting()
@@ -79,11 +93,12 @@ namespace co_op_engine.Networking
 
         public void QueueCommand(CommandObject command)
         {
+			inputBuffer.AddToList(command);
         }
 
         public List<CommandObject> GetPendingCommands()
         {
-            throw new NotImplementedException();
+            return outputBuffer.RetrieveData();
         }
 
         public void ListenLoop()
@@ -123,6 +138,30 @@ namespace co_op_engine.Networking
             }
         }
 
+		private void SendLoop()
+		{
+			while(true)
+			{
+				var queued = inputBuffer.RetrieveData();
+				if(queued.Count() == 0)
+				{
+					Thread.Sleep(100);
+				}
+				else if (clients.Count() == 0)
+				{
+					Thread.Sleep(600);
+					//eat the list cause nobody cares
+				}
+				else
+				{
+					Foreach(var command in queued)
+					{
+						EchoAllOthers(command);
+					}
+				}
+			}
+		}
+		
         public void ClientRecvLoop(object clientObj)
         {
             TcpClient client = (TcpClient)clientObj;
@@ -172,14 +211,12 @@ namespace co_op_engine.Networking
             }
         }
 
-        private void EchoAllOthers(TcpClient client, CommandObject command, BinaryFormatter formatter)
+        private void EchoAllOthers(CommandObject command, BinaryFormatter formatter = null)
         {
+			if( formatter == null) formatter = new BinaryFormatter();
             for (int i = 0; i < clients.Count(); ++i)
             {
-                if (clients[i] != client)
-                {
-                    formatter.Serialize(client.GetStream(), command);
-                }
+				formatter.Serialize(client[i].GetStream(), command);					
             }
         }
     }
