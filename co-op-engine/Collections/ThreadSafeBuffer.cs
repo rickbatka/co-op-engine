@@ -16,7 +16,7 @@ namespace co_op_engine.Collections
             objectLock = new object();
         }
 
-        public void AddToList(T newData)
+        public void Add(T newData)
         {
             lock (objectLock)
             {
@@ -24,7 +24,7 @@ namespace co_op_engine.Collections
             }
         }
 
-        public List<T> RetrieveData()
+        public List<T> Gather()
         {
             List<T> returnData = new List<T>();
             List<T> newDataList = new List<T>(); //saves time in locked space if it's JUST a ref swap

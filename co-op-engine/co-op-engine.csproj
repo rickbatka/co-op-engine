@@ -63,6 +63,7 @@
     <Compile Include="GameStates\GameState.cs" />
     <Compile Include="GameStates\StartMenu.cs" />
     <Compile Include="Networking\CommandObject.cs" />
+    <Compile Include="Networking\GameClient.cs" />
     <Compile Include="Networking\NetworkClient.cs" />
     <Compile Include="Networking\NetworkServer.cs" />
     <Compile Include="MonoGameExtensions.cs" />

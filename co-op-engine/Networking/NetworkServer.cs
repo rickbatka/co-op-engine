@@ -33,21 +33,24 @@ namespace co_op_engine.Networking
         private Thread listenThread;
 		private Thread sendThread;
         private List<Thread> clientThreads;
-        private List<TcpClient> clients;
+        private List<GameClient> clients;
         private TcpListener listener;
+        private int playerIndex;
 
         public NetworkServer()
         {
             inputBuffer = new ThreadSafeBuffer<CommandObject>();
             outputBuffer = new ThreadSafeBuffer<CommandObject>();
             clientThreads = new List<Thread>();
-            clients = new List<TcpClient>();
+            clients = new List<GameClient>();
 
             listenThread = new Thread(new ThreadStart(ListenLoop));
             listenThread.IsBackground = true;
 			
 			sendThread = new Thread(new ThreadStart(SendLoop));
 			sendThread.IsBackground = true;
+
+            playerIndex = 1;
         }
 
         public void StartHosting()
@@ -82,23 +85,13 @@ namespace co_op_engine.Networking
             {
                 try
                 {
-                    client.Close();
+                    client.Client.Close();
                 }
                 catch
                 { }
             }
 
             clients.Clear();
-        }
-
-        public void QueueCommand(CommandObject command)
-        {
-			inputBuffer.AddToList(command);
-        }
-
-        public List<CommandObject> GetPendingCommands()
-        {
-            return outputBuffer.RetrieveData();
         }
 
         public void ListenLoop()
@@ -111,12 +104,18 @@ namespace co_op_engine.Networking
                     TcpClient inClient = listener.AcceptTcpClient();
                     inClient.Client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
 
-                    clients.Add(inClient);
+                    var gameClient = new GameClient()
+                    {
+                        Client = inClient,
+                        ClientId = playerIndex++
+                    };
+                    
+                    clients.Add(gameClient);
                     Thread inClientRecvThread = new Thread(new ParameterizedThreadStart(ClientRecvLoop));
                     inClientRecvThread.IsBackground = true;
                     clientThreads.Add(inClientRecvThread);
 
-                    inClientRecvThread.Start(inClient);
+                    inClientRecvThread.Start(gameClient);
                 }
             }
             catch (Exception e)
@@ -142,7 +141,7 @@ namespace co_op_engine.Networking
 		{
 			while(true)
 			{
-				var queued = inputBuffer.RetrieveData();
+				var queued = inputBuffer.Gather();
 				if(queued.Count() == 0)
 				{
 					Thread.Sleep(100);
@@ -154,7 +153,7 @@ namespace co_op_engine.Networking
 				}
 				else
 				{
-					Foreach(var command in queued)
+					foreach(var command in queued)
 					{
 						EchoAllOthers(command);
 					}
@@ -164,11 +163,11 @@ namespace co_op_engine.Networking
 		
         public void ClientRecvLoop(object clientObj)
         {
-            TcpClient client = (TcpClient)clientObj;
+            var client = (GameClient)clientObj;
             try
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-                NetworkStream netStream = client.GetStream();
+                NetworkStream netStream = client.Client.GetStream();
                 //network protocol hands have schecten however we need some handshaking of our own for establishing player numbers, etc.
 
                 //need to do locked check against player number increment
@@ -183,9 +182,9 @@ namespace co_op_engine.Networking
                     CommandObject command = (CommandObject)formatter.Deserialize(netStream);
 
                     //send chatter to output
-                    EchoAllOthers(client, command, formatter);
+                    EchoAllOthers(command, formatter);
 
-                    outputBuffer.AddToList(command);
+                    outputBuffer.Add(command);
                 }
             }
             catch (Exception e)
@@ -199,7 +198,7 @@ namespace co_op_engine.Networking
             {
                 try
                 {
-                    client.Close();
+                    client.Client.Close();
 
                     lock (clients)
                     {
@@ -216,7 +215,10 @@ namespace co_op_engine.Networking
 			if( formatter == null) formatter = new BinaryFormatter();
             for (int i = 0; i < clients.Count(); ++i)
             {
-				formatter.Serialize(client[i].GetStream(), command);					
+                if (command.ClientId != clients[i].ClientId)
+                {
+                    formatter.Serialize(clients[i].Client.GetStream(), command);
+                }
             }
         }
     }

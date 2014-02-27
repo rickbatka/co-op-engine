@@ -11,15 +11,17 @@ namespace co_op_engine.Networking
     /// </summary>
     struct CommandObject
     {
+        public int ClientId;
         public readonly int ObjectId;
         Action<GameObject, object> Command;
         public readonly object ParamsObject;
 
-        public CommandObject(GameObject receiver, Action<GameObject, object> command, object paramsObject)
+        public CommandObject(GameObject receiver, Action<GameObject, object> command, object paramsObject, int clientId)
         {
             ObjectId = receiver.ID;
             Command = command;
             ParamsObject = paramsObject;
+            ClientId = clientId;
         }
 
         public void ExecuteCommand(GameObject receiver)
