@@ -10,5 +10,14 @@ namespace co_op_engine.Networking
     {
         public int ClientId;
         public TcpClient Client;
+        public string ClientName;
+    }
+
+    struct InitialNetworkData
+    {
+        public string PlayerName;
+        public int PlayerId;
+        public int MaxPlayers;
+        public string[] PlayerNames;
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace co_op_engine.Collections
 {
-    class ThreadSafeBuffer<T>
+    public class ThreadSafeBuffer<T>
     {
         private List<T> data;
         object objectLock;

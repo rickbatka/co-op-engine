@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "co-op-engine", "co-op-engine\co-op-engine.csproj", "{1238F14A-6978-4F34-A179-94C1B9740ED0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceMaterial", "ReferenceMaterial\ReferenceMaterial.csproj", "{0CEEA159-70FF-47FE-826C-D34489477785}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTools", "WpfApplication1\DevTools.csproj", "{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +128,51 @@ Global
 		{0CEEA159-70FF-47FE-826C-D34489477785}.Windows8|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0CEEA159-70FF-47FE-826C-D34489477785}.Windows8|Mixed Platforms.Build.0 = Release|Any CPU
 		{0CEEA159-70FF-47FE-826C-D34489477785}.Windows8|x86.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Android|Any CPU.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Android|x86.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.iOS|Any CPU.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.iOS|Any CPU.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.iOS|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.iOS|Mixed Platforms.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.iOS|x86.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Linux|Any CPU.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Linux|Any CPU.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Linux|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Linux|Mixed Platforms.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Linux|x86.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.OSX|Any CPU.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.OSX|Any CPU.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.OSX|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.OSX|Mixed Platforms.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.OSX|x86.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.PSM|Any CPU.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.PSM|Any CPU.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.PSM|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.PSM|Mixed Platforms.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.PSM|x86.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Release|x86.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Windows|Any CPU.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Windows|Any CPU.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Windows|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Windows|Mixed Platforms.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Windows|x86.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Windows8|Any CPU.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Windows8|Any CPU.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Windows8|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Windows8|Mixed Platforms.Build.0 = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Windows8|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

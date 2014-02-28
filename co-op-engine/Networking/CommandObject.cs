@@ -7,9 +7,9 @@ using co_op_engine.Components;
 namespace co_op_engine.Networking
 {
     /// <summary>
-    /// ONLY FEED THIS STATIC METHODS
+    /// ONLY FEED THIS STATIC METHODS (we can experiment with others)
     /// </summary>
-    struct CommandObject
+    public struct CommandObject
     {
         public int ClientId;
         public readonly int ObjectId;

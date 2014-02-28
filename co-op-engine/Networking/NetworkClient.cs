@@ -12,7 +12,7 @@ using co_op_engine.Collections;
 
 namespace co_op_engine.Networking
 {
-    class NetworkClient
+    public class NetworkClient
     {
         //yes I realize the duplicate logic, I'll come in here and
         //  refactor that at some point, but I'm stuck using Notepad++
@@ -155,8 +155,22 @@ namespace co_op_engine.Networking
 
         private bool InitialHandshake()
         {
-#warning initial handshaking MUST be completed...
-            throw new NotImplementedException();
+            BinaryFormatter formatter = new BinaryFormatter();
+            var stream = thisClient.Client.GetStream();
+
+            InitialNetworkData initialData = new InitialNetworkData()
+            {
+                MaxPlayers = -1,
+                PlayerId = -1,
+                PlayerName = "TestClient",
+                PlayerNames = null
+            };
+
+            formatter.Serialize(stream,initialData);
+            initialData = (InitialNetworkData)formatter.Deserialize(stream);
+
+#warning set client information here
+            return true;
         }
     }
 }

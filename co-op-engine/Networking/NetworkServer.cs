@@ -10,7 +10,7 @@ using co_op_engine.Collections;
 
 namespace co_op_engine.Networking
 {
-    class NetworkServer
+    public class NetworkServer
     {
         const int PORT = 22001;
 
@@ -168,13 +168,13 @@ namespace co_op_engine.Networking
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 NetworkStream netStream = client.Client.GetStream();
-                //network protocol hands have schecten however we need some handshaking of our own for establishing player numbers, etc.
 
-                //need to do locked check against player number increment
-                //send client a struct dictating player number and other date
+                if (!InitialHandshake(client))
+                {
+                    throw new Exception("handshake went bad");
+                }
 
-                //receive client information and set a client object
-                //build a command object for adding a network player with this info
+                
 
                 while (true)
                 {
@@ -220,6 +220,22 @@ namespace co_op_engine.Networking
                     formatter.Serialize(clients[i].Client.GetStream(), command);
                 }
             }
+        }
+
+        private bool InitialHandshake(GameClient gClient)
+        {
+            //network protocol hands have schecten however we need some handshaking of our own for establishing player numbers, etc.
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            InitialNetworkData clientData = (InitialNetworkData)formatter.Deserialize(gClient.Client.GetStream());
+            gClient.ClientName = clientData.PlayerName;
+
+            clientData.PlayerId = gClient.ClientId;
+#warning need to finish the notification of other players
+
+            formatter.Serialize(gClient.Client.GetStream(), clientData);
+
+            return true;
         }
     }
 }
