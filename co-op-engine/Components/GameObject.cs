@@ -32,7 +32,7 @@ namespace co_op_engine.Components
         private Vector2 facingDirectionRaw;
         private float rotationTowardFacingDirectionRadians;
         private int facingDirection;
-        private ActorState currentActorState = ActorState.Idle;
+        private int currentActorState = Constants.STATE_IDLE;
 
         public event EventHandler OnDeath;
 
@@ -88,12 +88,13 @@ namespace co_op_engine.Components
             //physics.DebugDraw(spriteBatch);
         }
 
+        public StatePropertySet CurrentStateProperties { get { return StateProperties.Properties[currentActorState]; } }
 
         public Texture2D Texture { get { return texture; } set { texture = value; } }
         public Vector2 Position { get { return position; } set { position = value; } }
         public int Width { get { return width; } set { width = value; } }
         public int Height { get { return height; } set { height = value; } }
-        public ActorState CurrentActorState { get { return currentActorState; } set { currentActorState = value; } }
+        public int CurrentActorState { get { return currentActorState; } set { currentActorState = value; } }
         public int FacingDirection { get { return facingDirection; } set { facingDirection = value; } }
         public Vector2 FacingDirectionRaw { get { return facingDirectionRaw; } set { facingDirectionRaw = value; } }
         public float RotationTowardFacingDirectionRadians { get { return rotationTowardFacingDirectionRadians; } set { rotationTowardFacingDirectionRadians = value; } }

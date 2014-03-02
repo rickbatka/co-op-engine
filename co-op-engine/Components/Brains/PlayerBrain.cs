@@ -77,18 +77,14 @@ namespace co_op_engine.Components.Brains
         {
             var newPlayerState = owner.CurrentActorState;
 
-            if(!CanOverwriteState(owner.CurrentActorState))
+            if ((owner.InputMovementVector.X != 0 || owner.InputMovementVector.Y != 0)
+                && owner.CurrentStateProperties.CanInitiateWalkingState)
             {
-                return;
+                newPlayerState = Constants.STATE_WALKING;
             }
-
-            if (owner.InputMovementVector.X != 0 || owner.InputMovementVector.Y != 0)
+            else if(owner.CurrentStateProperties.CanInitiateIdleState)
             {
-                newPlayerState = ActorState.Walking;
-            }
-            else 
-            {
-                newPlayerState = ActorState.Idle;
+                newPlayerState = Constants.STATE_IDLE;
             }
 
             if (newPlayerState != owner.CurrentActorState)
@@ -96,12 +92,5 @@ namespace co_op_engine.Components.Brains
                 ChangeState(newPlayerState);
             }
         }
-
-        private bool CanOverwriteState(ActorState actorState)
-        {
-            return (actorState == ActorState.Idle
-                || actorState == ActorState.Walking);
-        }
-
     }
 }

@@ -8,8 +8,8 @@ namespace co_op_engine.Components.Brains
     public delegate void ActorChangeStateEventHandler(BrainBase sender, ActorStateChangedEventArgs data);
     public struct ActorStateChangedEventArgs
     {
-        public ActorState OldState;
-        public ActorState NewState;
+        public int OldState;
+        public int NewState;
     }
 
     public class BrainBase
@@ -20,13 +20,13 @@ namespace co_op_engine.Components.Brains
         public BrainBase(GameObject owner)
         {
             this.owner = owner;
-            this.owner.CurrentActorState = ActorState.Idle;
+            this.owner.CurrentActorState = Constants.STATE_IDLE;
         }
 
         virtual public void Update(GameTime gameTime) { }
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
-        protected void ChangeState(ActorState newState)
+        protected void ChangeState(int newState)
         {
             if(newState != owner.CurrentActorState)
             {

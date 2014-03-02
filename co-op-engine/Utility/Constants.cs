@@ -11,11 +11,9 @@ namespace co_op_engine.Utility
         public static readonly int West = 1;
         public static readonly int North = 2;
         public static readonly int East = 3;
-    }
-    public enum ActorState
-    {
-        Idle = 0,
-        Walking = 1,
-        AttackingMelee = 2
+
+        public static readonly int STATE_IDLE = 0;
+        public static readonly int STATE_WALKING = 1;
+        public static readonly int STATE_ATTACKING_MELEE = 2;
     }
 }

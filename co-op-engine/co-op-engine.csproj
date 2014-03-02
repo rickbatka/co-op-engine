@@ -79,6 +79,7 @@
     <Compile Include="Utility\InputHandler.cs" />
     <Compile Include="Utility\MechanicSingleton.cs" />
     <Compile Include="Utility\RectangleFloat.cs" />
+    <Compile Include="Utility\StateProperties.cs" />
     <Compile Include="World\GameWorld.cs" />
     <Compile Include="World\Level\GameLevel.cs" />
     <Compile Include="World\Level\ObjectContainer.cs" />

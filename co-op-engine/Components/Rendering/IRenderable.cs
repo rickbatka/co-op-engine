@@ -14,7 +14,7 @@ namespace co_op_engine.Components.Rendering
         Vector2 Position { get; }
         int Width { get; set; }
         int Height { get; set; }
-        ActorState CurrentActorState { get; }
+        int CurrentActorState { get; }
         int FacingDirection { get; set; }
         Vector2 FacingDirectionRaw { get; set; }
         float RotationTowardFacingDirectionRadians { get; set; }
