@@ -19,7 +19,7 @@ namespace co_op_engine.Components.Rendering
         public RenderBase(IRenderable owner, Texture2D texture)
         {
             this.owner = owner;
-            this.owner.TextureProp = texture;
+            this.owner.Texture = texture;
         }
 
         virtual public void Update(GameTime gameTime)
@@ -30,11 +30,11 @@ namespace co_op_engine.Components.Rendering
         virtual public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                texture: owner.TextureProp, 
+                texture: owner.Texture, 
                 destinationRectangle: GetDrawTarget(), 
                 sourceRectangle: currentDrawRectangle, 
                 color: Color.White,
-                rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadiansProp : 0f,
+                rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
                 origin: GetCenterOrigin(),
                 effect: SpriteEffects.None,
                 depth: 0f);
@@ -49,7 +49,7 @@ namespace co_op_engine.Components.Rendering
                 destinationRectangle: GetDrawTarget(),
                 sourceRectangle: currentDrawRectangle,
                 color: new Color(Color.Green, 0.01f),
-                rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadiansProp : 0f,
+                rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
                 origin: GetCenterOrigin(),
                 effect: SpriteEffects.None,
                 depth: 0f);
@@ -57,10 +57,10 @@ namespace co_op_engine.Components.Rendering
             //the center point
             spriteBatch.Draw(
                 texture: AssetRepository.Instance.PlainWhiteTexture,
-                destinationRectangle: new Rectangle((int)(owner.PositionProp.X), (int)(owner.PositionProp.Y), 1, 1),
+                destinationRectangle: new Rectangle((int)(owner.Position.X), (int)(owner.Position.Y), 1, 1),
                 sourceRectangle: currentDrawRectangle,
                 color: Color.Red,
-                rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadiansProp : 0f,
+                rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
                 origin: GetCenterOrigin(),
                 effect: SpriteEffects.None,
                 depth: 0f);
@@ -69,18 +69,18 @@ namespace co_op_engine.Components.Rendering
         private Rectangle GetDrawTarget()
         {
             return new Rectangle(
-                x: (int)(owner.PositionProp.X),
-                y: (int)(owner.PositionProp.Y),
-                width: owner.WidthProp,
-                height: owner.HeightProp
+                x: (int)(owner.Position.X),
+                y: (int)(owner.Position.Y),
+                width: owner.Width,
+                height: owner.Height
             );
         }
 
         private Vector2 GetCenterOrigin()
         {
             var center = new Vector2(
-                x: owner.WidthProp/2f,
-                y: owner.HeightProp/2f
+                x: owner.Width/2f,
+                y: owner.Height/2f
             );
             
             return center;

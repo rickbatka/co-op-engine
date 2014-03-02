@@ -12,26 +12,27 @@ namespace co_op_engine.Components
 {
     public class GameObject : IRenderable
     {
-        public PhysicsBase physics;
-        public RenderBase renderer;
-        public BrainBase brain;
+        public PhysicsBase Physics;
+        public RenderBase Renderer;
+        public BrainBase Brain;
         public WeaponBase Weapon;
 
-        public Texture2D Texture;
         public Rectangle BoundingBox;
         public ElasticQuadTree CurrentQuad;
         public Vector2 Velocity;
         public Vector2 Acceleration;
         public Vector2 InputMovementVector;
-        public Vector2 Position;
-        public Vector2 FacingDirectionRaw;
-        public float RotationTowardFacingDirectionRadians;
-        public int Width;
-        public int Height;
         public int ID;
-        public int FacingDirection;
-        public ActorState currentActorState = ActorState.Idle;
         public bool UnShovable = false;
+
+        private int width;
+        private int height;
+        private Texture2D texture;
+        private Vector2 position;
+        private Vector2 facingDirectionRaw;
+        private float rotationTowardFacingDirectionRadians;
+        private int facingDirection;
+        private ActorState currentActorState = ActorState.Idle;
 
         public event EventHandler OnDeath;
 
@@ -41,17 +42,17 @@ namespace co_op_engine.Components
 
         public void SetPhysics(PhysicsBase physics)
         {
-            this.physics = physics;
+            this.Physics = physics;
         }
 
         public void SetRenderer(RenderBase renderer)
         {
-            this.renderer = renderer;
+            this.Renderer = renderer;
         }
 
         public void SetBrain(BrainBase brain)
         {
-            this.brain = brain;
+            this.Brain = brain;
         }
 
         public void EquipWeapon(WeaponBase weapon)
@@ -61,9 +62,9 @@ namespace co_op_engine.Components
 
         public void Update(GameTime gameTime)
         {
-            brain.Update(gameTime);
-            physics.Update(gameTime);
-            renderer.Update(gameTime);
+            Brain.Update(gameTime);
+            Physics.Update(gameTime);
+            Renderer.Update(gameTime);
 
             if(Weapon != null)
             {
@@ -72,34 +73,30 @@ namespace co_op_engine.Components
         }
         public void Draw(SpriteBatch spriteBatch) 
         {
-            renderer.Draw(spriteBatch);
-            physics.Draw(spriteBatch);
-            brain.Draw(spriteBatch);
+            Renderer.Draw(spriteBatch);
+            Physics.Draw(spriteBatch);
+            Brain.Draw(spriteBatch);
 
             if (Weapon != null)
             {
                 Weapon.Draw(spriteBatch);
-                Weapon.DebugDraw(spriteBatch);
+                //Weapon.DebugDraw(spriteBatch);
             }
 
             //@TODO DEBUGDRAW DEBUG DRAW
             //renderer.DebugDraw(spriteBatch);
-            physics.DebugDraw(spriteBatch);
+            //physics.DebugDraw(spriteBatch);
         }
 
-        public void Init()
-        {
-            throw new NotImplementedException();
-        }
 
-        public Texture2D TextureProp { get { return Texture; } set { Texture = value; } }
-        public Vector2 PositionProp { get { return Position; } set { Position = value; } }
-        public int WidthProp { get { return Width; } set { Width = value; } }
-        public int HeightProp { get { return Height; } set { Height = value; } }
-        public ActorState CurrentActorStateProp { get { return currentActorState; } }
-        public int FacingDirectionProp { get { return FacingDirection; } }
-        public Vector2 FacingDirectionRawProp { get { return FacingDirectionRaw; } set { FacingDirectionRaw = value; } }
-        public float RotationTowardFacingDirectionRadiansProp { get { return RotationTowardFacingDirectionRadians; } set { RotationTowardFacingDirectionRadians = value; } }
+        public Texture2D Texture { get { return texture; } set { texture = value; } }
+        public Vector2 Position { get { return position; } set { position = value; } }
+        public int Width { get { return width; } set { width = value; } }
+        public int Height { get { return height; } set { height = value; } }
+        public ActorState CurrentActorState { get { return currentActorState; } set { currentActorState = value; } }
+        public int FacingDirection { get { return facingDirection; } set { facingDirection = value; } }
+        public Vector2 FacingDirectionRaw { get { return facingDirectionRaw; } set { facingDirectionRaw = value; } }
+        public float RotationTowardFacingDirectionRadians { get { return rotationTowardFacingDirectionRadians; } set { rotationTowardFacingDirectionRadians = value; } }
         public bool FullyRotatable { get { return false; } }
     }
 }

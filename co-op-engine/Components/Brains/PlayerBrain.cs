@@ -75,9 +75,9 @@ namespace co_op_engine.Components.Brains
 
         private void SetState()
         {
-            var newPlayerState = owner.currentActorState;
+            var newPlayerState = owner.CurrentActorState;
 
-            if(!CanOverwriteState(owner.currentActorState))
+            if(!CanOverwriteState(owner.CurrentActorState))
             {
                 return;
             }
@@ -91,7 +91,7 @@ namespace co_op_engine.Components.Brains
                 newPlayerState = ActorState.Idle;
             }
 
-            if (newPlayerState != owner.currentActorState)
+            if (newPlayerState != owner.CurrentActorState)
             {
                 ChangeState(newPlayerState);
             }

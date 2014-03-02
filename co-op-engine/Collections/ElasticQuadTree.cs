@@ -123,8 +123,7 @@ namespace co_op_engine.Collections
 
             if (containedObject != null && newObject.Position == containedObject.Position)
             {
-                newObject.Position.X += 1;
-                newObject.Position.Y += 1;
+                newObject.Position = new Vector2(newObject.Position.X + 1, newObject.Position.Y + 1);
                 MasterInsert(newObject);
                 return true;
             }

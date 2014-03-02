@@ -10,14 +10,14 @@ namespace co_op_engine.Components.Rendering
 {
     public interface IRenderable
     {
-        Texture2D TextureProp { get; set; }
-        Vector2 PositionProp { get; }
-        int WidthProp { get; set; }
-        int HeightProp { get; set; }
-        ActorState CurrentActorStateProp { get; }
-        int FacingDirectionProp { get; }
-        Vector2 FacingDirectionRawProp { get; set; }
-        float RotationTowardFacingDirectionRadiansProp { get; set; }
+        Texture2D Texture { get; set; }
+        Vector2 Position { get; }
+        int Width { get; set; }
+        int Height { get; set; }
+        ActorState CurrentActorState { get; }
+        int FacingDirection { get; set; }
+        Vector2 FacingDirectionRaw { get; set; }
+        float RotationTowardFacingDirectionRadians { get; set; }
         bool FullyRotatable { get; }
     }
 }

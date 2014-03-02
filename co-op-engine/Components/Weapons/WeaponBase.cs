@@ -16,8 +16,8 @@ namespace co_op_engine.Components.Weapons
         protected AnimatedRenderer renderer;
         protected Texture2D texture;
         
-        public int Width;
-        public int Height;
+        protected int width;
+        protected int height;
         protected TimeSpan currentAttackTimer;
 
         public WeaponBase(GameObject owner)
@@ -35,8 +35,8 @@ namespace co_op_engine.Components.Weapons
             UpdateState(gameTime);
 
             renderer.Update(gameTime);
-            this.Width = renderer.animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle.Width;
-            this.Height = renderer.animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle.Height;
+            this.width = renderer.animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle.Width;
+            this.height = renderer.animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle.Height;
         }
 
         virtual public void Draw(SpriteBatch spriteBatch)
@@ -52,26 +52,26 @@ namespace co_op_engine.Components.Weapons
         virtual public void TryInitiateAttack()
         { 
             #warning check current state struct to see if we can initiate an attack
-            if (owner.currentActorState != ActorState.AttackingMelee)
+            if (owner.CurrentActorState != ActorState.AttackingMelee)
             {
-                AttackWithPrimaryMeleeWeapon();
+                PrimaryAttack();
             }
         }
 
-        virtual public void AttackWithPrimaryMeleeWeapon()
+        virtual public void PrimaryAttack()
         {
-            currentAttackTimer = TimeSpan.FromMilliseconds(renderer.animationSet.GetAnimationDuration((int)ActorState.AttackingMelee, owner.FacingDirectionProp));
-            owner.currentActorState = ActorState.AttackingMelee;
+            currentAttackTimer = TimeSpan.FromMilliseconds(renderer.animationSet.GetAnimationDuration((int)ActorState.AttackingMelee, owner.FacingDirection));
+            owner.CurrentActorState = ActorState.AttackingMelee;
         }
 
         private void UpdateState(GameTime gameTime)
         {
-            if(owner.currentActorState == ActorState.AttackingMelee)
+            if(owner.CurrentActorState == ActorState.AttackingMelee)
             {
                 currentAttackTimer -= gameTime.ElapsedGameTime;
                 if (currentAttackTimer <= TimeSpan.Zero)
                 {
-                    owner.currentActorState = ActorState.Idle;
+                    owner.CurrentActorState = ActorState.Idle;
                     currentAttackTimer = TimeSpan.Zero;
                 }
             }
@@ -80,7 +80,7 @@ namespace co_op_engine.Components.Weapons
         public bool FullyRotatable { 
             get 
             {
-                if (owner.currentActorState == ActorState.AttackingMelee)
+                if (owner.CurrentActorState == ActorState.AttackingMelee)
                 {
                     return true;
                 }
@@ -88,13 +88,13 @@ namespace co_op_engine.Components.Weapons
             } 
         }
 
-        public Texture2D TextureProp { get { return texture; } set { texture = value; } }
-        public Vector2 PositionProp { get { return owner.Position; } }
-        public int WidthProp { get { return Width; } set { Width = value; } }
-        public int HeightProp { get { return Height; } set { Height = value; } }
-        public ActorState CurrentActorStateProp { get { return owner.currentActorState; } }
-        public int FacingDirectionProp { get { return owner.FacingDirection; } }
-        public Vector2 FacingDirectionRawProp { get { return owner.FacingDirectionRaw; } set { owner.FacingDirectionRaw = value; } }
-        public float RotationTowardFacingDirectionRadiansProp { get { return owner.RotationTowardFacingDirectionRadians; } set { owner.RotationTowardFacingDirectionRadians = value; } }
+        public Texture2D Texture { get { return texture; } set { texture = value; } }
+        public Vector2 Position { get { return owner.Position; } }
+        public int Width { get { return width; } set { width = value; } }
+        public int Height { get { return height; } set { height = value; } }
+        public ActorState CurrentActorState { get { return owner.CurrentActorState; } set { owner.CurrentActorState = value; } }
+        public int FacingDirection { get { return owner.FacingDirection; } set { owner.FacingDirection = value; } }
+        public Vector2 FacingDirectionRaw { get { return owner.FacingDirectionRaw; } set { owner.FacingDirectionRaw = value; } }
+        public float RotationTowardFacingDirectionRadians { get { return owner.RotationTowardFacingDirectionRadians; } set { owner.RotationTowardFacingDirectionRadians = value; } }
     }
 }

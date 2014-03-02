@@ -28,8 +28,8 @@ namespace co_op_engine.Factories
         {
             var tower = new GameObject();
 
-            tower.WidthProp = 32;
-            tower.HeightProp = 32;
+            tower.Width = 32;
+            tower.Height = 32;
 
             tower.UnShovable = true;
             tower.SetPhysics(new NonCollidingPhysics(tower));

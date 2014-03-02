@@ -31,13 +31,13 @@ namespace co_op_engine.Components.Rendering
 
         public override void Update(GameTime gameTime)
         {
-            animationSet.currentState = (int)owner.CurrentActorStateProp;
-            animationSet.currentFacingDirection = (int)owner.FacingDirectionProp;
+            animationSet.currentState = (int)owner.CurrentActorState;
+            animationSet.currentFacingDirection = (int)owner.FacingDirection;
             animationSet.Update(gameTime);
             currentDrawRectangle = animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle;
 
-            owner.WidthProp = currentDrawRectangle.Value.Width;
-            owner.HeightProp = currentDrawRectangle.Value.Height;
+            owner.Width = currentDrawRectangle.Value.Width;
+            owner.Height = currentDrawRectangle.Value.Height;
 
             base.Update(gameTime);
         }

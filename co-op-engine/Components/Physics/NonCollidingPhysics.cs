@@ -14,8 +14,8 @@ namespace co_op_engine.Components.Physics
         override public void Update(GameTime gameTime)
         {
             owner.CurrentQuad.NotfyOfMovement(owner);
-            owner.BoundingBox.X = (int)(owner.Position.X - owner.WidthProp / 2);
-            owner.BoundingBox.Y = (int)(owner.Position.Y - owner.HeightProp / 2);
+            owner.BoundingBox.X = (int)(owner.Position.X - owner.Width / 2);
+            owner.BoundingBox.Y = (int)(owner.Position.Y - owner.Height / 2);
 
             base.Update(gameTime);
         }

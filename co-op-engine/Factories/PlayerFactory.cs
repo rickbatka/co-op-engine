@@ -45,8 +45,8 @@ namespace co_op_engine.Factories
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
             
             // wire up the events between components
-            player.brain.OnActorStateChanged += renderer.HandleStateChange;
-            player.physics.OnActorDirectionChanged += renderer.HandleDirectionChange;
+            player.Brain.OnActorStateChanged += renderer.HandleStateChange;
+            player.Physics.OnActorDirectionChanged += renderer.HandleDirectionChange;
             player.EquipWeapon(GetSword(player));
 
             gameRef.container.AddObject(player);

@@ -72,23 +72,26 @@ namespace co_op_engine.Components.Physics
             int xOverlap = biggestOverlap.X;
             int yOverlap = biggestOverlap.Y;
 
+            Vector2 newOwnerPos = new Vector2(owner.Position.X, owner.Position.Y);
+            Vector2 newBiggestPos = new Vector2(biggest.Position.X, biggest.Position.Y);
+
             int mod = biggest.UnShovable ? 1 : 2;
             if (xOverlap < yOverlap)
             {
                 if (owner.Position.X < biggest.Position.X)
                 {
-                    owner.Position.X -= xOverlap / mod;
+                    newOwnerPos.X -= xOverlap / mod;
                     if (!biggest.UnShovable)
                     {
-                        biggest.Position.X += xOverlap / mod;
+                        newBiggestPos.X += xOverlap / mod;
                     }
                 }
                 else
                 {
-                    owner.Position.X += xOverlap / mod;
+                    newOwnerPos.X += xOverlap / mod;
                     if (!biggest.UnShovable)
                     {
-                        biggest.Position.X -= xOverlap / mod;
+                        newBiggestPos.X -= xOverlap / mod;
                     }
                 }
             }
@@ -96,26 +99,29 @@ namespace co_op_engine.Components.Physics
             {
                 if (owner.Position.Y < biggest.Position.Y)
                 {
-                    owner.Position.Y -= yOverlap / mod;
+                    newOwnerPos.Y -= yOverlap / mod;
                     if (!biggest.UnShovable)
                     {
-                        biggest.Position.Y += yOverlap / mod;
+                        newBiggestPos.Y += yOverlap / mod;
                     }
                 }
                 else
                 {
-                    owner.Position.Y += yOverlap / mod;
+                    newOwnerPos.Y += yOverlap / mod;
                     if (!biggest.UnShovable)
                     {
-                        biggest.Position.Y -= yOverlap / mod;
+                        newBiggestPos.Y -= yOverlap / mod;
                     }
                 }
             }
+            owner.Position = newOwnerPos;
+            biggest.Position = newBiggestPos;
+
             owner.CurrentQuad.NotfyOfMovement(owner);
             this.VerifyBoundingBox();
 
             biggest.CurrentQuad.NotfyOfMovement(biggest);
-            biggest.physics.VerifyBoundingBox();
+            biggest.Physics.VerifyBoundingBox();
         }
     }
 }
