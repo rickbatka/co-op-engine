@@ -74,6 +74,7 @@
     <Compile Include="UIElements\ControlManager.cs" />
     <Compile Include="Utility\Camera.cs" />
     <Compile Include="Utility\Constants.cs" />
+    <Compile Include="Utility\DrawingUtility.cs" />
     <Compile Include="Utility\GameTimerManager.cs" />
     <Compile Include="Utility\InputHandler.cs" />
     <Compile Include="Utility\MechanicSingleton.cs" />

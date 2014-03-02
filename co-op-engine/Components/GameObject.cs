@@ -24,6 +24,8 @@ namespace co_op_engine.Components
         public Vector2 Acceleration;
         public Vector2 InputMovementVector;
         public Vector2 Position;
+        public Vector2 FacingDirectionRaw;
+        public float RotationTowardFacingDirectionRadians;
         public int Width;
         public int Height;
         public int ID;
@@ -77,7 +79,7 @@ namespace co_op_engine.Components
             if (Weapon != null)
             {
                 Weapon.Draw(spriteBatch);
-                //Weapon.DebugDraw(spriteBatch);
+                Weapon.DebugDraw(spriteBatch);
             }
 
             //@TODO DEBUGDRAW DEBUG DRAW
@@ -96,5 +98,8 @@ namespace co_op_engine.Components
         public int HeightProp { get { return Height; } set { Height = value; } }
         public ActorState CurrentActorStateProp { get { return currentActorState; } }
         public int FacingDirectionProp { get { return FacingDirection; } }
+        public Vector2 FacingDirectionRawProp { get { return FacingDirectionRaw; } set { FacingDirectionRaw = value; } }
+        public float RotationTowardFacingDirectionRadiansProp { get { return RotationTowardFacingDirectionRadians; } set { RotationTowardFacingDirectionRadians = value; } }
+        public bool FullyRotatable { get { return false; } }
     }
 }

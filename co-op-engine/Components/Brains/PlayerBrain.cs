@@ -51,16 +51,36 @@ namespace co_op_engine.Components.Brains
             {
                 TowerFactory.Instance.GetDoNothingTower();
             }
+
+            if (InputHandler.KeyPressed(Keys.Space) || InputHandler.MouseLeftPressed())
+            {
+                owner.Weapon.TryInitiateAttack();
+            }
         }
 
         private void HandleMovement()
         {
             owner.InputMovementVector = input.GetMovement();
+
+            if (owner.InputMovementVector != Vector2.Zero)
+            {
+#warning change this to follow mouse or right joystick
+                owner.FacingDirectionRaw = new Vector2(owner.InputMovementVector.X, owner.InputMovementVector.Y);
+                owner.FacingDirectionRaw.Normalize();
+
+                owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(owner.FacingDirectionRaw);
+
+            }
         }
 
         private void SetState()
         {
             var newPlayerState = owner.currentActorState;
+
+            if(!CanOverwriteState(owner.currentActorState))
+            {
+                return;
+            }
 
             if (owner.InputMovementVector.X != 0 || owner.InputMovementVector.Y != 0)
             {
@@ -75,6 +95,12 @@ namespace co_op_engine.Components.Brains
             {
                 ChangeState(newPlayerState);
             }
+        }
+
+        private bool CanOverwriteState(ActorState actorState)
+        {
+            return (actorState == ActorState.Idle
+                || actorState == ActorState.Walking);
         }
 
     }

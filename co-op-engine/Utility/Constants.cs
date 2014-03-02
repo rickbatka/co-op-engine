@@ -15,6 +15,7 @@ namespace co_op_engine.Utility
     public enum ActorState
     {
         Idle = 0,
-        Walking = 1
+        Walking = 1,
+        AttackingMelee = 2
     }
 }

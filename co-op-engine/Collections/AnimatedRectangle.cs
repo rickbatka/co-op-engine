@@ -52,6 +52,21 @@ namespace co_op_engine.Collections
             }
         }
 
+        public int AnimationDuration()
+        { 
+            if(frames.Count() == 0)
+            {
+                return 0;
+            }
+
+            int duration = 0;
+            foreach(var frame in frames)
+            {
+                duration += frame.FrameTime;
+            }
+            return duration;
+        }
+
         public static AnimatedRectangle BuildFromDataLines(string[] lineData)
         {
             List<Frame> frameList = new List<Frame>();

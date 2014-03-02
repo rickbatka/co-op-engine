@@ -16,5 +16,8 @@ namespace co_op_engine.Components.Rendering
         int HeightProp { get; set; }
         ActorState CurrentActorStateProp { get; }
         int FacingDirectionProp { get; }
+        Vector2 FacingDirectionRawProp { get; set; }
+        float RotationTowardFacingDirectionRadiansProp { get; set; }
+        bool FullyRotatable { get; }
     }
 }

@@ -64,6 +64,17 @@ namespace co_op_engine.Collections
             return TryGetAnimation(currentState, currentFacingDirection) ?? TryGetAnimation(ANIM_STATE_DEFAULT_IDLE_SOUTH, Constants.South);
         }
 
+        public int GetAnimationDuration(int state, int facingDirection)
+        {
+            var anim = TryGetAnimation(state, facingDirection);
+            if (anim == null)
+            {
+                return 0;
+            }
+
+            return anim.AnimationDuration();
+        }
+
         public void Update(GameTime gameTime)
         {
             var curAnimation = GetCurrentAnimationRectangle();
