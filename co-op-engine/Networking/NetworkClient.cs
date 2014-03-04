@@ -22,6 +22,7 @@ namespace co_op_engine.Networking
         const int PORT = 22001;
 
         public event EventHandler OnNetworkError;
+        public event EventHandler DEBUGNETWORKTRAFFIC;
 
         private ThreadSafeBuffer<CommandObject> inputBuffer;
         public ThreadSafeBuffer<CommandObject> Input
@@ -171,6 +172,21 @@ namespace co_op_engine.Networking
 
 #warning set client information here
             return true;
+        }
+
+        private void DebugNetworkTraffic(object traffic)
+        {
+            if (DEBUGNETWORKTRAFFIC != null)
+            {
+                string trafficObjectType = traffic.GetType().ToString();
+                string trafficValues = "";
+                foreach (var item in traffic.GetType().GetProperties())
+                {
+                    trafficValues += item.GetType().ToString() + " ";
+                }
+
+                DEBUGNETWORKTRAFFIC(trafficObjectType + ": " + trafficValues, null);
+            }
         }
     }
 }

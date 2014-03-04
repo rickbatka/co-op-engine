@@ -10,22 +10,32 @@ namespace DevTools.Model
 {
     class GameClientWrapper
     {
-        NetworkClient client;
-        NetworkServer server;
+        public NetworkClient client;
+        public NetworkServer server;
 
-        public GameClientWrapper()
+        Action<string> messageHandler;
+
+        public GameClientWrapper(Action<string> handleMessage)
         {
+            messageHandler = handleMessage;
         }
 
         public void SpinUpServer()
-        { }
-
-        public void SpinUpClient(string ip = "")
         {
-            if (ip == string.Empty)
-            {
-                ip = "127.0.0.1";
-            }
+            server = new NetworkServer();
+            server.StartHosting();
+        }
+
+        public void SpinUpClient(string ip = "127.0.0.1")
+        {
+            client = new NetworkClient();
+            client.DEBUGNETWORKTRAFFIC += HandleMessageTraffic;
+            client.ConnectToGame(ip);
+        }
+
+        private void HandleMessageTraffic(object traffic, EventArgs nothing)
+        {
+            messageHandler((string)traffic);
         }
     }
 }

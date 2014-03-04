@@ -10,12 +10,14 @@ using co_op_engine.World.Level;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using co_op_engine.Content;
+using co_op_engine.Networking;
 
 namespace co_op_engine.GameStates
 {
     public class GamePlay : GameState
     {
         public ObjectContainer container;
+        public NetworkServer server;
 
         public GamePlay(Game1 game)
             : base(game)
@@ -24,13 +26,14 @@ namespace co_op_engine.GameStates
             Camera.Instantiate(GameRef.screenRectangle);
             PlayerFactory.Initialize(this);
             TowerFactory.Initialize(this);
+            server = new NetworkServer();
         }
 
         public override void LoadContent()
         {
-            
 
-            
+
+            server.StartHosting();
 
             ///////////////////////////////////////////////////////////
 
