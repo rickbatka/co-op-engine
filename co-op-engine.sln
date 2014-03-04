@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "co-op-engine", "co-op-engin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceMaterial", "ReferenceMaterial\ReferenceMaterial.csproj", "{0CEEA159-70FF-47FE-826C-D34489477785}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTools", "WpfApplication1\DevTools.csproj", "{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTools", "DevTools\DevTools.csproj", "{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
