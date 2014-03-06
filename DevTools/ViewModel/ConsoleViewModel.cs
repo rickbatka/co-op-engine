@@ -11,6 +11,12 @@ namespace DevTools.ViewModel
 {
     class ConsoleViewModel : INotifyPropertyChanged
     {
+        public bool ConnectedAsClient
+        { get; set; }
+
+        public bool HostingServer
+        { get; set; }
+
         GameClientWrapper wrapper;
 
         public ConsoleViewModel()
@@ -50,15 +56,17 @@ namespace DevTools.ViewModel
 
         internal void Disconnect()
         {
-            wrapper.client.DisconnectFromGame();
+            wrapper.StopClient();
         }
 
         internal void Host()
         {
+            wrapper.SpinUpServer();
         }
 
         internal void StopHost()
         {
+            wrapper.StopServer();
         }
 
         internal void ExecuteCommand(string p)

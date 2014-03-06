@@ -9,6 +9,7 @@ namespace co_op_engine.Networking
     /// <summary>
     /// ONLY FEED THIS STATIC METHODS (we can experiment with others)
     /// </summary>
+    [Serializable]
     public struct CommandObject
     {
         public int ClientId;

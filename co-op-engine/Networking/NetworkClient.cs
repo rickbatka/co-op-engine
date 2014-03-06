@@ -12,6 +12,8 @@ using co_op_engine.Collections;
 
 namespace co_op_engine.Networking
 {
+    public delegate void ConnectedToServerEventHandler(NetworkClient sender, InitialNetworkData data);
+
     public class NetworkClient
     {
         //yes I realize the duplicate logic, I'll come in here and
@@ -23,6 +25,7 @@ namespace co_op_engine.Networking
 
         public event EventHandler OnNetworkError;
         public event EventHandler DEBUGNETWORKTRAFFIC;
+        public event ConnectedToServerEventHandler OnServerConnected;
 
         private ThreadSafeBuffer<CommandObject> inputBuffer;
         public ThreadSafeBuffer<CommandObject> Input
@@ -81,11 +84,11 @@ namespace co_op_engine.Networking
                 recvThread.Start();
                 sendThread.Start();
             }
-            catch
+            catch(Exception e)
             {
                 if (OnNetworkError != null)
                 {
-                    OnNetworkError(this, null);
+                    OnNetworkError(e, null);
                 }
             }
         }
@@ -169,6 +172,11 @@ namespace co_op_engine.Networking
 
             formatter.Serialize(stream,initialData);
             initialData = (InitialNetworkData)formatter.Deserialize(stream);
+
+            if (OnServerConnected != null)
+            {
+                OnServerConnected(this, initialData);
+            }
 
 #warning set client information here
             return true;

@@ -13,7 +13,8 @@ namespace co_op_engine.Networking
         public string ClientName;
     }
 
-    struct InitialNetworkData
+    [Serializable]
+    public struct InitialNetworkData
     {
         public string PlayerName;
         public int PlayerId;
