@@ -28,6 +28,11 @@ namespace co_op_engine.Content
         public AnimationSet AxeAnimations;
         public AnimationSet MaceAnimations;
 
+        public void TempSetWindowText(string text)
+        {
+            gameRef.Window.Title = text;
+        }
+
         private AssetRepository(Game1 gameRef)
         {
             this.gameRef = gameRef;

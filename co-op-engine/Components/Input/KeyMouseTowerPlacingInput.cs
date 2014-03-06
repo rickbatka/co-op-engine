@@ -35,7 +35,8 @@ namespace co_op_engine.Components.Input
 
         public void GetCoords()
         {
-            var pos = InputHandler.MousePositionVector();
+            var pos = InputHandler.MousePositionVectorCameraAdjusted();
+
             var lockedPos = LockToScreenGrid(pos);
             
             if (OnCoordsUpdated != null)

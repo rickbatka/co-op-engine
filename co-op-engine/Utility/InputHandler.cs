@@ -232,6 +232,11 @@ namespace co_op_engine.Utility
 			return new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
 		}
 
+		public static Vector2 MousePositionVectorCameraAdjusted()
+		{
+			return new Vector2(Mouse.GetState().X, Mouse.GetState().Y) + Camera.Instance.Position;
+		}
+
 		#endregion
 	}
 }

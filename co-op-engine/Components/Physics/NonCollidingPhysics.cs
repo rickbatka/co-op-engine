@@ -20,7 +20,9 @@ namespace co_op_engine.Components.Physics
             base.Update(gameTime);
         }
         override public void Draw(SpriteBatch spriteBatch)
-        { }
+        {
+            base.Draw(spriteBatch);
+        }
 
     }
 }

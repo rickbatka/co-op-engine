@@ -7,9 +7,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace co_op_engine.Components.Brains
 {
+    enum Device { Mouse, Joystick }
     class PlayerBrain : BrainBase
     {
         private PlayerControlInput input;
+
+        private Vector2 previousMouseVector;
+        private Device currentAimingDevice = Device.Mouse;
 
         public PlayerBrain(GameObject owner, PlayerControlInput input)
             : base(owner)
@@ -23,6 +27,7 @@ namespace co_op_engine.Components.Brains
         {
 #warning hack here for positioning camera, may want to move elsewhere
             Camera.Instance.CenterCameraOnPosition(owner.Position);
+            HandleAiming();
             HandleWeaponToggle();
             HandleActions();
             HandleMovement();
@@ -61,16 +66,27 @@ namespace co_op_engine.Components.Brains
         private void HandleMovement()
         {
             owner.InputMovementVector = input.GetMovement();
+        }
 
-            if (owner.InputMovementVector != Vector2.Zero)
+        private void HandleAiming()
+        {
+            var currentMouseVector = InputHandler.MousePositionVectorCameraAdjusted();
+            if(previousMouseVector == null)
             {
-#warning change this to follow mouse or right joystick
-                owner.FacingDirectionRaw = new Vector2(owner.InputMovementVector.X, owner.InputMovementVector.Y);
-                owner.FacingDirectionRaw.Normalize();
-
-                owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(owner.FacingDirectionRaw);
-
+                previousMouseVector = currentMouseVector;
             }
+            
+            if(currentAimingDevice == Device.Mouse)
+            {
+                owner.FacingDirectionRaw = InputHandler.MousePositionVectorCameraAdjusted() - owner.Position;
+                owner.FacingDirectionRaw.Normalize();
+            }
+            else if(currentAimingDevice == Device.Joystick)
+            {
+            }
+
+            owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(owner.FacingDirectionRaw);
+            previousMouseVector = InputHandler.MousePositionVector();
         }
 
         private void SetState()

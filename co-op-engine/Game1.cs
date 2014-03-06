@@ -59,7 +59,7 @@ namespace co_op_engine
 
             CurrentGameState.LoadContent();
 
-            this.Window.SetPosition(new Point(50, 50)); //moved it here cause it couldn't be moved if it was being updated every game loop
+            this.Window.SetPosition(screenRectangle.Location); //moved it here cause it couldn't be moved if it was being updated every game loop
             
         }
 

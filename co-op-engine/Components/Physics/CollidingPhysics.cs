@@ -38,11 +38,14 @@ namespace co_op_engine.Components.Physics
             }
         }
 
-        public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch) { }
+        public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch) 
+        {
+            base.Draw(spriteBatch);
+        }
 
         public override void DebugDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, this.owner.BoundingBox, Color.White);
+            base.DebugDraw(spriteBatch);
         }
 
         private void HandleCollision(List<GameObject> collidors)

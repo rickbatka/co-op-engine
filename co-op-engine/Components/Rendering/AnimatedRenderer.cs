@@ -19,16 +19,6 @@ namespace co_op_engine.Components.Rendering
             this.animationSet = animationSet;
         }
 
-        public void HandleStateChange(co_op_engine.Components.Brains.BrainBase sender, co_op_engine.Components.Brains.ActorStateChangedEventArgs data)
-        {
-            
-        }
-
-        public void HandleDirectionChange(co_op_engine.Components.Physics.PhysicsBase sender, co_op_engine.Components.Physics.ActorDirectionChangedEventArgs directionData)
-        {
-            
-        }
-
         public override void Update(GameTime gameTime)
         {
             animationSet.currentState = (int)owner.CurrentActorState;

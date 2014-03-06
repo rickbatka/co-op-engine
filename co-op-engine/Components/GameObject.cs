@@ -85,7 +85,7 @@ namespace co_op_engine.Components
 
             //@TODO DEBUGDRAW DEBUG DRAW
             //renderer.DebugDraw(spriteBatch);
-            //physics.DebugDraw(spriteBatch);
+            Physics.DebugDraw(spriteBatch);
         }
 
         public StatePropertySet CurrentStateProperties { get { return StateProperties.Properties[currentActorState]; } }

@@ -1,5 +1,6 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components;
+using co_op_engine.Content;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,8 +24,6 @@ namespace co_op_engine.Components.Physics
         protected float speedLimit = 150f;
         protected float accelerationModifier = 400f;
         protected float boostingModifier = 1.5f;
-
-        public event ActorDirectionChangedEventHandler OnActorDirectionChanged;
 
         protected GameObject owner;
 
@@ -69,46 +68,39 @@ namespace co_op_engine.Components.Physics
             int oldDirection = owner.FacingDirection;
             int newDirection = oldDirection;
 
-            if (owner.InputMovementVector.X == 0 && owner.InputMovementVector.Y == 0)
-            {
-                return;
-            }
+            var rotation = owner.RotationTowardFacingDirectionRadians;
 
-            float movementX = Math.Abs(owner.InputMovementVector.X);
-            float movementY = Math.Abs(owner.InputMovementVector.Y);
-            
-            if (movementY >= movementX)
+            if(rotation != 0)
+            AssetRepository.Instance.TempSetWindowText("rot" + rotation.ToString("G"));
+
+            if (Math.Abs(rotation) < (Math.PI) / 3f)
             {
-                if (owner.InputMovementVector.Y < 0)
-                {
-                    newDirection = Constants.North;
-                }
-                else 
-                {
-                    newDirection = Constants.South;
-                }
+                newDirection = Constants.North;
+            }
+            else if (Math.Abs(rotation) > ((Math.PI) / 3f) * 2)
+            {
+                newDirection = Constants.South;
             }
             else
             {
-                if (owner.InputMovementVector.X < 0)
+                if (rotation < 0)
                 {
                     newDirection = Constants.West;
                 }
-                else 
+                else
                 {
-                    newDirection = Constants.East;    
+                    newDirection = Constants.East;
                 }
             }
-            owner.FacingDirection = newDirection;
 
-            if (newDirection != oldDirection && OnActorDirectionChanged != null)
-            {
-                OnActorDirectionChanged(this, new ActorDirectionChangedEventArgs() { OldDirection = oldDirection, NewDirection = newDirection });
-            }
+            owner.FacingDirection = newDirection;
         }
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
-        virtual public void DebugDraw(SpriteBatch spriteBatch) { }
+        virtual public void DebugDraw(SpriteBatch spriteBatch) 
+        { 
+            spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, this.owner.BoundingBox, Color.White);
+        }
     }
 }
