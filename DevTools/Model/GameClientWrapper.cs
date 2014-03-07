@@ -78,5 +78,34 @@ namespace DevTools.Model
             messageHandler("Stopping client");
             client.DisconnectFromGame();
         }
+		
+		internal void Execute(string command)
+		{
+			var tokens = command.ToLower().Split(',');
+			
+			switch(tokens[0])
+			{
+				case "list":
+				{
+					//display client information
+					break;
+				}
+				case "send":
+				{
+					//parse and send parameters
+					break;
+				}
+				case "move":
+				{
+					//syntax <x,y,Vx,Vy> sends move position and velocity of player
+					break;
+				}
+				default
+				{
+					handleMessage("Command did not parse");
+					break;
+				}
+			}
+		}
     }
 }

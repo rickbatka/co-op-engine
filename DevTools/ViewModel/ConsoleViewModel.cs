@@ -69,9 +69,10 @@ namespace DevTools.ViewModel
             wrapper.StopServer();
         }
 
-        internal void ExecuteCommand(string p)
+        internal void ExecuteCommand(string command)
         {
-            AddMessage(p);
+			wrapper.Execute(command);
+            AddMessage(command);
         }
     }
 }

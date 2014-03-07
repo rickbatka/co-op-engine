@@ -29,6 +29,6 @@
         </Menu>
 
         <ListBox Focusable="False" Grid.Row="1" Margin="5" ItemsSource="{Binding Messages}"></ListBox>
-        <TextBox Grid.Row="2" Margin="2" KeyUp="CheckForConfirmInInput">box</TextBox>
+        <TextBox Grid.Row="2" Margin="2" KeyUp="CheckForConfirmInInput"></TextBox>
     </Grid>
 </Window>
