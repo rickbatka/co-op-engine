@@ -3,8 +3,8 @@ using co_op_engine.Components.Brains.TowerBrains;
 using co_op_engine.Components.Input;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
-using co_op_engine.Content;
 using co_op_engine.GameStates;
+using co_op_engine.Utility;
 
 namespace co_op_engine.Factories
 {

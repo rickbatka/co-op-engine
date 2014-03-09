@@ -19,8 +19,10 @@ namespace co_op_engine.Utility
 
 
         public Vector2 Position { get; set; }
-        public float Speed { get; set; }
-        public float Zoom { get; set; }
+        private float speed = 3f;
+        public float Speed { get { return speed; } set { speed = value; } }
+        private float zoom = 1f;
+        public float Zoom { get { return zoom; } set { zoom = value; } }
         public Rectangle ViewportRectangle { get; private set; }
 
         public Matrix Transformation
@@ -35,15 +37,11 @@ namespace co_op_engine.Utility
         private Camera(Rectangle viewportRect)
         {
             Position = Vector2.Zero;
-            Speed = 4f;
-            Zoom = 1f;
             ViewportRectangle = viewportRect;
         }
 
         private Camera(Rectangle viewportRect, Vector2 position)
         {
-            Speed = 4f;
-            Zoom = 1f;
             ViewportRectangle = viewportRect;
             Position = position;
         }

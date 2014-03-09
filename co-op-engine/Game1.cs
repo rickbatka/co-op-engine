@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameExtensions;
 using co_op_engine.GameStates;
-using co_op_engine.Content;
 
 
 namespace co_op_engine

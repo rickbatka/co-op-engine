@@ -1,6 +1,5 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components;
-using co_op_engine.Content;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -70,8 +69,10 @@ namespace co_op_engine.Components.Physics
 
             var rotation = owner.RotationTowardFacingDirectionRadians;
 
-            if(rotation != 0)
-            AssetRepository.Instance.TempSetWindowText("rot" + rotation.ToString("G"));
+            if (rotation != 0)
+            {
+                AssetRepository.Instance.TempSetWindowText("rot" + rotation.ToString("G"));
+            }
 
             if (Math.Abs(rotation) < (Math.PI) / 3f)
             {

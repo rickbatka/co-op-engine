@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace co_op_engine.Content
+namespace co_op_engine.Utility
 {
-    class AssetRepository
+    public class AssetRepository
     {
         public static AssetRepository Instance;
         private Game1 gameRef;

@@ -9,7 +9,6 @@ using co_op_engine.Utility;
 using co_op_engine.World.Level;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using co_op_engine.Content;
 using co_op_engine.Networking;
 
 namespace co_op_engine.GameStates

@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using co_op_engine.World.Level;
 using co_op_engine.GameStates;
-using co_op_engine.Content;
 using co_op_engine.Components.Weapons;
 using Microsoft.Xna.Framework;
 using co_op_engine.Utility;
