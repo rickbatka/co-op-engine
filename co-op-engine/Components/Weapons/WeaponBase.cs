@@ -35,8 +35,8 @@ namespace co_op_engine.Components.Weapons
             UpdateState(gameTime);
 
             renderer.Update(gameTime);
-            this.width = renderer.animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle.Width;
-            this.height = renderer.animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle.Height;
+            this.width = renderer.animationSet.GetAnimationFallbackToDefault(renderer.animationSet.currentState, renderer.animationSet.currentFacingDirection).CurrentDrawRectangle.Width;
+            this.height = renderer.animationSet.GetAnimationFallbackToDefault(renderer.animationSet.currentState, renderer.animationSet.currentFacingDirection).CurrentDrawRectangle.Height;
         }
 
         virtual public void Draw(SpriteBatch spriteBatch)
@@ -72,6 +72,7 @@ namespace co_op_engine.Components.Weapons
                 {
                     owner.CurrentActorState = Constants.STATE_IDLE;
                     currentAttackTimer = TimeSpan.Zero;
+                    renderer.animationSet.GetAnimationFallbackToDefault(Constants.STATE_ATTACKING_MELEE, owner.FacingDirection).Reset();
                 }
             }
         }

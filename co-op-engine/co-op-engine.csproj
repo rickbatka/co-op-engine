@@ -83,39 +83,6 @@
     <Compile Include="World\GameWorld.cs" />
     <Compile Include="World\Level\GameLevel.cs" />
     <Compile Include="World\Level\ObjectContainer.cs" />
-    <Content Include="Content\Axe.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\coin.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\grass.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\grid.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\knightsheet.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Mace.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\pixel.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Sword.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\tower.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\wall.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\ww.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
@@ -159,17 +126,64 @@
     <Content Include="SDL.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\arrow.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\arial.xnb">
       <Link>Content\arial.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\HeroNoArms.xnb">
       <Link>Content\HeroNoArms.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\Sword.xnb">
+      <Link>Content\Sword.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\arrow.xnb">
+      <Link>Content\arrow.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\Axe.xnb">
+      <Link>Content\Axe.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\coin.xnb">
+      <Link>Content\coin.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\grass.xnb">
+      <Link>Content\grass.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\grid.xnb">
+      <Link>Content\grid.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\knightsheet.xnb">
+      <Link>Content\knightsheet.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\Mace.xnb">
+      <Link>Content\Mace.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\pixel.xnb">
+      <Link>Content\pixel.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\tower.xnb">
+      <Link>Content\tower.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\wall.xnb">
+      <Link>Content\wall.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\ww.xnb">
+      <Link>Content\ww.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

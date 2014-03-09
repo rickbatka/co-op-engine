@@ -28,6 +28,9 @@ namespace co_op_engine.Collections
             get { return frames[currentFrameIndex].SourceRectangles; }
         }
 
+        public Frame CurrentFrame
+        { get { return frames[currentFrameIndex]; } }
+
         //needs data reader system
         private AnimatedRectangle(Frame[] frames)
         {
@@ -73,33 +76,46 @@ namespace co_op_engine.Collections
 
             for (int i = 0; i < lineData.Length; ++i)
             {
-                int rectCount = lineData[i].Count(c => c == '<');
-                List<Rectangle> rectList = new List<Rectangle>();
-                int currentIndex = 0;
-                for (int j = 0; j < rectCount; ++j)
-                {
-                    lineData[i] = lineData[i].Replace(" ","").Replace("\t","");
-                    var data = lineData[i].Substring(lineData[i].IndexOf('<', currentIndex) + 1, lineData[i].IndexOf('>', currentIndex) - lineData[i].IndexOf('<', currentIndex) - 1).Split(',');
-                    rectList.Add(new Rectangle(int.Parse(data[0]), int.Parse(data[1]), int.Parse(data[2]), int.Parse(data[3])));
-                    currentIndex = lineData[i].IndexOf('>', currentIndex) + 1;
-                }
+                // parse in frame rectangles
+                List<Rectangle> frameRectangles = readRectangles(lineData[i], '<', '>');
 
+                // parse in damage dots (1x1 rectangles)
+                List<Rectangle> damageDots = readRectangles(lineData[i], '(', ')');
+
+                // parse in frame time
                 int time = int.Parse(lineData[i].Substring(0, lineData[i].IndexOf('<')));
 
                 frameList.Add(new Frame()
                 {
                     FrameTime = time,
-                    SourceRectangles = rectList.ToArray()
+                    SourceRectangles = frameRectangles.ToArray(),
+                    DamageDots = damageDots.ToArray()
                 });
             }
 
             return new AnimatedRectangle(frameList.ToArray());
         }
+
+        private static List<Rectangle> readRectangles(string lineData, char leftSep, char rightSep)
+        {
+            int rectCount = lineData.Count(c => c == leftSep);
+            List<Rectangle> rectList = new List<Rectangle>();
+            int currentIndex = 0;
+            for (int j = 0; j < rectCount; ++j)
+            {
+                lineData = lineData.Replace(" ", "").Replace("\t", "");
+                var data = lineData.Substring(lineData.IndexOf(leftSep, currentIndex) + 1, lineData.IndexOf(rightSep, currentIndex) - lineData.IndexOf(leftSep, currentIndex) - 1).Split(',');
+                rectList.Add(new Rectangle(int.Parse(data[0]), int.Parse(data[1]), int.Parse(data[2]), int.Parse(data[3])));
+                currentIndex = lineData.IndexOf(rightSep, currentIndex) + 1;
+            }
+            return rectList;
+        }
     }
 
-    struct Frame
+    public struct Frame
     {
         public Rectangle[] SourceRectangles;
+        public Rectangle[] DamageDots;
         public int FrameTime;
     }
 }
