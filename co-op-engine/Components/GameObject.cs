@@ -24,6 +24,7 @@ namespace co_op_engine.Components
         public Vector2 InputMovementVector;
         public int ID;
         public bool UnShovable = false;
+        public string DisplayName { get { return "ID: " + ID; } }
 
         private int width;
         private int height;
@@ -33,6 +34,8 @@ namespace co_op_engine.Components
         private float rotationTowardFacingDirectionRadians;
         private int facingDirection;
         private int currentActorState = Constants.STATE_IDLE;
+        private int health = 100;
+        private int maxHealth = 100;
 
         public event EventHandler OnDeath;
 
@@ -84,7 +87,7 @@ namespace co_op_engine.Components
             }
 
             //@TODO DEBUGDRAW DEBUG DRAW
-            //renderer.DebugDraw(spriteBatch);
+            //Renderer.DebugDraw(spriteBatch);
             Physics.DebugDraw(spriteBatch);
         }
 
@@ -99,5 +102,7 @@ namespace co_op_engine.Components
         public Vector2 FacingDirectionRaw { get { return facingDirectionRaw; } set { facingDirectionRaw = value; } }
         public float RotationTowardFacingDirectionRadians { get { return rotationTowardFacingDirectionRadians; } set { rotationTowardFacingDirectionRadians = value; } }
         public bool FullyRotatable { get { return false; } }
+        public int Health { get { return health; } set { health = value; } }
+        public int MaxHealth { get { return maxHealth; } set { maxHealth = value; } }
     }
 }

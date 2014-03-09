@@ -17,6 +17,8 @@ namespace co_op_engine.World.Level
         //iterative list for updating and linear referencing
         List<GameObject> gameObjects;
 
+        public int ObjectCount { get { return gameObjects.Count(); } }
+
         public ObjectContainer(Rectangle levelBounds)
         {
             quadTree = new ElasticQuadTree(co_op_engine.Utility.RectangleFloat.FromRectangle(levelBounds), null);

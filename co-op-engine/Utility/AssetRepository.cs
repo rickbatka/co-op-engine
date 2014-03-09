@@ -14,6 +14,8 @@ namespace co_op_engine.Utility
         public static AssetRepository Instance;
         private Game1 gameRef;
 
+        public SpriteFont Arial;
+
         public Texture2D DebugGridTexture;
         public Texture2D PlainWhiteTexture;
         public Texture2D TowerTexture;
@@ -46,6 +48,8 @@ namespace co_op_engine.Utility
 
         private void LoadContent()
         {
+            Arial = gameRef.Content.Load<SpriteFont>("Arial");
+
             DebugGridTexture = gameRef.Content.Load<Texture2D>("grid");
             PlainWhiteTexture = gameRef.Content.Load<Texture2D>("pixel");
             PlainWhiteTexture.SetData<Color>(new Color[] { Color.White });

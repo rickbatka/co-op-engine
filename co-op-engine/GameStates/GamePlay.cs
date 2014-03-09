@@ -60,8 +60,31 @@ namespace co_op_engine.GameStates
 
             //@DEBUGDRAW DEBUG DRAW
             container.DebugDraw(GameRef.spriteBatch, AssetRepository.Instance.DebugGridTexture);
+            DebugDrawStrings(gameTime);
+
 
             GameRef.spriteBatch.End();
+        }
+
+        private void DebugDrawStrings(GameTime gameTime)
+        {
+            string[] debugInfos = new string[] 
+            { 
+                "fps:" + 1000 / gameTime.ElapsedGameTime.Milliseconds,
+                "obj count:" + container.ObjectCount
+            };
+
+            for(int i = 0; i < debugInfos.Length; i ++)
+            {
+                GameRef.spriteBatch.DrawString(
+                    spriteFont: AssetRepository.Instance.Arial,
+                    text: debugInfos[i],
+                    position: new Vector2(25, (i+1)*25),
+                    color: Color.White
+                );
+            }
+
+            
         }
 
         public List<GameObject> GetPlayers()

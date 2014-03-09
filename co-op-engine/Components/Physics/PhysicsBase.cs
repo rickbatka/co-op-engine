@@ -102,6 +102,24 @@ namespace co_op_engine.Components.Physics
         virtual public void DebugDraw(SpriteBatch spriteBatch) 
         { 
             spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, this.owner.BoundingBox, Color.White);
+
+            // object debug info
+            spriteBatch.DrawString(
+                spriteFont: AssetRepository.Instance.Arial,
+                text: owner.Health + "/" + owner.MaxHealth,
+                position: PositionAboveHead(),
+                color: Color.White
+            );
+        }
+
+        private Vector2 PositionAboveHead()
+        {
+            var aboveHead = new Vector2(
+                x: owner.Position.X - (owner.Width / 2f),
+                y: owner.Position.Y - (owner.Height / 2f) - 25
+            );
+
+            return aboveHead;
         }
     }
 }
