@@ -69,11 +69,6 @@ namespace co_op_engine.Components.Physics
 
             var rotation = owner.RotationTowardFacingDirectionRadians;
 
-            if (rotation != 0)
-            {
-                AssetRepository.Instance.TempSetWindowText("rot" + rotation.ToString("G"));
-            }
-
             if (Math.Abs(rotation) < (Math.PI) / 3f)
             {
                 newDirection = Constants.North;
