@@ -100,9 +100,9 @@ namespace DevTools.Model
 					//syntax <x,y,Vx,Vy> sends move position and velocity of player
 					break;
 				}
-				default
+				default:
 				{
-					handleMessage("Command did not parse");
+					messageHandler("Command did not parse");
 					break;
 				}
 			}

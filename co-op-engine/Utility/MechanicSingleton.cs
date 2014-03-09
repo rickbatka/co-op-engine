@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.Networking;
 
 namespace co_op_engine.Utility
 {
@@ -23,6 +24,12 @@ namespace co_op_engine.Utility
         private MechanicSingleton()
         {
             rand = new Random(DateTime.Now.Millisecond);
+        }
+
+        static public void SetupFromNetwork(InitialNetworkData data)
+        {
+            Instance.MaxPlayers = data.MaxPlayers;
+            Instance.PlayerId = data.PlayerId;
         }
 
         public int GetNextObjectCountValue()
