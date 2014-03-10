@@ -19,6 +19,11 @@ namespace co_op_engine.Utility
             return (float)Math.Atan2(Math.Cos(direction), (float)Math.Sin(direction));
         }
 
+        public static RectangleFloat VectorToPointRect(Vector2 point)
+        {
+            return new RectangleFloat(point.X, point.Y, 1, 1);
+        }
+
         public static Vector2 GetAbsolutePosition(IRenderable owner, Point relativePosition)
         {
             return DrawingUtility.RotateVectorAboutOrigin(

@@ -4,6 +4,7 @@ using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace co_op_engine.Components.Physics
 {
@@ -92,6 +93,8 @@ namespace co_op_engine.Components.Physics
             owner.FacingDirection = newDirection;
         }
 
+        virtual public void HandleCollision(List<GameObject> collidors) { }
+
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
         virtual public void DebugDraw(SpriteBatch spriteBatch) 
@@ -102,16 +105,23 @@ namespace co_op_engine.Components.Physics
             spriteBatch.DrawString(
                 spriteFont: AssetRepository.Instance.Arial,
                 text: owner.Health + "/" + owner.MaxHealth,
-                position: PositionAboveHead(),
+                position: PositionAboveHead(25),
+                color: Color.White
+            );
+
+            spriteBatch.DrawString(
+                spriteFont: AssetRepository.Instance.Arial,
+                text: owner.DisplayName,
+                position: PositionAboveHead(50),
                 color: Color.White
             );
         }
 
-        private Vector2 PositionAboveHead()
+        private Vector2 PositionAboveHead(int distance)
         {
             var aboveHead = new Vector2(
                 x: owner.Position.X - (owner.Width / 2f),
-                y: owner.Position.Y - (owner.Height / 2f) - 25
+                y: owner.Position.Y - (owner.Height / 2f) - distance
             );
 
             return aboveHead;

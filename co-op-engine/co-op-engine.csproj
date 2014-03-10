@@ -44,6 +44,7 @@
     <Compile Include="Components\Brains\BrainBase.cs" />
     <Compile Include="Components\Brains\PlayerBrain.cs" />
     <Compile Include="Components\Brains\TowerBrains\BasicTowerBrain.cs" />
+    <Compile Include="Components\Combat\CombatBase.cs" />
     <Compile Include="Components\Input\KeyMouseTowerPlacingInput.cs" />
     <Compile Include="Components\Input\PlayerControlInput.cs" />
     <Compile Include="Components\GameObject.cs" />

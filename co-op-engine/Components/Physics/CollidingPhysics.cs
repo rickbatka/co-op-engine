@@ -124,6 +124,8 @@ namespace co_op_engine.Components.Physics
 
             biggest.CurrentQuad.NotfyOfMovement(biggest);
             biggest.Physics.VerifyBoundingBox();
+
+            base.HandleCollision(collidors);
         }
     }
 }

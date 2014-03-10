@@ -1,5 +1,6 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components.Brains;
+using co_op_engine.Components.Combat;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
 using co_op_engine.Components.Weapons;
@@ -16,6 +17,7 @@ namespace co_op_engine.Components
         public RenderBase Renderer;
         public BrainBase Brain;
         public WeaponBase Weapon;
+        public CombatBase Combat;
 
         public Rectangle BoundingBox;
         public ElasticQuadTree CurrentQuad;
@@ -58,6 +60,11 @@ namespace co_op_engine.Components
             this.Brain = brain;
         }
 
+        public void SetCombat(CombatBase combat)
+        {
+            this.Combat = combat;
+        }
+
         public void EquipWeapon(WeaponBase weapon)
         {
             this.Weapon = weapon;
@@ -68,6 +75,11 @@ namespace co_op_engine.Components
             Brain.Update(gameTime);
             Physics.Update(gameTime);
             Renderer.Update(gameTime);
+
+            if (Combat != null)
+            {
+                Combat.Update(gameTime);
+            }
 
             if(Weapon != null)
             {
@@ -80,6 +92,11 @@ namespace co_op_engine.Components
             Physics.Draw(spriteBatch);
             Brain.Draw(spriteBatch);
 
+            if (Combat != null)
+            {
+                Combat.Draw(spriteBatch);
+            }
+
             if (Weapon != null)
             {
                 Weapon.Draw(spriteBatch);
@@ -89,6 +106,14 @@ namespace co_op_engine.Components
             //@TODO DEBUGDRAW DEBUG DRAW
             //Renderer.DebugDraw(spriteBatch);
             Physics.DebugDraw(spriteBatch);
+        }
+
+        public void HandleHitByWeapon(WeaponBase hitByWeapon, int hitCooldownDurationMS)
+        {
+            if (Combat != null)
+            {
+                Combat.HandleHitByWeapon(hitByWeapon, hitCooldownDurationMS);
+            }
         }
 
         public StatePropertySet CurrentStateProperties { get { return StateProperties.Properties[currentActorState]; } }
