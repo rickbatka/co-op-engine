@@ -11,10 +11,10 @@ using System.Linq;
 using System.Text;
 using co_op_engine.World.Level;
 using co_op_engine.GameStates;
-using co_op_engine.Content;
 using co_op_engine.Components.Weapons;
 using Microsoft.Xna.Framework;
 using co_op_engine.Utility;
+using co_op_engine.Components.Combat;
 
 namespace co_op_engine.Factories
 {
@@ -43,6 +43,7 @@ namespace co_op_engine.Factories
             var renderer = new AnimatedRenderer(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
             player.SetRenderer(renderer);
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
+            player.SetCombat(new CombatBase(player));
             
             // wire up the events between components
             player.EquipWeapon(GetSword(player));

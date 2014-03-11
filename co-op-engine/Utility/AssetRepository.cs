@@ -7,12 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace co_op_engine.Content
+namespace co_op_engine.Utility
 {
-    class AssetRepository
+    public class AssetRepository
     {
         public static AssetRepository Instance;
         private Game1 gameRef;
+
+        public SpriteFont Arial;
 
         public Texture2D DebugGridTexture;
         public Texture2D PlainWhiteTexture;
@@ -46,6 +48,8 @@ namespace co_op_engine.Content
 
         private void LoadContent()
         {
+            Arial = gameRef.Content.Load<SpriteFont>("Arial");
+
             DebugGridTexture = gameRef.Content.Load<Texture2D>("grid");
             PlainWhiteTexture = gameRef.Content.Load<Texture2D>("pixel");
             PlainWhiteTexture.SetData<Color>(new Color[] { Color.White });

@@ -1,6 +1,5 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components.Rendering;
-using co_op_engine.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

@@ -1,10 +1,11 @@
 ﻿using co_op_engine.Components;
 using co_op_engine.Components.Brains.TowerBrains;
+using co_op_engine.Components.Combat;
 using co_op_engine.Components.Input;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
-using co_op_engine.Content;
 using co_op_engine.GameStates;
+using co_op_engine.Utility;
 
 namespace co_op_engine.Factories
 {
@@ -32,9 +33,10 @@ namespace co_op_engine.Factories
             tower.Height = 96;
 
             tower.UnShovable = true;
-            tower.SetPhysics(new NonCollidingPhysics(tower));
+            tower.SetPhysics(new CollidingPhysics(tower));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture));
             tower.SetBrain(new BasicTowerBrain(tower, AssetRepository.Instance.PlainWhiteTexture, new KeyMouseTowerPlacingInput(gameRef, tower.BoundingBox)));
+            tower.SetCombat(new CombatBase(tower));
 
             gameRef.container.AddObject(tower);
 

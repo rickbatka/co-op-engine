@@ -1,10 +1,10 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components;
-using co_op_engine.Content;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace co_op_engine.Components.Physics
 {
@@ -70,9 +70,6 @@ namespace co_op_engine.Components.Physics
 
             var rotation = owner.RotationTowardFacingDirectionRadians;
 
-            if(rotation != 0)
-            AssetRepository.Instance.TempSetWindowText("rot" + rotation.ToString("G"));
-
             if (Math.Abs(rotation) < (Math.PI) / 3f)
             {
                 newDirection = Constants.North;
@@ -96,11 +93,38 @@ namespace co_op_engine.Components.Physics
             owner.FacingDirection = newDirection;
         }
 
+        virtual public void HandleCollision(List<GameObject> collidors) { }
+
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
         virtual public void DebugDraw(SpriteBatch spriteBatch) 
         { 
             spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, this.owner.BoundingBox, Color.White);
+
+            // object debug info
+            spriteBatch.DrawString(
+                spriteFont: AssetRepository.Instance.Arial,
+                text: owner.Health + "/" + owner.MaxHealth,
+                position: PositionAboveHead(25),
+                color: Color.White
+            );
+
+            spriteBatch.DrawString(
+                spriteFont: AssetRepository.Instance.Arial,
+                text: owner.DisplayName,
+                position: PositionAboveHead(50),
+                color: Color.White
+            );
+        }
+
+        private Vector2 PositionAboveHead(int distance)
+        {
+            var aboveHead = new Vector2(
+                x: owner.Position.X - (owner.Width / 2f),
+                y: owner.Position.Y - (owner.Height / 2f) - distance
+            );
+
+            return aboveHead;
         }
     }
 }

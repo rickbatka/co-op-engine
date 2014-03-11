@@ -24,7 +24,7 @@ namespace co_op_engine.Components.Rendering
             animationSet.currentState = (int)owner.CurrentActorState;
             animationSet.currentFacingDirection = (int)owner.FacingDirection;
             animationSet.Update(gameTime);
-            currentDrawRectangle = animationSet.GetCurrentAnimationRectangle().CurrentDrawRectangle;
+            currentDrawRectangle = animationSet.GetAnimationFallbackToDefault(animationSet.currentState, animationSet.currentFacingDirection).CurrentDrawRectangle;
 
             owner.Width = currentDrawRectangle.Value.Width;
             owner.Height = currentDrawRectangle.Value.Height;
@@ -36,5 +36,24 @@ namespace co_op_engine.Components.Rendering
         {
             base.Draw(spriteBatch);
         }
+
+        public override void DebugDraw(SpriteBatch spriteBatch)
+        {
+            base.DebugDraw(spriteBatch);
+
+            var damageDots = animationSet.GetAnimationFallbackToDefault(animationSet.currentState, animationSet.currentFacingDirection).CurrentFrame.DamageDots;
+
+            if (damageDots != null && damageDots.Length > 0)
+            {
+                foreach (var dot in damageDots)
+                {
+                    spriteBatch.Draw(
+                        texture: AssetRepository.Instance.PlainWhiteTexture,
+                        position: DrawingUtility.GetAbsolutePosition(owner, dot.Location),
+                        color: Color.Black
+                    );
+                }
+            }
+        }       
     }
 }

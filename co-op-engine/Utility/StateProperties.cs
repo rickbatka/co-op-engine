@@ -16,19 +16,22 @@ namespace co_op_engine.Utility
             props[Constants.STATE_IDLE] = new StatePropertySet(
                 canInitiateIdleState: true,
                 canInitiateWalkingState: true,
-                canInitiatePrimaryAttackState: true
+                canInitiatePrimaryAttackState: true,
+                isAttacking: false
             );
 
             props[Constants.STATE_WALKING] = new StatePropertySet(
                 canInitiateIdleState: true,
                 canInitiateWalkingState: true,
-                canInitiatePrimaryAttackState: true
+                canInitiatePrimaryAttackState: true,
+                isAttacking: false
             );
 
             props[Constants.STATE_ATTACKING_MELEE] = new StatePropertySet(
                 canInitiateIdleState: false,
                 canInitiateWalkingState: false,
-                canInitiatePrimaryAttackState: false
+                canInitiatePrimaryAttackState: false,
+                isAttacking: true
             );
 
             return props;
@@ -41,12 +44,14 @@ namespace co_op_engine.Utility
         public bool CanInitiateIdleState;
         public bool CanInitiateWalkingState;
         public bool CanInitiatePrimaryAttackState;
+        public bool IsAttacking;
 
-        public StatePropertySet(bool canInitiateIdleState, bool canInitiateWalkingState, bool canInitiatePrimaryAttackState)
+        public StatePropertySet(bool canInitiateIdleState, bool canInitiateWalkingState, bool canInitiatePrimaryAttackState, bool isAttacking)
         {
             CanInitiateIdleState = canInitiateIdleState;
             CanInitiateWalkingState = canInitiateWalkingState;
             CanInitiatePrimaryAttackState = canInitiatePrimaryAttackState;
+            IsAttacking = isAttacking;
         }
     }
 }

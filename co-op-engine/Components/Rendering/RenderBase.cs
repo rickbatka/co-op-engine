@@ -1,5 +1,4 @@
 ﻿using co_op_engine.Components.Rendering;
-using co_op_engine.Content;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -53,17 +52,6 @@ namespace co_op_engine.Components.Rendering
                 origin: GetCenterOrigin(),
                 effect: SpriteEffects.None,
                 depth: 0f);
-
-            //the center point
-            spriteBatch.Draw(
-                texture: AssetRepository.Instance.PlainWhiteTexture,
-                destinationRectangle: new Rectangle((int)(owner.Position.X), (int)(owner.Position.Y), 1, 1),
-                sourceRectangle: currentDrawRectangle,
-                color: Color.Red,
-                rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
-                origin: GetCenterOrigin(),
-                effect: SpriteEffects.None,
-                depth: 0f);
         }
 
         private Rectangle GetDrawTarget()
@@ -76,7 +64,7 @@ namespace co_op_engine.Components.Rendering
             );
         }
 
-        private Vector2 GetCenterOrigin()
+        protected Vector2 GetCenterOrigin()
         {
             var center = new Vector2(
                 x: owner.Width/2f,

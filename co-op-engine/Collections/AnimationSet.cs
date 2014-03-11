@@ -59,14 +59,17 @@ namespace co_op_engine.Collections
             return animationSet;
         }
 
-        public AnimatedRectangle GetCurrentAnimationRectangle()
+        public AnimatedRectangle GetAnimationFallbackToDefault(int state, int facingDirection)
         {
-            return TryGetAnimation(currentState, currentFacingDirection) ?? TryGetAnimation(ANIM_STATE_DEFAULT_IDLE_SOUTH, Constants.South);
+            return TryGetAnimation(state, facingDirection)
+                ?? TryGetAnimation(state, Constants.South)
+                ?? TryGetAnimation(ANIM_STATE_DEFAULT_IDLE_SOUTH, Constants.South);
         }
 
         public int GetAnimationDuration(int state, int facingDirection)
         {
-            var anim = TryGetAnimation(state, facingDirection);
+            var anim = GetAnimationFallbackToDefault(state, facingDirection);
+
             if (anim == null)
             {
                 return 0;
@@ -77,14 +80,14 @@ namespace co_op_engine.Collections
 
         public void Update(GameTime gameTime)
         {
-            var curAnimation = GetCurrentAnimationRectangle();
+            var curAnimation = GetAnimationFallbackToDefault(currentState, currentFacingDirection);
             if (curAnimation != null)
             {
                 curAnimation.Update(gameTime);
             }
         }
 
-        public AnimatedRectangle TryGetAnimation(int state, int facingDirection)
+        private AnimatedRectangle TryGetAnimation(int state, int facingDirection)
         {
             if (animations.ContainsKey(state))
             {
