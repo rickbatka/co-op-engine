@@ -177,8 +177,6 @@ namespace co_op_engine.Networking
             {
                 OnServerConnected(this, initialData);
             }
-
-#warning set client information here
             return true;
         }
 

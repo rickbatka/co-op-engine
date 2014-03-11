@@ -9,7 +9,7 @@ namespace co_op_engine.UIElements
 {
     public class ControlManager
     {
-        List<Control> controls;
+        public List<Control> controls;
 
         public ControlManager()
         {
