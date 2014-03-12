@@ -14,8 +14,10 @@ namespace co_op_engine.Networking
 {
     public delegate void ConnectedToServerEventHandler(NetworkClient sender, InitialNetworkData data);
 
-    public class NetworkClient
+    public class NetworkClient : NetworkBase
     {
+        public override bool IsHosting { get { return false; } }
+
         //yes I realize the duplicate logic, I'll come in here and
         //  refactor that at some point, but I'm stuck using Notepad++
         //  right now....
@@ -23,18 +25,18 @@ namespace co_op_engine.Networking
 #warning refactor this rediculous amount of duplicate logic.
         const int PORT = 22001;
 
-        public event EventHandler OnNetworkError;
+        public override event EventHandler OnNetworkError;
         public event EventHandler DEBUGNETWORKTRAFFIC;
         public event ConnectedToServerEventHandler OnServerConnected;
 
         private ThreadSafeBuffer<CommandObject> inputBuffer;
-        public ThreadSafeBuffer<CommandObject> Input
+        public override ThreadSafeBuffer<CommandObject> Input
         {
             get { return inputBuffer; }
         }
 
         private ThreadSafeBuffer<CommandObject> outputBuffer;
-        public ThreadSafeBuffer<CommandObject> Output
+        public override ThreadSafeBuffer<CommandObject> Output
         {
             get { return outputBuffer; }
         }

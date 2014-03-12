@@ -32,8 +32,10 @@ namespace co_op_engine.UIElements
             this.PressedTexture = pressed;
             this.textFont = font;
 
+            var dimensions = font.MeasureString(text);
+
             //have button stretch to fit text width
-            this.Bounds = new Rectangle(position.X, position.Y, 32, 90);
+            this.Bounds = new Rectangle(position.X, position.Y, (int)dimensions.X, (int)dimensions.Y);
         }
 
         public override void Update(GameTime gameTime)
@@ -41,21 +43,44 @@ namespace co_op_engine.UIElements
             //check mouse movements
             if (this.Bounds.Contains(InputHandler.MousePositionPoint()))
             {
-                if (!hovering)
+                if (InputHandler.MouseLeftPressed())
+                {
+                    if (OnInteracted != null)
+                    {
+                        OnInteracted(this, null);
+                    }
+                }
+                else if (!hovering)
                 {
                     hovering = true;
                     if (OnMouseEnter != null)
                     {
-
+                        OnMouseEnter(this, null);
                     }
                 }
             }
-            //check button presses
+            else
+            {
+                if (hovering)
+                {
+                    hovering = false;
+                    if (OnMouseLeave != null)
+                    {
+                        OnMouseLeave(this, null);
+                    }
+                }
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            var color = Color.White;
+            if (hovering)
+            {
+                color = Color.Red;
+            }
+            spriteBatch.Draw(BackgroundTexture, Bounds, color);
+            spriteBatch.DrawString(textFont, Text, new Vector2(Bounds.X, Bounds.Y), color);
         }
 
         

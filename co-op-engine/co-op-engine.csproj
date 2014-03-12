@@ -56,6 +56,7 @@
     <Compile Include="Components\Rendering\RenderBase.cs" />
     <Compile Include="Components\Weapons\MeleeWeapon.cs" />
     <Compile Include="Components\Weapons\WeaponBase.cs" />
+    <Compile Include="Networking\NetworkBase.cs" />
     <Compile Include="Utility\AssetRepository.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
     <Compile Include="Factories\TowerFactory.cs" />

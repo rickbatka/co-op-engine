@@ -16,24 +16,23 @@ namespace co_op_engine.GameStates
     public class GamePlay : GameState
     {
         public ObjectContainer container;
-        public NetworkServer server;
 
-        public GamePlay(Game1 game)
+        public NetworkBase Networking;
+        
+        private bool isHosting;
+
+        public GamePlay(Game1 game, NetworkBase network)
             : base(game)
         {
             container = new ObjectContainer(GameRef.screenRectangle);
             Camera.Instantiate(GameRef.screenRectangle);
             PlayerFactory.Initialize(this);
             TowerFactory.Initialize(this);
-            server = new NetworkServer();
+            Networking = network;
         }
 
         public override void LoadContent()
         {
-
-
-            server.StartHosting();
-
             ///////////////////////////////////////////////////////////
 
             //@TODO move to level setup

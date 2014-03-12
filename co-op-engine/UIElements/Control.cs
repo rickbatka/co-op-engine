@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.UIElements
 {
-    abstract class Control
+    abstract public class Control
     {
         //mouse
         abstract public event EventHandler OnMouseEnter;

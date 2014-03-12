@@ -10,28 +10,30 @@ using co_op_engine.Collections;
 
 namespace co_op_engine.Networking
 {
-    public class NetworkServer
+    public class NetworkServer : NetworkBase
     {
+        public override bool IsHosting { get { return false; } }
+
         const int PORT = 22001;
 
         public event EventHandler OnClientConnect;
         public event EventHandler OnClientDisconnect;
-        public event EventHandler OnNetworkError;
+        public override event EventHandler OnNetworkError;
 
         private ThreadSafeBuffer<CommandObject> inputBuffer;
-		public ThreadSafeBuffer<CommandObject> Input
-		{
-			get { return inputBuffer; }
-		}
-		
+        public override ThreadSafeBuffer<CommandObject> Input
+        {
+            get { return inputBuffer; }
+        }
+
         private ThreadSafeBuffer<CommandObject> outputBuffer;
-		public ThreadSafeBuffer<CommandObject> Output
-		{
-			get { return outputBuffer; }
-		}
-		
+        public override ThreadSafeBuffer<CommandObject> Output
+        {
+            get { return outputBuffer; }
+        }
+
         private Thread listenThread;
-		private Thread sendThread;
+        private Thread sendThread;
         private List<Thread> clientThreads;
         private List<GameClient> clients;
         private TcpListener listener;
@@ -46,9 +48,9 @@ namespace co_op_engine.Networking
 
             listenThread = new Thread(new ThreadStart(ListenLoop));
             listenThread.IsBackground = true;
-			
-			sendThread = new Thread(new ThreadStart(SendLoop));
-			sendThread.IsBackground = true;
+
+            sendThread = new Thread(new ThreadStart(SendLoop));
+            sendThread.IsBackground = true;
 
             playerIndex = 1;
         }
@@ -109,7 +111,7 @@ namespace co_op_engine.Networking
                         Client = inClient,
                         ClientId = playerIndex++
                     };
-                    
+
                     clients.Add(gameClient);
                     Thread inClientRecvThread = new Thread(new ParameterizedThreadStart(ClientRecvLoop));
                     inClientRecvThread.IsBackground = true;
@@ -137,30 +139,30 @@ namespace co_op_engine.Networking
             }
         }
 
-		private void SendLoop()
-		{
-			while(true)
-			{
-				var queued = inputBuffer.Gather();
-				if(queued.Count() == 0)
-				{
-					Thread.Sleep(100);
-				}
-				else if (clients.Count() == 0)
-				{
-					Thread.Sleep(600);
-					//eat the list cause nobody cares
-				}
-				else
-				{
-					foreach(var command in queued)
-					{
-						EchoAllOthers(command);
-					}
-				}
-			}
-		}
-		
+        private void SendLoop()
+        {
+            while (true)
+            {
+                var queued = inputBuffer.Gather();
+                if (queued.Count() == 0)
+                {
+                    Thread.Sleep(100);
+                }
+                else if (clients.Count() == 0)
+                {
+                    Thread.Sleep(600);
+                    //eat the list cause nobody cares
+                }
+                else
+                {
+                    foreach (var command in queued)
+                    {
+                        EchoAllOthers(command);
+                    }
+                }
+            }
+        }
+
         public void ClientRecvLoop(object clientObj)
         {
             var client = (GameClient)clientObj;
@@ -174,7 +176,7 @@ namespace co_op_engine.Networking
                     throw new Exception("handshake went bad");
                 }
 
-                
+
 
                 while (true)
                 {
@@ -212,7 +214,7 @@ namespace co_op_engine.Networking
 
         private void EchoAllOthers(CommandObject command, BinaryFormatter formatter = null)
         {
-			if( formatter == null) formatter = new BinaryFormatter();
+            if (formatter == null) formatter = new BinaryFormatter();
             for (int i = 0; i < clients.Count(); ++i)
             {
                 if (command.ClientId != clients[i].ClientId)

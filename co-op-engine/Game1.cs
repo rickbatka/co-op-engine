@@ -32,7 +32,12 @@ namespace co_op_engine
             graphics.PreferredBackBufferHeight = screenRectangle.Height;
             graphics.PreferredBackBufferWidth = screenRectangle.Width;
 
-            CurrentGameState = new GamePlay(this);
+        }
+
+        public void ChangeGameState(GameState state)
+        {
+            state.LoadContent();
+            CurrentGameState = state;
         }
 
         /// <summary>
@@ -56,7 +61,7 @@ namespace co_op_engine
             spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetRepository.Initialize(this);
 
-            CurrentGameState.LoadContent();
+            CurrentGameState = new StartMenu(this);
 
             this.Window.SetPosition(screenRectangle.Location); //moved it here cause it couldn't be moved if it was being updated every game loop
             
