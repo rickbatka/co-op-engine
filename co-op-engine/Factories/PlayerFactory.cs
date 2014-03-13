@@ -15,6 +15,7 @@ using co_op_engine.Components.Weapons;
 using Microsoft.Xna.Framework;
 using co_op_engine.Utility;
 using co_op_engine.Components.Combat;
+using co_op_engine.Networking;
 
 namespace co_op_engine.Factories
 {
@@ -50,6 +51,20 @@ namespace co_op_engine.Factories
 
             gameRef.container.AddObject(player);
             gameRef.container.SetPlayer(player);
+
+            return player;
+        }
+
+        public GameObject GetNetworkPlayer(InitialNetworkData networkData)
+        {
+            var player = new GameObject();
+            player.Position = new Vector2(100, 100);
+
+            player.SetPhysics(new CollidingPhysics(player));
+            var renderer = new AnimatedRenderer(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
+            player.SetRenderer(renderer);
+            player.SetBrain(new NetworkClientBrain(player));
+            player.SetCombat(new COMBATPLACEHOLDER(player));
 
             return player;
         }
