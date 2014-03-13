@@ -12,8 +12,18 @@ using co_op_engine.Collections;
 
 namespace co_op_engine.Networking
 {
+    /// <summary>
+    /// Triggerend when the client connects to the server after initiating a successful connect call
+    /// </summary>
+    /// <param name="sender">this computer's network client</param>
+    /// <param name="data">the initial data contained in the handshake from the server</param>
     public delegate void ConnectedToServerEventHandler(NetworkClient sender, InitialNetworkData data);
 
+    /// <summary>
+    /// Represents the client networking portion of gameplay, where
+    /// messages are sent and recieved from all other players in the 
+    /// game instance
+    /// </summary>
     public class NetworkClient : NetworkBase
     {
         public override bool IsHosting { get { return false; } }
@@ -30,12 +40,19 @@ namespace co_op_engine.Networking
         public event ConnectedToServerEventHandler OnServerConnected;
 
         private ThreadSafeBuffer<CommandObject> inputBuffer;
+        /// <summary>
+        /// The place to dump commands to be executed on all other player's games
+        /// </summary>
         public override ThreadSafeBuffer<CommandObject> Input
         {
             get { return inputBuffer; }
         }
 
         private ThreadSafeBuffer<CommandObject> outputBuffer;
+        /// <summary>
+        /// Commands from other player's games to be executed locally
+        /// THIS CLEARS WHEN READ, DO NOT PEEK
+        /// </summary>
         public override ThreadSafeBuffer<CommandObject> Output
         {
             get { return outputBuffer; }
@@ -58,6 +75,10 @@ namespace co_op_engine.Networking
             sendThread.IsBackground = true;
         }
 
+        /// <summary>
+        /// initiates connection procedures to a specified server
+        /// </summary>
+        /// <param name="ip">the ip address of the target machine</param>
         public void ConnectToGame(string ip)
         {
             if (thisClient.Client != null)
@@ -95,6 +116,9 @@ namespace co_op_engine.Networking
             }
         }
 
+        /// <summary>
+        /// disconnects and cleans up threads and connections
+        /// </summary>
         public void DisconnectFromGame()
         {
             try

@@ -10,6 +10,10 @@ using co_op_engine.Collections;
 
 namespace co_op_engine.Networking
 {
+    /// <summary>
+    /// Represents the hosts server that clients will connect to
+    /// this is where clients talk to each other
+    /// </summary>
     public class NetworkServer : NetworkBase
     {
         public override bool IsHosting { get { return false; } }

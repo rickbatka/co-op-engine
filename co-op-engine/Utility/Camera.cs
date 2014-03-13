@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace co_op_engine.Utility
 {
+    /// <summary>
+    /// Provides a scrolling viewpoint into the game world
+    /// </summary>
     public class Camera
     {
         static public Camera Instance;
@@ -25,6 +28,9 @@ namespace co_op_engine.Utility
         public float Zoom { get { return zoom; } set { zoom = value; } }
         public Rectangle ViewportRectangle { get; private set; }
 
+        /// <summary>
+        /// the transformation matrix to be applied to the renderer
+        /// </summary>
         public Matrix Transformation
         {
             get
@@ -51,6 +57,10 @@ namespace co_op_engine.Utility
             //do nothing, dependant on others to change it's position
         }
 
+        /// <summary>
+        /// moves the camera to the specified position
+        /// </summary>
+        /// <param name="position">location to move the camera</param>
         public void CenterCameraOnPosition(Vector2 position)
         {
             Position = new Vector2(position.X - ViewportRectangle.Center.X, position.Y - ViewportRectangle.Center.Y);

@@ -7,8 +7,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.UIElements
 {
+    /// <summary>
+    /// Handles the UI controls using a winform like
+    /// event driven notification system
+    /// </summary>
     public class ControlManager
     {
+        /// <summary>
+        /// list of all controls this manager controls
+        /// </summary>
         public List<Control> controls;
 
         public ControlManager()

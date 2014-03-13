@@ -7,7 +7,7 @@ using co_op_engine.Components;
 namespace co_op_engine.Networking
 {
     /// <summary>
-    /// ONLY FEED THIS STATIC METHODS (we can experiment with others)
+    /// Serializable command meant to pass functional information over the network
     /// </summary>
     [Serializable]
     public struct CommandObject
@@ -25,6 +25,10 @@ namespace co_op_engine.Networking
             ClientId = clientId;
         }
 
+        /// <summary>
+        /// privides wrapped execution of the command
+        /// </summary>
+        /// <param name="receiver">the gameobject on which the command will run</param>
         public void ExecuteCommand(GameObject receiver)
         {
             Command(receiver, ParamsObject);

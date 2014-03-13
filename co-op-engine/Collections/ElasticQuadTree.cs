@@ -11,26 +11,29 @@ using Microsoft.Xna.Framework.Graphics;
 namespace co_op_engine.Collections
 {
     /// <summary>
-    /// A Quadtree that expands it's query boundaries based on the largest child object in it's collection
+    /// A Quadtree that expands it's query boundaries based on the largest 
+    /// child object in it's child's collection
     /// </summary>
     public class ElasticQuadTree
     {
-        RectangleFloat bounds;
-        RectangleFloat queryBounds;
-        GameObject containedObject;
+        private RectangleFloat bounds;
+        private RectangleFloat queryBounds;
+        private GameObject containedObject;
 
-        bool IsParent { get { return NW != null; } }
-        ElasticQuadTree parent;
-        ElasticQuadTree NW;
-        ElasticQuadTree NE;
-        ElasticQuadTree SW;
-        ElasticQuadTree SE;
+        private bool IsParent { get { return NW != null; } }
+        private ElasticQuadTree parent;
+        
+        //children
+        private ElasticQuadTree NW;
+        private ElasticQuadTree NE;
+        private ElasticQuadTree SW;
+        private ElasticQuadTree SE;
 
         /// <summary>
         /// if it's the very top one, set parent as null
         /// </summary>
         /// <param name="bounds">collidable area</param>
-        /// <param name="parent">parent of this tree</param>
+        /// <param name="parent">parent of this node</param>
         public ElasticQuadTree(RectangleFloat bounds, ElasticQuadTree parent)
         {
             this.parent = parent;
@@ -39,9 +42,10 @@ namespace co_op_engine.Collections
         }
 
         /// <summary>
-        /// inserts the object in the main quadtree
+        /// climbs to the top of the tree and begins an insert from there
+        /// @TODO could just climb until insert works?
         /// </summary>
-        /// <param name="newObject"></param>
+        /// <param name="newObject">object to be inserted</param>
         public void MasterInsert(GameObject newObject)
         {
             if (parent != null)
@@ -55,10 +59,11 @@ namespace co_op_engine.Collections
         }
 
         /// <summary>
-        /// goes to the top and does the query
+        /// climbs the tree and queries the very top node
+        /// point of confusion, this gets anything COLLIDING with this querybounds, not contained within
         /// </summary>
         /// <param name="queryBounds">the location of the query area</param>
-        /// <returns>list of objects the intersects with the query</returns>
+        /// <returns>list of objects the INTERSECTS with the query</returns>
         public List<GameObject> MasterQuery(RectangleFloat queryBounds)
         {
             if (parent != null)
@@ -70,16 +75,24 @@ namespace co_op_engine.Collections
                 return Query(queryBounds);
             }
         }
+
+        /// <summary>
+        /// climbs the tree and queries the very top node
+        /// point of confusion, this gets anything COLLIDING with this querybounds, not contained within
+        /// </summary>
+        /// <param name="queryBounds">the location of the query area</param>
+        /// <returns>list of objects the INTERSECTS with the query</returns>
         public List<GameObject> MasterQuery(Rectangle queryBounds)
         {
             return MasterQuery(RectangleFloat.FromRectangle(queryBounds));
         }
 
         /// <summary>
-        /// removes and kicks off a verify
+        /// removes a specified object from this node and 
+        /// returns whether it was removed or not found
         /// </summary>
-        /// <param name="newObject">object to remove</param>
-        /// <returns>if the object was removed</returns>
+        /// <param name="newObject">Object to remove</param>
+        /// <returns>if the object was removed/found</returns>
         public bool Remove(GameObject newObject)
         {
             if (containedObject == newObject)
@@ -91,6 +104,11 @@ namespace co_op_engine.Collections
             return false;
         }
 
+        /// <summary>
+        /// used to visualize quads and their expanded queriable areas
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="drawTexture"></param>
         public void Draw(SpriteBatch spriteBatch, Texture2D drawTexture)
         {
             if (!IsParent)
@@ -109,7 +127,8 @@ namespace co_op_engine.Collections
         }
 
         /// <summary>
-        /// attempts to insert the object into the query
+        /// attempts to insert the object into this node
+        /// if it's a parent, it delegates this task to each of it's children
         /// </summary>
         /// <param name="newObject">object to be inserted</param>
         /// <returns>returns true if it was inserted</returns>
@@ -175,12 +194,13 @@ namespace co_op_engine.Collections
                 return true;
             }
 
-            
+            //very bad subdivision error, we should keep an eye out for this
             throw new Exception("couldn't insert into quadtree because it didn't fit into subquads");
         }
 
         /// <summary>
-        /// Get the count of all the objects held in the subchildren
+        /// If it's a parent, it counts it's children's held objects
+        /// If not a parent, it checks if it contains an object
         /// </summary>
         /// <returns>count of all children</returns>
         private int ChildCount()
@@ -196,9 +216,9 @@ namespace co_op_engine.Collections
         }
 
         /// <summary>
-        /// gets all children objects
+        /// gets all children objects or returns held object
         /// </summary>
-        /// <returns>all children objects below this</returns>
+        /// <returns>all contained objects from this node and/or below</returns>
         private List<GameObject> GatherAll()
         {
             if (IsParent)
@@ -222,7 +242,7 @@ namespace co_op_engine.Collections
         }
 
         /// <summary>
-        /// if children are empty remove squares and fix up holes
+        /// folds up unused quads by checking this node and it's parent, and on up if it keeps finding empty nodes
         /// </summary>
         private void Verify()
         {
@@ -292,7 +312,7 @@ namespace co_op_engine.Collections
         }
 
         /// <summary>
-        /// does split logic, placing contained object appropriately
+        /// splits this node into 4 quads and places it's held object into the appropriate child
         /// </summary>
         private void Split()
         {
@@ -306,6 +326,7 @@ namespace co_op_engine.Collections
             //se center center
             SE = new ElasticQuadTree(new RectangleFloat(bounds.Left + bounds.Width / 2, bounds.Top + bounds.Height / 2, bounds.Width / 2, bounds.Height / 2), this);
 
+            //semi dangerous assumption that it contains an object at this point
             var temp = containedObject;
             containedObject = null;
 
@@ -313,12 +334,11 @@ namespace co_op_engine.Collections
             else if (SW.Insert(temp)) return;
             else if (NE.Insert(temp)) return;
             else if (SE.Insert(temp)) return;
-
-            containedObject = null;
         }
 
         /// <summary>
-        /// inflates the area to the largest object so it can be detected across boundaries
+        /// inflates the queriable area of this node area to the largest object 
+        /// so it can be detected across boundaries
         /// </summary>
         /// <param name="newObject">object inserted</param>
         private void InflateBoundry(GameObject newObject)
@@ -342,6 +362,10 @@ namespace co_op_engine.Collections
             queryBounds.Inflate(inflateXBy, inflateYBy);
         }
 
+        /// <summary>
+        /// Allows objects to notify the quadtree that they moved
+        /// </summary>
+        /// <param name="ownedObject">the moved object</param>
         public void NotfyOfMovement(GameObject ownedObject)
         {
             if (!bounds.ContainsInclusive(ownedObject.Position) || containedObject != ownedObject)
@@ -353,6 +377,5 @@ namespace co_op_engine.Collections
                 Verify();
             }
         }
-
     }
 }

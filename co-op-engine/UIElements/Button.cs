@@ -8,14 +8,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.UIElements
 {
+    /// <summary>
+    /// represents a UI button
+    /// </summary>
     class Button : Control
     {
-        string Text;
-        Texture2D BackgroundTexture;
-        Texture2D HoverTexture;
-        Texture2D PressedTexture;
-        bool hovering = false;
-        SpriteFont textFont;
+        private string Text;
+        private Texture2D BackgroundTexture;
+        private Texture2D HoverTexture;
+        private Texture2D PressedTexture;
+        private bool hovering = false;
+        private SpriteFont textFont;
 
         public override event EventHandler OnMouseEnter;
         public override event EventHandler OnMouseLeave;
@@ -45,13 +48,15 @@ namespace co_op_engine.UIElements
             {
                 if (InputHandler.MouseLeftPressed())
                 {
-                    if (OnInteracted != null)
+                    //fire click event
+                    if (OnLeftClick != null)
                     {
-                        OnInteracted(this, null);
+                        OnLeftClick(this, null);
                     }
                 }
                 else if (!hovering)
                 {
+                    //change status to hovering if the mouse just entered the region
                     hovering = true;
                     if (OnMouseEnter != null)
                     {
@@ -63,6 +68,7 @@ namespace co_op_engine.UIElements
             {
                 if (hovering)
                 {
+                    //change hovering on mouse leaving
                     hovering = false;
                     if (OnMouseLeave != null)
                     {
@@ -82,7 +88,5 @@ namespace co_op_engine.UIElements
             spriteBatch.Draw(BackgroundTexture, Bounds, color);
             spriteBatch.DrawString(textFont, Text, new Vector2(Bounds.X, Bounds.Y), color);
         }
-
-        
     }
 }
