@@ -22,6 +22,7 @@ namespace co_op_engine.GameStates
                 new Point(100,300),
                 AssetRepository.Instance.Arial);
             createGameButton.OnInteracted += StartServerGameplay;
+            createGameButton.OnLeftClick += StartServerGameplay;
             controlManager.controls.Add(createGameButton);
 
             var joinGameButton = new Button(
@@ -32,6 +33,7 @@ namespace co_op_engine.GameStates
                 new Point(100, 500),
                 AssetRepository.Instance.Arial);
             joinGameButton.OnInteracted += ClientConnectGamePlay;
+            joinGameButton.OnLeftClick += ClientConnectGamePlay;
             controlManager.controls.Add(joinGameButton);
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 
 namespace co_op_engine.Components.Physics
@@ -29,7 +30,7 @@ namespace co_op_engine.Components.Physics
                 {
                     OnCollision(this.owner, colliders);
                 }
-                HandleCollision(colliders);
+                HandleCollisionPatternMethodTesting(colliders);
             }
             else
             {
@@ -45,6 +46,89 @@ namespace co_op_engine.Components.Physics
         public override void DebugDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
             base.DebugDraw(spriteBatch);
+            spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture,
+                new Rectangle((int)owner.Position.X, (int)owner.Position.Y, 30, 30), Color.Black);
+        }
+
+        private void HandleCollisionPatternMethodTesting(List<GameObject> colliders)
+        {
+            GameObject biggest = colliders[0];
+            Point biggestOverlap = Point.Zero;
+            foreach (var obj in colliders)
+            {
+                var left = obj.BoundingBox.Left > owner.BoundingBox.Left ? obj.BoundingBox.Left : owner.BoundingBox.Left;
+                var right = obj.BoundingBox.Right > owner.BoundingBox.Right ? owner.BoundingBox.Right : obj.BoundingBox.Right;
+                var top = obj.BoundingBox.Top > owner.BoundingBox.Top ? obj.BoundingBox.Top : owner.BoundingBox.Top;
+                var bottom = obj.BoundingBox.Bottom > owner.BoundingBox.Bottom ? owner.BoundingBox.Bottom : obj.BoundingBox.Bottom;
+
+                var overlap = new Point(Math.Abs((int)(left - right)), Math.Abs((int)(top - bottom)));
+
+                //var currentPoint = new Point(
+                //    -(Math.Abs(obj.BoundingBox.X - owner.BoundingBox.X) - ((owner.BoundingBox.Width + obj.BoundingBox.Width) / 2)),
+                //    -(Math.Abs(obj.BoundingBox.Y - owner.BoundingBox.Y) - ((owner.BoundingBox.Height + obj.BoundingBox.Height) / 2)));
+
+                if ((biggestOverlap.X * biggestOverlap.Y) <= (overlap.X * overlap.Y))
+                {
+                    biggestOverlap = overlap;
+                    biggest = obj;
+                }
+            }
+
+            int xOverlap = biggestOverlap.X;
+            int yOverlap = biggestOverlap.Y;
+
+            Vector2 newOwnerPos = new Vector2(owner.Position.X, owner.Position.Y);
+            Vector2 newBiggestPos = new Vector2(biggest.Position.X, biggest.Position.Y);
+
+            int mod = biggest.UnShovable ? 1 : 2;
+            if (xOverlap < yOverlap)
+            {
+                if (owner.Position.X < biggest.Position.X)
+                {
+                    newOwnerPos.X -= xOverlap / mod;
+                    if (!biggest.UnShovable)
+                    {
+                        newBiggestPos.X += xOverlap / mod;
+                    }
+                }
+                else
+                {
+                    newOwnerPos.X += xOverlap / mod;
+                    if (!biggest.UnShovable)
+                    {
+                        newBiggestPos.X -= xOverlap / mod;
+                    }
+                }
+            }
+            else
+            {
+                if (owner.Position.Y < biggest.Position.Y)
+                {
+                    newOwnerPos.Y -= yOverlap / mod;
+                    if (!biggest.UnShovable)
+                    {
+                        newBiggestPos.Y += yOverlap / mod;
+                    }
+                }
+                else
+                {
+                    newOwnerPos.Y += yOverlap / mod;
+                    if (!biggest.UnShovable)
+                    {
+                        newBiggestPos.Y -= yOverlap / mod;
+                    }
+                }
+            }
+            owner.Position = newOwnerPos;
+            biggest.Position = newBiggestPos;
+
+            owner.CurrentQuad.NotfyOfMovement(owner);
+            this.VerifyBoundingBox();
+
+            biggest.CurrentQuad.NotfyOfMovement(biggest);
+            biggest.Physics.VerifyBoundingBox();
+
+            base.HandleCollision(colliders);
         }
 
         private void HandleCollision(List<GameObject> collidors)
@@ -64,7 +148,7 @@ namespace co_op_engine.Components.Physics
                     -(Math.Abs(obj.BoundingBox.X - owner.BoundingBox.X) - ((owner.BoundingBox.Width + obj.BoundingBox.Width) / 2)),
                     -(Math.Abs(obj.BoundingBox.Y - owner.BoundingBox.Y) - ((owner.BoundingBox.Height + obj.BoundingBox.Height) / 2)));
 
-                if ((biggestOverlap.X * biggestOverlap.Y) < (currentPoint.X * currentPoint.Y))
+                if ((biggestOverlap.X * biggestOverlap.Y) <= (currentPoint.X * currentPoint.Y))
                 {
                     biggestOverlap = currentPoint;
                     biggest = obj;

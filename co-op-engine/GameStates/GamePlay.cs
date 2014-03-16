@@ -82,8 +82,6 @@ namespace co_op_engine.GameStates
                     color: Color.White
                 );
             }
-
-            
         }
 
         public List<GameObject> GetPlayers()
