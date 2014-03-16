@@ -113,8 +113,8 @@ namespace co_op_engine.Collections
         {
             if (!IsParent)
             {
-                //spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(), Color.White);
-                spriteBatch.Draw(drawTexture, bounds.ToRectangle(), Color.White);
+                spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(), Color.White);
+                //spriteBatch.Draw(drawTexture, bounds.ToRectangle(), Color.White);
             }
             else
             {
