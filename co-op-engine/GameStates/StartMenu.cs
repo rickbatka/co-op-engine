@@ -40,8 +40,11 @@ namespace co_op_engine.GameStates
 
         private void StartServerGameplay(object sender, EventArgs e)
         {
+            MechanicSingleton.InitializeWithSettings("ServerTesting", 12);
+
             var network = new NetworkServer();
             network.StartHosting();
+
 
             var gameplayServer = new GamePlay(GameRef,network);
             GameRef.ChangeGameState(gameplayServer);
@@ -49,6 +52,8 @@ namespace co_op_engine.GameStates
 
         private void ClientConnectGamePlay(object sender, EventArgs e)
         {
+            MechanicSingleton.InitializeWithSettings("ClientTesting", 3);
+
             var network = new NetworkClient();
             network.ConnectToGame("127.0.0.1");
 

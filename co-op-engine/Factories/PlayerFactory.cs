@@ -38,6 +38,7 @@ namespace co_op_engine.Factories
         public GameObject GetPlayer()
         {
             var player = new GameObject();
+            player.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
             player.Position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 100));
 
             player.SetPhysics(new CollidingPhysics(player));
@@ -58,6 +59,7 @@ namespace co_op_engine.Factories
         public GameObject GetNetworkPlayer(InitialNetworkData networkData)
         {
             var player = new GameObject();
+            player.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
             player.Position = new Vector2(100, 100);
 
             player.SetPhysics(new CollidingPhysics(player));

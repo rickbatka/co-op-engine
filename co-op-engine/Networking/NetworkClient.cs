@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using co_op_engine.Collections;
+using co_op_engine.Utility;
 
 
 namespace co_op_engine.Networking
@@ -190,14 +191,15 @@ namespace co_op_engine.Networking
 
             InitialNetworkData initialData = new InitialNetworkData()
             {
-                MaxPlayers = -1,
-                PlayerId = -1,
-                PlayerName = "TestClient",
-                PlayerNames = null
+                PlayerName = MechanicSingleton.Instance.PlayerName,
             };
 
+            stream.Flush();
+
             formatter.Serialize(stream,initialData);
-            initialData = (InitialNetworkData)formatter.Deserialize(stream);
+            var response = (InitialNetworkData)formatter.Deserialize(stream);
+
+            MechanicSingleton.SetupAsClient(response);
 
             if (OnServerConnected != null)
             {

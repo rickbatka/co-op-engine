@@ -28,6 +28,7 @@ namespace co_op_engine.Factories
         public GameObject GetDoNothingTower()
         {
             var tower = new GameObject();
+            tower.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
 
             tower.Width = 96;
             tower.Height = 96;

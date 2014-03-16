@@ -14,7 +14,6 @@ namespace co_op_engine.Networking
     {
         public int ClientId;
         public TcpClient Client;
-        public string ClientName;
     }
 
     /// <summary>

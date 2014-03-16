@@ -12,36 +12,51 @@ namespace co_op_engine.World.Level
     public class ObjectContainer
     {
         //needs spacial and iterative reference to objects, and probably even a unique indexable heap/binary tree
-        ElasticQuadTree quadTree;
+        ElasticQuadTree SpacialReference;
 
         //iterative list for updating and linear referencing
-        List<GameObject> gameObjects;
+        List<GameObject> LinearReference;
 
-        public int ObjectCount { get { return gameObjects.Count(); } }
+        Dictionary<int, GameObject> IndexedReference;
+
+        public int ObjectCount { get { return LinearReference.Count(); } }
 
         public ObjectContainer(Rectangle levelBounds)
         {
-            quadTree = new ElasticQuadTree(co_op_engine.Utility.RectangleFloat.FromRectangle(levelBounds), null);
-            gameObjects = new List<GameObject>();
+            SpacialReference = new ElasticQuadTree(co_op_engine.Utility.RectangleFloat.FromRectangle(levelBounds), null);
+            LinearReference = new List<GameObject>();
+            IndexedReference = new Dictionary<int, GameObject>();
         }
 
         public void AddObject(GameObject newObject)
         {
-            quadTree.MasterInsert(newObject);
-            gameObjects.Add(newObject);
+            SpacialReference.MasterInsert(newObject);
+            LinearReference.Add(newObject);
+            IndexedReference.Add(newObject.ID, newObject);
+        }
+
+        public void RemoveObject(GameObject removeObject)
+        {
+            var removed = removeObject.CurrentQuad.Remove(removeObject);
+            removed = removed && LinearReference.Remove(removeObject);
+            removed = removed && IndexedReference.Remove(removeObject.ID);
+            if (!removed)
+            {
+                throw new Exception("Object containers out of sync");
+            }
         }
 
         public void UpdateAll(GameTime gameTime)
         {
-            for (int i = 0; i < gameObjects.Count; i++ )
+            for (int i = 0; i < LinearReference.Count; i++ )
             {
-                gameObjects[i].Update(gameTime);
+                LinearReference[i].Update(gameTime);
             }
         }
 
         public void DrawAll(SpriteBatch spriteBatch)
         {
-            foreach (var obj in gameObjects)
+            foreach (var obj in LinearReference)
             {
                 obj.Draw(spriteBatch);
             }
@@ -49,7 +64,7 @@ namespace co_op_engine.World.Level
 
         public void DebugDraw(SpriteBatch spriteBatch, Texture2D debugTexture)
         {
-            quadTree.Draw(spriteBatch, debugTexture);
+            SpacialReference.Draw(spriteBatch, debugTexture);
         }
 
 #region IActorInformationProvidor

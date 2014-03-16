@@ -7,6 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using co_op_engine.Collections;
+using co_op_engine.Utility;
 
 namespace co_op_engine.Networking
 {
@@ -234,12 +235,13 @@ namespace co_op_engine.Networking
             BinaryFormatter formatter = new BinaryFormatter();
 
             InitialNetworkData clientData = (InitialNetworkData)formatter.Deserialize(gClient.Client.GetStream());
-            gClient.ClientName = clientData.PlayerName;
 
-            clientData.PlayerId = gClient.ClientId;
-#warning need to finish the notification of other players
+            var response = MechanicSingleton.SetupClientData(clientData);
 
-            formatter.Serialize(gClient.Client.GetStream(), clientData);
+#warning need to finish the notification of other players, probably just a standard create object etc.
+            //EchoAllOthers( SOME COMMAND TO ADD AN OBJECT )
+
+            formatter.Serialize(gClient.Client.GetStream(), response);
 
             return true;
         }

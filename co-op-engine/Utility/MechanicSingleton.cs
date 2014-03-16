@@ -19,17 +19,53 @@ namespace co_op_engine.Utility
         private int objectIdCounter = 0; //maybe long?
         private object objectIdCounterLocker = new object();
         public int PlayerId = 0;
-        public int MaxPlayers = 1;
+        private int PlayerIdIndex = 0;
+        public int MaxPlayers = 8;
+        public string PlayerName;
+        public string[] PlayerNames;
 
         private MechanicSingleton()
         {
             rand = new Random(DateTime.Now.Millisecond);
         }
 
-        static public void SetupFromNetwork(InitialNetworkData data)
+        /// <summary>
+        /// Sets up a client with server data
+        /// </summary>
+        /// <param name="data">incoming server data</param>
+        static public void SetupAsClient(InitialNetworkData data)
         {
             Instance.MaxPlayers = data.MaxPlayers;
             Instance.PlayerId = data.PlayerId;
+
+            Instance.PlayerNames = data.PlayerNames;
+            Instance.PlayerNames[Instance.PlayerId] = data.PlayerName;
+        }
+
+        /// <summary>
+        /// Adds to a server's data when a client connects
+        /// </summary>
+        /// <param name="data">incoming client data</param>
+        static public InitialNetworkData SetupClientData(InitialNetworkData data)
+        {
+            ++Instance.PlayerIdIndex;
+            Instance.PlayerNames[Instance.PlayerIdIndex] = data.PlayerName;
+
+            return new InitialNetworkData()
+            {
+                MaxPlayers = Instance.MaxPlayers,
+                PlayerId = Instance.PlayerIdIndex,
+                PlayerNames = Instance.PlayerNames,
+            };
+        }
+
+        static public void InitializeWithSettings(string playername, int maxPlayers)
+        {
+            Instance.PlayerName = playername;
+            Instance.MaxPlayers = maxPlayers;
+            Instance.PlayerNames = new string[maxPlayers];
+            Instance.PlayerNames[0] = playername;
+            Instance.PlayerIdIndex = 0;
         }
 
         public int GetNextObjectCountValue()
@@ -42,5 +78,7 @@ namespace co_op_engine.Utility
             }
             return threadsafeTemp;
         }
+
+
     }
 }
