@@ -12,6 +12,8 @@ namespace co_op_engine.UIElements
     /// </summary>
     abstract public class Control
     {
+        public ControlManager CMRef;
+
         //mouse events
         abstract public event EventHandler OnMouseEnter;
         abstract public event EventHandler OnMouseLeave;
@@ -24,7 +26,7 @@ namespace co_op_engine.UIElements
 
         public int TabIndex; //couldn't think of a good name so I used the winform name we'd recognize
         public bool Selectable;
-
+        public bool Selected;
         public bool Enabled = true; //if it gets updates
         public bool Clickable = false; //if it fires or checks mouse events
         public bool Visible = true; //if it is included in the draw loop
@@ -32,5 +34,10 @@ namespace co_op_engine.UIElements
 
         abstract public void Update(GameTime gameTime);
         abstract public void Draw(SpriteBatch spriteBatch);
+        
+        virtual public void Select()
+        {}
+        virtual public void Deselect()
+        {}
     }
 }

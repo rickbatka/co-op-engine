@@ -23,7 +23,8 @@ namespace co_op_engine.GameStates
                 AssetRepository.Instance.Arial);
             createGameButton.OnInteracted += StartServerGameplay;
             createGameButton.OnLeftClick += StartServerGameplay;
-            controlManager.controls.Add(createGameButton);
+            controlManager.AddControl(createGameButton);
+            createGameButton.Selected = true;
 
             var joinGameButton = new Button(
                 AssetRepository.Instance.DebugGridTexture,
@@ -34,7 +35,7 @@ namespace co_op_engine.GameStates
                 AssetRepository.Instance.Arial);
             joinGameButton.OnInteracted += ClientConnectGamePlay;
             joinGameButton.OnLeftClick += ClientConnectGamePlay;
-            controlManager.controls.Add(joinGameButton);
+            controlManager.AddControl(joinGameButton);
         }
 
         private void StartServerGameplay(object sender, EventArgs e)

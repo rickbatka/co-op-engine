@@ -5,6 +5,7 @@ using System.Text;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace co_op_engine.UIElements
 {
@@ -17,8 +18,8 @@ namespace co_op_engine.UIElements
         private Texture2D BackgroundTexture;
         private Texture2D HoverTexture;
         private Texture2D PressedTexture;
-        private bool hovering = false;
         private SpriteFont textFont;
+        private bool lastSelectedState;
 
         public override event EventHandler OnMouseEnter;
         public override event EventHandler OnMouseLeave;
@@ -43,50 +44,91 @@ namespace co_op_engine.UIElements
 
         public override void Update(GameTime gameTime)
         {
-            //check mouse movements
-            if (this.Bounds.Contains(InputHandler.MousePositionPoint()))
+            if (InputHandler.MouseMoved())
             {
-                if (InputHandler.MouseLeftPressed())
+                //check mouse movements
+                if (this.Bounds.Contains(InputHandler.MousePositionPoint()))
                 {
-                    //fire click event
-                    if (OnLeftClick != null)
+                    if (InputHandler.MouseLeftPressed())
                     {
-                        OnLeftClick(this, null);
+                        //fire click event
+                        if (OnLeftClick != null)
+                        {
+                            OnLeftClick(this, null);
+                        }
                     }
-                }
-                else if (!hovering)
-                {
-                    //change status to hovering if the mouse just entered the region
-                    hovering = true;
-                    if (OnMouseEnter != null)
+                    else if (!Selected)
                     {
-                        OnMouseEnter(this, null);
+                        //change status to hovering if the mouse just entered the region
+                        CMRef.SelectSpecific(this);//; Select();
+                        if (OnMouseEnter != null)
+                        {
+                            OnMouseEnter(this, null);
+                        }
+                    }
+                }/*
+                else
+                {
+                    if (Selected)
+                    {
+                        //change hovering on mouse leaving
+                        Deselect();
+                        if (OnMouseLeave != null)
+                        {
+                            OnMouseLeave(this, null);
+                        }
+                    }
+                }*/
+            }
+
+            if (Selected && lastSelectedState)
+            {
+                if (InputHandler.KeyReleased(Keys.S))
+                {
+                    CMRef.SelectNext(this, false);
+                }
+                else if (InputHandler.KeyReleased(Keys.W))
+                {
+                    CMRef.SelectNext(this, true);
+                }
+                else if (InputHandler.KeyReleased(Keys.Enter))
+                {
+                    if (OnInteracted != null)
+                    {
+                        OnInteracted(this, null);
                     }
                 }
             }
-            else
-            {
-                if (hovering)
-                {
-                    //change hovering on mouse leaving
-                    hovering = false;
-                    if (OnMouseLeave != null)
-                    {
-                        OnMouseLeave(this, null);
-                    }
-                }
-            }
+            lastSelectedState = Selected;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             var color = Color.White;
-            if (hovering)
+            if (Selected)
             {
                 color = Color.Red;
             }
             spriteBatch.Draw(BackgroundTexture, Bounds, color);
             spriteBatch.DrawString(textFont, Text, new Vector2(Bounds.X, Bounds.Y), color);
+        }
+
+        public override void Select()
+        {
+            Selected = true;
+            if (OnSelected != null)
+            {
+                OnSelected(this, null);
+            }
+        }
+
+        public override void Deselect()
+        {
+            Selected = false;
+            if (OnSelected != null)
+            {
+                OnSelected(this, null);
+            }
         }
     }
 }

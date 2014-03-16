@@ -237,6 +237,11 @@ namespace co_op_engine.Utility
 			return new Vector2(Mouse.GetState().X, Mouse.GetState().Y) + Camera.Instance.Position;
 		}
 
+        public static bool MouseMoved()
+        {
+            return mouseState.X != lastMouseState.X || mouseState.Y != lastMouseState.Y;
+        }
+
 		#endregion
 	}
 }
