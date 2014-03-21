@@ -13,6 +13,8 @@ namespace co_op_engine.Components.Rendering
     {
         public AnimationSet animationSet;
 
+        public AnimatedRectangle CurrentAnimatedRectangle { get { return animationSet.CurrentAnimatedRectangle; } }
+
         public AnimatedRenderer(IRenderable owner, Texture2D texture, AnimationSet animationSet)
             :base(owner, texture)
         {
@@ -21,11 +23,12 @@ namespace co_op_engine.Components.Rendering
 
         public override void Update(GameTime gameTime)
         {
-            animationSet.currentState = (int)owner.CurrentActorState;
+            animationSet.currentState = (int)owner.CurrentState;
             animationSet.currentFacingDirection = (int)owner.FacingDirection;
             animationSet.Update(gameTime);
-            currentDrawRectangle = animationSet.GetAnimationFallbackToDefault(animationSet.currentState, animationSet.currentFacingDirection).CurrentDrawRectangle;
+            currentDrawRectangle = CurrentAnimatedRectangle.CurrentDrawRectangle;
 
+#warning rick 
             owner.Width = currentDrawRectangle.Value.Width;
             owner.Height = currentDrawRectangle.Value.Height;
 
@@ -41,7 +44,8 @@ namespace co_op_engine.Components.Rendering
         {
             base.DebugDraw(spriteBatch);
 
-            var damageDots = animationSet.GetAnimationFallbackToDefault(animationSet.currentState, animationSet.currentFacingDirection).CurrentFrame.DamageDots;
+#warning bad
+            var damageDots = CurrentAnimatedRectangle.CurrentFrame.DamageDots;
 
             if (damageDots != null && damageDots.Length > 0)
             {

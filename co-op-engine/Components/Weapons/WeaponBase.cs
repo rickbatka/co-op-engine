@@ -14,14 +14,22 @@ namespace co_op_engine.Components.Weapons
     {
         protected GameObject owner;
         protected AnimatedRenderer renderer;
-        protected Texture2D texture;
-        
-        protected int width;
-        protected int height;
-        protected TimeSpan currentAttackTimer;
 
+        protected TimeSpan currentAttackTimer;
         public int DamageRating = 25;
         public int HitCooldownDurationMS = 300;
+        public int CurrentState { get; set; }
+        protected WeaponState CurrentWeaponStateProperties { get { return WeaponStates.States[CurrentState]; } }
+
+        public Texture2D Texture { get; set; }
+        public Vector2 Position { get { return owner.Position; } }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int FacingDirection { get { return owner.FacingDirection; } set { owner.FacingDirection = value; } }
+        public Vector2 FacingDirectionRaw { get { return owner.FacingDirectionRaw; } set { owner.FacingDirectionRaw = value; } }
+        public float RotationTowardFacingDirectionRadians { get { return owner.RotationTowardFacingDirectionRadians; } set { owner.RotationTowardFacingDirectionRadians = value; } }
+
+
 
         public WeaponBase(GameObject owner)
         {
@@ -38,8 +46,10 @@ namespace co_op_engine.Components.Weapons
             UpdateState(gameTime);
             DoDamage();
             renderer.Update(gameTime);
-            this.width = renderer.animationSet.GetAnimationFallbackToDefault(renderer.animationSet.currentState, renderer.animationSet.currentFacingDirection).CurrentDrawRectangle.Width;
-            this.height = renderer.animationSet.GetAnimationFallbackToDefault(renderer.animationSet.currentState, renderer.animationSet.currentFacingDirection).CurrentDrawRectangle.Height;
+
+#warning rick
+            this.Width = renderer.CurrentAnimatedRectangle.CurrentDrawRectangle.Width;
+            this.Height = renderer.CurrentAnimatedRectangle.CurrentDrawRectangle.Height;
         }
 
         virtual public void Draw(SpriteBatch spriteBatch)
@@ -53,8 +63,8 @@ namespace co_op_engine.Components.Weapons
         }
 
         virtual public void TryInitiateAttack()
-        { 
-            if (owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
+        {
+            if (CurrentWeaponStateProperties.CanInitiatePrimaryAttack)
             {
                 PrimaryAttack();
             }
@@ -62,15 +72,16 @@ namespace co_op_engine.Components.Weapons
 
         virtual public void PrimaryAttack()
         {
-            currentAttackTimer = TimeSpan.FromMilliseconds(renderer.animationSet.GetAnimationDuration(Constants.STATE_ATTACKING_MELEE, owner.FacingDirection));
-            owner.CurrentActorState = Constants.STATE_ATTACKING_MELEE;
+            currentAttackTimer = TimeSpan.FromMilliseconds(renderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection));
+            CurrentState = Constants.WEAPON_STATE_ATTACKING_PRIMARY;
         }
 
         private void DoDamage()
         {
-            if (owner.CurrentStateProperties.IsAttacking)
+            if (CurrentWeaponStateProperties.IsAttacking)
             {
-                var damageDots = renderer.animationSet.GetAnimationFallbackToDefault(renderer.animationSet.currentState, renderer.animationSet.currentFacingDirection).CurrentFrame.DamageDots;
+#warning rick
+                var damageDots = renderer.CurrentAnimatedRectangle.CurrentFrame.DamageDots;
                 foreach (var damageDot in damageDots)
                 {
                     var colliders = owner.CurrentQuad.MasterQuery
@@ -82,7 +93,7 @@ namespace co_op_engine.Components.Weapons
                     );
                     foreach (var collider in colliders)
                     {
-                        if(collider != owner)
+                        if(collider.ID != owner.ID)
                         {
                             collider.HandleHitByWeapon(this, HitCooldownDurationMS);
                         }
@@ -93,14 +104,14 @@ namespace co_op_engine.Components.Weapons
 
         private void UpdateState(GameTime gameTime)
         {
-            if (owner.CurrentActorState == Constants.STATE_ATTACKING_MELEE)
+            if (CurrentState == Constants.WEAPON_STATE_ATTACKING_PRIMARY)
             {
                 currentAttackTimer -= gameTime.ElapsedGameTime;
                 if (currentAttackTimer <= TimeSpan.Zero)
                 {
-                    owner.CurrentActorState = Constants.STATE_IDLE;
+                    CurrentState = Constants.WEAPON_STATE_IDLE;
                     currentAttackTimer = TimeSpan.Zero;
-                    renderer.animationSet.GetAnimationFallbackToDefault(Constants.STATE_ATTACKING_MELEE, owner.FacingDirection).Reset();
+                    renderer.animationSet.GetAnimationFallbackToDefault(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection).Reset();
                 }
             }
         }
@@ -108,21 +119,12 @@ namespace co_op_engine.Components.Weapons
         public bool FullyRotatable { 
             get 
             {
-                if (owner.CurrentActorState == Constants.STATE_ATTACKING_MELEE)
+                if (CurrentState == Constants.WEAPON_STATE_ATTACKING_PRIMARY)
                 {
                     return true;
                 }
                 return false;
             } 
         }
-
-        public Texture2D Texture { get { return texture; } set { texture = value; } }
-        public Vector2 Position { get { return owner.Position; } }
-        public int Width { get { return width; } set { width = value; } }
-        public int Height { get { return height; } set { height = value; } }
-        public int CurrentActorState { get { return owner.CurrentActorState; } set { owner.CurrentActorState = value; } }
-        public int FacingDirection { get { return owner.FacingDirection; } set { owner.FacingDirection = value; } }
-        public Vector2 FacingDirectionRaw { get { return owner.FacingDirectionRaw; } set { owner.FacingDirectionRaw = value; } }
-        public float RotationTowardFacingDirectionRadians { get { return owner.RotationTowardFacingDirectionRadians; } set { owner.RotationTowardFacingDirectionRadians = value; } }
     }
 }
