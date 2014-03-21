@@ -32,8 +32,8 @@ namespace co_op_engine.Components
         public Vector2 Position { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public int CurrentActorState { get; set; }
-        public ActorState CurrentStateProperties { get { return ActorStates.States[CurrentActorState]; } }
+        public int CurrentState { get; set; }
+        public ActorState CurrentStateProperties { get { return ActorStates.States[CurrentState]; } }
         public int FacingDirection { get; set; }
         public Vector2 FacingDirectionRaw { get; set; }
         public float RotationTowardFacingDirectionRadians { get; set; }
@@ -45,7 +45,7 @@ namespace co_op_engine.Components
 
         public GameObject()
         {
-            CurrentActorState = Constants.ACTOR_STATE_IDLE;
+            CurrentState = Constants.ACTOR_STATE_IDLE;
             Health = 100;
             MaxHealth = 100;
         }

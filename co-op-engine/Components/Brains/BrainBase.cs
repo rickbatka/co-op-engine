@@ -20,7 +20,7 @@ namespace co_op_engine.Components.Brains
         public BrainBase(GameObject owner)
         {
             this.owner = owner;
-            this.owner.CurrentActorState = Constants.ACTOR_STATE_IDLE;
+            this.owner.CurrentState = Constants.ACTOR_STATE_IDLE;
         }
 
         virtual public void Update(GameTime gameTime) { }
@@ -28,10 +28,10 @@ namespace co_op_engine.Components.Brains
 
         protected void ChangeState(int newState)
         {
-            if(newState != owner.CurrentActorState)
+            if(newState != owner.CurrentState)
             {
-                var oldState = owner.CurrentActorState;
-                owner.CurrentActorState = newState;
+                var oldState = owner.CurrentState;
+                owner.CurrentState = newState;
 
                 if (OnActorStateChanged != null)
                 {

@@ -21,7 +21,7 @@ namespace co_op_engine.Components.Rendering
 
         public override void Update(GameTime gameTime)
         {
-            animationSet.currentState = (int)owner.CurrentActorState;
+            animationSet.currentState = (int)owner.CurrentState;
             animationSet.currentFacingDirection = (int)owner.FacingDirection;
             animationSet.Update(gameTime);
             currentDrawRectangle = animationSet.GetAnimationFallbackToDefault(animationSet.currentState, animationSet.currentFacingDirection).CurrentDrawRectangle;

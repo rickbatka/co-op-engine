@@ -91,7 +91,7 @@ namespace co_op_engine.Components.Brains
 
         private void SetState()
         {
-            var newPlayerState = owner.CurrentActorState;
+            var newPlayerState = owner.CurrentState;
 
             if ((owner.InputMovementVector.X != 0 || owner.InputMovementVector.Y != 0)
                 && owner.CurrentStateProperties.CanInitiateWalkingState)
@@ -103,7 +103,7 @@ namespace co_op_engine.Components.Brains
                 newPlayerState = Constants.ACTOR_STATE_IDLE;
             }
 
-            if (newPlayerState != owner.CurrentActorState)
+            if (newPlayerState != owner.CurrentState)
             {
                 ChangeState(newPlayerState);
             }
