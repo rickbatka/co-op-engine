@@ -17,21 +17,18 @@ namespace co_op_engine.Collections
         TimeSpan currentFrameTimer;
         Frame[] frames;
 
-#warning THIS NEEDS TO BE RELATIVE DERPPPPPP, need to do transform off given facing direction (shouldn't be too hard once I think about it)
         public Rectangle CurrentDrawRectangle
         {
-            get { return frames[currentFrameIndex].SourceRectangles[0]; }
+            get { return frames[currentFrameIndex].SourceRectangle; }
         }
 
-        public Rectangle[] CurrentFrameRectangles
+        public Rectangle CurrentFrameRectangle
         {
-            get { return frames[currentFrameIndex].SourceRectangles; }
+            get { return frames[currentFrameIndex].SourceRectangle; }
         }
 
-        public Frame CurrentFrame
-        { get { return frames[currentFrameIndex]; } }
+        public Frame CurrentFrame { get { return frames[currentFrameIndex]; } }
 
-        //needs data reader system
         private AnimatedRectangle(Frame[] frames)
         {
             currentFrameIndex = 0;
@@ -77,7 +74,7 @@ namespace co_op_engine.Collections
             for (int i = 0; i < lineData.Length; ++i)
             {
                 // parse in frame rectangles
-                List<Rectangle> frameRectangles = readRectangles(lineData[i], '<', '>');
+                Rectangle frameRectangle = readRectangles(lineData[i], '<', '>').First();
 
                 // parse in damage dots (1x1 rectangles)
                 List<Rectangle> damageDots = readRectangles(lineData[i], '(', ')');
@@ -88,7 +85,7 @@ namespace co_op_engine.Collections
                 frameList.Add(new Frame()
                 {
                     FrameTime = time,
-                    SourceRectangles = frameRectangles.ToArray(),
+                    SourceRectangle = frameRectangle,
                     DamageDots = damageDots.ToArray()
                 });
             }
@@ -114,8 +111,7 @@ namespace co_op_engine.Collections
 
     public struct Frame
     {
-#warning rick change to single sourcerectangle
-        public Rectangle[] SourceRectangles;
+        public Rectangle SourceRectangle;
         public Rectangle[] DamageDots;
         // drawrecctangle
         // physicsrectangle

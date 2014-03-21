@@ -15,6 +15,8 @@ namespace co_op_engine.Collections
         public int currentState = ANIM_STATE_DEFAULT_IDLE_SOUTH;
         public int currentFacingDirection = Constants.South;
 
+        public AnimatedRectangle CurrentAnimatedRectangle { get { return GetAnimationFallbackToDefault(currentState, currentFacingDirection); } }
+
         public AnimationSet() { }
 
         public static AnimationSet BuildFromAsset(string file)

@@ -48,8 +48,8 @@ namespace co_op_engine.Components.Weapons
             renderer.Update(gameTime);
 
 #warning rick
-            this.Width = renderer.animationSet.GetAnimationFallbackToDefault(renderer.animationSet.currentState, renderer.animationSet.currentFacingDirection).CurrentDrawRectangle.Width;
-            this.Height = renderer.animationSet.GetAnimationFallbackToDefault(renderer.animationSet.currentState, renderer.animationSet.currentFacingDirection).CurrentDrawRectangle.Height;
+            this.Width = renderer.CurrentAnimatedRectangle.CurrentDrawRectangle.Width;
+            this.Height = renderer.CurrentAnimatedRectangle.CurrentDrawRectangle.Height;
         }
 
         virtual public void Draw(SpriteBatch spriteBatch)
@@ -81,7 +81,7 @@ namespace co_op_engine.Components.Weapons
             if (CurrentWeaponStateProperties.IsAttacking)
             {
 #warning rick
-                var damageDots = renderer.animationSet.GetAnimationFallbackToDefault(renderer.animationSet.currentState, renderer.animationSet.currentFacingDirection).CurrentFrame.DamageDots;
+                var damageDots = renderer.CurrentAnimatedRectangle.CurrentFrame.DamageDots;
                 foreach (var damageDot in damageDots)
                 {
                     var colliders = owner.CurrentQuad.MasterQuery
