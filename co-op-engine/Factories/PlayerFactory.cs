@@ -24,7 +24,6 @@ namespace co_op_engine.Factories
         public static PlayerFactory Instance;
         private GamePlay gameRef;
 
-
         private PlayerFactory(GamePlay gameRef)
         {
             this.gameRef = gameRef;

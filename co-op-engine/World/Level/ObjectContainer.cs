@@ -84,5 +84,22 @@ namespace co_op_engine.World.Level
         }
 
 #endregion IActorInformationProvidor
+
+        public GameObject GetObjectById(int Id)
+        {
+            return IndexedReference[Id];
+        }
+
+        public List<object> GetWorldForNetwork()
+        {
+            List<object> worldCommands = new List<object>();
+
+            foreach (var go in LinearReference)
+            {
+                worldCommands.Add(go.BuildCreateParams());
+            }
+
+            return worldCommands;
+        }
     }
 }

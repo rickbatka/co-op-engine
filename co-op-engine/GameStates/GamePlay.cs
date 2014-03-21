@@ -10,6 +10,7 @@ using co_op_engine.World.Level;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using co_op_engine.Networking;
+using co_op_engine.Networking.Commands;
 
 namespace co_op_engine.GameStates
 {
@@ -50,6 +51,53 @@ namespace co_op_engine.GameStates
         {
             GameTimerManager.Instance.Update(gameTime);
             container.UpdateAll(gameTime);
+
+            var netCommands = Networking.Output.Gather();
+
+            if (netCommands.Count > 0)
+            {
+                foreach (var command in netCommands)
+                {
+                    ParseAndExecuteNetworkCommand(command);
+                }
+            }
+        }
+
+        private void ParseAndExecuteNetworkCommand(CommandObject command)
+        {
+            //parse command type
+            var objectCommand = (GameObjectCommand)command.Command;
+
+            switch (objectCommand.CommandType)
+            {
+                case GameObjectCommandType.Create:
+                    {
+                        //use factory to create object
+                        //var newNetObject = 
+                    }
+                    break;
+                case GameObjectCommandType.Delete:
+                    {
+                        //findById and remove
+                        var parameters = (DeleteParameters)objectCommand.Parameters;
+                        var removee = container.GetObjectById(parameters.ID);
+                        container.RemoveObject(removee);
+                    }
+                    break;
+                case GameObjectCommandType.Update:
+                    {
+                        //findby id and run update from network
+                        var parameters = (UpdateParameters)objectCommand.Parameters;
+                        var updatee = container.GetObjectById(parameters.ID);
+                        updatee.UpdateFromNetworkParams(parameters);
+                    }
+                    break;
+                default:
+                    {
+                        throw new NotImplementedException("this command type has not been implemented yet");
+                    }
+                    break;
+            }
         }
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)

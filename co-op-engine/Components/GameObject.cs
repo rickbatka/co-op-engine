@@ -8,6 +8,7 @@ using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using co_op_engine.Networking.Commands;
 
 namespace co_op_engine.Components
 {
@@ -129,5 +130,49 @@ namespace co_op_engine.Components
         public bool FullyRotatable { get { return false; } }
         public int Health { get { return health; } set { health = value; } }
         public int MaxHealth { get { return maxHealth; } set { maxHealth = value; } }
+
+
+        public UpdateParameters BuildUpdateParams()
+        {
+            return new UpdateParameters()
+            {
+                CurrentActorState = this.currentActorState,
+                FacingDirection = this.facingDirection,
+                ID = this.ID,
+                Position = this.position,
+                Velocity = this.Velocity,
+            };
+        }
+
+        public CreateParameters BuildCreateParams()
+        {
+            return new CreateParameters()
+            {
+                ID = this.ID,
+                ObjectTypeEnumerationPossiblyChangeThisLaterLetsTalkAboutIt = "",
+                Brain = this.Brain.GetType(),
+                Combat = this.Combat.GetType(),
+                Physics = this.Physics.GetType(),
+                Renderer = this.Renderer.GetType(),
+                Weapon = this.Weapon.GetType()
+            };
+        }
+
+        public DeleteParameters BuildDeleteParams()
+        {
+            return new DeleteParameters()
+            {
+                ID = this.ID,
+            };
+        }
+
+        public void UpdateFromNetworkParams(UpdateParameters parameters)
+        {
+            this.currentActorState = parameters.CurrentActorState;
+            this.facingDirection = parameters.FacingDirection;
+            this.position = parameters.Position;
+            this.Velocity = parameters.Velocity;
+            CurrentQuad.NotfyOfMovement(this);
+        }
     }
 }
