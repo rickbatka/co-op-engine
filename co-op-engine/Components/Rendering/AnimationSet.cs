@@ -1,4 +1,5 @@
-﻿using co_op_engine.Utility;
+﻿using co_op_engine.Rendering;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
@@ -11,11 +12,11 @@ namespace co_op_engine.Collections
         public static readonly int ANIM_STATE_DEFAULT_IDLE_SOUTH = 0;
 
         // indexed as such: animations[state, direction]
-        Dictionary<int, AnimatedRectangle[]> animations = new Dictionary<int, AnimatedRectangle[]>();
+        Dictionary<int, Animation[]> animations = new Dictionary<int, Animation[]>();
         public int currentState = ANIM_STATE_DEFAULT_IDLE_SOUTH;
         public int currentFacingDirection = Constants.South;
 
-        public AnimatedRectangle CurrentAnimatedRectangle { get { return GetAnimationFallbackToDefault(currentState, currentFacingDirection); } }
+        public Animation CurrentAnimatedRectangle { get { return GetAnimationFallbackToDefault(currentState, currentFacingDirection); } }
 
         public AnimationSet() { }
 
@@ -35,9 +36,9 @@ namespace co_op_engine.Collections
                     {
                         if (!animationSet.animations.ContainsKey(animationIndex))
                         {
-                            animationSet.animations.Add(animationIndex, new AnimatedRectangle[4]);
+                            animationSet.animations.Add(animationIndex, new Animation[4]);
                         }
-                        animationSet.animations[animationIndex][directionIndex] = AnimatedRectangle.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>());
+                        animationSet.animations[animationIndex][directionIndex] = Animation.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>());
                     }
                     var indexes = line.Split(';');
                     animationIndex = int.Parse(indexes[1]);
@@ -53,15 +54,15 @@ namespace co_op_engine.Collections
                 //dont forget the last animation! repeated code...
                 if (!animationSet.animations.ContainsKey(animationIndex))
                 {
-                    animationSet.animations.Add(animationIndex, new AnimatedRectangle[4]);
+                    animationSet.animations.Add(animationIndex, new Animation[4]);
                 }
-                animationSet.animations[animationIndex][directionIndex] = AnimatedRectangle.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>());
+                animationSet.animations[animationIndex][directionIndex] = Animation.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>());
             }
 
             return animationSet;
         }
 
-        public AnimatedRectangle GetAnimationFallbackToDefault(int state, int facingDirection)
+        public Animation GetAnimationFallbackToDefault(int state, int facingDirection)
         {
             return GetAnimation(state, facingDirection)
                 ?? GetAnimation(state, Constants.South)
@@ -89,7 +90,7 @@ namespace co_op_engine.Collections
             }
         }
 
-        private AnimatedRectangle GetAnimation(int state, int facingDirection)
+        private Animation GetAnimation(int state, int facingDirection)
         {
             if (animations.ContainsKey(state))
             {

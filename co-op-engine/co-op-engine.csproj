@@ -36,10 +36,10 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Collections\AnimatedRectangle.cs" />
+    <Compile Include="Components\Rendering\Animation.cs" />
     <Compile Include="Collections\ElasticQuadTree.cs" />
     <Compile Include="Collections\ThreadSafeBuffer.cs" />
-    <Compile Include="Collections\AnimationSet.cs" />
+    <Compile Include="Components\Rendering\AnimationSet.cs" />
     <Compile Include="Components\Brains\AI\DoNothingBrain.cs" />
     <Compile Include="Components\Brains\BrainBase.cs" />
     <Compile Include="Components\Brains\NetworkClientBrain.cs" />
@@ -54,6 +54,7 @@
     <Compile Include="Components\Physics\NonCollidingPhysics.cs" />
     <Compile Include="Components\Physics\PhysicsBase.cs" />
     <Compile Include="Components\Rendering\AnimatedRenderer.cs" />
+    <Compile Include="Components\Rendering\Frame.cs" />
     <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
     <Compile Include="Components\Weapons\MeleeWeapon.cs" />
@@ -61,6 +62,9 @@
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Networking\Commands\GameObjectCommand.cs" />
     <Compile Include="Networking\GameObjectNetworkHelper.cs" />
+    <Content Include="Content\TowerData.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="Networking\NetworkBase.cs" />
     <Compile Include="Utility\AssetRepository.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />

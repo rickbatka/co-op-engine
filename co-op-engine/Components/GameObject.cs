@@ -31,8 +31,6 @@ namespace co_op_engine.Components
 
         public Texture2D Texture { get; set; }
         public Vector2 Position { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
         public int CurrentState { get; set; }
         public ActorState CurrentStateProperties { get { return ActorStates.States[CurrentState]; } }
         public int FacingDirection { get; set; }
@@ -41,6 +39,7 @@ namespace co_op_engine.Components
         public bool FullyRotatable { get { return false; } }
         public int Health { get; set; }
         public int MaxHealth { get; set; }
+        public Frame CurrentFrame { get; set; }
 
         public event EventHandler OnDeath;
 

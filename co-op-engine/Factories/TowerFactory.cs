@@ -6,6 +6,7 @@ using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
 using co_op_engine.GameStates;
 using co_op_engine.Utility;
+using Microsoft.Xna.Framework;
 
 namespace co_op_engine.Factories
 {
@@ -29,9 +30,7 @@ namespace co_op_engine.Factories
         {
             var tower = new GameObject();
             tower.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
-
-            tower.Width = 96;
-            tower.Height = 96;
+            tower.CurrentFrame = AssetRepository.Instance.TowerAnimations.CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UnShovable = true;
             tower.SetPhysics(new CollidingPhysics(tower));
