@@ -38,6 +38,8 @@ namespace co_op_engine.Components.Weapons
             UpdateState(gameTime);
             DoDamage();
             renderer.Update(gameTime);
+
+#warning rick
             this.width = renderer.animationSet.GetAnimationFallbackToDefault(renderer.animationSet.currentState, renderer.animationSet.currentFacingDirection).CurrentDrawRectangle.Width;
             this.height = renderer.animationSet.GetAnimationFallbackToDefault(renderer.animationSet.currentState, renderer.animationSet.currentFacingDirection).CurrentDrawRectangle.Height;
         }
@@ -62,14 +64,15 @@ namespace co_op_engine.Components.Weapons
 
         virtual public void PrimaryAttack()
         {
-            currentAttackTimer = TimeSpan.FromMilliseconds(renderer.animationSet.GetAnimationDuration(Constants.STATE_ATTACKING_MELEE, owner.FacingDirection));
-            owner.CurrentActorState = Constants.STATE_ATTACKING_MELEE;
+            currentAttackTimer = TimeSpan.FromMilliseconds(renderer.animationSet.GetAnimationDuration(Constants.ACTOR_STATE_ATTACKING_MELEE, owner.FacingDirection));
+            owner.CurrentActorState = Constants.ACTOR_STATE_ATTACKING_MELEE;
         }
 
         private void DoDamage()
         {
             if (owner.CurrentStateProperties.IsAttacking)
             {
+#warning 
                 var damageDots = renderer.animationSet.GetAnimationFallbackToDefault(renderer.animationSet.currentState, renderer.animationSet.currentFacingDirection).CurrentFrame.DamageDots;
                 foreach (var damageDot in damageDots)
                 {
@@ -82,7 +85,7 @@ namespace co_op_engine.Components.Weapons
                     );
                     foreach (var collider in colliders)
                     {
-                        if(collider != owner)
+                        if(collider.ID != owner.ID)
                         {
                             collider.HandleHitByWeapon(this, HitCooldownDurationMS);
                         }
@@ -93,14 +96,14 @@ namespace co_op_engine.Components.Weapons
 
         private void UpdateState(GameTime gameTime)
         {
-            if (owner.CurrentActorState == Constants.STATE_ATTACKING_MELEE)
+            if (owner.CurrentActorState == Constants.ACTOR_STATE_ATTACKING_MELEE)
             {
                 currentAttackTimer -= gameTime.ElapsedGameTime;
                 if (currentAttackTimer <= TimeSpan.Zero)
                 {
-                    owner.CurrentActorState = Constants.STATE_IDLE;
+                    owner.CurrentActorState = Constants.ACTOR_STATE_IDLE;
                     currentAttackTimer = TimeSpan.Zero;
-                    renderer.animationSet.GetAnimationFallbackToDefault(Constants.STATE_ATTACKING_MELEE, owner.FacingDirection).Reset();
+                    renderer.animationSet.GetAnimationFallbackToDefault(Constants.ACTOR_STATE_ATTACKING_MELEE, owner.FacingDirection).Reset();
                 }
             }
         }
@@ -108,7 +111,7 @@ namespace co_op_engine.Components.Weapons
         public bool FullyRotatable { 
             get 
             {
-                if (owner.CurrentActorState == Constants.STATE_ATTACKING_MELEE)
+                if (owner.CurrentActorState == Constants.ACTOR_STATE_ATTACKING_MELEE)
                 {
                     return true;
                 }

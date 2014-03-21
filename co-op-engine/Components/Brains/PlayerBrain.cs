@@ -96,11 +96,11 @@ namespace co_op_engine.Components.Brains
             if ((owner.InputMovementVector.X != 0 || owner.InputMovementVector.Y != 0)
                 && owner.CurrentStateProperties.CanInitiateWalkingState)
             {
-                newPlayerState = Constants.STATE_WALKING;
+                newPlayerState = Constants.ACTOR_STATE_WALKING;
             }
             else if(owner.CurrentStateProperties.CanInitiateIdleState)
             {
-                newPlayerState = Constants.STATE_IDLE;
+                newPlayerState = Constants.ACTOR_STATE_IDLE;
             }
 
             if (newPlayerState != owner.CurrentActorState)

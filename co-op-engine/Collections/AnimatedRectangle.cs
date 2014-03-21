@@ -114,8 +114,12 @@ namespace co_op_engine.Collections
 
     public struct Frame
     {
+#warning rick change to single sourcerectangle
         public Rectangle[] SourceRectangles;
         public Rectangle[] DamageDots;
+        // drawrecctangle
+        // physicsrectangle
+        // origin?
         public int FrameTime;
     }
 }

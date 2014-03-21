@@ -61,9 +61,9 @@ namespace co_op_engine.Collections
 
         public AnimatedRectangle GetAnimationFallbackToDefault(int state, int facingDirection)
         {
-            return TryGetAnimation(state, facingDirection)
-                ?? TryGetAnimation(state, Constants.South)
-                ?? TryGetAnimation(ANIM_STATE_DEFAULT_IDLE_SOUTH, Constants.South);
+            return GetAnimation(state, facingDirection)
+                ?? GetAnimation(state, Constants.South)
+                ?? GetAnimation(ANIM_STATE_DEFAULT_IDLE_SOUTH, Constants.South);
         }
 
         public int GetAnimationDuration(int state, int facingDirection)
@@ -87,7 +87,7 @@ namespace co_op_engine.Collections
             }
         }
 
-        private AnimatedRectangle TryGetAnimation(int state, int facingDirection)
+        private AnimatedRectangle GetAnimation(int state, int facingDirection)
         {
             if (animations.ContainsKey(state))
             {

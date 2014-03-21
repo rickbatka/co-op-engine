@@ -20,7 +20,7 @@ namespace co_op_engine.Components.Brains
         public BrainBase(GameObject owner)
         {
             this.owner = owner;
-            this.owner.CurrentActorState = Constants.STATE_IDLE;
+            this.owner.CurrentActorState = Constants.ACTOR_STATE_IDLE;
         }
 
         virtual public void Update(GameTime gameTime) { }

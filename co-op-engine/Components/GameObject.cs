@@ -28,21 +28,26 @@ namespace co_op_engine.Components
         public bool UnShovable = false;
         public string DisplayName { get { return "ID: " + ID; } }
 
-        private int width;
-        private int height;
-        private Texture2D texture;
-        private Vector2 position;
-        private Vector2 facingDirectionRaw;
-        private float rotationTowardFacingDirectionRadians;
-        private int facingDirection;
-        private int currentActorState = Constants.STATE_IDLE;
-        private int health = 100;
-        private int maxHealth = 100;
+        public Texture2D Texture { get; set; }
+        public Vector2 Position { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int CurrentActorState { get; set; }
+        public ActorState CurrentStateProperties { get { return ActorStates.States[CurrentActorState]; } }
+        public int FacingDirection { get; set; }
+        public Vector2 FacingDirectionRaw { get; set; }
+        public float RotationTowardFacingDirectionRadians { get; set; }
+        public bool FullyRotatable { get { return false; } }
+        public int Health { get; set; }
+        public int MaxHealth { get; set; }
 
         public event EventHandler OnDeath;
 
         public GameObject()
         {
+            CurrentActorState = Constants.ACTOR_STATE_IDLE;
+            Health = 100;
+            MaxHealth = 100;
         }
 
         public void SetPhysics(PhysicsBase physics)
@@ -115,19 +120,5 @@ namespace co_op_engine.Components
                 Combat.HandleHitByWeapon(hitByWeapon, hitCooldownDurationMS);
             }
         }
-
-        public StatePropertySet CurrentStateProperties { get { return StateProperties.Properties[currentActorState]; } }
-
-        public Texture2D Texture { get { return texture; } set { texture = value; } }
-        public Vector2 Position { get { return position; } set { position = value; } }
-        public int Width { get { return width; } set { width = value; } }
-        public int Height { get { return height; } set { height = value; } }
-        public int CurrentActorState { get { return currentActorState; } set { currentActorState = value; } }
-        public int FacingDirection { get { return facingDirection; } set { facingDirection = value; } }
-        public Vector2 FacingDirectionRaw { get { return facingDirectionRaw; } set { facingDirectionRaw = value; } }
-        public float RotationTowardFacingDirectionRadians { get { return rotationTowardFacingDirectionRadians; } set { rotationTowardFacingDirectionRadians = value; } }
-        public bool FullyRotatable { get { return false; } }
-        public int Health { get { return health; } set { health = value; } }
-        public int MaxHealth { get { return maxHealth; } set { maxHealth = value; } }
     }
 }

@@ -26,6 +26,7 @@ namespace co_op_engine.Components.Rendering
             animationSet.Update(gameTime);
             currentDrawRectangle = animationSet.GetAnimationFallbackToDefault(animationSet.currentState, animationSet.currentFacingDirection).CurrentDrawRectangle;
 
+#warning rick 
             owner.Width = currentDrawRectangle.Value.Width;
             owner.Height = currentDrawRectangle.Value.Height;
 
@@ -41,6 +42,7 @@ namespace co_op_engine.Components.Rendering
         {
             base.DebugDraw(spriteBatch);
 
+#warning bad
             var damageDots = animationSet.GetAnimationFallbackToDefault(animationSet.currentState, animationSet.currentFacingDirection).CurrentFrame.DamageDots;
 
             if (damageDots != null && damageDots.Length > 0)
