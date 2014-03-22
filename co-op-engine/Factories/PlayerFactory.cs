@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework;
 using co_op_engine.Utility;
 using co_op_engine.Components.Combat;
 using co_op_engine.Networking;
+using co_op_engine.Networking.Commands;
 
 namespace co_op_engine.Factories
 {
@@ -47,19 +48,30 @@ namespace co_op_engine.Factories
             player.SetRenderer(renderer);
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
             player.SetCombat(new CombatBase(player));
-            
+
             // wire up the events between components
             player.EquipWeapon(GetSword(player));
 
             gameRef.container.AddObject(player);
 
+            var parms = player.BuildCreateParams();
+            netRef.Input.Add(new CommandObject()
+            {
+                ClientId = netRef.ClientId,
+                Command = new GameObjectCommand()
+                {
+                    CommandType = GameObjectCommandType.Create,
+                    Parameters = parms,
+                },
+            });
+
             return player;
         }
 
-        public GameObject GetNetworkPlayer()
+        public GameObject GetNetworkPlayer(int id = -1)
         {
             var player = new GameObject();
-            player.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
+            player.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             player.Position = new Vector2(100, 100);
 
             player.SetPhysics(new CollidingPhysics(player));

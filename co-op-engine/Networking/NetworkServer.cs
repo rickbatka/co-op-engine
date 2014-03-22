@@ -77,6 +77,7 @@ namespace co_op_engine.Networking
                 listener = new TcpListener(IPAddress.Any, PORT);
                 //start listen loop
                 listenThread.Start();
+                sendThread.Start();
             }
         }
 
@@ -94,6 +95,13 @@ namespace co_op_engine.Networking
                 catch
                 { }
             }
+
+            try
+            {
+                sendThread.Abort();
+            }
+            catch
+            { }
 
             clientThreads.Clear();
 
@@ -248,9 +256,6 @@ namespace co_op_engine.Networking
 
             var response = MechanicSingleton.SetupClientData(clientData);
 
-#warning need to finish the notification of other players, probably just a standard create object etc.
-            //EchoAllOthers( SOME COMMAND TO ADD AN OBJECT )
-
             formatter.Serialize(stream, response);
 
             foreach (var obj in worldRef.GetWorldForNetwork())
@@ -260,11 +265,7 @@ namespace co_op_engine.Networking
                     new CommandObject()
                     {
                         ClientId = gClient.ClientId,
-                        Command = new GameObjectCommand()
-                        {
-                            CommandType = GameObjectCommandType.Create,
-                            Parameters = obj,
-                        }
+                        Command = obj,
                     });
 
             }

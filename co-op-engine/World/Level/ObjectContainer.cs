@@ -80,13 +80,22 @@ namespace co_op_engine.World.Level
             return IndexedReference[Id];
         }
 
-        public List<CreateParameters> GetWorldForNetwork()
+        public List<GameObjectCommand> GetWorldForNetwork()
         {
-            List<CreateParameters> worldCommands = new List<CreateParameters>();
+            List<GameObjectCommand> worldCommands = new List<GameObjectCommand>();
 
             foreach (var go in LinearReference)
             {
-                worldCommands.Add(go.BuildCreateParams());
+                worldCommands.Add(new GameObjectCommand()
+                {
+                    CommandType = GameObjectCommandType.Create,
+                    Parameters = go.BuildCreateParams(),
+                });
+                worldCommands.Add(new GameObjectCommand()
+                {
+                    CommandType = GameObjectCommandType.Update,
+                    Parameters = go.BuildUpdateParams(),
+                });
             }
 
             return worldCommands;

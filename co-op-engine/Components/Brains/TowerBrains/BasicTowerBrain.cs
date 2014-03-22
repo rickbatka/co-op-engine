@@ -31,7 +31,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
 			this.placingZoneTexture = placingZoneTexture;
 			this.placingColor = new Color(placingColor, placingColorOpacity);
 
-			this.currentState = State.Placing;
+			this.currentState = startState;
 
 			this.placingInput.OnPlacementAttempted += HandlePlacementAttempted;
 			this.placingInput.OnCoordsUpdated += HandleCoordsUpdated;

@@ -36,11 +36,11 @@ namespace co_op_engine.Factories
             if (parameters.Brain == typeof(PlayerBrain))
             {
                 //hack to speed things up
-                return PlayerFactory.Instance.GetNetworkPlayer();
+                return PlayerFactory.Instance.GetNetworkPlayer(parameters.ID);
             }
             else if (parameters.Brain == typeof(BasicTowerBrain))
             {
-                return TowerFactory.Instance.GetDoNothingTower();
+                return TowerFactory.Instance.GetDoNothingTower(true, parameters.ID);
             }
             throw new NotImplementedException("other objects haven't been dealt with across network yet");
         }

@@ -30,16 +30,20 @@ namespace co_op_engine.Factories
             Instance = new TowerFactory(gameRef, netref);
         }
 
-        public GameObject GetDoNothingTower(bool fromNetwork = false)
+        public GameObject GetDoNothingTower(bool fromNetwork = false, int id = -1)
         {
             var tower = new GameObject();
-            tower.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
+            tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations.CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UnShovable = true;
             tower.SetPhysics(new CollidingPhysics(tower));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture));
-            tower.SetBrain(new BasicTowerBrain(tower, AssetRepository.Instance.PlainWhiteTexture, new KeyMouseTowerPlacingInput(gameRef, tower.BoundingBox)));
+            tower.SetBrain(new BasicTowerBrain(tower,
+                AssetRepository.Instance.PlainWhiteTexture, 
+                new KeyMouseTowerPlacingInput(gameRef, tower.BoundingBox),
+                fromNetwork ? State.Built : State.Placing));
+            
             tower.SetCombat(new CombatBase(tower));
 
             gameRef.container.AddObject(tower);

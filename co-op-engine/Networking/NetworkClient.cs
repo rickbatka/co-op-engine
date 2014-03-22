@@ -200,6 +200,8 @@ namespace co_op_engine.Networking
             formatter.Serialize(stream,initialData);
             var response = (InitialNetworkData)formatter.Deserialize(stream);
 
+            this.thisClient.ClientId = response.PlayerId;
+
             recvThread.Start();
             
             MechanicSingleton.SetupAsClient(response);
