@@ -28,7 +28,7 @@ namespace co_op_engine.Utility
         {
             return DrawingUtility.RotateVectorAboutOrigin(
                 fThetaRadian: owner.RotationTowardFacingDirectionRadians,
-                point: (new Vector2(relativePosition.X + owner.Position.X - (float)(owner.Width / 2f), relativePosition.Y + owner.Position.Y - (float)(owner.Height / 2f))),
+                point: (new Vector2(relativePosition.X + owner.Position.X - (float)(owner.CurrentFrame.SourceRectangle.Width / 2f), relativePosition.Y + owner.Position.Y - (float)(owner.CurrentFrame.SourceRectangle.Height / 2f))),
                 origin: owner.Position
             );
         }

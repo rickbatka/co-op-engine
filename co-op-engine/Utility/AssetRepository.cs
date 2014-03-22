@@ -29,6 +29,7 @@ namespace co_op_engine.Utility
         public AnimationSet SwordAnimations;
         public AnimationSet AxeAnimations;
         public AnimationSet MaceAnimations;
+        public AnimationSet TowerAnimations;
 
         public void TempSetWindowText(string text)
         {
@@ -64,6 +65,7 @@ namespace co_op_engine.Utility
             SwordAnimations = AnimationSet.BuildFromAsset("content/SwordData.txt");
             AxeAnimations = AnimationSet.BuildFromAsset("content/AxeData.txt");
             MaceAnimations = AnimationSet.BuildFromAsset("content/MaceData.txt");
+            TowerAnimations = AnimationSet.BuildFromAsset("content/TowerData.txt");
         }
     }
 }

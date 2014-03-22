@@ -47,7 +47,7 @@ namespace co_op_engine.Components.Physics
         {
             base.DebugDraw(spriteBatch);
             spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture,
-                new Rectangle((int)owner.Position.X, (int)owner.Position.Y, 30, 30), Color.Black);
+                owner.BoundingBox, Color.Black);
         }
 
         private void HandleCollisionPatternMethodTesting(List<GameObject> colliders)

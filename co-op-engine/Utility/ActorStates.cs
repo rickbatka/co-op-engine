@@ -11,7 +11,7 @@ namespace co_op_engine.Utility
 
         private static ActorState[] BuildStateProperties()
         {
-            var props = new ActorState[3];
+            var props = new ActorState[2];
 
             props[Constants.ACTOR_STATE_IDLE] = new ActorState(
                 canInitiateIdleState: true,
@@ -25,13 +25,6 @@ namespace co_op_engine.Utility
                 canInitiateWalkingState: true,
                 canInitiatePrimaryAttackState: true,
                 isAttacking: false
-            );
-
-            props[Constants.ACTOR_STATE_ATTACKING_MELEE] = new ActorState(
-                canInitiateIdleState: false,
-                canInitiateWalkingState: false,
-                canInitiatePrimaryAttackState: false,
-                isAttacking: true
             );
 
             return props;

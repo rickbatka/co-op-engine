@@ -48,7 +48,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
 			{
 				spriteBatch.Draw(
 					texture: placingZoneTexture,
-					rectangle: new Rectangle((int)(owner.Position.X - owner.Width / 2), (int)(owner.Position.Y - owner.Height / 2), owner.BoundingBox.Width, owner.BoundingBox.Height),
+					rectangle: new Rectangle((int)(owner.Position.X - owner.CurrentFrame.SourceRectangle.Width / 2), (int)(owner.Position.Y - owner.CurrentFrame.SourceRectangle.Height / 2), owner.CurrentFrame.SourceRectangle.Width, owner.CurrentFrame.SourceRectangle.Height),
 					color: placingColor
 				);
 			}

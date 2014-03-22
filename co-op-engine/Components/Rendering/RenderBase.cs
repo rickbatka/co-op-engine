@@ -13,8 +13,6 @@ namespace co_op_engine.Components.Rendering
     {
         protected readonly IRenderable owner;
 
-        protected Rectangle? currentDrawRectangle = null;
-
         public RenderBase(IRenderable owner, Texture2D texture)
         {
             this.owner = owner;
@@ -30,8 +28,8 @@ namespace co_op_engine.Components.Rendering
         {
             spriteBatch.Draw(
                 texture: owner.Texture, 
-                destinationRectangle: GetDrawTarget(), 
-                sourceRectangle: currentDrawRectangle, 
+                destinationRectangle: GetDrawTarget(),
+                sourceRectangle: owner.CurrentFrame.SourceRectangle, 
                 color: Color.White,
                 rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
                 origin: GetCenterOrigin(),
@@ -46,7 +44,7 @@ namespace co_op_engine.Components.Rendering
             spriteBatch.Draw(
                 texture: AssetRepository.Instance.PlainWhiteTexture,
                 destinationRectangle: GetDrawTarget(),
-                sourceRectangle: currentDrawRectangle,
+                sourceRectangle: owner.CurrentFrame.SourceRectangle,
                 color: new Color(Color.Green, 0.01f),
                 rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
                 origin: GetCenterOrigin(),
@@ -59,16 +57,16 @@ namespace co_op_engine.Components.Rendering
             return new Rectangle(
                 x: (int)(owner.Position.X),
                 y: (int)(owner.Position.Y),
-                width: owner.Width,
-                height: owner.Height
+                width: owner.CurrentFrame.SourceRectangle.Width,
+                height: owner.CurrentFrame.SourceRectangle.Height
             );
         }
 
         protected Vector2 GetCenterOrigin()
         {
             var center = new Vector2(
-                x: owner.Width/2f,
-                y: owner.Height/2f
+                x: owner.CurrentFrame.SourceRectangle.Width / 2f,
+                y: owner.CurrentFrame.SourceRectangle.Height / 2f
             );
             
             return center;

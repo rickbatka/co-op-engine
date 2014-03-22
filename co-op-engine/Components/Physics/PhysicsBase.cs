@@ -60,7 +60,11 @@ namespace co_op_engine.Components.Physics
 
         public void VerifyBoundingBox()
         {
-            owner.BoundingBox = new Rectangle((int)(this.owner.Position.X - this.owner.BoundingBox.Width / 2), (int)(this.owner.Position.Y - this.owner.BoundingBox.Height / 2), this.owner.Width, this.owner.Height);
+            owner.BoundingBox = new Rectangle(
+                (int)(owner.CurrentFrame.PhysicsRectangle.X + (this.owner.Position.X - this.owner.CurrentFrame.SourceRectangle.Width / 2)),
+                (int)(owner.CurrentFrame.PhysicsRectangle.Y + (this.owner.Position.Y - this.owner.CurrentFrame.SourceRectangle.Height / 2)), 
+                this.owner.CurrentFrame.PhysicsRectangle.Width, 
+                this.owner.CurrentFrame.PhysicsRectangle.Height);
         }
 
         private void SetFacingDirection()
@@ -98,9 +102,7 @@ namespace co_op_engine.Components.Physics
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
         virtual public void DebugDraw(SpriteBatch spriteBatch) 
-        { 
-            spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, this.owner.BoundingBox, Color.White);
-
+        {
             // object debug info
             spriteBatch.DrawString(
                 spriteFont: AssetRepository.Instance.Arial,
@@ -120,8 +122,8 @@ namespace co_op_engine.Components.Physics
         private Vector2 PositionAboveHead(int distance)
         {
             var aboveHead = new Vector2(
-                x: owner.Position.X - (owner.Width / 2f),
-                y: owner.Position.Y - (owner.Height / 2f) - distance
+                x: owner.Position.X - (owner.CurrentFrame.SourceRectangle.Width / 2f),
+                y: owner.Position.Y - (owner.CurrentFrame.SourceRectangle.Height / 2f) - distance
             );
 
             return aboveHead;

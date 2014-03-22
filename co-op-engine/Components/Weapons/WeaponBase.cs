@@ -21,10 +21,9 @@ namespace co_op_engine.Components.Weapons
         public int CurrentState { get; set; }
         protected WeaponState CurrentWeaponStateProperties { get { return WeaponStates.States[CurrentState]; } }
 
+        public Frame CurrentFrame { get; set; }
         public Texture2D Texture { get; set; }
         public Vector2 Position { get { return owner.Position; } }
-        public int Width { get; set; }
-        public int Height { get; set; }
         public int FacingDirection { get { return owner.FacingDirection; } set { owner.FacingDirection = value; } }
         public Vector2 FacingDirectionRaw { get { return owner.FacingDirectionRaw; } set { owner.FacingDirectionRaw = value; } }
         public float RotationTowardFacingDirectionRadians { get { return owner.RotationTowardFacingDirectionRadians; } set { owner.RotationTowardFacingDirectionRadians = value; } }
@@ -46,10 +45,6 @@ namespace co_op_engine.Components.Weapons
             UpdateState(gameTime);
             DoDamage();
             renderer.Update(gameTime);
-
-#warning rick
-            this.Width = renderer.CurrentAnimatedRectangle.CurrentDrawRectangle.Width;
-            this.Height = renderer.CurrentAnimatedRectangle.CurrentDrawRectangle.Height;
         }
 
         virtual public void Draw(SpriteBatch spriteBatch)
@@ -80,8 +75,7 @@ namespace co_op_engine.Components.Weapons
         {
             if (CurrentWeaponStateProperties.IsAttacking)
             {
-#warning rick
-                var damageDots = renderer.CurrentAnimatedRectangle.CurrentFrame.DamageDots;
+                var damageDots = renderer.CurrentAnimation.CurrentFrame.DamageDots;
                 foreach (var damageDot in damageDots)
                 {
                     var colliders = owner.CurrentQuad.MasterQuery

@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Collections;
+using co_op_engine.Rendering;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +14,7 @@ namespace co_op_engine.Components.Rendering
     {
         public AnimationSet animationSet;
 
-        public AnimatedRectangle CurrentAnimatedRectangle { get { return animationSet.CurrentAnimatedRectangle; } }
+        public Animation CurrentAnimation { get { return animationSet.CurrentAnimatedRectangle; } }
 
         public AnimatedRenderer(IRenderable owner, Texture2D texture, AnimationSet animationSet)
             :base(owner, texture)
@@ -26,11 +27,7 @@ namespace co_op_engine.Components.Rendering
             animationSet.currentState = (int)owner.CurrentState;
             animationSet.currentFacingDirection = (int)owner.FacingDirection;
             animationSet.Update(gameTime);
-            currentDrawRectangle = CurrentAnimatedRectangle.CurrentDrawRectangle;
-
-#warning rick 
-            owner.Width = currentDrawRectangle.Value.Width;
-            owner.Height = currentDrawRectangle.Value.Height;
+            owner.CurrentFrame = CurrentAnimation.CurrentFrame;
 
             base.Update(gameTime);
         }
@@ -45,7 +42,7 @@ namespace co_op_engine.Components.Rendering
             base.DebugDraw(spriteBatch);
 
 #warning bad
-            var damageDots = CurrentAnimatedRectangle.CurrentFrame.DamageDots;
+            var damageDots = CurrentAnimation.CurrentFrame.DamageDots;
 
             if (damageDots != null && damageDots.Length > 0)
             {
