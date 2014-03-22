@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using co_op_engine.Collections;
+using co_op_engine.World.Level;
 
 namespace co_op_engine.Networking
 {
@@ -12,7 +13,14 @@ namespace co_op_engine.Networking
     /// </summary>
     abstract public class NetworkBase
     {
+        protected ObjectContainer worldRef;
+
         abstract public event EventHandler OnNetworkError;
+
+        public void RegisterWorldWithNetwork(ObjectContainer container)
+        {
+            worldRef = container;
+        }
 
         abstract public bool IsHosting { get; }
         abstract public ThreadSafeBuffer<CommandObject> Input { get; }

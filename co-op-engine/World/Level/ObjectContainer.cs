@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using co_op_engine.Collections;
 using co_op_engine.Components;
+using co_op_engine.Networking.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -70,18 +71,7 @@ namespace co_op_engine.World.Level
 #region IActorInformationProvidor
 
 #warning remove this, it's a hack to get things moving and should be replaced by a search method later
-        public void SetPlayer(GameObject player)
-        {
-            players = new List<GameObject>();
-            players.Add(player);
-        }
 
-        private List<GameObject> players;
-
-        public List<GameObject> GetPlayers()
-        {
-            return players;
-        }
 
 #endregion IActorInformationProvidor
 
@@ -90,9 +80,9 @@ namespace co_op_engine.World.Level
             return IndexedReference[Id];
         }
 
-        public List<object> GetWorldForNetwork()
+        public List<CreateParameters> GetWorldForNetwork()
         {
-            List<object> worldCommands = new List<object>();
+            List<CreateParameters> worldCommands = new List<CreateParameters>();
 
             foreach (var go in LinearReference)
             {

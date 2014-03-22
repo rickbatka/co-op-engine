@@ -142,11 +142,11 @@ namespace co_op_engine.Components
             {
                 ID = this.ID,
                 ObjectTypeEnumerationPossiblyChangeThisLaterLetsTalkAboutIt = "",
-                Brain = this.Brain.GetType(),
-                Combat = this.Combat.GetType(),
-                Physics = this.Physics.GetType(),
-                Renderer = this.Renderer.GetType(),
-                Weapon = this.Weapon.GetType()
+                Brain = this.Brain == null ? null : this.Brain.GetType(),
+                Combat = this.Combat == null ? null : this.Combat.GetType(),
+                Physics = this.Physics == null ? null : this.Physics.GetType(),
+                Renderer = this.Renderer == null ? null : this.Renderer.GetType(),
+                Weapon = this.Weapon == null ? null : this.Weapon.GetType()
             };
         }
 

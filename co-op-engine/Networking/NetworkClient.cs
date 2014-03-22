@@ -105,7 +105,6 @@ namespace co_op_engine.Networking
                     throw new Exception("handshaking failed, he probably had a knife up his sleeve");
                 }
 
-                recvThread.Start();
                 sendThread.Start();
             }
             catch(Exception e)
@@ -172,15 +171,15 @@ namespace co_op_engine.Networking
         {
             var stream = thisClient.Client.GetStream();
             var formatter = new BinaryFormatter();
-
 #warning currently unsafe, need to work on it
             while (true)
             {
                 //blocks here
-                CommandObject command = (CommandObject)formatter.Deserialize(stream);
+                stream.Flush();
+                var command = formatter.Deserialize(stream);
 
                 //send chatter to output
-                outputBuffer.Add(command);
+                outputBuffer.Add((CommandObject)command);
             }
         }
 
@@ -194,11 +193,11 @@ namespace co_op_engine.Networking
                 PlayerName = MechanicSingleton.Instance.PlayerName,
             };
 
-            stream.Flush();
-
             formatter.Serialize(stream,initialData);
             var response = (InitialNetworkData)formatter.Deserialize(stream);
 
+            recvThread.Start();
+            
             MechanicSingleton.SetupAsClient(response);
 
             if (OnServerConnected != null)

@@ -26,9 +26,11 @@ namespace co_op_engine.GameStates
             : base(game)
         {
             container = new ObjectContainer(GameRef.screenRectangle);
+            network.RegisterWorldWithNetwork(container);
             Camera.Instantiate(GameRef.screenRectangle);
             PlayerFactory.Initialize(this);
             TowerFactory.Initialize(this);
+            NetworkFactory.Initialize(this);
             Networking = network;
         }
 
@@ -73,7 +75,7 @@ namespace co_op_engine.GameStates
                 case GameObjectCommandType.Create:
                     {
                         //use factory to create object
-                        //var newNetObject = 
+                        NetworkFactory.BuildFromNetwork((CreateParameters)objectCommand.Parameters);
                     }
                     break;
                 case GameObjectCommandType.Delete:
@@ -132,10 +134,6 @@ namespace co_op_engine.GameStates
             }
         }
 
-        public List<GameObject> GetPlayers()
-        {
-            return container.GetPlayers();
-        }
 
         public Rectangle ScreenRectangle { get { return GameRef.screenRectangle; } }
         public int GridSize { get { return GameRef.gridSize; } }

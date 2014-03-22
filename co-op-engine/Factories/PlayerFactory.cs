@@ -50,12 +50,11 @@ namespace co_op_engine.Factories
             player.EquipWeapon(GetSword(player));
 
             gameRef.container.AddObject(player);
-            gameRef.container.SetPlayer(player);
 
             return player;
         }
 
-        public GameObject GetNetworkPlayer(InitialNetworkData networkData)
+        public GameObject GetNetworkPlayer()
         {
             var player = new GameObject();
             player.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
@@ -66,6 +65,9 @@ namespace co_op_engine.Factories
             player.SetRenderer(renderer);
             player.SetBrain(new NetworkClientBrain(player));
             player.SetCombat(new COMBATPLACEHOLDER(player));
+            player.EquipWeapon(GetSword(player));
+
+            gameRef.container.AddObject(player);
 
             return player;
         }

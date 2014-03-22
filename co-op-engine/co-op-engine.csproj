@@ -60,7 +60,6 @@
     <Compile Include="Components\Weapons\WeaponBase.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Networking\Commands\GameObjectCommand.cs" />
-    <Compile Include="Networking\GameObjectNetworkHelper.cs" />
     <Compile Include="Networking\NetworkBase.cs" />
     <Compile Include="Utility\AssetRepository.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />

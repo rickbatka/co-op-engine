@@ -7,7 +7,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using co_op_engine.Collections;
+using co_op_engine.Networking.Commands;
 using co_op_engine.Utility;
+using co_op_engine.World.Level;
 
 namespace co_op_engine.Networking
 {
@@ -59,6 +61,8 @@ namespace co_op_engine.Networking
 
             playerIndex = 1;
         }
+
+        
 
         public void StartHosting()
         {
@@ -233,15 +237,32 @@ namespace co_op_engine.Networking
         {
             //network protocol hands have schecten however we need some handshaking of our own for establishing player numbers, etc.
             BinaryFormatter formatter = new BinaryFormatter();
+            var stream = gClient.Client.GetStream();
 
-            InitialNetworkData clientData = (InitialNetworkData)formatter.Deserialize(gClient.Client.GetStream());
+            InitialNetworkData clientData = (InitialNetworkData)formatter.Deserialize(stream);
 
             var response = MechanicSingleton.SetupClientData(clientData);
 
 #warning need to finish the notification of other players, probably just a standard create object etc.
             //EchoAllOthers( SOME COMMAND TO ADD AN OBJECT )
 
-            formatter.Serialize(gClient.Client.GetStream(), response);
+            formatter.Serialize(stream, response);
+
+            foreach (var obj in worldRef.GetWorldForNetwork())
+            {
+
+                formatter.Serialize(stream,
+                    new CommandObject()
+                    {
+                        ClientId = gClient.ClientId,
+                        Command = new GameObjectCommand()
+                        {
+                            CommandType = GameObjectCommandType.Create,
+                            Parameters = obj,
+                        }
+                    });
+
+            }
 
             return true;
         }

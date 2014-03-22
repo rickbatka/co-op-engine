@@ -13,6 +13,6 @@ namespace co_op_engine.Networking
     public struct CommandObject
     {
         public int ClientId;
-        public readonly object Command;
+        public object Command;
     }
 }
