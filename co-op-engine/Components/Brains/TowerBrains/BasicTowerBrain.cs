@@ -24,7 +24,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
 		private Color placingColor = Color.Green;
 		private const float placingColorOpacity = 0.5f;
 
-		public BasicTowerBrain(GameObject owner, Texture2D placingZoneTexture, KeyMouseTowerPlacingInput placingInput)
+		public BasicTowerBrain(GameObject owner, Texture2D placingZoneTexture, KeyMouseTowerPlacingInput placingInput, State startState = State.Placing)
 			: base(owner)
 		{
 			this.placingInput = placingInput;

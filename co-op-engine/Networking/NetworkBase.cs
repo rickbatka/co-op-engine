@@ -22,6 +22,7 @@ namespace co_op_engine.Networking
             worldRef = container;
         }
 
+        abstract public int ClientId { get; }
         abstract public bool IsHosting { get; }
         abstract public ThreadSafeBuffer<CommandObject> Input { get; }
         abstract public ThreadSafeBuffer<CommandObject> Output { get; }

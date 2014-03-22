@@ -63,6 +63,10 @@ namespace co_op_engine.Networking
         private Thread sendThread;
 
         private GameClient thisClient;
+        public override int ClientId
+        {
+            get { return thisClient.ClientId; }
+        }
 
         public NetworkClient()
         {

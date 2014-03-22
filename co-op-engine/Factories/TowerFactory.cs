@@ -5,6 +5,8 @@ using co_op_engine.Components.Input;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
 using co_op_engine.GameStates;
+using co_op_engine.Networking;
+using co_op_engine.Networking.Commands;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 
@@ -14,19 +16,21 @@ namespace co_op_engine.Factories
     {
         public static TowerFactory Instance;
         private GamePlay gameRef;
+        private NetworkBase netRef;
 
 
-        private TowerFactory(GamePlay gameRef)
+        private TowerFactory(GamePlay gameRef, NetworkBase netref)
         {
             this.gameRef = gameRef;
+            this.netRef = netref;
         }
 
-        public static void Initialize(GamePlay gameRef)
+        public static void Initialize(GamePlay gameRef, NetworkBase netref)
         {
-            Instance = new TowerFactory(gameRef);
+            Instance = new TowerFactory(gameRef, netref);
         }
 
-        public GameObject GetDoNothingTower()
+        public GameObject GetDoNothingTower(bool fromNetwork = false)
         {
             var tower = new GameObject();
             tower.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
@@ -39,6 +43,20 @@ namespace co_op_engine.Factories
             tower.SetCombat(new CombatBase(tower));
 
             gameRef.container.AddObject(tower);
+
+            if (!fromNetwork)
+            {
+                var parms = tower.BuildCreateParams();
+                netRef.Input.Add(new CommandObject()
+                {
+                    ClientId = netRef.ClientId,
+                    Command = new GameObjectCommand()
+                    {
+                        CommandType = GameObjectCommandType.Create,
+                        Parameters = parms,
+                    },
+                });
+            }
 
             return tower;
         }

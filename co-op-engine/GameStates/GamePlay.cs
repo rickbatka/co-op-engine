@@ -19,7 +19,7 @@ namespace co_op_engine.GameStates
         public ObjectContainer container;
 
         public NetworkBase Networking;
-        
+
         private bool isHosting;
 
         public GamePlay(Game1 game, NetworkBase network)
@@ -28,9 +28,9 @@ namespace co_op_engine.GameStates
             container = new ObjectContainer(GameRef.screenRectangle);
             network.RegisterWorldWithNetwork(container);
             Camera.Instantiate(GameRef.screenRectangle);
-            PlayerFactory.Initialize(this);
-            TowerFactory.Initialize(this);
-            NetworkFactory.Initialize(this);
+            PlayerFactory.Initialize(this, network);
+            TowerFactory.Initialize(this, network);
+            NetworkFactory.Initialize(this, network);
             Networking = network;
         }
 
@@ -104,7 +104,7 @@ namespace co_op_engine.GameStates
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null,null,Camera.Instance.Transformation);
+            GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null, null, Camera.Instance.Transformation);
             container.DrawAll(GameRef.spriteBatch);
 
             //@DEBUGDRAW DEBUG DRAW
@@ -123,12 +123,12 @@ namespace co_op_engine.GameStates
                 "obj count:" + container.ObjectCount
             };
 
-            for(int i = 0; i < debugInfos.Length; i ++)
+            for (int i = 0; i < debugInfos.Length; i++)
             {
                 GameRef.spriteBatch.DrawString(
                     spriteFont: AssetRepository.Instance.Arial,
                     text: debugInfos[i],
-                    position: new Vector2(25, (i+1)*25),
+                    position: new Vector2(25, (i + 1) * 25),
                     color: Color.White
                 );
             }

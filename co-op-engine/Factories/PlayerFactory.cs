@@ -23,15 +23,17 @@ namespace co_op_engine.Factories
     {
         public static PlayerFactory Instance;
         private GamePlay gameRef;
+        private NetworkBase netRef;
 
-        private PlayerFactory(GamePlay gameRef)
+        private PlayerFactory(GamePlay gameRef, NetworkBase netref)
         {
             this.gameRef = gameRef;
+            this.netRef = netref;
         }
 
-        public static void Initialize(GamePlay gameRef)
+        public static void Initialize(GamePlay gameRef, NetworkBase netref)
         {
-            Instance = new PlayerFactory(gameRef);
+            Instance = new PlayerFactory(gameRef, netref);
         }
 
         public GameObject GetPlayer()

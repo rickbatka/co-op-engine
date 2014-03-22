@@ -46,6 +46,11 @@ namespace co_op_engine.Networking
         private TcpListener listener;
         private int playerIndex;
 
+        public override int ClientId
+        {
+            get { return 0; }
+        }
+
         public NetworkServer()
         {
             inputBuffer = new ThreadSafeBuffer<CommandObject>();
