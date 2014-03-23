@@ -41,7 +41,7 @@ namespace co_op_engine.Factories
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture));
             tower.SetBrain(new BasicTowerBrain(tower,
                 AssetRepository.Instance.PlainWhiteTexture, 
-                new KeyMouseTowerPlacingInput(gameRef, tower.BoundingBox),
+                new TowerPlacingInput(gameRef, tower.BoundingBox),
                 fromNetwork ? State.Built : State.Placing));
             
             tower.SetCombat(new CombatBase(tower));

@@ -19,12 +19,12 @@ namespace co_op_engine.Components.Brains.TowerBrains
 	{
 		private State currentState;
 
-		private KeyMouseTowerPlacingInput placingInput;
+		private TowerPlacingInput placingInput;
 		private Texture2D placingZoneTexture;
 		private Color placingColor = Color.Green;
 		private const float placingColorOpacity = 0.5f;
 
-		public BasicTowerBrain(GameObject owner, Texture2D placingZoneTexture, KeyMouseTowerPlacingInput placingInput, State startState = State.Placing)
+		public BasicTowerBrain(GameObject owner, Texture2D placingZoneTexture, TowerPlacingInput placingInput, State startState = State.Placing)
 			: base(owner)
 		{
 			this.placingInput = placingInput;
@@ -32,14 +32,11 @@ namespace co_op_engine.Components.Brains.TowerBrains
 			this.placingColor = new Color(placingColor, placingColorOpacity);
 
 			this.currentState = startState;
-
-			this.placingInput.OnPlacementAttempted += HandlePlacementAttempted;
-			this.placingInput.OnCoordsUpdated += HandleCoordsUpdated;
 		}
 
 		override public void Update(GameTime gameTime)
 		{
-			placingInput.Update(gameTime);
+			HandleInput();
 		}
 
 		override public void Draw(SpriteBatch spriteBatch)
@@ -54,19 +51,16 @@ namespace co_op_engine.Components.Brains.TowerBrains
 			}
 		}
 
-		void HandlePlacementAttempted(object sender, EventArgs args)
-		{
-			currentState = State.Built;
-		}
-
-		void HandleCoordsUpdated(KeyMouseTowerPlacingInput sender, CoordEventArgs coordData)
+		private void HandleInput()
 		{
 			if (currentState == State.Placing)
 			{
-				var screenLockedCoords = coordData.Coords;
-				owner.Position = screenLockedCoords;
+				owner.Position = placingInput.GetCoords();
+				if (placingInput.DidPressBuildButton())
+				{
+					currentState = State.Built;
+				}
 			}
 		}
-
 	}
 }

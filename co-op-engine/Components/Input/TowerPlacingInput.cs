@@ -8,41 +8,29 @@ using System.Text;
 
 namespace co_op_engine.Components.Input
 {
-    public delegate void CoordsUpdatedEventHandler(KeyMouseTowerPlacingInput sender, CoordEventArgs coordData);
-    public struct CoordEventArgs
-    {
-        public Vector2 Coords;
-    }
-
-    public class KeyMouseTowerPlacingInput
+    public class TowerPlacingInput
     {
         GamePlay gameRef;
         Rectangle towerPlacingBox;
-        public event EventHandler OnPlacementAttempted;
-        public event CoordsUpdatedEventHandler OnCoordsUpdated;
         
-        public KeyMouseTowerPlacingInput(GamePlay gameRef, Rectangle towerPlacingBox) 
+        public TowerPlacingInput(GamePlay gameRef, Rectangle towerPlacingBox) 
         {
             this.gameRef = gameRef;
             this.towerPlacingBox = towerPlacingBox;
         }
 
-        public void Update(GameTime gameTime)
+        public bool DidPressBuildButton()
         {
-            GetCoords(); 
-            ListenForClicks();
+            return InputHandler.MouseLeftPressed();
         }
 
-        public void GetCoords()
+        public Vector2 GetCoords()
         {
             var pos = InputHandler.MousePositionVectorCameraAdjusted();
 
             var lockedPos = LockToScreenGrid(pos);
-            
-            if (OnCoordsUpdated != null)
-            {
-                OnCoordsUpdated(this, new CoordEventArgs() { Coords = lockedPos });
-            }
+
+            return lockedPos;
         }
 
         private Vector2 LockToScreenGrid(Vector2 pos)
@@ -65,14 +53,6 @@ namespace co_op_engine.Components.Input
         {
             float gridSize = gameRef.GridSize;
             return ((int)(val / gridSize)) * gridSize;
-        }
-
-        private void ListenForClicks()
-        {
-            if (InputHandler.MouseLeftPressed())
-            {
-                OnPlacementAttempted(this, null);
-            }
         }
 
     }
