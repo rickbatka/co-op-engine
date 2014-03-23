@@ -11,7 +11,7 @@ namespace co_op_engine.Utility
 
         private static WeaponState[] BuildStateProperties()
         {
-            var props = new WeaponState[3];
+            var props = new WeaponState[4];
 
             props[Constants.WEAPON_STATE_IDLE] = new WeaponState(
                 canInitiatePrimaryAttack: true,
@@ -26,6 +26,11 @@ namespace co_op_engine.Utility
             props[Constants.WEAPON_STATE_ATTACKING_PRIMARY] = new WeaponState(
                 canInitiatePrimaryAttack: false,
                 isAttacking: true
+            );
+
+            props[Constants.WEAPON_STATE_DEAD] = new WeaponState(
+                canInitiatePrimaryAttack: false,
+                isAttacking: false
             );
 
             return props;

@@ -14,7 +14,7 @@ namespace co_op_engine.Components.Weapons
     public abstract class WeaponBase : IRenderable
     {
         protected GameObject owner;
-        protected AnimatedRenderer renderer;
+        protected RenderBase renderer;
 
         public int ID;
         protected TimeSpan currentAttackTimer;
@@ -36,7 +36,7 @@ namespace co_op_engine.Components.Weapons
             this.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
         }
 
-        public void SetRenderer(AnimatedRenderer renderer)
+        public void SetRenderer(RenderBase renderer)
         {
             this.renderer = renderer;
         }
@@ -120,6 +120,11 @@ namespace co_op_engine.Components.Weapons
                 }
                 return false;
             } 
+        }
+
+        public void EquipEffect(EffectDefinition effectDef)
+        {
+            this.Effects.Add(effectDef);
         }
     }
 }

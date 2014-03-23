@@ -17,6 +17,7 @@ using co_op_engine.Utility;
 using co_op_engine.Components.Combat;
 using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
+using co_op_engine.Components.Weapons.Effects;
 
 namespace co_op_engine.Factories
 {
@@ -44,7 +45,7 @@ namespace co_op_engine.Factories
             player.Position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 100));
 
             player.SetPhysics(new CollidingPhysics(player));
-            var renderer = new AnimatedRenderer(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
+            var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
             player.SetRenderer(renderer);
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
             player.SetCombat(new CombatBase(player));
@@ -75,7 +76,7 @@ namespace co_op_engine.Factories
             player.Position = new Vector2(100, 100);
 
             player.SetPhysics(new CollidingPhysics(player));
-            var renderer = new AnimatedRenderer(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
+            var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
             player.SetRenderer(renderer);
             player.SetBrain(new NetworkClientBrain(player));
             player.SetCombat(new COMBATPLACEHOLDER(player));
@@ -90,15 +91,20 @@ namespace co_op_engine.Factories
         {
             var sword = new Sword(owner);
 
-            var swordRenderer = new AnimatedRenderer(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations);
+            var swordRenderer = new RenderBase(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations);
             sword.SetRenderer(swordRenderer);
+
+            sword.EquipEffect(new BasicDamageEffectDefinition(
+                durationMS: swordRenderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection),
+                damageRating: 25
+            ));
             return sword;
         }
 
         public Sword GetAxe(GameObject owner)
         {
             var axe = new Sword(owner);
-            var axeRenderer = new AnimatedRenderer(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations);
+            var axeRenderer = new RenderBase(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations);
             axe.SetRenderer(axeRenderer);
             return axe;
         }
@@ -106,7 +112,7 @@ namespace co_op_engine.Factories
         public Sword GetMace(GameObject owner)
         {
             var mace = new Sword(owner);
-            var maceRenderer = new AnimatedRenderer(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations);
+            var maceRenderer = new RenderBase(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations);
             mace.SetRenderer(maceRenderer);
             return mace;
         }

@@ -5,17 +5,9 @@ using System;
 
 namespace co_op_engine.Components.Brains
 {
-    public delegate void ActorChangeStateEventHandler(BrainBase sender, ActorStateChangedEventArgs data);
-    public struct ActorStateChangedEventArgs
-    {
-        public int OldState;
-        public int NewState;
-    }
-
     public class BrainBase
     {
         protected GameObject owner;
-        public event ActorChangeStateEventHandler OnActorStateChanged;
 
         public BrainBase(GameObject owner)
         {
@@ -32,11 +24,6 @@ namespace co_op_engine.Components.Brains
             {
                 var oldState = owner.CurrentState;
                 owner.CurrentState = newState;
-
-                if (OnActorStateChanged != null)
-                {
-                    OnActorStateChanged(this, new ActorStateChangedEventArgs() { OldState = oldState, NewState = newState });
-                }
             }
             
         }

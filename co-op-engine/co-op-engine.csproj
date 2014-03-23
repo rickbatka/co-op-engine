@@ -47,13 +47,12 @@
     <Compile Include="Components\Brains\TowerBrains\BasicTowerBrain.cs" />
     <Compile Include="Components\Combat\CombatBase.cs" />
     <Compile Include="Components\Combat\COMBATPLACEHOLDER.cs" />
-    <Compile Include="Components\Input\KeyMouseTowerPlacingInput.cs" />
+    <Compile Include="Components\Input\TowerPlacingInput.cs" />
     <Compile Include="Components\Input\PlayerControlInput.cs" />
     <Compile Include="Components\GameObject.cs" />
     <Compile Include="Components\Physics\CollidingPhysics.cs" />
     <Compile Include="Components\Physics\NonCollidingPhysics.cs" />
     <Compile Include="Components\Physics\PhysicsBase.cs" />
-    <Compile Include="Components\Rendering\AnimatedRenderer.cs" />
     <Compile Include="Components\Rendering\Frame.cs" />
     <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />

@@ -38,7 +38,7 @@ namespace co_op_engine.Factories
 
             tower.UnShovable = true;
             tower.SetPhysics(new CollidingPhysics(tower));
-            tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture));
+            tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations));
             tower.SetBrain(new BasicTowerBrain(tower,
                 AssetRepository.Instance.PlainWhiteTexture, 
                 new TowerPlacingInput(gameRef, tower.BoundingBox),

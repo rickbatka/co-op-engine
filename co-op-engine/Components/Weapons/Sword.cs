@@ -1,6 +1,7 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components.Rendering;
 using co_op_engine.Components.Weapons.Effects;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -15,10 +16,7 @@ namespace co_op_engine.Components.Weapons
         public Sword(GameObject owner)
             : base(owner)
         {
-            this.Effects.Add(new BasicDamageEffectDefinition(
-                    durationMS: 300,
-                    damageRating: 25
-                ));
+            
         }
 
         override public void Draw(SpriteBatch spriteBatch) 

@@ -11,20 +11,42 @@ namespace co_op_engine.Utility
 
         private static ActorState[] BuildStateProperties()
         {
-            var props = new ActorState[2];
+            var props = new ActorState[4];
 
             props[Constants.ACTOR_STATE_IDLE] = new ActorState(
                 canInitiateIdleState: true,
                 canInitiateWalkingState: true,
                 canInitiatePrimaryAttackState: true,
-                isAttacking: false
+                isAttacking: false,
+                canStartDying: true,
+                canFinishDying: false
             );
 
             props[Constants.ACTOR_STATE_WALKING] = new ActorState(
                 canInitiateIdleState: true,
                 canInitiateWalkingState: true,
                 canInitiatePrimaryAttackState: true,
-                isAttacking: false
+                isAttacking: false,
+                canStartDying: true,
+                canFinishDying: false
+            );
+
+            props[Constants.ACTOR_STATE_DYING] = new ActorState(
+                canInitiateIdleState: false,
+                canInitiateWalkingState: false,
+                canInitiatePrimaryAttackState: false,
+                isAttacking: false,
+                canStartDying: false,
+                canFinishDying: true
+            );
+
+            props[Constants.ACTOR_STATE_DEAD] = new ActorState(
+                canInitiateIdleState: false,
+                canInitiateWalkingState: false,
+                canInitiatePrimaryAttackState: false,
+                isAttacking: false,
+                canStartDying: false,
+                canFinishDying: false
             );
 
             return props;
@@ -38,13 +60,17 @@ namespace co_op_engine.Utility
         public bool CanInitiateWalkingState;
         public bool CanInitiatePrimaryAttackState;
         public bool IsAttacking;
+        public bool CanStartDying;
+        public bool CanFinishDying;
 
-        public ActorState(bool canInitiateIdleState, bool canInitiateWalkingState, bool canInitiatePrimaryAttackState, bool isAttacking)
+        public ActorState(bool canInitiateIdleState, bool canInitiateWalkingState, bool canInitiatePrimaryAttackState, bool isAttacking, bool canStartDying, bool canFinishDying)
         {
             CanInitiateIdleState = canInitiateIdleState;
             CanInitiateWalkingState = canInitiateWalkingState;
             CanInitiatePrimaryAttackState = canInitiatePrimaryAttackState;
             IsAttacking = isAttacking;
+            CanStartDying = canStartDying;
+            CanFinishDying = canFinishDying;
         }
     }
 }

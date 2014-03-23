@@ -1,5 +1,6 @@
 ﻿using co_op_engine.Components.Weapons;
 using co_op_engine.Components.Weapons.Effects;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -12,11 +13,9 @@ namespace co_op_engine.Components.Combat
     public class CombatBase
     {
         protected GameObject owner;
-
-        protected TimeSpan RecoveryTimer;
-        List<WeaponTimer> weaponTimers = new List<WeaponTimer>();
         Dictionary<string, WeaponEffectBase> effectsByWeapon = new Dictionary<string, WeaponEffectBase>();
 
+        private TimeSpan dyingAnimationTimer;
 
         public CombatBase(GameObject owner)
         {
@@ -27,6 +26,9 @@ namespace co_op_engine.Components.Combat
         {
             RemoveFinishedWeaponEffects();
             UpdateCurrentWeaponEffects(gameTime);
+
+            MaybeStartDyingFromWounds();
+            UpdateDying(gameTime);
         }
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
@@ -76,15 +78,31 @@ namespace co_op_engine.Components.Combat
             }
         }
 
+        private void MaybeStartDyingFromWounds()
+        {
+            if (owner.Health <= 0 && owner.CurrentStateProperties.CanStartDying)
+            {
+                owner.Health = 0;
+                owner.CurrentState = Constants.ACTOR_STATE_DYING;
+                dyingAnimationTimer = TimeSpan.FromMilliseconds(owner.Renderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection));
+            }
+        }
+
+        private void UpdateDying(GameTime gameTime)
+        {
+            if (owner.CurrentStateProperties.CanFinishDying && dyingAnimationTimer != null)
+            {
+                dyingAnimationTimer -= gameTime.ElapsedGameTime;
+                if (dyingAnimationTimer <= TimeSpan.Zero)
+                {
+                    owner.CurrentState = Constants.ACTOR_STATE_DEAD;
+                }
+            }
+        }
+
         private string GetHash(int weaponId, EffectDefinition effect)
         {
             return "" + weaponId + "_" + effect.UniqueIdentifier;
         }
-    }
-
-    class WeaponTimer
-    {
-        public WeaponBase Weapon;
-        public TimeSpan Timer;
     }
 }

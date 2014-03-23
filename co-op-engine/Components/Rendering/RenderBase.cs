@@ -1,4 +1,6 @@
-﻿using co_op_engine.Components.Rendering;
+﻿using co_op_engine.Collections;
+using co_op_engine.Components.Rendering;
+using co_op_engine.Rendering;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,15 +15,23 @@ namespace co_op_engine.Components.Rendering
     {
         protected readonly IRenderable owner;
 
-        public RenderBase(IRenderable owner, Texture2D texture)
+        public AnimationSet animationSet;
+
+        public Animation CurrentAnimation { get { return animationSet.CurrentAnimatedRectangle; } }
+
+        public RenderBase(IRenderable owner, Texture2D texture, AnimationSet animationSet)
         {
             this.owner = owner;
             this.owner.Texture = texture;
+            this.animationSet = animationSet;
         }
 
         virtual public void Update(GameTime gameTime)
-        { 
-            
+        {
+            animationSet.currentState = (int)owner.CurrentState;
+            animationSet.currentFacingDirection = (int)owner.FacingDirection;
+            animationSet.Update(gameTime);
+            owner.CurrentFrame = CurrentAnimation.CurrentFrame;
         }
 
         virtual public void Draw(SpriteBatch spriteBatch)
@@ -50,6 +60,21 @@ namespace co_op_engine.Components.Rendering
                 origin: GetCenterOrigin(),
                 effect: SpriteEffects.None,
                 depth: 0f);
+
+            // draw the damage dots
+            var damageDots = CurrentAnimation.CurrentFrame.DamageDots;
+
+            if (damageDots != null && damageDots.Length > 0)
+            {
+                foreach (var dot in damageDots)
+                {
+                    spriteBatch.Draw(
+                        texture: AssetRepository.Instance.PlainWhiteTexture,
+                        position: DrawingUtility.GetAbsolutePosition(owner, dot.Location),
+                        color: Color.Black
+                    );
+                }
+            }
         }
 
         private Rectangle GetDrawTarget()
