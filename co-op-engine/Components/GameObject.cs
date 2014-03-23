@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using co_op_engine.Networking.Commands;
+using co_op_engine.Components.Weapons.Effects;
+using System.Collections.Generic;
 
 namespace co_op_engine.Components
 {
@@ -114,11 +116,11 @@ namespace co_op_engine.Components
             Physics.DebugDraw(spriteBatch);
         }
 
-        public void HandleHitByWeapon(WeaponBase hitByWeapon, int hitCooldownDurationMS)
+        public void HandleHitByWeapon(int weaponId, List<EffectDefinition> effects)
         {
             if (Combat != null)
             {
-                Combat.HandleHitByWeapon(hitByWeapon, hitCooldownDurationMS);
+                Combat.HandleHitByWeapon(weaponId, effects);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components.Rendering;
+using co_op_engine.Components.Weapons.Effects;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,9 +16,8 @@ namespace co_op_engine.Components.Weapons
         protected GameObject owner;
         protected AnimatedRenderer renderer;
 
+        public int ID;
         protected TimeSpan currentAttackTimer;
-        public int DamageRating = 25;
-        public int HitCooldownDurationMS = 300;
         public int CurrentState { get; set; }
         protected WeaponState CurrentWeaponStateProperties { get { return WeaponStates.States[CurrentState]; } }
 
@@ -28,11 +28,12 @@ namespace co_op_engine.Components.Weapons
         public Vector2 FacingDirectionRaw { get { return owner.FacingDirectionRaw; } set { owner.FacingDirectionRaw = value; } }
         public float RotationTowardFacingDirectionRadians { get { return owner.RotationTowardFacingDirectionRadians; } set { owner.RotationTowardFacingDirectionRadians = value; } }
 
-
+        protected List<EffectDefinition> Effects = new List<EffectDefinition>();
 
         public WeaponBase(GameObject owner)
         {
             this.owner = owner;
+            this.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
         }
 
         public void SetRenderer(AnimatedRenderer renderer)
@@ -43,7 +44,7 @@ namespace co_op_engine.Components.Weapons
         virtual public void Update(GameTime gameTime)
         {
             UpdateState(gameTime);
-            DoDamage();
+            QueryForHits();
             renderer.Update(gameTime);
         }
 
@@ -71,7 +72,7 @@ namespace co_op_engine.Components.Weapons
             CurrentState = Constants.WEAPON_STATE_ATTACKING_PRIMARY;
         }
 
-        private void DoDamage()
+        private void QueryForHits()
         {
             if (CurrentWeaponStateProperties.IsAttacking)
             {
@@ -89,7 +90,7 @@ namespace co_op_engine.Components.Weapons
                     {
                         if(collider.ID != owner.ID)
                         {
-                            collider.HandleHitByWeapon(this, HitCooldownDurationMS);
+                            collider.HandleHitByWeapon(this.ID, Effects);
                         }
                     }
                 }

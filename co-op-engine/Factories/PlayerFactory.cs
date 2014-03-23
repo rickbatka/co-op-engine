@@ -86,26 +86,26 @@ namespace co_op_engine.Factories
             return player;
         }
 
-        public MeleeWeapon GetSword(GameObject owner)
+        public Sword GetSword(GameObject owner)
         {
-            var sword = new MeleeWeapon(owner);
+            var sword = new Sword(owner);
 
             var swordRenderer = new AnimatedRenderer(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations);
             sword.SetRenderer(swordRenderer);
             return sword;
         }
 
-        public MeleeWeapon GetAxe(GameObject owner)
+        public Sword GetAxe(GameObject owner)
         {
-            var axe = new MeleeWeapon(owner);
+            var axe = new Sword(owner);
             var axeRenderer = new AnimatedRenderer(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations);
             axe.SetRenderer(axeRenderer);
             return axe;
         }
 
-        public MeleeWeapon GetMace(GameObject owner)
+        public Sword GetMace(GameObject owner)
         {
-            var mace = new MeleeWeapon(owner);
+            var mace = new Sword(owner);
             var maceRenderer = new AnimatedRenderer(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations);
             mace.SetRenderer(maceRenderer);
             return mace;

@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Components.Weapons;
+using co_op_engine.Components.Weapons.Effects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,6 +15,7 @@ namespace co_op_engine.Components.Combat
 
         protected TimeSpan RecoveryTimer;
         List<WeaponTimer> weaponTimers = new List<WeaponTimer>();
+        Dictionary<string, WeaponEffectBase> effectsByWeapon = new Dictionary<string, WeaponEffectBase>();
 
 
         public CombatBase(GameObject owner)
@@ -23,39 +25,60 @@ namespace co_op_engine.Components.Combat
 
         virtual public void Update(GameTime gameTime)
         {
-            UpdateWeaponTimers(gameTime);
+            RemoveFinishedWeaponEffects();
+            UpdateCurrentWeaponEffects(gameTime);
         }
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
-        public void HandleHitByWeapon(WeaponBase hitByWeapon, int hitCooldownDurationMS)
+        public void HandleHitByWeapon(int weaponId, List<EffectDefinition> effects)
         {
-            // probably faster to use a dictionary of unique object ids for lookup once we get the IDs in place
-            if (!weaponTimers.Any(wt => wt.Weapon == hitByWeapon))
+            foreach(var effect in effects)
             {
-                owner.Health -= hitByWeapon.DamageRating;
-                weaponTimers.Add(new WeaponTimer() { Weapon = hitByWeapon, Timer = new TimeSpan(0, 0, 0, 0, hitCooldownDurationMS) });
+                string hash = GetHash(weaponId, effect);
+                if (!effectsByWeapon.ContainsKey(hash))
+                {
+                    var newEffect = WeaponEffectBuilder.Build(receiver: owner, weaponId: weaponId, effectDef: effect);
+                    effectsByWeapon.Add(hash, newEffect);
+
+                    // Apply the status effect
+                    newEffect.Apply();
+                }
             }
         }
 
-        private void UpdateWeaponTimers(GameTime gameTime)
+        private void UpdateCurrentWeaponEffects(GameTime gameTime)
         {
-            var timersToRemove = new List<WeaponTimer>();
-
-            foreach (var weaponTimer in weaponTimers)
+            foreach (var effect in effectsByWeapon.Values)
             {
-                weaponTimer.Timer -= gameTime.ElapsedGameTime;
-                if (weaponTimer.Timer <= TimeSpan.Zero)
+                // Update the status effect
+                effect.Update(gameTime);
+            }
+        }
+
+        private void RemoveFinishedWeaponEffects()
+        {
+            var effectsToRemove = new List<string>();
+            foreach(var key in effectsByWeapon.Keys)
+            {
+                if(effectsByWeapon[key].IsFinished)
                 {
-                    timersToRemove.Add(weaponTimer);
+                    effectsToRemove.Add(key);
                 }
             }
 
-            int cnt = timersToRemove.Count();
-            for(int i = 0; i < cnt; i ++)
+            int cnt = effectsToRemove.Count();
+            for (int i = 0; i < cnt; i++)
             {
-                weaponTimers.Remove(timersToRemove[i]);
+                // Clear the status effect
+                effectsByWeapon[effectsToRemove[i]].Clear();
+                effectsByWeapon.Remove(effectsToRemove[i]);
             }
+        }
+
+        private string GetHash(int weaponId, EffectDefinition effect)
+        {
+            return "" + weaponId + "_" + effect.UniqueIdentifier;
         }
     }
 

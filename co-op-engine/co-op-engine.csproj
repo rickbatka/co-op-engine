@@ -57,8 +57,11 @@
     <Compile Include="Components\Rendering\Frame.cs" />
     <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
-    <Compile Include="Components\Weapons\MeleeWeapon.cs" />
+    <Compile Include="Components\Weapons\Effects\BasicDamageEffect.cs" />
+    <Compile Include="Components\Weapons\Effects\EffectDefinitions.cs" />
+    <Compile Include="Components\Weapons\Sword.cs" />
     <Compile Include="Components\Weapons\WeaponBase.cs" />
+    <Compile Include="Components\Weapons\Effects\WeaponEffectBase.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Networking\Commands\GameObjectCommand.cs" />
     <Content Include="Content\TowerData.txt">
