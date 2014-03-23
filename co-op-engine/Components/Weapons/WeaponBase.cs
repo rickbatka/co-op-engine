@@ -82,7 +82,7 @@ namespace co_op_engine.Components.Weapons
                     (
                         DrawingUtility.VectorToPointRect
                         (
-                            DrawingUtility.GetAbsolutePosition(owner, damageDot.Location)
+                            DrawingUtility.GetAbsolutePosition(this, damageDot.Location)
                         )
                     );
                     foreach (var collider in colliders)
