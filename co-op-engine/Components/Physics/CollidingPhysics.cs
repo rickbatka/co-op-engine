@@ -77,50 +77,54 @@ namespace co_op_engine.Components.Physics
             int xOverlap = biggestOverlap.X;
             int yOverlap = biggestOverlap.Y;
 
-            Vector2 newOwnerPos = new Vector2(owner.Position.X, owner.Position.Y);
-            Vector2 newBiggestPos = new Vector2(biggest.Position.X, biggest.Position.Y);
+            Vector2 newOwnerBoundingBoxPos = new Vector2(owner.BoundingBox.Center.X, owner.BoundingBox.Center.Y);
+            Vector2 newBiggestBoundingBoxPos = new Vector2(biggest.BoundingBox.Center.X, biggest.BoundingBox.Center.Y);
 
             int mod = biggest.UnShovable ? 1 : 2;
             if (xOverlap < yOverlap)
             {
-                if (owner.Position.X < biggest.Position.X)
+                if (owner.BoundingBox.Center.X < biggest.BoundingBox.Center.X)
                 {
-                    newOwnerPos.X -= xOverlap / mod;
+                    newOwnerBoundingBoxPos.X -= xOverlap / mod;
                     if (!biggest.UnShovable)
                     {
-                        newBiggestPos.X += xOverlap / mod;
+                        newBiggestBoundingBoxPos.X += xOverlap / mod;
                     }
                 }
                 else
                 {
-                    newOwnerPos.X += xOverlap / mod;
+                    newOwnerBoundingBoxPos.X += xOverlap / mod;
                     if (!biggest.UnShovable)
                     {
-                        newBiggestPos.X -= xOverlap / mod;
+                        newBiggestBoundingBoxPos.X -= xOverlap / mod;
                     }
                 }
             }
             else
             {
-                if (owner.Position.Y < biggest.Position.Y)
+                if (owner.BoundingBox.Center.Y < biggest.BoundingBox.Center.Y)
                 {
-                    newOwnerPos.Y -= yOverlap / mod;
+                    newOwnerBoundingBoxPos.Y -= yOverlap / mod;
                     if (!biggest.UnShovable)
                     {
-                        newBiggestPos.Y += yOverlap / mod;
+                        newBiggestBoundingBoxPos.Y += yOverlap / mod;
                     }
                 }
                 else
                 {
-                    newOwnerPos.Y += yOverlap / mod;
+                    newOwnerBoundingBoxPos.Y += yOverlap / mod;
                     if (!biggest.UnShovable)
                     {
-                        newBiggestPos.Y -= yOverlap / mod;
+                        newBiggestBoundingBoxPos.Y -= yOverlap / mod;
                     }
                 }
             }
-            owner.Position = newOwnerPos;
-            biggest.Position = newBiggestPos;
+
+            Vector2 ownerMovement = newOwnerBoundingBoxPos - new Vector2(owner.BoundingBox.Center.X, owner.BoundingBox.Center.Y);
+            Vector2 biggestMovement = newBiggestBoundingBoxPos - new Vector2(biggest.BoundingBox.Center.X, biggest.BoundingBox.Center.Y);
+
+            owner.Position += ownerMovement;
+            biggest.Position += biggestMovement;
 
             owner.CurrentQuad.NotfyOfMovement(owner);
             this.VerifyBoundingBox();
