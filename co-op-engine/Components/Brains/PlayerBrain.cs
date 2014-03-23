@@ -65,7 +65,12 @@ namespace co_op_engine.Components.Brains
 
         private void HandleMovement()
         {
+            var prev = owner.InputMovementVector;
             owner.InputMovementVector = input.GetMovement();
+            if (prev != owner.InputMovementVector)
+            {
+                owner.NotifyNetwork = true;
+            }
         }
 
         private void HandleAiming()

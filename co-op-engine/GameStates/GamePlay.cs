@@ -52,7 +52,7 @@ namespace co_op_engine.GameStates
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             GameTimerManager.Instance.Update(gameTime);
-            container.UpdateAll(gameTime);
+            container.UpdateAll(gameTime, Networking);
 
             var netCommands = Networking.Output.Gather();
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using co_op_engine.Collections;
 using co_op_engine.Components;
+using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -47,11 +48,27 @@ namespace co_op_engine.World.Level
             }
         }
 
-        public void UpdateAll(GameTime gameTime)
+        public void UpdateAll(GameTime gameTime, Networking.NetworkBase netRef)
         {
-            for (int i = 0; i < LinearReference.Count; i++ )
+            //really wish I could use an unsafe enumaretion... sigh... performance hit....
+            for (int i = 0; i < LinearReference.Count; i++)
             {
-                LinearReference[i].Update(gameTime);
+                var obj = LinearReference[i];
+                obj.Update(gameTime);
+
+#warning HACKHACKHACK HACK ALERT REFACTOR LATER!!!! WOOP WOOP WOOP pizza...
+                if (obj.NotifyNetwork)
+                {
+                    netRef.Input.Add(new CommandObject()
+                   {
+                       ClientId = netRef.ClientId,
+                       Command = new GameObjectCommand()
+                       {
+                           CommandType = GameObjectCommandType.Update,
+                           Parameters = obj.BuildUpdateParams(),
+                       }
+                   });
+                }
             }
         }
 
@@ -67,13 +84,6 @@ namespace co_op_engine.World.Level
         {
             SpacialReference.Draw(spriteBatch, debugTexture);
         }
-
-#region IActorInformationProvidor
-
-#warning remove this, it's a hack to get things moving and should be replaced by a search method later
-
-
-#endregion IActorInformationProvidor
 
         public GameObject GetObjectById(int Id)
         {

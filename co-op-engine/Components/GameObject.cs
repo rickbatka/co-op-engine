@@ -28,6 +28,7 @@ namespace co_op_engine.Components
         public int ID;
         public bool UnShovable = false;
         public string DisplayName { get { return "ID: " + ID; } }
+        public bool NotifyNetwork = false;//non-deterministic dirty flag
 
         public Texture2D Texture { get; set; }
         public Vector2 Position { get; set; }
@@ -121,7 +122,7 @@ namespace co_op_engine.Components
             }
         }
 
-        //#########################  recent merge wiped these out, have to fix the =m anothe day #################
+#warning #########################  recent merge wiped these out(props on build params), have to fix the =m anothe day #################
 
         public UpdateParameters BuildUpdateParams()
         {
@@ -130,7 +131,7 @@ namespace co_op_engine.Components
                 //CurrentActorState = this.currentActorState,
                 //FacingDirection = this.facingDirection,
                 ID = this.ID,
-                //Position = this.position,
+                Position = this.Position,
                 Velocity = this.Velocity,
             };
         }
@@ -161,7 +162,7 @@ namespace co_op_engine.Components
         {
             //this.currentActorState = parameters.CurrentActorState;
             //this.facingDirection = parameters.FacingDirection;
-            //this.position = parameters.Position;
+            this.Position = parameters.Position;
             this.Velocity = parameters.Velocity;
             CurrentQuad.NotfyOfMovement(this);
         }

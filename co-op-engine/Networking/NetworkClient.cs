@@ -29,11 +29,6 @@ namespace co_op_engine.Networking
     {
         public override bool IsHosting { get { return false; } }
 
-        //yes I realize the duplicate logic, I'll come in here and
-        //  refactor that at some point, but I'm stuck using Notepad++
-        //  right now....
-
-#warning refactor this rediculous amount of duplicate logic.
         const int PORT = 22001;
 
         public override event EventHandler OnNetworkError;
