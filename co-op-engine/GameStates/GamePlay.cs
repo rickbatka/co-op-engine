@@ -40,8 +40,6 @@ namespace co_op_engine.GameStates
 
             //@TODO move to level setup
             PlayerFactory.Instance.GetPlayer();
-
-            TowerFactory.Instance.GetDoNothingTower();
             //TowerFactory.GetDoNothingTower(container, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.PlainWhiteTexture);
 
             //var devTower = TowerFactory.GetDoNothingTower(this, tree, towerTexture, plainWhiteTexture);

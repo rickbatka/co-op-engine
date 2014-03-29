@@ -57,6 +57,11 @@ namespace co_op_engine.Components.Brains
                 TowerFactory.Instance.GetDoNothingTower();
             }
 
+            if (InputHandler.KeyPressed(Keys.E))
+            {
+                PlayerFactory.Instance.GetEnemy();
+            }
+
             if (InputHandler.KeyPressed(Keys.Space) || InputHandler.MouseLeftPressed())
             {
                 owner.Weapon.TryInitiateAttack();

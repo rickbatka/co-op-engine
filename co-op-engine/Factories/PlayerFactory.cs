@@ -18,6 +18,7 @@ using co_op_engine.Components.Combat;
 using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
 using co_op_engine.Components.Weapons.Effects;
+using co_op_engine.Components.Brains.AI;
 
 namespace co_op_engine.Factories
 {
@@ -67,6 +68,37 @@ namespace co_op_engine.Factories
             });
 
             return player;
+        }
+
+        public GameObject GetEnemy()
+        {
+            var enemy = new GameObject();
+            enemy.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
+            enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
+
+            enemy.SetPhysics(new CollidingPhysics(enemy));
+            var renderer = new RenderBase(enemy, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
+            enemy.SetRenderer(renderer);
+            enemy.SetBrain(new DoNothingBrain(enemy));
+            enemy.SetCombat(new CombatBase(enemy));
+
+            // wire up the events between components
+            enemy.EquipWeapon(GetAxe(enemy));
+
+            gameRef.container.AddObject(enemy);
+
+            var parms = enemy.BuildCreateParams();
+            netRef.Input.Add(new CommandObject()
+            {
+                ClientId = netRef.ClientId,
+                Command = new GameObjectCommand()
+                {
+                    CommandType = GameObjectCommandType.Create,
+                    Parameters = parms,
+                },
+            });
+
+            return enemy;
         }
 
         public GameObject GetNetworkPlayer(int id = -1)

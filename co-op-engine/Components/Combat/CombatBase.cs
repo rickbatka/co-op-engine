@@ -80,11 +80,14 @@ namespace co_op_engine.Components.Combat
 
         private void MaybeStartDyingFromWounds()
         {
-            if (owner.Health <= 0 && owner.CurrentStateProperties.CanStartDying)
+            if (owner.Health <= 0)
             {
                 owner.Health = 0;
-                owner.CurrentState = Constants.ACTOR_STATE_DYING;
-                dyingAnimationTimer = TimeSpan.FromMilliseconds(owner.Renderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection));
+                if (owner.CurrentStateProperties.CanStartDying)
+                {
+                    owner.CurrentState = Constants.ACTOR_STATE_DYING;
+                    dyingAnimationTimer = TimeSpan.FromMilliseconds(owner.Renderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection)); 
+                }
             }
         }
 
