@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -25,11 +26,16 @@ namespace co_op_engine.Utility
         public Texture2D AxeTexture;
         public Texture2D MaceTexture;
 
-        public AnimationSet HeroAnimations;
-        public AnimationSet SwordAnimations;
-        public AnimationSet AxeAnimations;
-        public AnimationSet MaceAnimations;
-        public AnimationSet TowerAnimations;
+        string[] heroAnimationData;
+        public AnimationSet HeroAnimations { get { return AnimationSet.BuildFromAsset(heroAnimationData); } }
+        string[] swordAnimationData;
+        public AnimationSet SwordAnimations { get { return AnimationSet.BuildFromAsset(swordAnimationData); } }
+        string[] axeAnimationData;
+        public AnimationSet AxeAnimations { get { return AnimationSet.BuildFromAsset(axeAnimationData); } }
+        string[] maceAnimationData;
+        public AnimationSet MaceAnimations { get { return AnimationSet.BuildFromAsset(maceAnimationData); } }
+        string[] towerAnimationData;
+        public AnimationSet TowerAnimations { get { return AnimationSet.BuildFromAsset(towerAnimationData); } }
 
         public void TempSetWindowText(string text)
         {
@@ -61,11 +67,11 @@ namespace co_op_engine.Utility
             AxeTexture = gameRef.Content.Load<Texture2D>("Axe");
             MaceTexture = gameRef.Content.Load<Texture2D>("Mace");
 
-            HeroAnimations = AnimationSet.BuildFromAsset("content/HeroNoArmsData.txt");
-            SwordAnimations = AnimationSet.BuildFromAsset("content/SwordData.txt");
-            AxeAnimations = AnimationSet.BuildFromAsset("content/AxeData.txt");
-            MaceAnimations = AnimationSet.BuildFromAsset("content/MaceData.txt");
-            TowerAnimations = AnimationSet.BuildFromAsset("content/TowerData.txt");
+            heroAnimationData = File.ReadAllLines("content/HeroNoArmsData.txt");
+            swordAnimationData = File.ReadAllLines("content/SwordData.txt");
+            axeAnimationData = File.ReadAllLines("content/AxeData.txt");
+            maceAnimationData = File.ReadAllLines("content/MaceData.txt");
+            towerAnimationData = File.ReadAllLines("content/TowerData.txt");
         }
     }
 }

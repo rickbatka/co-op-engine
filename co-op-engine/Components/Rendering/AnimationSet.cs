@@ -20,10 +20,9 @@ namespace co_op_engine.Collections
 
         public AnimationSet() { }
 
-        public static AnimationSet BuildFromAsset(string file)
+        public static AnimationSet BuildFromAsset(string[] lines)
         {
             var animationSet = new AnimationSet();
-            var lines = File.ReadAllLines(file);
             int animationIndex = 0;
             int directionIndex = 0;
 
