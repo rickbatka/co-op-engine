@@ -17,6 +17,12 @@ bld/
 [Bb]in/
 [Oo]bj/
 
+# Enable complied assets from our windows phone project
+!DummyContentLibrary/bin
+!DummyContentLibrary/bin/**/Debug
+DummyContentLibrary/bin/**/Debug/*.dll
+
+
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
 !packages/*/build/
 
@@ -53,6 +59,7 @@ TestResult.xml
 *.svclog
 *.scc
 *.xnb
+!DummyContentLibrary/bin/**/Debug/Content1/*.xnb
 
 # Chutzpah Test files
 _Chutzpah*
