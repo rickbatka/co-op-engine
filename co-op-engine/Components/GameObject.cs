@@ -108,12 +108,12 @@ namespace co_op_engine.Components
             if (Weapon != null)
             {
                 Weapon.Draw(spriteBatch);
-                Weapon.DebugDraw(spriteBatch);
+                //Weapon.DebugDraw(spriteBatch);
             }
 
             //@TODO DEBUGDRAW DEBUG DRAW
             //Renderer.DebugDraw(spriteBatch);
-            Physics.DebugDraw(spriteBatch);
+            //Physics.DebugDraw(spriteBatch);
         }
 
         public void HandleHitByWeapon(int weaponId, List<EffectDefinition> effects)
