@@ -14,21 +14,29 @@ namespace co_op_engine.Utility
             var props = new WeaponState[4];
 
             props[Constants.WEAPON_STATE_IDLE] = new WeaponState(
+                canInitiateIdleState: true,
+                canInitiateWalkingState: true,
                 canInitiatePrimaryAttack: true,
                 isAttacking: false
             );
 
             props[Constants.WEAPON_STATE_WALKING] = new WeaponState(
+                canInitiateIdleState: true,
+                canInitiateWalkingState: true,
                 canInitiatePrimaryAttack: true,
                 isAttacking: false
             );
 
             props[Constants.WEAPON_STATE_ATTACKING_PRIMARY] = new WeaponState(
+                canInitiateIdleState: false,
+                canInitiateWalkingState: false,
                 canInitiatePrimaryAttack: false,
                 isAttacking: true
             );
 
             props[Constants.WEAPON_STATE_DEAD] = new WeaponState(
+                canInitiateIdleState: false,
+                canInitiateWalkingState: false,
                 canInitiatePrimaryAttack: false,
                 isAttacking: false
             );
@@ -40,11 +48,15 @@ namespace co_op_engine.Utility
 
     public struct WeaponState
     {
+        public bool CanInitiateIdleState;
+        public bool CanInitiateWalkingState;
         public bool CanInitiatePrimaryAttack;
         public bool IsAttacking;
 
-        public WeaponState(bool canInitiatePrimaryAttack, bool isAttacking)
+        public WeaponState(bool canInitiateIdleState, bool canInitiateWalkingState, bool canInitiatePrimaryAttack, bool isAttacking)
         {
+            CanInitiateIdleState = canInitiateIdleState;
+            CanInitiateWalkingState = canInitiateWalkingState;
             CanInitiatePrimaryAttack = canInitiatePrimaryAttack;
             IsAttacking = isAttacking;
         }

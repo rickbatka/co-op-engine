@@ -109,6 +109,20 @@ namespace co_op_engine.Components.Weapons
                     renderer.animationSet.GetAnimationFallbackToDefault(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection).Reset();
                 }
             }
+
+            // switch to idle weapon animation of the player goes idle
+            if (owner.CurrentState == Constants.ACTOR_STATE_IDLE
+                && CurrentWeaponStateProperties.CanInitiateIdleState)
+            {
+                CurrentState = Constants.WEAPON_STATE_IDLE;
+            }
+
+            // switch to walking weapon animation of the player started walking
+            if (owner.CurrentState == Constants.ACTOR_STATE_WALKING
+                && CurrentWeaponStateProperties.CanInitiateWalkingState)
+            {
+                CurrentState = Constants.WEAPON_STATE_WALKING;
+            }
         }
 
         public bool FullyRotatable { 
