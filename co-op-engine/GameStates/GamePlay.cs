@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
+using co_op_engine.Components.Particles;
+using Microsoft.Xna.Framework.Input;
 
 namespace co_op_engine.GameStates
 {
@@ -19,6 +21,8 @@ namespace co_op_engine.GameStates
         public ObjectContainer container;
 
         public NetworkBase Networking;
+
+        public ParticlePool Particles;
 
         private bool isHosting;
 
@@ -32,6 +36,7 @@ namespace co_op_engine.GameStates
             TowerFactory.Initialize(this, network);
             NetworkFactory.Initialize(this, network);
             Networking = network;
+            Particles = new ParticlePool();
         }
 
         public override void LoadContent()
@@ -51,6 +56,18 @@ namespace co_op_engine.GameStates
         {
             GameTimerManager.Instance.Update(gameTime);
             container.UpdateAll(gameTime, Networking);
+
+#warning temporary 
+            if (InputHandler.KeyDown(Keys.P))
+            {
+                int numParticlesToSpawn = MechanicSingleton.Instance.rand.Next(1, 10);
+                for (int i = 0; i < numParticlesToSpawn; i++)
+                {
+                    Particles.Spawn();
+                }
+            }
+
+            Particles.Update(gameTime);
 
             var netCommands = Networking.Output.Gather();
 
@@ -105,8 +122,10 @@ namespace co_op_engine.GameStates
             GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null, null, Camera.Instance.Transformation);
             container.DrawAll(GameRef.spriteBatch);
 
+            Particles.Draw(GameRef.spriteBatch);
+
             //@DEBUGDRAW DEBUG DRAW
-            container.DebugDraw(GameRef.spriteBatch, AssetRepository.Instance.DebugGridTexture);
+            //container.DebugDraw(GameRef.spriteBatch, AssetRepository.Instance.DebugGridTexture);
             DebugDrawStrings(gameTime);
 
 
