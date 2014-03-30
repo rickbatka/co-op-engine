@@ -41,8 +41,16 @@ namespace co_op_engine.Factories
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations));
             tower.SetBrain(new BasicTowerBrain(tower,
                 AssetRepository.Instance.PlainWhiteTexture, 
-                new TowerPlacingInput(gameRef, tower.BoundingBox),
-                fromNetwork ? State.Built : State.Placing));
+                new TowerPlacingInput(gameRef, tower.BoundingBox)));
+
+            if(fromNetwork)
+            {
+                tower.CurrentState = Constants.ACTOR_STATE_IDLE;
+            }
+            else
+            {
+                tower.CurrentState = Constants.ACTOR_STATE_PLACING;
+            }
             
             tower.SetCombat(new CombatBase(tower));
 
