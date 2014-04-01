@@ -1,4 +1,5 @@
-﻿using System;
+﻿using co_op_engine.Components.Particles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,10 @@ namespace co_op_engine.Components.Weapons.Effects
             base.Apply();
 
             Receiver.Health -= DamageRating;
+
+            ParticleEngine.Instance.AddEmitter(
+                new BloodHitEmitter(Receiver.Position)
+            );
         }
     }
 }

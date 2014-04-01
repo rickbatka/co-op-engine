@@ -36,9 +36,10 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Components\Particles\BloodHitEmitter.cs" />
     <Compile Include="Components\Particles\Emitter.cs" />
     <Compile Include="Components\Particles\Particle.cs" />
-    <Compile Include="Components\Particles\ParticlePool.cs" />
+    <Compile Include="Components\Particles\ParticleEngine.cs" />
     <Compile Include="Components\Rendering\Animation.cs" />
     <Compile Include="Collections\ElasticQuadTree.cs" />
     <Compile Include="Collections\ThreadSafeBuffer.cs" />

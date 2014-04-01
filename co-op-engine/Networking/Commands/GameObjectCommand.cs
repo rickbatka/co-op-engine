@@ -26,8 +26,8 @@ namespace co_op_engine.Networking.Commands
     public struct UpdateParameters
     {
         public int ID;
-        public Vector2 Velocity;
-        public Vector2 Position;
+        //public Vector2 Velocity;
+        //public Vector2 Position;
         public int FacingDirection;
         public int CurrentActorState;
     };

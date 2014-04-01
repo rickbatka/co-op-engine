@@ -22,5 +22,7 @@ namespace co_op_engine.Utility
         public static readonly int WEAPON_STATE_WALKING = 1;
         public static readonly int WEAPON_STATE_ATTACKING_PRIMARY = 2;
         public static readonly int WEAPON_STATE_DEAD = 3;
+
+        public static readonly int PARTICLE_LIFETIME_MS = 100;
     }
 }

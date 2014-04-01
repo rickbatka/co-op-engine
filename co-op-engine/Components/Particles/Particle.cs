@@ -7,23 +7,40 @@ using System.Text;
 
 namespace co_op_engine.Components.Particles
 {
-    class Particle
+    public class Particle
     {
         public bool IsAlive;
         public TimeSpan Lifetime;
         public Vector2 Velocity;
-        public Vector2 Position;
+
+        private Vector2 _position;
+        public Vector2 Position
+        {
+            get
+            {
+                return _position;
+            }
+            set
+            {
+                _position = value;
+                if (DrawRectangle != null)
+                {
+                    DrawRectangle.X = (int)_position.X;
+                    DrawRectangle.Y = (int)_position.Y;
+                }
+            }
+        }
         public Rectangle DrawRectangle;
 
-        //@TODO don't touch this constructor! we recycle particles. everything to set them up should happen in Initialize.
-        public Particle() { }
+        public Color DrawColor = Color.White;
 
-        public void Initialize(int lifetimeMS)
+        public Particle(int lifetimeMS, Vector2 position, Vector2 velocity) 
         {
-            this.IsAlive = true;
-            this.Lifetime = TimeSpan.FromMilliseconds(lifetimeMS);
-            this.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500), MechanicSingleton.Instance.rand.Next(100, 500));
-            this.DrawRectangle = new Rectangle((int)this.Position.X, (int)this.Position.Y, 8, 8);
+            IsAlive = true;
+            Lifetime = TimeSpan.FromMilliseconds(lifetimeMS);
+            Position = position;
+            DrawRectangle = new Rectangle((int)this.Position.X, (int)this.Position.Y, 3, 3);
+            Velocity = velocity;
         }
 
         public void Update(GameTime gameTime)
@@ -38,6 +55,8 @@ namespace co_op_engine.Components.Particles
                 Lifetime = TimeSpan.Zero;
                 IsAlive = false;
             }
+
+            Position += Velocity;
         }
     }
 }

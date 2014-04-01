@@ -171,10 +171,12 @@ namespace co_op_engine.Networking
             var stream = thisClient.Client.GetStream();
             var formatter = new BinaryFormatter();
 #warning currently unsafe, need to work on it
+            
+
             while (true)
             {
-                //blocks here
                 stream.Flush();
+                //blocks here
                 var command = formatter.Deserialize(stream);
 
                 //send chatter to output

@@ -133,8 +133,8 @@ namespace co_op_engine.Components
                 //CurrentActorState = this.currentActorState,
                 //FacingDirection = this.facingDirection,
                 ID = this.ID,
-                Position = this.Position,
-                Velocity = this.Velocity,
+                //Position = this.Position,
+               // Velocity = this.Velocity,
             };
         }
 
@@ -164,8 +164,8 @@ namespace co_op_engine.Components
         {
             //this.currentActorState = parameters.CurrentActorState;
             //this.facingDirection = parameters.FacingDirection;
-            this.Position = parameters.Position;
-            this.Velocity = parameters.Velocity;
+            //this.Position = parameters.Position;
+            //this.Velocity = parameters.Velocity;
             CurrentQuad.NotfyOfMovement(this);
         }
     }

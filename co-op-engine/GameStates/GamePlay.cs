@@ -22,8 +22,6 @@ namespace co_op_engine.GameStates
 
         public NetworkBase Networking;
 
-        public ParticlePool Particles;
-
         private bool isHosting;
 
         public GamePlay(Game1 game, NetworkBase network)
@@ -36,7 +34,6 @@ namespace co_op_engine.GameStates
             TowerFactory.Initialize(this, network);
             NetworkFactory.Initialize(this, network);
             Networking = network;
-            Particles = new ParticlePool();
         }
 
         public override void LoadContent()
@@ -60,14 +57,15 @@ namespace co_op_engine.GameStates
 #warning temporary 
             if (InputHandler.KeyDown(Keys.P))
             {
-                int numParticlesToSpawn = MechanicSingleton.Instance.rand.Next(1, 10);
-                for (int i = 0; i < numParticlesToSpawn; i++)
-                {
-                    Particles.Spawn();
-                }
+                //int numParticlesToSpawn = MechanicSingleton.Instance.rand.Next(1, 10);
+                //for (int i = 0; i < 10; i++)
+                //{
+                //    ParticleEngine.Instance.Add(new Particle(Constants.PARTICLE_LIFETIME_MS));
+                //}
             }
 
-            Particles.Update(gameTime);
+            this.GameRef.IsFixedTimeStep = false;
+            ParticleEngine.Instance.Update(gameTime);
 
             var netCommands = Networking.Output.Gather();
 
@@ -122,7 +120,7 @@ namespace co_op_engine.GameStates
             GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null, null, Camera.Instance.Transformation);
             container.DrawAll(GameRef.spriteBatch);
 
-            Particles.Draw(GameRef.spriteBatch);
+            ParticleEngine.Instance.Draw(GameRef.spriteBatch);
 
             //@DEBUGDRAW DEBUG DRAW
             //container.DebugDraw(GameRef.spriteBatch, AssetRepository.Instance.DebugGridTexture);
@@ -136,7 +134,7 @@ namespace co_op_engine.GameStates
         {
             string[] debugInfos = new string[] 
             { 
-                "fps:" + 1000 / gameTime.ElapsedGameTime.Milliseconds,
+                "fps:" + 1000f / (float)gameTime.ElapsedGameTime.Milliseconds,
                 "obj count:" + container.ObjectCount
             };
 

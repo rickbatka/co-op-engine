@@ -8,33 +8,37 @@ using System.Text;
 
 namespace co_op_engine.Components.Particles
 {
-    /*
-     * Basically, an array of Particles with all the active ones
-     * at the front and dead ones at the end. Will recycle dead ones
-     * when asked, or create new particles up until Max slots of living 
-     * particles are taken. At that point, will just reclaim random ones
-     * 
-     * The weakness of this is that we never know where a specific particle is in
-     * the array, and we never know where the oldest / newest particles might be,
-     * we only know that all the alive particles are at the beginning.
-     * */
-    public class ParticlePool
+    public class ParticleEngine
     {
-        //@TODO get rid
-        const int PARTICLE_LIFETIME_MS = 750;
-
-        const int Max = 1000;
+        const int Max = 5000;
         Particle[] Pool; 
         int NumAliveParticles;
-        int NumDeadParticles;
+        List<Emitter> Emitters = new List<Emitter>();
 
         private Vector2 debugTextPosition = new Vector2(500, 100);
 
-        public ParticlePool()
+        private static ParticleEngine _instance;
+        public static ParticleEngine Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new ParticleEngine();
+                }
+                return _instance;
+            }
+        }
+
+        private ParticleEngine()
         {
             Pool = new Particle[Max];
             NumAliveParticles = 0;
-            NumDeadParticles = 0;
+        }
+
+        public void AddEmitter(Emitter emitter)
+        {
+            Emitters.Add(emitter);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -44,22 +48,23 @@ namespace co_op_engine.Components.Particles
                 spriteBatch.Draw(
                     texture: AssetRepository.Instance.PlainWhiteTexture,
                     rectangle: Pool[i].DrawRectangle,
-                    color: (Pool[i].IsAlive) ? Color.Green : Color.Red
+                    color: Pool[i].DrawColor
                 );
             }
 
             //DEBUG drawing
             spriteBatch.DrawString(
                 spriteFont: AssetRepository.Instance.Arial,
-                text: "Particles: alive: " + NumAliveParticles + " dead: " + NumDeadParticles,
+                text: "Particles: alive: " + NumAliveParticles,
                 position: debugTextPosition,
                 color: Color.White
             );
         }
 
-        public void Spawn()
+        public void Add(Particle particle)
         {
             int index = GetAvailableParticleIndex();
+            Pool[index] = particle;
         }
 
         public int GetAvailableParticleIndex()
@@ -70,28 +75,31 @@ namespace co_op_engine.Components.Particles
                 // all slots used - need to reclaim one (first in list?)
                 availableParticleIndex = 0;
             }
-            else if (NumDeadParticles == 0)
+            else
             { 
-                //open slots available, but not initialized yet - make one and claim the slot
-                availableParticleIndex = NumAliveParticles;
-                Pool[availableParticleIndex] = new Particle();
-                NumAliveParticles++;
-            }
-            else 
-            { 
-                //slots containing dead particles exist, give them one of those.
+                //open slots available - make one and claim the slot
                 availableParticleIndex = NumAliveParticles;
                 NumAliveParticles++;
-                NumDeadParticles--;
             }
-
-            Pool[availableParticleIndex].Initialize(PARTICLE_LIFETIME_MS);
 
             return availableParticleIndex;
         }
 
         public void Update(GameTime gameTime)
         {
+            // update emitters
+            foreach (var emitter in Emitters)
+            {
+                 emitter.Update(gameTime);
+            }
+            var emittersToRemove = Emitters.Where(e => !e.IsAlive).ToArray();
+            int del = emittersToRemove.Count();
+            for (int j = 0; j < del; j++)
+            {
+                Emitters.Remove(emittersToRemove[j]);
+            }
+
+            // update particles
             int i = 0;
             while (i < NumAliveParticles)
             {
@@ -100,7 +108,7 @@ namespace co_op_engine.Components.Particles
                 {
                     Swap(i, (NumAliveParticles - 1));
                     NumAliveParticles--;
-                    NumDeadParticles++;
+                    Pool[NumAliveParticles] = null;
                 }
 
                 i++;
