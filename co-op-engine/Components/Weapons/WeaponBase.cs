@@ -79,18 +79,13 @@ namespace co_op_engine.Components.Weapons
                 var damageDots = renderer.CurrentAnimation.CurrentFrame.DamageDots;
                 foreach (var damageDot in damageDots)
                 {
-                    var colliders = owner.CurrentQuad.MasterQuery
-                    (
-                        DrawingUtility.VectorToPointRect
-                        (
-                            DrawingUtility.GetAbsolutePosition(this, damageDot.Location)
-                        )
-                    );
+                    var damageDotPositionVector = DrawingUtility.GetAbsolutePosition(this, damageDot.Location);
+                    var colliders = owner.CurrentQuad.MasterQuery(DrawingUtility.VectorToPointRect(damageDotPositionVector));
                     foreach (var collider in colliders)
                     {
                         if(collider.ID != owner.ID)
                         {
-                            collider.HandleHitByWeapon(this.ID, Effects);
+                            collider.HandleHitByWeapon(this.ID, Effects, FacingDirectionRaw);
                         }
                     }
                 }

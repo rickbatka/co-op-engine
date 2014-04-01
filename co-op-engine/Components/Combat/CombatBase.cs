@@ -1,4 +1,5 @@
-﻿using co_op_engine.Components.Weapons;
+﻿using co_op_engine.Components.Particles;
+using co_op_engine.Components.Weapons;
 using co_op_engine.Components.Weapons.Effects;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
@@ -33,7 +34,7 @@ namespace co_op_engine.Components.Combat
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
-        public void HandleHitByWeapon(int weaponId, List<EffectDefinition> effects)
+        public void HandleHitByWeapon(int weaponId, List<EffectDefinition> effects, Vector2 hitRotation)
         {
             foreach(var effect in effects)
             {
@@ -45,6 +46,10 @@ namespace co_op_engine.Components.Combat
 
                     // Apply the status effect
                     newEffect.Apply();
+
+                    ParticleEngine.Instance.AddEmitter(
+                        new BloodHitEmitter(owner.Position, hitRotation)
+                    );
                 }
             }
         }

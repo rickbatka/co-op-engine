@@ -21,10 +21,6 @@ namespace co_op_engine.Components.Weapons.Effects
             base.Apply();
 
             Receiver.Health -= DamageRating;
-
-            ParticleEngine.Instance.AddEmitter(
-                new BloodHitEmitter(Receiver.Position)
-            );
         }
     }
 }
