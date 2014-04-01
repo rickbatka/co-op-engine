@@ -26,11 +26,25 @@ namespace co_op_engine.Networking.Commands
     public struct UpdateParameters
     {
         public int ID;
-        //public Vector2 Velocity;
-        //public Vector2 Position;
+        public ImplicitHack Velocity;
+        public ImplicitHack Position;
         public int FacingDirection;
         public int CurrentActorState;
     };
+
+    [Serializable]
+    public struct ImplicitHack
+    {
+        float x, y;
+        public static implicit operator ImplicitHack(Vector2 vect)
+        {
+            return new ImplicitHack() { x = vect.X, y = vect.Y };
+        }
+        public static implicit operator Vector2(ImplicitHack imp)
+        {
+            return new Vector2(imp.x, imp.y);
+        }
+    }
 
     [Serializable]
     public struct CreateParameters
