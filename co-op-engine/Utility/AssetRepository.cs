@@ -19,6 +19,7 @@ namespace co_op_engine.Utility
 
         public Texture2D DebugGridTexture;
         public Texture2D PlainWhiteTexture;
+        public Texture2D SoftPixelTexture;
         public Texture2D TowerTexture;
         public Texture2D ArrowTexture;
         public Texture2D HeroTexture;
@@ -60,6 +61,8 @@ namespace co_op_engine.Utility
             DebugGridTexture = gameRef.Content.Load<Texture2D>("grid");
             PlainWhiteTexture = gameRef.Content.Load<Texture2D>("pixel");
             PlainWhiteTexture.SetData<Color>(new Color[] { Color.White });
+            SoftPixelTexture = gameRef.Content.Load<Texture2D>("softpixel");
+            SoftPixelTexture.SetData<Color>(new Color[] { Color.White });
             ArrowTexture = gameRef.Content.Load<Texture2D>("arrow");
             TowerTexture = gameRef.Content.Load<Texture2D>("tower");
             HeroTexture = gameRef.Content.Load<Texture2D>("HeroNoArms");

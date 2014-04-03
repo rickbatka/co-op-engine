@@ -25,11 +25,10 @@ namespace co_op_engine.Components.Particles
             int numBloodParticles = MechanicSingleton.Instance.rand.Next(20, 40);
             for (int i = 0; i < numBloodParticles; i++)
             {
-                var particle = new Particle(
-                    lifetimeMS: 150,
-                    position: GetEmitPosition(),
-                    velocity: GetEmitVelocity()
-                );
+                var particle = new Particle();
+                particle.Lifetime = TimeSpan.FromMilliseconds(150);
+                particle.Position = GetEmitPosition();
+                particle.Velocity = GetEmitVelocity();
                 particle.DrawColor = Color.Red;
                 ParticleEngine.Instance.Add(particle);
             }

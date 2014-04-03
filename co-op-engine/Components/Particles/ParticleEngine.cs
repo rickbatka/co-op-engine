@@ -11,7 +11,7 @@ namespace co_op_engine.Components.Particles
     public class ParticleEngine
     {
         const int Max = 5000;
-        Particle[] Pool; 
+        IParticle[] Pool; 
         int NumAliveParticles;
         List<Emitter> Emitters = new List<Emitter>();
 
@@ -32,7 +32,7 @@ namespace co_op_engine.Components.Particles
 
         private ParticleEngine()
         {
-            Pool = new Particle[Max];
+            Pool = new IParticle[Max];
             NumAliveParticles = 0;
         }
 
@@ -46,7 +46,7 @@ namespace co_op_engine.Components.Particles
             for (int i = 0; i < NumAliveParticles; i++)
             { 
                 spriteBatch.Draw(
-                    texture: AssetRepository.Instance.PlainWhiteTexture,
+                    texture: Pool[i].Texture,
                     rectangle: Pool[i].DrawRectangle,
                     color: Pool[i].DrawColor
                 );
@@ -61,10 +61,11 @@ namespace co_op_engine.Components.Particles
             );
         }
 
-        public void Add(Particle particle)
+        public void Add(IParticle particle)
         {
             int index = GetAvailableParticleIndex();
             Pool[index] = particle;
+            Pool[index].Begin();
         }
 
         public int GetAvailableParticleIndex()
@@ -106,6 +107,7 @@ namespace co_op_engine.Components.Particles
                 Pool[i].Update(gameTime);
                 if (!Pool[i].IsAlive)
                 {
+                    Pool[i].End();
                     Swap(i, (NumAliveParticles - 1));
                     NumAliveParticles--;
                     Pool[NumAliveParticles] = null;
@@ -117,7 +119,7 @@ namespace co_op_engine.Components.Particles
 
         private void Swap(int left, int right)
         {
-            Particle swap = Pool[left];
+            IParticle swap = Pool[left];
             Pool[left] = Pool[right];
             Pool[right] = swap;
         }

@@ -60,7 +60,9 @@ namespace co_op_engine.GameStates
                 //int numParticlesToSpawn = MechanicSingleton.Instance.rand.Next(1, 10);
                 //for (int i = 0; i < 10; i++)
                 //{
-                //    ParticleEngine.Instance.Add(new Particle(Constants.PARTICLE_LIFETIME_MS));
+                //ParticleEngine.Instance.AddEmitter(
+                //  new FireEmitter(container.GetObjectById(0))
+                //);
                 //}
             }
 

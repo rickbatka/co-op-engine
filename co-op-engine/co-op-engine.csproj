@@ -37,7 +37,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Components\Particles\BloodHitEmitter.cs" />
+    <Compile Include="Components\Particles\Decorators\DelayedStartDecorator.cs" />
+    <Compile Include="Components\Particles\Decorators\ParticleDecoorator.cs" />
+    <Compile Include="Components\Particles\Decorators\VariableSizeDecorator.cs" />
     <Compile Include="Components\Particles\Emitter.cs" />
+    <Compile Include="Components\Particles\FireEmitter.cs" />
     <Compile Include="Components\Particles\Particle.cs" />
     <Compile Include="Components\Particles\ParticleEngine.cs" />
     <Compile Include="Components\Rendering\Animation.cs" />
@@ -143,6 +147,10 @@
     <Content Include="SDL.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\softpixel.xnb">
+      <Link>Content\softpixel.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\arial.xnb">
       <Link>Content\arial.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

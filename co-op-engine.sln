@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "co-op-engine", "co-op-engine\co-op-engine.csproj", "{1238F14A-6978-4F34-A179-94C1B9740ED0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FD982ED7-C31F-4700-8E86-9D6D00F5798B} = {FD982ED7-C31F-4700-8E86-9D6D00F5798B}
@@ -10,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceMaterial", "Refere
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTools", "DevTools\DevTools.csproj", "{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Content1", "Content1\Content1.contentproj", "{D4B729BB-499E-4639-904A-E13F1F973869}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Content1", "Content1\Content1.contentproj", "{D4B729BB-499E-4639-904A-E13F1F973869}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyContentLibrary", "DummyContentLibrary\DummyContentLibrary.csproj", "{FD982ED7-C31F-4700-8E86-9D6D00F5798B}"
 EndProject
@@ -310,8 +312,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
