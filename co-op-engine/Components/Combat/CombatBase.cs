@@ -48,7 +48,7 @@ namespace co_op_engine.Components.Combat
                     newEffect.Apply();
 
                     ParticleEngine.Instance.AddEmitter(
-                        //new BloodHitEmitter(owner.Position, hitRotation)
+                        //new BloodHitEmitter(owner, hitRotation)
                         new FireEmitter(owner)
                     );
                 }

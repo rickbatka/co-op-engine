@@ -17,6 +17,7 @@ namespace co_op_engine.Components.Particles.Decorators
         public bool IsAlive { get { return particle.IsAlive; } }
         public TimeSpan Lifetime { get { return particle.Lifetime; } set { particle.Lifetime = value; } }
         public Vector2 Velocity { get { return particle.Velocity; } set { particle.Velocity = value; } }
+        public Vector2 Position { get { return particle.Position; } set { particle.Position = value; } }
         public int Width { get { return particle.Width; } set { particle.Width = value; } }
         public int Height { get { return particle.Height; } set { particle.Height = value; } }
 

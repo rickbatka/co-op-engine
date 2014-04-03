@@ -1,4 +1,5 @@
-﻿using co_op_engine.Utility;
+﻿using co_op_engine.Components.Particles.Decorators;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,36 +10,39 @@ namespace co_op_engine.Components.Particles
 {
     class BloodHitEmitter : Emitter
     {
-        private Vector2 Position;
+        private GameObject owner;
         private Vector2 HitRotation;
 
-        public BloodHitEmitter(Vector2 position, Vector2 hitRotation)
+        public BloodHitEmitter(GameObject owner, Vector2 hitRotation)
         {
-            Position = position;
+            this.owner = owner;
             HitRotation = hitRotation;
-            this.duration = TimeSpan.FromMilliseconds(10);
+            this.duration = TimeSpan.FromMilliseconds(175);
         }
 
         // this one emits in one big burst
         protected override void EmitParticle()
         {
-            int numBloodParticles = MechanicSingleton.Instance.rand.Next(20, 40);
+            int numBloodParticles = MechanicSingleton.Instance.rand.Next(1, 5);
             for (int i = 0; i < numBloodParticles; i++)
             {
                 var particle = new Particle();
-                particle.Lifetime = TimeSpan.FromMilliseconds(150);
+                particle.Lifetime = TimeSpan.FromMilliseconds(MechanicSingleton.Instance.rand.Next(50, 250));
                 particle.Position = GetEmitPosition();
                 particle.Velocity = GetEmitVelocity();
-                particle.DrawColor = Color.Red;
-                ParticleEngine.Instance.Add(particle);
+                particle.DrawColor = Color.Firebrick;
+
+                var withSlowDown = new SlowDownDecorator(particle);
+
+                ParticleEngine.Instance.Add(withSlowDown);
             }
         }
 
         private Vector2 GetEmitPosition()
         {
             return new Vector2(
-                Position.X + MechanicSingleton.Instance.rand.Next(-10, 10), 
-                Position.Y + MechanicSingleton.Instance.rand.Next(-10, 10));
+                owner.BoundingBox.Center.X + MechanicSingleton.Instance.rand.Next(-10, 10),
+                owner.BoundingBox.Center.Y + MechanicSingleton.Instance.rand.Next(-10, 10));
         }
 
         private Vector2 GetEmitVelocity()

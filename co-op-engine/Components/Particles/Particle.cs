@@ -16,6 +16,7 @@ namespace co_op_engine.Components.Particles
         bool IsAlive { get; }
         TimeSpan Lifetime { get; set; }
         Vector2 Velocity { get; set; }
+        Vector2 Position { get; set; }
         int Width { get; set; }
         int Height { get; set; }
 
