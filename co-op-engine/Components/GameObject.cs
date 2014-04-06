@@ -124,17 +124,15 @@ namespace co_op_engine.Components
             }
         }
 
-#warning #########################  recent merge wiped these out(props on build params), have to fix the =m anothe day #################
-
         public UpdateParameters BuildUpdateParams()
         {
             return new UpdateParameters()
             {
-                //CurrentActorState = this.currentActorState,
-                //FacingDirection = this.facingDirection,
+                CurrentActorState = this.CurrentState,
+                RotationTowardFacingDirectionRadians = this.RotationTowardFacingDirectionRadians,
                 ID = this.ID,
-                //Position = this.Position,
-               // Velocity = this.Velocity,
+                Position = this.Position,
+                Velocity = this.Velocity,
             };
         }
 
@@ -162,10 +160,10 @@ namespace co_op_engine.Components
 
         public void UpdateFromNetworkParams(UpdateParameters parameters)
         {
-            //this.currentActorState = parameters.CurrentActorState;
-            //this.facingDirection = parameters.FacingDirection;
-            //this.Position = parameters.Position;
-            //this.Velocity = parameters.Velocity;
+            this.CurrentState = parameters.CurrentActorState;
+            this.RotationTowardFacingDirectionRadians = parameters.RotationTowardFacingDirectionRadians;
+            this.Position = parameters.Position;
+            this.Velocity = parameters.Velocity;
             CurrentQuad.NotfyOfMovement(this);
         }
     }

@@ -28,7 +28,7 @@ namespace co_op_engine.Networking.Commands
         public int ID;
         public ImplicitHack Velocity;
         public ImplicitHack Position;
-        public int FacingDirection;
+        public float RotationTowardFacingDirectionRadians;
         public int CurrentActorState;
     };
 
