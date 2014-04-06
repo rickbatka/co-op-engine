@@ -180,6 +180,7 @@ namespace co_op_engine.Networking
                     foreach (var command in queued)
                     {
                         EchoAllOthers(command);
+                        ++base.SentCount;
                     }
                 }
             }
@@ -204,7 +205,7 @@ namespace co_op_engine.Networking
                 {
                     //blocks here
                     CommandObject command = (CommandObject)formatter.Deserialize(netStream);
-
+                    ++base.RecvCount;
                     //send chatter to output
                     EchoAllOthers(command, formatter);
 

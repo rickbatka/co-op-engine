@@ -5,9 +5,11 @@ using System.Text;
 
 namespace co_op_engine.Components.Brains
 {
-    class NetworkClientBrain : BrainBase
+    class NetworkPlayerBrain : BrainBase
     {
-        public NetworkClientBrain(GameObject player)
+        //has a networking command queue
+
+        public NetworkPlayerBrain(GameObject player)
             : base(player)
         { }
     }

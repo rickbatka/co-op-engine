@@ -158,6 +158,7 @@ namespace co_op_engine.Networking
                         foreach (var command in queued)
                         {
                             formatter.Serialize(stream, command);
+                            ++base.SentCount;
                         }
                     }
                     catch
@@ -178,7 +179,7 @@ namespace co_op_engine.Networking
             {
                 //blocks here
                 var command = formatter.Deserialize(stream);
-
+                ++base.RecvCount;
                 //send chatter to output
                 outputBuffer.Add((CommandObject)command);
             }

@@ -22,6 +22,9 @@ namespace co_op_engine.Networking
             worldRef = container;
         }
 
+        public int SentCount;
+        public int RecvCount;
+
         abstract public int ClientId { get; }
         abstract public bool IsHosting { get; }
         abstract public ThreadSafeBuffer<CommandObject> Input { get; }

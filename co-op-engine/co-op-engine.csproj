@@ -51,7 +51,7 @@
     <Compile Include="Components\Rendering\AnimationSet.cs" />
     <Compile Include="Components\Brains\AI\DoNothingBrain.cs" />
     <Compile Include="Components\Brains\BrainBase.cs" />
-    <Compile Include="Components\Brains\NetworkClientBrain.cs" />
+    <Compile Include="Components\Brains\NetworkPlayerBrain.cs" />
     <Compile Include="Components\Brains\PlayerBrain.cs" />
     <Compile Include="Components\Brains\TowerBrains\BasicTowerBrain.cs" />
     <Compile Include="Components\Combat\CombatBase.cs" />

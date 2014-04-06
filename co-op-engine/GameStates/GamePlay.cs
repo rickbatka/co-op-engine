@@ -134,7 +134,9 @@ namespace co_op_engine.GameStates
             string[] debugInfos = new string[] 
             { 
                 "fps:" + 1000f / (float)gameTime.ElapsedGameTime.Milliseconds,
-                "obj count:" + container.ObjectCount
+                "obj count:" + container.ObjectCount,
+                "net sent:" + Networking.SentCount,
+                "net recv:" + Networking.RecvCount,
             };
 
             for (int i = 0; i < debugInfos.Length; i++)

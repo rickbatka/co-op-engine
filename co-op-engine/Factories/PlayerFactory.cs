@@ -125,7 +125,7 @@ namespace co_op_engine.Factories
             player.SetPhysics(new CollidingPhysics(player));
             var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
             player.SetRenderer(renderer);
-            player.SetBrain(new NetworkClientBrain(player));
+            player.SetBrain(new NetworkPlayerBrain(player));
             player.SetCombat(new COMBATPLACEHOLDER(player));
             player.EquipWeapon(GetSword(player));
 
