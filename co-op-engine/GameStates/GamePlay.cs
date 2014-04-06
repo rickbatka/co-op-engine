@@ -93,14 +93,6 @@ namespace co_op_engine.GameStates
                         NetworkFactory.BuildFromNetwork((CreateParameters)objectCommand.Parameters);
                     }
                     break;
-                case GameObjectCommandType.Delete:
-                    {
-                        //findById and remove
-                        var parameters = (DeleteParameters)objectCommand.Parameters;
-                        var removee = container.GetObjectById(parameters.ID);
-                        container.RemoveObject(removee);
-                    }
-                    break;
                 case GameObjectCommandType.Update:
                     {
                         //findby id and run update from network

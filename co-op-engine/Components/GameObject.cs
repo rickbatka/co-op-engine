@@ -43,6 +43,7 @@ namespace co_op_engine.Components
         public int Health { get; set; }
         public int MaxHealth { get; set; }
         public Frame CurrentFrame { get; set; }
+        public string ConstructionStamp { get; set; }
 
         public event EventHandler OnDeath;
 
@@ -130,11 +131,11 @@ namespace co_op_engine.Components
         {
             return new UpdateParameters()
             {
-                //CurrentActorState = this.currentActorState,
-                //FacingDirection = this.facingDirection,
+                CurrentActorState = this.CurrentState,
+                FacingDirection = this.FacingDirection,
                 ID = this.ID,
-                //Position = this.Position,
-               // Velocity = this.Velocity,
+                Position = this.Position,
+               Velocity = this.Velocity,
             };
         }
 
@@ -143,29 +144,17 @@ namespace co_op_engine.Components
             return new CreateParameters()
             {
                 ID = this.ID,
-                ObjectTypeEnumerationPossiblyChangeThisLaterLetsTalkAboutIt = "",
-                Brain = this.Brain == null ? null : this.Brain.GetType(),
-                Combat = this.Combat == null ? null : this.Combat.GetType(),
-                Physics = this.Physics == null ? null : this.Physics.GetType(),
-                Renderer = this.Renderer == null ? null : this.Renderer.GetType(),
-                Weapon = this.Weapon == null ? null : this.Weapon.GetType()
-            };
-        }
-
-        public DeleteParameters BuildDeleteParams()
-        {
-            return new DeleteParameters()
-            {
-                ID = this.ID,
+                Position = this.Position,
+                ConstructionId = this.ConstructionStamp,
             };
         }
 
         public void UpdateFromNetworkParams(UpdateParameters parameters)
         {
-            //this.currentActorState = parameters.CurrentActorState;
-            //this.facingDirection = parameters.FacingDirection;
-            //this.Position = parameters.Position;
-            //this.Velocity = parameters.Velocity;
+            this.CurrentState = parameters.CurrentActorState;
+            this.FacingDirection = parameters.FacingDirection;
+            this.Position = parameters.Position;
+            this.Velocity = parameters.Velocity;
             CurrentQuad.NotfyOfMovement(this);
         }
     }

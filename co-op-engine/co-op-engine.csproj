@@ -71,6 +71,7 @@
     <Compile Include="Components\Weapons\WeaponBase.cs" />
     <Compile Include="Components\Weapons\Effects\WeaponEffectBase.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
+    <Compile Include="Networking\Commands\Commander.cs" />
     <Compile Include="Networking\Commands\GameObjectCommand.cs" />
     <Content Include="Content\TowerData.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -33,6 +33,7 @@ namespace co_op_engine.Factories
         public GameObject GetDoNothingTower(bool fromNetwork = false, int id = -1)
         {
             var tower = new GameObject();
+            tower.ConstructionStamp = "Tower";
             tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations.CurrentAnimatedRectangle.CurrentFrame;
 
@@ -40,10 +41,10 @@ namespace co_op_engine.Factories
             tower.SetPhysics(new CollidingPhysics(tower));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations));
             tower.SetBrain(new BasicTowerBrain(tower,
-                AssetRepository.Instance.PlainWhiteTexture, 
+                AssetRepository.Instance.PlainWhiteTexture,
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));
 
-            if(fromNetwork)
+            if (fromNetwork)
             {
                 tower.CurrentState = Constants.ACTOR_STATE_IDLE;
             }
@@ -51,14 +52,20 @@ namespace co_op_engine.Factories
             {
                 tower.CurrentState = Constants.ACTOR_STATE_PLACING;
             }
-            
+
             tower.SetCombat(new CombatBase(tower));
 
             gameRef.container.AddObject(tower);
 
             if (!fromNetwork)
             {
-                var parms = tower.BuildCreateParams();
+                var parms = new CreateParameters()
+                {
+                    ConstructionId = tower.ConstructionStamp,
+                    ID = tower.ID,
+                    Position = tower.Position,
+                };
+
                 netRef.Input.Add(new CommandObject()
                 {
                     ClientId = netRef.ClientId,

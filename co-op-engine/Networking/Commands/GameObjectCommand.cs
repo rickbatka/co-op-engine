@@ -26,21 +26,21 @@ namespace co_op_engine.Networking.Commands
     public struct UpdateParameters
     {
         public int ID;
-        public ImplicitHack Velocity;
-        public ImplicitHack Position;
+        public RicksSerializationWorkaround Velocity;
+        public RicksSerializationWorkaround Position;
         public int FacingDirection;
         public int CurrentActorState;
     };
 
     [Serializable]
-    public struct ImplicitHack
+    public struct RicksSerializationWorkaround
     {
         float x, y;
-        public static implicit operator ImplicitHack(Vector2 vect)
+        public static implicit operator RicksSerializationWorkaround(Vector2 vect)
         {
-            return new ImplicitHack() { x = vect.X, y = vect.Y };
+            return new RicksSerializationWorkaround() { x = vect.X, y = vect.Y };
         }
-        public static implicit operator Vector2(ImplicitHack imp)
+        public static implicit operator Vector2(RicksSerializationWorkaround imp)
         {
             return new Vector2(imp.x, imp.y);
         }
@@ -50,18 +50,7 @@ namespace co_op_engine.Networking.Commands
     public struct CreateParameters
     {
         public int ID;
-        public string ObjectTypeEnumerationPossiblyChangeThisLaterLetsTalkAboutIt; //could be a tag on the factories for what object to create
-
-        public Type Brain;
-        public Type Renderer;
-        public Type Physics;
-        public Type Weapon;
-        public Type Combat;
-    }
-
-    [Serializable]
-    public struct DeleteParameters
-    {
-        public int ID;
+        public string ConstructionId; //could be a tag on the factories for what object to create
+        public RicksSerializationWorkaround Position;
     }
 }

@@ -42,6 +42,8 @@ namespace co_op_engine.Factories
         public GameObject GetPlayer()
         {
             var player = new GameObject();
+            player.ConstructionStamp = "Player";
+
             player.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
             player.Position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 100));
 
@@ -56,7 +58,13 @@ namespace co_op_engine.Factories
 
             gameRef.container.AddObject(player);
 
-            var parms = player.BuildCreateParams();
+            var parms = new CreateParameters()
+            {
+                ConstructionId = player.ConstructionStamp,
+                ID = player.ID,
+                Position = player.Position
+            };
+
             netRef.Input.Add(new CommandObject()
             {
                 ClientId = netRef.ClientId,
@@ -73,6 +81,8 @@ namespace co_op_engine.Factories
         public GameObject GetEnemy()
         {
             var enemy = new GameObject();
+            enemy.ConstructionStamp = "Enemy";
+
             enemy.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
             enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
 
@@ -87,7 +97,12 @@ namespace co_op_engine.Factories
 
             gameRef.container.AddObject(enemy);
 
-            var parms = enemy.BuildCreateParams();
+            var parms = new CreateParameters()
+            {
+                ConstructionId = enemy.ConstructionStamp,
+                ID = enemy.ID,
+                Position = enemy.Position
+            };
             netRef.Input.Add(new CommandObject()
             {
                 ClientId = netRef.ClientId,

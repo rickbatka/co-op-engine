@@ -19,7 +19,7 @@ namespace co_op_engine.Factories
     public class NetworkFactory
     {
         private static NetworkFactory instance;
-        public static NetworkFactory Instance { get { return instance; }}
+        public static NetworkFactory Instance { get { return instance; } }
 
         private GamePlay GameRef;
         private NetworkBase netRef;
@@ -33,16 +33,21 @@ namespace co_op_engine.Factories
 
         public static GameObject BuildFromNetwork(CreateParameters parameters)
         {
-            if (parameters.Brain == typeof(PlayerBrain))
+            switch (parameters.ConstructionId)
             {
-                //hack to speed things up
-                return PlayerFactory.Instance.GetNetworkPlayer(parameters.ID);
+                case "Player":
+                    {
+                        return PlayerFactory.Instance.GetNetworkPlayer(parameters.ID);
+                    }
+                case "Tower":
+                    {
+                        return TowerFactory.Instance.GetDoNothingTower(true, parameters.ID);
+                    }
+                default:
+                    {
+                        throw new Exception("The Object Hasn't Been Set up to be created throug hthe network yet");
+                    }
             }
-            else if (parameters.Brain == typeof(BasicTowerBrain))
-            {
-                return TowerFactory.Instance.GetDoNothingTower(true, parameters.ID);
-            }
-            throw new NotImplementedException("other objects haven't been dealt with across network yet");
         }
     }
 }
