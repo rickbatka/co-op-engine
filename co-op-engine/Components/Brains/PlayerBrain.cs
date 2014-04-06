@@ -26,7 +26,7 @@ namespace co_op_engine.Components.Brains
         override public void Update(GameTime gameTime)
         {
 #warning hack here for positioning camera, may want to move elsewhere
-            Camera.Instance.CenterCameraOnPosition(owner.Position);
+            //Camera.Instance.CenterCameraOnPosition(owner.Position);
             HandleAiming();
             HandleWeaponToggle();
             HandleActions();
