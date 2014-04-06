@@ -125,8 +125,6 @@ namespace co_op_engine.Components
             }
         }
 
-#warning #########################  recent merge wiped these out(props on build params), have to fix the =m anothe day #################
-
         public UpdateParameters BuildUpdateParams()
         {
             return new UpdateParameters()
