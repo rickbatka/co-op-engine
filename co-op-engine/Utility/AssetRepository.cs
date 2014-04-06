@@ -1,5 +1,6 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.GameStates;
+using co_op_engine.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -26,6 +27,7 @@ namespace co_op_engine.Utility
         public Texture2D SwordTexture;
         public Texture2D AxeTexture;
         public Texture2D MaceTexture;
+        public BackgroundTile BushesTile;
 
         string[] heroAnimationData;
         public AnimationSet HeroAnimations { get { return AnimationSet.BuildFromAsset(heroAnimationData); } }
@@ -69,6 +71,7 @@ namespace co_op_engine.Utility
             SwordTexture = gameRef.Content.Load<Texture2D>("Sword");
             AxeTexture = gameRef.Content.Load<Texture2D>("Axe");
             MaceTexture = gameRef.Content.Load<Texture2D>("Mace");
+            BushesTile = new BackgroundTile(gameRef.Content.Load<Texture2D>("bushes"), 450, 450);
 
             heroAnimationData = File.ReadAllLines("content/HeroNoArmsData.txt");
             swordAnimationData = File.ReadAllLines("content/SwordData.txt");

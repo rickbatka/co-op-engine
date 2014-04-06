@@ -72,6 +72,7 @@
     <Compile Include="Components\Weapons\Effects\WeaponEffectBase.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Networking\Commands\GameObjectCommand.cs" />
+    <Compile Include="World\TiledBackground.cs" />
     <Content Include="Content\TowerData.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -164,6 +165,12 @@
   <ItemGroup>
     <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\Sword.xnb">
       <Link>Content\Sword.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\bushes.xnb">
+      <Link>Content\bushes.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

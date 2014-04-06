@@ -41,7 +41,7 @@ namespace co_op_engine.Components.Particles
 
         private Vector2 GetVelocity()
         {
-            var yVelocity = (float)MechanicSingleton.Instance.rand.Next(1, 20) / 1000f;
+            var yVelocity = (float)MechanicSingleton.Instance.rand.Next(50, 300) / 1000f;
             return new Vector2(0f, -yVelocity);
         }
 

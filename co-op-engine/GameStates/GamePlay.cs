@@ -13,6 +13,7 @@ using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
 using co_op_engine.Components.Particles;
 using Microsoft.Xna.Framework.Input;
+using co_op_engine.World;
 
 namespace co_op_engine.GameStates
 {
@@ -21,6 +22,8 @@ namespace co_op_engine.GameStates
         public ObjectContainer container;
 
         public NetworkBase Networking;
+
+        public TiledBackground Background;
 
         private bool isHosting;
 
@@ -38,6 +41,7 @@ namespace co_op_engine.GameStates
 
         public override void LoadContent()
         {
+            Background = new TiledBackground(AssetRepository.Instance.BushesTile);
             ///////////////////////////////////////////////////////////
 
             //@TODO move to level setup
@@ -52,6 +56,7 @@ namespace co_op_engine.GameStates
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             GameTimerManager.Instance.Update(gameTime);
+            Background.Update(gameTime);
             container.UpdateAll(gameTime, Networking);
 
 #warning temporary 
@@ -66,7 +71,6 @@ namespace co_op_engine.GameStates
                 //}
             }
 
-            this.GameRef.IsFixedTimeStep = false;
             ParticleEngine.Instance.Update(gameTime);
 
             var netCommands = Networking.Output.Gather();
@@ -120,6 +124,7 @@ namespace co_op_engine.GameStates
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null, null, Camera.Instance.Transformation);
+            Background.Draw(GameRef.spriteBatch);
             container.DrawAll(GameRef.spriteBatch);
 
             ParticleEngine.Instance.Draw(GameRef.spriteBatch);
