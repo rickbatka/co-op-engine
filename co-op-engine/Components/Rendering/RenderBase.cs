@@ -96,5 +96,10 @@ namespace co_op_engine.Components.Rendering
             
             return center;
         }
+
+        internal void ReceiveCommand(Networking.Commands.GameObjectCommand command)
+        {
+            throw new NotImplementedException("THIS DOES NOTHING YET");
+        }
     }
 }

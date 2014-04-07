@@ -27,14 +27,14 @@ namespace co_op_engine.Networking
         public event EventHandler OnClientDisconnect;
         public override event EventHandler OnNetworkError;
 
-        private ThreadSafeBuffer<CommandObject> inputBuffer;
-        public override ThreadSafeBuffer<CommandObject> Input
+        private ThreadSafeBuffer<NetworkCommandObject> inputBuffer;
+        public override ThreadSafeBuffer<NetworkCommandObject> Input
         {
             get { return inputBuffer; }
         }
 
-        private ThreadSafeBuffer<CommandObject> outputBuffer;
-        public override ThreadSafeBuffer<CommandObject> Output
+        private ThreadSafeBuffer<NetworkCommandObject> outputBuffer;
+        public override ThreadSafeBuffer<NetworkCommandObject> Output
         {
             get { return outputBuffer; }
         }
@@ -53,8 +53,8 @@ namespace co_op_engine.Networking
 
         public NetworkServer()
         {
-            inputBuffer = new ThreadSafeBuffer<CommandObject>();
-            outputBuffer = new ThreadSafeBuffer<CommandObject>();
+            inputBuffer = new ThreadSafeBuffer<NetworkCommandObject>();
+            outputBuffer = new ThreadSafeBuffer<NetworkCommandObject>();
             clientThreads = new List<Thread>();
             clients = new List<GameClient>();
 
@@ -204,7 +204,7 @@ namespace co_op_engine.Networking
                 while (true)
                 {
                     //blocks here
-                    CommandObject command = (CommandObject)formatter.Deserialize(netStream);
+                    NetworkCommandObject command = (NetworkCommandObject)formatter.Deserialize(netStream);
                     ++base.RecvCount;
                     //send chatter to output
                     EchoAllOthers(command, formatter);
@@ -235,7 +235,7 @@ namespace co_op_engine.Networking
             }
         }
 
-        private void EchoAllOthers(CommandObject command, BinaryFormatter formatter = null)
+        private void EchoAllOthers(NetworkCommandObject command, BinaryFormatter formatter = null)
         {
             if (formatter == null) formatter = new BinaryFormatter();
             for (int i = 0; i < clients.Count(); ++i)
@@ -263,7 +263,7 @@ namespace co_op_engine.Networking
             {
 
                 formatter.Serialize(stream,
-                    new CommandObject()
+                    new NetworkCommandObject()
                     {
                         ClientId = gClient.ClientId,
                         Command = obj,

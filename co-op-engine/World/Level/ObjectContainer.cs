@@ -48,7 +48,7 @@ namespace co_op_engine.World.Level
             }
         }
 
-        public void UpdateAll(GameTime gameTime, Networking.NetworkBase netRef)
+        public void UpdateAll(GameTime gameTime)
         {
             //really wish I could use an unsafe enumaretion... sigh... performance hit....
             for (int i = 0; i < LinearReference.Count; i++)
@@ -57,18 +57,12 @@ namespace co_op_engine.World.Level
                 obj.Update(gameTime);
 
 #warning HACKHACKHACK HACK ALERT REFACTOR LATER!!!! WOOP WOOP WOOP pizza...
-                if (obj.NotifyNetwork)
+                //not as rediculous a hack as before but still not pleasant ^_^
+                foreach (var command in LinearReference[i].PendingCommands)
                 {
-                    netRef.Input.Add(new CommandObject()
-                   {
-                       ClientId = netRef.ClientId,
-                       Command = new GameObjectCommand()
-                       {
-                           CommandType = GameObjectCommandType.Update,
-                           Parameters = obj.BuildUpdateParams(),
-                       }
-                   });
+                    NetCommander.SendCommand(command);
                 }
+
             }
         }
 
@@ -100,11 +94,6 @@ namespace co_op_engine.World.Level
                 {
                     CommandType = GameObjectCommandType.Create,
                     Parameters = go.BuildCreateParams(),
-                });
-                worldCommands.Add(new GameObjectCommand()
-                {
-                    CommandType = GameObjectCommandType.Update,
-                    Parameters = go.BuildUpdateParams(),
                 });
             }
 

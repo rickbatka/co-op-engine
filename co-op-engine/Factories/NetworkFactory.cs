@@ -22,18 +22,18 @@ namespace co_op_engine.Factories
         public static NetworkFactory Instance { get { return instance; } }
 
         private GamePlay GameRef;
-        private NetworkBase netRef;
 
-        public static void Initialize(GameStates.GamePlay gamePlay, NetworkBase netref)
+        public static void Initialize(GameStates.GamePlay gamePlay)
         {
             instance = new NetworkFactory();
             instance.GameRef = gamePlay;
-            instance.netRef = netref;
         }
 
-        public static GameObject BuildFromNetwork(CreateParameters parameters)
+        public static GameObject BuildFromNetwork(GameObjectCommand command)
         {
-            switch (parameters.ConstructionId)
+            CreateParameters parameters = (CreateParameters)command.Parameters;
+
+            switch (parameters.ConstructorId)
             {
                 case "Player":
                     {

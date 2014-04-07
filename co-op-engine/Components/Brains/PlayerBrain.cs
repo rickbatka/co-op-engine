@@ -1,5 +1,7 @@
-﻿using co_op_engine.Components.Input;
+﻿using System;
+using co_op_engine.Components.Input;
 using co_op_engine.Factories;
+using co_op_engine.Networking.Commands;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -68,13 +70,29 @@ namespace co_op_engine.Components.Brains
             }
         }
 
+        [Serializable]
+        public struct PlayerBrainUpdateParams
+        {
+            public S_Vector2 InputMovementVector;
+        }
+
         private void HandleMovement()
         {
             var prev = owner.InputMovementVector;
             owner.InputMovementVector = input.GetMovement();
+
             if (prev != owner.InputMovementVector)
             {
-                owner.NotifyNetwork = true;
+                NetCommander.SendCommand(new GameObjectCommand()
+                {
+                    ID = owner.ID,
+                    CommandType = GameObjectCommandType.Update,
+                    ReceivingComponent = GameObjectComponentType.Brain,
+                    Parameters = new PlayerBrainUpdateParams()
+                    {
+                        InputMovementVector = owner.InputMovementVector
+                    },
+                });
             }
         }
 

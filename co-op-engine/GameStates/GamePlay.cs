@@ -21,22 +21,19 @@ namespace co_op_engine.GameStates
     {
         public ObjectContainer container;
 
-        public NetworkBase Networking;
-
         public TiledBackground Background;
 
         private bool isHosting;
 
-        public GamePlay(Game1 game, NetworkBase network)
+        public GamePlay(Game1 game)
             : base(game)
         {
             container = new ObjectContainer(GameRef.screenRectangle);
-            network.RegisterWorldWithNetwork(container);
+            NetCommander.RegisterWorldWithNetwork(container);
             Camera.Instantiate(GameRef.screenRectangle);
-            PlayerFactory.Initialize(this, network);
-            TowerFactory.Initialize(this, network);
-            NetworkFactory.Initialize(this, network);
-            Networking = network;
+            PlayerFactory.Initialize(this);
+            TowerFactory.Initialize(this);
+            NetworkFactory.Initialize(this);
         }
 
         public override void LoadContent()
@@ -57,7 +54,7 @@ namespace co_op_engine.GameStates
         {
             GameTimerManager.Instance.Update(gameTime);
             Background.Update(gameTime);
-            container.UpdateAll(gameTime, Networking);
+            container.UpdateAll(gameTime);
 
 #warning temporary 
             if (InputHandler.KeyDown(Keys.P))
@@ -73,43 +70,68 @@ namespace co_op_engine.GameStates
 
             ParticleEngine.Instance.Update(gameTime);
 
-            var netCommands = Networking.Output.Gather();
+            var netCommands = NetCommander.RendPendingCommands();
 
             if (netCommands.Count > 0)
             {
                 foreach (var command in netCommands)
                 {
-                    ParseAndExecuteNetworkCommand(command);
+                    RouteNetCommand(command);
                 }
             }
         }
 
-        private void ParseAndExecuteNetworkCommand(CommandObject command)
+        private void RouteNetCommand(NetworkCommandObject command)
         {
             //parse command type
-            var objectCommand = (GameObjectCommand)command.Command;
-
-            switch (objectCommand.CommandType)
+            switch (command.CommandType)
             {
-                case GameObjectCommandType.Create:
+                case NetworkCommandType.GameObjectCommand:
                     {
-                        //use factory to create object
-                        NetworkFactory.BuildFromNetwork((CreateParameters)objectCommand.Parameters);
+                        RouteGameObjectCommand(command);
+                        //NetworkFactory.BuildFromNetwork((CreateParameters)objectCommand.Parameters);
                     }
                     break;
-                case GameObjectCommandType.Update:
+                /*case GameObjectCommandType.Update:
                     {
                         //findby id and run update from network
                         var parameters = (UpdateParameters)objectCommand.Parameters;
                         var updatee = container.GetObjectById(parameters.ID);
                         updatee.UpdateFromNetworkParams(parameters);
                     }
-                    break;
+                    break;*/
                 default:
                     {
                         throw new NotImplementedException("this command type has not been implemented yet");
                     }
                     break;
+            }
+        }
+
+        private void RouteGameObjectCommand(NetworkCommandObject command)
+        {
+            GameObjectCommand objCommand = (GameObjectCommand)command.Command;
+            switch (objCommand.CommandType)
+            {
+                case GameObjectCommandType.Create:
+                    {
+                        NetworkFactory.BuildFromNetwork(objCommand);
+                    }
+                    break;
+                case GameObjectCommandType.Delete:
+                    {
+                        throw new NotImplementedException("placeholder, probably won't need");
+                    }
+                    break;
+                case GameObjectCommandType.Update:
+                    {
+                        container.GetObjectById(objCommand.ID).UpdateFromNetworkParams(objCommand);
+                    }
+                    break;
+                default:
+                    {
+                        throw new NotImplementedException("gameobject command type not implemented");
+                    }
             }
         }
 
@@ -135,8 +157,8 @@ namespace co_op_engine.GameStates
             { 
                 "fps:" + 1000f / (float)gameTime.ElapsedGameTime.Milliseconds,
                 "obj count:" + container.ObjectCount,
-                "net sent:" + Networking.SentCount,
-                "net recv:" + Networking.RecvCount,
+                "net sent:" + NetCommander.SentCount,
+                "net recv:" + NetCommander.RecvCount,
             };
 
             for (int i = 0; i < debugInfos.Length; i++)

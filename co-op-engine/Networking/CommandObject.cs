@@ -6,13 +6,19 @@ using co_op_engine.Components;
 
 namespace co_op_engine.Networking
 {
+    public enum NetworkCommandType
+    {
+        GameObjectCommand,
+    }
+
     /// <summary>
     /// Serializable command meant to pass functional information over the network
     /// </summary>
     [Serializable]
-    public struct CommandObject
+    public struct NetworkCommandObject
     {
         public int ClientId;
+        public NetworkCommandType CommandType;
         public object Command;
     }
 }

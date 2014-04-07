@@ -113,5 +113,10 @@ namespace co_op_engine.Components.Combat
         {
             return "" + weaponId + "_" + effect.UniqueIdentifier;
         }
+
+        internal void ReceiveCommand(Networking.Commands.GameObjectCommand command)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

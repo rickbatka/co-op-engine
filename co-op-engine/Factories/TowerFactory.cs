@@ -16,18 +16,15 @@ namespace co_op_engine.Factories
     {
         public static TowerFactory Instance;
         private GamePlay gameRef;
-        private NetworkBase netRef;
 
-
-        private TowerFactory(GamePlay gameRef, NetworkBase netref)
+        private TowerFactory(GamePlay gameRef)
         {
             this.gameRef = gameRef;
-            this.netRef = netref;
         }
 
-        public static void Initialize(GamePlay gameRef, NetworkBase netref)
+        public static void Initialize(GamePlay gameRef)
         {
-            Instance = new TowerFactory(gameRef, netref);
+            Instance = new TowerFactory(gameRef);
         }
 
         public GameObject GetDoNothingTower(bool fromNetwork = false, int id = -1)
@@ -61,19 +58,15 @@ namespace co_op_engine.Factories
             {
                 var parms = new CreateParameters()
                 {
-                    ConstructionId = tower.ConstructionStamp,
+                    ConstructorId = tower.ConstructionStamp,
                     ID = tower.ID,
                     Position = tower.Position,
                 };
 
-                netRef.Input.Add(new CommandObject()
+                NetCommander.SendCommand(new GameObjectCommand()
                 {
-                    ClientId = netRef.ClientId,
-                    Command = new GameObjectCommand()
-                    {
-                        CommandType = GameObjectCommandType.Create,
-                        Parameters = parms,
-                    },
+                    CommandType = GameObjectCommandType.Create,
+                    Parameters = parms,
                 });
             }
 

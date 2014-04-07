@@ -128,5 +128,10 @@ namespace co_op_engine.Components.Physics
 
             return aboveHead;
         }
+
+        internal void ReceiveCommand(Networking.Commands.GameObjectCommand command)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

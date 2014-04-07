@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using co_op_engine.Networking;
+using co_op_engine.Networking.Commands;
 using co_op_engine.UIElements;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
@@ -45,8 +46,9 @@ namespace co_op_engine.GameStates
             var network = new NetworkServer();
             network.StartHosting();
 
+            NetCommander.SetNetwork(network);
 
-            var gameplayServer = new GamePlay(GameRef,network);
+            var gameplayServer = new GamePlay(GameRef);
             GameRef.ChangeGameState(gameplayServer);
         }
 
@@ -57,7 +59,9 @@ namespace co_op_engine.GameStates
             var network = new NetworkClient();
             network.ConnectToGame("127.0.0.1");
 
-            var gameplayClient = new GamePlay(GameRef, network);
+            NetCommander.SetNetwork(network);
+
+            var gameplayClient = new GamePlay(GameRef);
             GameRef.ChangeGameState(gameplayClient);
         }
 

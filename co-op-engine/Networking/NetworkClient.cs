@@ -35,21 +35,21 @@ namespace co_op_engine.Networking
         public event EventHandler DEBUGNETWORKTRAFFIC;
         public event ConnectedToServerEventHandler OnServerConnected;
 
-        private ThreadSafeBuffer<CommandObject> inputBuffer;
+        private ThreadSafeBuffer<NetworkCommandObject> inputBuffer;
         /// <summary>
         /// The place to dump commands to be executed on all other player's games
         /// </summary>
-        public override ThreadSafeBuffer<CommandObject> Input
+        public override ThreadSafeBuffer<NetworkCommandObject> Input
         {
             get { return inputBuffer; }
         }
 
-        private ThreadSafeBuffer<CommandObject> outputBuffer;
+        private ThreadSafeBuffer<NetworkCommandObject> outputBuffer;
         /// <summary>
         /// Commands from other player's games to be executed locally
         /// THIS CLEARS WHEN READ, DO NOT PEEK
         /// </summary>
-        public override ThreadSafeBuffer<CommandObject> Output
+        public override ThreadSafeBuffer<NetworkCommandObject> Output
         {
             get { return outputBuffer; }
         }
@@ -65,8 +65,8 @@ namespace co_op_engine.Networking
 
         public NetworkClient()
         {
-            inputBuffer = new ThreadSafeBuffer<CommandObject>();
-            outputBuffer = new ThreadSafeBuffer<CommandObject>();
+            inputBuffer = new ThreadSafeBuffer<NetworkCommandObject>();
+            outputBuffer = new ThreadSafeBuffer<NetworkCommandObject>();
 
             recvThread = new Thread(new ThreadStart(RecvLoop));
             recvThread.IsBackground = true;
@@ -181,7 +181,7 @@ namespace co_op_engine.Networking
                 var command = formatter.Deserialize(stream);
                 ++base.RecvCount;
                 //send chatter to output
-                outputBuffer.Add((CommandObject)command);
+                outputBuffer.Add((NetworkCommandObject)command);
             }
         }
 

@@ -28,5 +28,11 @@ namespace co_op_engine.Components.Brains
             
         }
 
+        //public void HandleNetworkUpdate(BrainUpdateCommand
+
+        virtual public void ReceiveCommand(Networking.Commands.GameObjectCommand command)
+        {
+            //does nothing if it receives crap
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace co_op_engine.Components
         public int ID;
         public bool UnShovable = false;
         public string DisplayName { get { return "ID: " + ID; } }
-        public bool NotifyNetwork = false;//non-deterministic dirty flag
+        public List<GameObjectCommand> PendingCommands; // we can do whatever here, I don't reall care
 
         public Texture2D Texture { get; set; }
         public Vector2 Position { get; set; }
@@ -52,6 +52,7 @@ namespace co_op_engine.Components
             CurrentState = Constants.ACTOR_STATE_IDLE;
             Health = 100;
             MaxHealth = 100;
+            PendingCommands = new List<GameObjectCommand>();
         }
 
         public void SetPhysics(PhysicsBase physics)
@@ -90,12 +91,12 @@ namespace co_op_engine.Components
                 Combat.Update(gameTime);
             }
 
-            if(Weapon != null)
+            if (Weapon != null)
             {
                 Weapon.Update(gameTime);
             }
         }
-        public void Draw(SpriteBatch spriteBatch) 
+        public void Draw(SpriteBatch spriteBatch)
         {
             Renderer.Draw(spriteBatch);
             Physics.Draw(spriteBatch);
@@ -125,35 +126,45 @@ namespace co_op_engine.Components
             }
         }
 
-        public UpdateParameters BuildUpdateParams()
+        public void UpdateFromNetworkParams(GameObjectCommand command)
         {
-            return new UpdateParameters()
+            switch (command.ReceivingComponent)
             {
-                CurrentActorState = this.CurrentState,
-                FacingDirection = this.FacingDirection,
-                ID = this.ID,
-                Position = this.Position,
-               Velocity = this.Velocity,
-            };
+                case GameObjectComponentType.Brain:
+                    {
+                        Brain.ReceiveCommand(command);
+                    }
+                    break;
+                case GameObjectComponentType.Combat:
+                    {
+                        Combat.ReceiveCommand(command);
+                    }
+                    break;
+                case GameObjectComponentType.Physics:
+                    {
+                        Physics.ReceiveCommand(command);
+                    }
+                    break;
+                case GameObjectComponentType.Renderer:
+                    {
+                        Renderer.ReceiveCommand(command);
+                    }
+                    break;
+                default:
+                    {
+                        throw new NotImplementedException("No Component By This Enumeration");
+                    }
+            }
         }
 
-        public CreateParameters BuildCreateParams()
+        internal CreateParameters BuildCreateParams()
         {
             return new CreateParameters()
             {
-                ID = this.ID,
-                Position = this.Position,
-                ConstructionId = this.ConstructionStamp,
+                ConstructorId = ConstructionStamp,
+                ID = ID,
+                Position = Position
             };
-        }
-
-        public void UpdateFromNetworkParams(UpdateParameters parameters)
-        {
-            this.CurrentState = parameters.CurrentActorState;
-            this.FacingDirection = parameters.FacingDirection;
-            this.Position = parameters.Position;
-            this.Velocity = parameters.Velocity;
-            CurrentQuad.NotfyOfMovement(this);
         }
     }
 }

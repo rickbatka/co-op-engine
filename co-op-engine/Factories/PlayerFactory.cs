@@ -26,17 +26,15 @@ namespace co_op_engine.Factories
     {
         public static PlayerFactory Instance;
         private GamePlay gameRef;
-        private NetworkBase netRef;
 
-        private PlayerFactory(GamePlay gameRef, NetworkBase netref)
+        private PlayerFactory(GamePlay gameRef)
         {
             this.gameRef = gameRef;
-            this.netRef = netref;
         }
 
-        public static void Initialize(GamePlay gameRef, NetworkBase netref)
+        public static void Initialize(GamePlay gameRef)
         {
-            Instance = new PlayerFactory(gameRef, netref);
+            Instance = new PlayerFactory(gameRef);
         }
 
         public GameObject GetPlayer()
@@ -60,19 +58,15 @@ namespace co_op_engine.Factories
 
             var parms = new CreateParameters()
             {
-                ConstructionId = player.ConstructionStamp,
+                ConstructorId = player.ConstructionStamp,
                 ID = player.ID,
                 Position = player.Position
             };
 
-            netRef.Input.Add(new CommandObject()
+            NetCommander.SendCommand(new GameObjectCommand()
             {
-                ClientId = netRef.ClientId,
-                Command = new GameObjectCommand()
-                {
-                    CommandType = GameObjectCommandType.Create,
-                    Parameters = parms,
-                },
+                CommandType = GameObjectCommandType.Create,
+                Parameters = parms,
             });
 
             return player;
@@ -99,18 +93,15 @@ namespace co_op_engine.Factories
 
             var parms = new CreateParameters()
             {
-                ConstructionId = enemy.ConstructionStamp,
+                ConstructorId = enemy.ConstructionStamp,
                 ID = enemy.ID,
                 Position = enemy.Position
             };
-            netRef.Input.Add(new CommandObject()
+
+            NetCommander.SendCommand(new GameObjectCommand()
             {
-                ClientId = netRef.ClientId,
-                Command = new GameObjectCommand()
-                {
-                    CommandType = GameObjectCommandType.Create,
-                    Parameters = parms,
-                },
+                CommandType = GameObjectCommandType.Create,
+                Parameters = parms,
             });
 
             return enemy;
