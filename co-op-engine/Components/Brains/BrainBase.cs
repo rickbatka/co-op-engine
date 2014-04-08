@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using co_op_engine.Networking.Commands;
 
 namespace co_op_engine.Components.Brains
 {
@@ -20,12 +21,12 @@ namespace co_op_engine.Components.Brains
 
         protected void ChangeState(int newState)
         {
-            if(newState != owner.CurrentState)
+            if (newState != owner.CurrentState)
             {
                 var oldState = owner.CurrentState;
                 owner.CurrentState = newState;
             }
-            
+
         }
 
         //public void HandleNetworkUpdate(BrainUpdateCommand
@@ -33,6 +34,17 @@ namespace co_op_engine.Components.Brains
         virtual public void ReceiveCommand(Networking.Commands.GameObjectCommand command)
         {
             //does nothing if it receives crap
+        }
+
+        protected void SendUpdate(object parameters)
+        {
+            NetCommander.SendCommand(new GameObjectCommand()
+            {
+                ID = owner.ID,
+                CommandType = GameObjectCommandType.Update,
+                ReceivingComponent = GameObjectComponentType.Brain,
+                Parameters = parameters,
+            });
         }
     }
 }

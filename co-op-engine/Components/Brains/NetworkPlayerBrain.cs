@@ -19,6 +19,7 @@ namespace co_op_engine.Components.Brains
             PlayerBrain.PlayerBrainUpdateParams parms = (PlayerBrain.PlayerBrainUpdateParams)command.Parameters;
 
             owner.InputMovementVector = parms.InputMovementVector;
+            owner.Position = parms.Position;
         }
     }
 }

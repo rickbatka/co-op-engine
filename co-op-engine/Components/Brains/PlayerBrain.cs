@@ -74,6 +74,7 @@ namespace co_op_engine.Components.Brains
         public struct PlayerBrainUpdateParams
         {
             public S_Vector2 InputMovementVector;
+            public S_Vector2 Position;
         }
 
         private void HandleMovement()
@@ -83,16 +84,11 @@ namespace co_op_engine.Components.Brains
 
             if (prev != owner.InputMovementVector)
             {
-                NetCommander.SendCommand(new GameObjectCommand()
-                {
-                    ID = owner.ID,
-                    CommandType = GameObjectCommandType.Update,
-                    ReceivingComponent = GameObjectComponentType.Brain,
-                    Parameters = new PlayerBrainUpdateParams()
+                SendUpdate( new PlayerBrainUpdateParams()
                     {
-                        InputMovementVector = owner.InputMovementVector
-                    },
-                });
+                        InputMovementVector = owner.InputMovementVector,
+                        Position = owner.Position,
+                    });
             }
         }
 
