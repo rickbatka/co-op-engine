@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.Components;
 using Microsoft.Xna.Framework;
 
 namespace co_op_engine.Utility
@@ -27,6 +28,8 @@ namespace co_op_engine.Utility
         private float zoom = 1f;
         public float Zoom { get { return zoom; } set { zoom = value; } }
         public Rectangle ViewportRectangle { get; private set; }
+        public bool IsTracking;
+        private GameObject target;
 
         /// <summary>
         /// the transformation matrix to be applied to the renderer
@@ -52,18 +55,27 @@ namespace co_op_engine.Utility
             Position = position;
         }
 
+        public void SetCameraTackingObject(GameObject target)
+        {
+            this.target = target;
+        }
+
         public void Update(GameTime gameTime)
         {
             //do nothing, dependant on others to change it's position
+            if (IsTracking)
+            {
+                Position = new Vector2(target.Position.X - ViewportRectangle.Center.X, target.Position.Y - ViewportRectangle.Center.Y);
+            }
         }
 
         /// <summary>
         /// moves the camera to the specified position
         /// </summary>
         /// <param name="position">location to move the camera</param>
-        public void CenterCameraOnPosition(Vector2 position)
+        /*public void CenterCameraOnPosition(Vector2 position)
         {
             Position = new Vector2(position.X - ViewportRectangle.Center.X, position.Y - ViewportRectangle.Center.Y);
-        }
+        }*/
     }
 }

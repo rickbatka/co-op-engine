@@ -42,7 +42,8 @@ namespace co_op_engine.GameStates
             ///////////////////////////////////////////////////////////
 
             //@TODO move to level setup
-            PlayerFactory.Instance.GetPlayer();
+            Camera.Instance.SetCameraTackingObject(PlayerFactory.Instance.GetPlayer());
+            Camera.Instance.IsTracking = true;
             //TowerFactory.GetDoNothingTower(container, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.PlainWhiteTexture);
 
             //var devTower = TowerFactory.GetDoNothingTower(this, tree, towerTexture, plainWhiteTexture);
@@ -79,6 +80,8 @@ namespace co_op_engine.GameStates
                     RouteNetCommand(command);
                 }
             }
+
+            Camera.Instance.Update(gameTime);
         }
 
         private void RouteNetCommand(NetworkCommandObject command)
