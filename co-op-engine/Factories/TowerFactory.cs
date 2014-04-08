@@ -56,18 +56,7 @@ namespace co_op_engine.Factories
 
             if (!fromNetwork)
             {
-                var parms = new CreateParameters()
-                {
-                    ConstructorId = tower.ConstructionStamp,
-                    ID = tower.ID,
-                    Position = tower.Position,
-                };
-
-                NetCommander.SendCommand(new GameObjectCommand()
-                {
-                    CommandType = GameObjectCommandType.Create,
-                    Parameters = parms,
-                });
+                NetCommander.CreatedObject(tower);
             }
 
             return tower;

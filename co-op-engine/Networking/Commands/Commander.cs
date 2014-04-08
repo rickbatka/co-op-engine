@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.Components;
 
 namespace co_op_engine.Networking.Commands
 {
@@ -58,6 +59,22 @@ namespace co_op_engine.Networking.Commands
         public static List<NetworkCommandObject> RendPendingCommands()
         {
             return instance.NetReference.Output.Gather();
+        }
+
+        public static void CreatedObject(GameObject player)
+        {
+            var parms = new CreateParameters()
+            {
+                ConstructorId = player.ConstructionStamp,
+                ID = player.ID,
+                Position = player.Position
+            };
+
+            SendCommand(new GameObjectCommand()
+            {
+                CommandType = GameObjectCommandType.Create,
+                Parameters = parms,
+            });
         }
     }
 }

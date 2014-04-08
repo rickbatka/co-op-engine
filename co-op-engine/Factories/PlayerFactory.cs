@@ -63,12 +63,8 @@ namespace co_op_engine.Factories
                 Position = player.Position
             };
 
-            NetCommander.SendCommand(new GameObjectCommand()
-            {
-                CommandType = GameObjectCommandType.Create,
-                Parameters = parms,
-            });
-
+            NetCommander.CreatedObject(player);
+            
             return player;
         }
 
@@ -91,18 +87,7 @@ namespace co_op_engine.Factories
 
             gameRef.container.AddObject(enemy);
 
-            var parms = new CreateParameters()
-            {
-                ConstructorId = enemy.ConstructionStamp,
-                ID = enemy.ID,
-                Position = enemy.Position
-            };
-
-            NetCommander.SendCommand(new GameObjectCommand()
-            {
-                CommandType = GameObjectCommandType.Create,
-                Parameters = parms,
-            });
+            NetCommander.CreatedObject(enemy);
 
             return enemy;
         }
