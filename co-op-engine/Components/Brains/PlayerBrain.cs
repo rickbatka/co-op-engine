@@ -6,6 +6,7 @@ using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using co_op_engine.Components.Weapons;
 
 namespace co_op_engine.Components.Brains
 {
@@ -13,9 +14,12 @@ namespace co_op_engine.Components.Brains
     class PlayerBrain : BrainBase
     {
         private PlayerControlInput input;
-
-        private Vector2 previousMouseVector;
         private Device currentAimingDevice = Device.Mouse;
+        
+        private Vector2 previousMouseVector;
+        private Vector2 previousMovementVector;
+        private int previousState;
+        private WeaponBase previousWeapon;
 
         public PlayerBrain(GameObject owner, PlayerControlInput input)
             : base(owner)
@@ -24,6 +28,10 @@ namespace co_op_engine.Components.Brains
         }
 
         override public void Draw(SpriteBatch spriteBatch) { }
+
+        override public void BeforeUpdate()
+        { 
+        }
 
         override public void Update(GameTime gameTime)
         {
@@ -34,6 +42,27 @@ namespace co_op_engine.Components.Brains
             HandleActions();
             HandleMovement();
             SetState();
+        }
+
+        override public void AfterUpdate()
+        {
+            if ((previousMovementVector != null && previousMovementVector != owner.InputMovementVector)
+                || (previousState != null && previousState != owner.CurrentState)
+                || previousWeapon != null && previousWeapon != owner.Weapon)
+            {
+                SendUpdate(new PlayerBrainUpdateParams()
+                {
+                    InputMovementVector = owner.InputMovementVector,
+                    Position = owner.Position,
+                    RotationTowardFacingDirectionRadians = owner.RotationTowardFacingDirectionRadians,
+                    CurrentState = owner.CurrentState
+                });
+            }
+
+            previousMouseVector = InputHandler.MousePositionVector();
+            previousMovementVector = owner.InputMovementVector;
+            previousState = owner.CurrentState;
+            previousWeapon = owner.Weapon;
         }
 
         private void HandleWeaponToggle()
@@ -75,21 +104,13 @@ namespace co_op_engine.Components.Brains
         {
             public S_Vector2 InputMovementVector;
             public S_Vector2 Position;
+            public float RotationTowardFacingDirectionRadians;
+            public int CurrentState;
         }
 
         private void HandleMovement()
         {
-            var prev = owner.InputMovementVector;
             owner.InputMovementVector = input.GetMovement();
-
-            if (prev != owner.InputMovementVector)
-            {
-                SendUpdate( new PlayerBrainUpdateParams()
-                    {
-                        InputMovementVector = owner.InputMovementVector,
-                        Position = owner.Position,
-                    });
-            }
         }
 
         private void HandleAiming()
@@ -110,7 +131,7 @@ namespace co_op_engine.Components.Brains
             }
 
             owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(owner.FacingDirectionRaw);
-            previousMouseVector = InputHandler.MousePositionVector();
+            
         }
 
         private void SetState()

@@ -20,6 +20,8 @@ namespace co_op_engine.Components.Brains
 
             owner.InputMovementVector = parms.InputMovementVector;
             owner.Position = parms.Position;
+            owner.RotationTowardFacingDirectionRadians = parms.RotationTowardFacingDirectionRadians;
+            owner.CurrentState = parms.CurrentState;
         }
     }
 }

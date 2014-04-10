@@ -15,8 +15,9 @@ namespace co_op_engine.Components.Brains
             this.owner = owner;
             this.owner.CurrentState = Constants.ACTOR_STATE_IDLE;
         }
-
+        virtual public void BeforeUpdate() { }
         virtual public void Update(GameTime gameTime) { }
+        virtual public void AfterUpdate() { }
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
         protected void ChangeState(int newState)

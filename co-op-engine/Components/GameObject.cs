@@ -82,7 +82,10 @@ namespace co_op_engine.Components
 
         public void Update(GameTime gameTime)
         {
+            Brain.BeforeUpdate();
             Brain.Update(gameTime);
+            Brain.AfterUpdate();
+
             Physics.Update(gameTime);
             Renderer.Update(gameTime);
 
