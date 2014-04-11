@@ -21,7 +21,17 @@ namespace co_op_engine.Components.Physics
     public class PhysicsBase
     {
         protected float friction = 0.5f;
-        protected float speedLimit = 150f;
+        protected float speedLimit
+        {
+            get
+            {
+                if (owner != null && owner.CurrentStateProperties.CanExceedSpeedLimit)
+                {
+                    return 300f;
+                }
+                return 150f;
+            }
+        }
         protected float accelerationModifier = 400f;
         protected float boostingModifier = 1.5f;
 

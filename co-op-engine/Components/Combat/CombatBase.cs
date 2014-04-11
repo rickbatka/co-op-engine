@@ -16,6 +16,8 @@ namespace co_op_engine.Components.Combat
         protected GameObject owner;
         Dictionary<string, WeaponEffectBase> effectsByWeapon = new Dictionary<string, WeaponEffectBase>();
 
+        private Vector2 beingHurtHitRotation;
+        private TimeSpan beingHurtTimer;
         private TimeSpan dyingAnimationTimer;
 
         public CombatBase(GameObject owner)
@@ -29,7 +31,6 @@ namespace co_op_engine.Components.Combat
             UpdateCurrentWeaponEffects(gameTime);
 
             MaybeStartDyingFromWounds();
-            UpdateDying(gameTime);
         }
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
@@ -39,7 +40,8 @@ namespace co_op_engine.Components.Combat
             foreach(var effect in effects)
             {
                 string hash = GetHash(weaponId, effect);
-                if (!effectsByWeapon.ContainsKey(hash))
+                if (owner.CurrentStateProperties.IsVulnerable 
+                    && !effectsByWeapon.ContainsKey(hash))
                 {
                     var newEffect = WeaponEffectBuilder.Build(receiver: owner, weaponId: weaponId, effectDef: effect);
                     effectsByWeapon.Add(hash, newEffect);
@@ -47,12 +49,39 @@ namespace co_op_engine.Components.Combat
                     // Apply the status effect
                     newEffect.Apply();
 
+                    KnockBack(hitRotation);
+
                     ParticleEngine.Instance.AddEmitter(
                         //new BloodHitEmitter(owner, hitRotation)
                         new FireEmitter(owner)
                     );
                 }
             }
+        }
+
+        private void KnockBack(Vector2 hitRotation)
+        {
+            owner.CurrentState = Constants.ACTOR_STATE_BEING_HURT;
+            beingHurtHitRotation = hitRotation;
+            beingHurtTimer = TimeSpan.FromMilliseconds(Constants.BEING_HURT_EFFECT_TIME_MS);
+            GameTimerManager.Instance.SetTimer(
+                time: Constants.BEING_HURT_EFFECT_TIME_MS,
+                updateCallback: (t) =>
+                {
+                    if (!owner.UnShovable)
+                    {
+                        owner.InputMovementVector = beingHurtHitRotation;
+                    }
+                },
+                endCallback: (t) =>
+                {
+                    if (!owner.UnShovable)
+                    {
+                        owner.InputMovementVector = Vector2.Zero;
+                    }
+                    owner.CurrentState = Constants.ACTOR_STATE_IDLE;
+                }
+            );
         }
 
         private void UpdateCurrentWeaponEffects(GameTime gameTime)
@@ -92,19 +121,14 @@ namespace co_op_engine.Components.Combat
                 if (owner.CurrentStateProperties.CanStartDying)
                 {
                     owner.CurrentState = Constants.ACTOR_STATE_DYING;
-                    dyingAnimationTimer = TimeSpan.FromMilliseconds(owner.Renderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection)); 
-                }
-            }
-        }
+                    dyingAnimationTimer = TimeSpan.FromMilliseconds(owner.Renderer.animationSet.GetAnimationDuration(Constants.ACTOR_STATE_DYING, owner.FacingDirection));
 
-        private void UpdateDying(GameTime gameTime)
-        {
-            if (owner.CurrentStateProperties.CanFinishDying && dyingAnimationTimer != null)
-            {
-                dyingAnimationTimer -= gameTime.ElapsedGameTime;
-                if (dyingAnimationTimer <= TimeSpan.Zero)
-                {
-                    owner.CurrentState = Constants.ACTOR_STATE_DEAD;
+                    // animate dying for x milliseconds, then kill
+                    GameTimerManager.Instance.SetTimer(
+                        time: owner.Renderer.animationSet.GetAnimationDuration(Constants.ACTOR_STATE_DYING, owner.FacingDirection),
+                        updateCallback: (t) => { },
+                        endCallback: (t) => { owner.CurrentState = Constants.ACTOR_STATE_DEAD; }
+                    );
                 }
             }
         }

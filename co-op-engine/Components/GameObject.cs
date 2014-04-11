@@ -118,7 +118,7 @@ namespace co_op_engine.Components
 
             //@TODO DEBUGDRAW DEBUG DRAW
             //Renderer.DebugDraw(spriteBatch);
-            Physics.DebugDraw(spriteBatch);
+            //Physics.DebugDraw(spriteBatch);
         }
 
         public void HandleHitByWeapon(int weaponId, List<EffectDefinition> effects, Vector2 hitRotation)

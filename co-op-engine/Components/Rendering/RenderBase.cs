@@ -36,15 +36,25 @@ namespace co_op_engine.Components.Rendering
 
         virtual public void Draw(SpriteBatch spriteBatch)
         {
+
             spriteBatch.Draw(
                 texture: owner.Texture, 
                 destinationRectangle: GetDrawTarget(),
                 sourceRectangle: owner.CurrentFrame.SourceRectangle, 
-                color: Color.White,
+                color: GetSpriteDrawColor(),
                 rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
                 origin: GetCenterOrigin(),
                 effect: SpriteEffects.None,
                 depth: 0f);
+        }
+
+        private Color GetSpriteDrawColor()
+        { 
+            if(owner.CurrentState == Constants.ACTOR_STATE_BEING_HURT)
+            {
+                return Color.Red;
+            }
+            return Color.White;
         }
 
         virtual public void DebugDraw(SpriteBatch spriteBatch)
