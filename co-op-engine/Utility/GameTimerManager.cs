@@ -26,9 +26,9 @@ namespace co_op_engine.Utility
           }
        }
 
-        public GameTimer SetTimer(int frames, GameTimerCallback callback, Components.GameObject owner)
+        public GameTimer SetTimer(int time, GameTimerCallback updateCallback, GameTimerCallback endCallback)
         {
-            var newTimer = new GameTimer(frames, callback, owner);
+            var newTimer = new GameTimer(time, updateCallback, endCallback);
             Timers.Add(newTimer);
             return newTimer;
         }
@@ -40,9 +40,11 @@ namespace co_op_engine.Utility
             for (int i = 0; i < upd; i++)
             {
                 timersToUpdate[i].Update(gameTime);
+                timersToUpdate[i].DoUpdateCallback();
+
                 if (timersToUpdate[i].Finished)
                 {
-                    timersToUpdate[i].InitiateCallback();
+                    timersToUpdate[i].DoEndCallback();
                     timersToUpdate[i].MarkForDeletion();
                 }
             }
@@ -64,17 +66,18 @@ namespace co_op_engine.Utility
     class GameTimer
     {
         TimeSpan TimeLeft;
-        GameTimerCallback Callback;
+        GameTimerCallback UpdateCallback;
+        GameTimerCallback EndCallback;
 
         public bool ShouldDelete = false;
 
         public bool Finished { get { return TimeLeft <= TimeSpan.Zero; } }
 
-        public GameTimer(int timeSeed, GameTimerCallback callback, Components.GameObject owner)
+        public GameTimer(int timeSeed,GameTimerCallback updateCallback, GameTimerCallback endCallback)
         {
             TimeLeft = TimeSpan.FromMilliseconds(timeSeed);
-            owner.OnDeath += HandleOwnerDeath;
-            Callback = callback;
+            UpdateCallback = updateCallback;
+            EndCallback = endCallback;
         }
 
         public void Update(GameTime gameTime)
@@ -82,14 +85,14 @@ namespace co_op_engine.Utility
             TimeLeft -= gameTime.ElapsedGameTime;
         }
 
-        public void InitiateCallback()
+        public void DoUpdateCallback()
         {
-            Callback(null);
+            UpdateCallback(null);
         }
 
-        private void HandleOwnerDeath(object sender, EventArgs e)
+        public void DoEndCallback()
         {
-            MarkForDeletion();
+            EndCallback(null);
         }
 
         public void MarkForDeletion()
