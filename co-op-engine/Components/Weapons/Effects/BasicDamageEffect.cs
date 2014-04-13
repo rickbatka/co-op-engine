@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Components.Particles;
+using co_op_engine.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,11 @@ namespace co_op_engine.Components.Weapons.Effects
             base.Apply();
 
             Receiver.Health -= DamageRating;
+
+            if(Receiver.Health <= 0)
+            {
+                Camera.Instance.Shake();
+            }
         }
     }
 }

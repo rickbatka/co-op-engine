@@ -52,8 +52,8 @@ namespace co_op_engine.Components.Combat
                     KnockBack(hitRotation);
 
                     ParticleEngine.Instance.AddEmitter(
-                        //new BloodHitEmitter(owner, hitRotation)
-                        new FireEmitter(owner)
+                        new BloodHitEmitter(owner, hitRotation)
+                        //new FireEmitter(owner)
                     );
                 }
             }
@@ -127,7 +127,13 @@ namespace co_op_engine.Components.Combat
                     GameTimerManager.Instance.SetTimer(
                         time: owner.Renderer.animationSet.GetAnimationDuration(Constants.ACTOR_STATE_DYING, owner.FacingDirection),
                         updateCallback: (t) => { },
-                        endCallback: (t) => { owner.CurrentState = Constants.ACTOR_STATE_DEAD; }
+                        endCallback: (t) => 
+                        { 
+                            owner.CurrentState = Constants.ACTOR_STATE_DEAD;
+                            ParticleEngine.Instance.AddEmitter(
+                                new FireEmitter(owner)
+                            );
+                        }
                     );
                 }
             }

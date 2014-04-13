@@ -97,6 +97,11 @@ namespace co_op_engine.Components.Brains
             {
                 owner.Weapon.TryInitiateAttack();
             }
+
+            if (InputHandler.KeyPressed(Keys.C))
+            {
+                Camera.Instance.Shake();
+            }
         }
 
         [Serializable]

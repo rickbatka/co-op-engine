@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using co_op_engine.Utility;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,23 +28,20 @@ namespace co_op_engine.Components.Particles.Decorators
 
 		public override void Update(GameTime gameTime)
 		{
-			float elapsedMS = (totalDuration - particle.Lifetime).Milliseconds;
+			float elapsedMS = (float)((totalDuration - particle.Lifetime).TotalMilliseconds);
 			
 			float newX = particle.Velocity.X;
-			newX = linearTween(elapsedMS, startVelocity.X, amountToChangeX, totalDuration.Milliseconds);
+			newX = DrawingUtility.EaseInOutLinear(startVelocity.X, amountToChangeX, (float)totalDuration.TotalMilliseconds, elapsedMS);
 
 			float newY = particle.Velocity.Y;
-			newY = linearTween(elapsedMS, startVelocity.Y, amountToChangeY, totalDuration.Milliseconds);
+			newY = DrawingUtility.EaseInOutLinear(startVelocity.Y, amountToChangeY, (float)totalDuration.TotalMilliseconds, elapsedMS);
 
 			particle.Velocity = new Vector2(newX, newY);
 
 			base.Update(gameTime);
 		}
 
-		private float linearTween(float currentTime, float startValue, float changeInValue, float duration) 
-		{
-			return changeInValue * currentTime / duration + startValue;
-		}
+		
 
 	}
 }

@@ -31,6 +31,15 @@ namespace co_op_engine.Utility
         public bool IsTracking;
         private GameObject target;
 
+        private bool IsShaking;
+        private const int shakeTotalTimeMax = 80;
+        private const int shakePieceTimeMax = 20;
+        private const int shakeForce = 2;
+        private TimeSpan ShakeTimeTotal;
+        private TimeSpan ShakeTimeCurrent;
+        private Vector2 CurrentShakeStartPosition;
+        private Vector2 ShakeVector;
+
         /// <summary>
         /// the transformation matrix to be applied to the renderer
         /// </summary>
@@ -66,6 +75,49 @@ namespace co_op_engine.Utility
             if (IsTracking)
             {
                 Position = new Vector2(target.Position.X - ViewportRectangle.Center.X, target.Position.Y - ViewportRectangle.Center.Y);
+            }
+
+            if (IsShaking)
+            {
+                UpdateShaking(gameTime);
+            }
+
+        }
+
+        public void Shake()
+        {
+            ShakeTimeTotal = TimeSpan.Zero;
+            ShakeTimeCurrent = TimeSpan.Zero;
+            CurrentShakeStartPosition = Position;
+            ShakeVector = GetNewShakeVector();
+            IsShaking = true;
+        }
+
+        private Vector2 GetNewShakeVector()
+        {
+            return MechanicSingleton.Instance.RandomNormalizedVector() * shakeForce;
+        }
+
+        private void UpdateShaking(GameTime gameTime)
+        {
+            ShakeTimeTotal += gameTime.ElapsedGameTime;
+            ShakeTimeCurrent += gameTime.ElapsedGameTime;
+
+            if (ShakeTimeCurrent.TotalMilliseconds >= shakePieceTimeMax)
+            {
+                CurrentShakeStartPosition = Position;
+                ShakeVector = GetNewShakeVector();
+                ShakeTimeCurrent = TimeSpan.Zero;
+            }
+
+            Position = DrawingUtility.EaseInOutLinear(CurrentShakeStartPosition, ShakeVector, (float)shakePieceTimeMax, (float)ShakeTimeCurrent.TotalMilliseconds);
+
+            if (ShakeTimeTotal.TotalMilliseconds >= shakeTotalTimeMax)
+            {
+                IsShaking = false;
+                ShakeTimeTotal = TimeSpan.Zero;
+                ShakeTimeCurrent = TimeSpan.Zero;
+                ShakeVector = Vector2.Zero;
             }
         }
 
