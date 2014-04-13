@@ -5,7 +5,7 @@ using System.Text;
 using co_op_engine.Components;
 using Microsoft.Xna.Framework;
 
-namespace co_op_engine.Utility
+namespace co_op_engine.Utility.Camera
 {
     /// <summary>
     /// Provides a scrolling viewpoint into the game world
@@ -31,14 +31,7 @@ namespace co_op_engine.Utility
         public bool IsTracking;
         private GameObject target;
 
-        private bool IsShaking;
-        private const int shakeTotalTimeMax = 80;
-        private const int shakePieceTimeMax = 20;
-        private const int shakeForce = 2;
-        private TimeSpan ShakeTimeTotal;
-        private TimeSpan ShakeTimeCurrent;
-        private Vector2 CurrentShakeStartPosition;
-        private Vector2 ShakeVector;
+        List<CameraEffectBase> CurrentEffects;
 
         /// <summary>
         /// the transformation matrix to be applied to the renderer
@@ -53,20 +46,24 @@ namespace co_op_engine.Utility
         }
 
         private Camera(Rectangle viewportRect)
-        {
-            Position = Vector2.Zero;
-            ViewportRectangle = viewportRect;
-        }
+            :this(viewportRect, Vector2.Zero) { }
 
         private Camera(Rectangle viewportRect, Vector2 position)
         {
             ViewportRectangle = viewportRect;
             Position = position;
+            CurrentEffects = new List<CameraEffectBase>();
         }
 
         public void SetCameraTackingObject(GameObject target)
         {
             this.target = target;
+        }
+
+        public void ApplyEffect(CameraEffectBase effect)
+        {
+            this.CurrentEffects.Add(effect);
+            effect.Apply();
         }
 
         public void Update(GameTime gameTime)
@@ -77,48 +74,33 @@ namespace co_op_engine.Utility
                 Position = new Vector2(target.Position.X - ViewportRectangle.Center.X, target.Position.Y - ViewportRectangle.Center.Y);
             }
 
-            if (IsShaking)
+            UpdateEffects(gameTime);
+        }
+
+        private void UpdateEffects(GameTime gameTime)
+        {
+            var effectsToRemove = new List<CameraEffectBase>();
+            foreach (var effect in CurrentEffects)
             {
-                UpdateShaking(gameTime);
+                effect.Update(gameTime);
+
+                if (effect.EffectTimeRemaining <= TimeSpan.Zero)
+                {
+                    effectsToRemove.Add(effect);
+                }
             }
 
+            int cnt = effectsToRemove.Count;
+            for (int i = 0; i < cnt; i++)
+            {
+                effectsToRemove[i].Finish();
+                CurrentEffects.Remove(effectsToRemove[i]);
+            }
         }
 
         public void Shake()
         {
-            ShakeTimeTotal = TimeSpan.Zero;
-            ShakeTimeCurrent = TimeSpan.Zero;
-            CurrentShakeStartPosition = Position;
-            ShakeVector = GetNewShakeVector();
-            IsShaking = true;
-        }
-
-        private Vector2 GetNewShakeVector()
-        {
-            return MechanicSingleton.Instance.RandomNormalizedVector() * shakeForce;
-        }
-
-        private void UpdateShaking(GameTime gameTime)
-        {
-            ShakeTimeTotal += gameTime.ElapsedGameTime;
-            ShakeTimeCurrent += gameTime.ElapsedGameTime;
-
-            if (ShakeTimeCurrent.TotalMilliseconds >= shakePieceTimeMax)
-            {
-                CurrentShakeStartPosition = Position;
-                ShakeVector = GetNewShakeVector();
-                ShakeTimeCurrent = TimeSpan.Zero;
-            }
-
-            Position = DrawingUtility.EaseInOutLinear(CurrentShakeStartPosition, ShakeVector, (float)shakePieceTimeMax, (float)ShakeTimeCurrent.TotalMilliseconds);
-
-            if (ShakeTimeTotal.TotalMilliseconds >= shakeTotalTimeMax)
-            {
-                IsShaking = false;
-                ShakeTimeTotal = TimeSpan.Zero;
-                ShakeTimeCurrent = TimeSpan.Zero;
-                ShakeVector = Vector2.Zero;
-            }
+            this.ApplyEffect(new CameraShakeEffect(this));
         }
 
         /// <summary>
