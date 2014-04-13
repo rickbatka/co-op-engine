@@ -23,15 +23,15 @@ namespace co_op_engine.Utility.Camera
 
 
         public Vector2 Position { get; set; }
-        private float speed = 3f;
-        public float Speed { get { return speed; } set { speed = value; } }
         private float zoom = 1f;
-        public float Zoom { get { return zoom; } set { zoom = value; } }
         public Rectangle ViewportRectangle { get; private set; }
         public bool IsTracking;
         private GameObject target;
 
         List<CameraEffectBase> CurrentEffects;
+
+        private float followEasingAmount = 0.05f; // higher number results in faster camera follow
+        private float targetAquisitionGranularity = 0.3f; // how close the camera tries to come to the target, 0 is closest
 
         /// <summary>
         /// the transformation matrix to be applied to the renderer
@@ -40,7 +40,7 @@ namespace co_op_engine.Utility.Camera
         {
             get
             {
-                return Matrix.CreateScale(Zoom) *
+                return Matrix.CreateScale(zoom) *
                     Matrix.CreateTranslation(new Vector3(-Position, 0f));
             }
         }
@@ -71,7 +71,15 @@ namespace co_op_engine.Utility.Camera
             //do nothing, dependant on others to change it's position
             if (IsTracking)
             {
-                Position = new Vector2(target.Position.X - ViewportRectangle.Center.X, target.Position.Y - ViewportRectangle.Center.Y);
+                var targetCameraPosition = new Vector2(target.Position.X - ViewportRectangle.Center.X, target.Position.Y - ViewportRectangle.Center.Y);
+                var distanceToTarget = targetCameraPosition - Position;
+                if (Math.Abs(distanceToTarget.X) > targetAquisitionGranularity || Math.Abs(distanceToTarget.Y) > targetAquisitionGranularity)
+                {
+                    Position = new Vector2(
+                        Position.X + distanceToTarget.X * followEasingAmount,
+                        Position.Y + distanceToTarget.Y * followEasingAmount
+                    );
+                }
             }
 
             UpdateEffects(gameTime);
@@ -103,13 +111,5 @@ namespace co_op_engine.Utility.Camera
             this.ApplyEffect(new CameraShakeEffect(this));
         }
 
-        /// <summary>
-        /// moves the camera to the specified position
-        /// </summary>
-        /// <param name="position">location to move the camera</param>
-        /*public void CenterCameraOnPosition(Vector2 position)
-        {
-            Position = new Vector2(position.X - ViewportRectangle.Center.X, position.Y - ViewportRectangle.Center.Y);
-        }*/
     }
 }

@@ -55,21 +55,9 @@ namespace co_op_engine.GameStates
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             GameTimerManager.Instance.Update(gameTime);
-            Background.Update(gameTime);
+            
             container.UpdateAll(gameTime);
-
-#warning temporary 
-            if (InputHandler.KeyDown(Keys.P))
-            {
-                //int numParticlesToSpawn = MechanicSingleton.Instance.rand.Next(1, 10);
-                //for (int i = 0; i < 10; i++)
-                //{
-                //ParticleEngine.Instance.AddEmitter(
-                //  new FireEmitter(container.GetObjectById(0))
-                //);
-                //}
-            }
-
+            
             ParticleEngine.Instance.Update(gameTime);
 
             var netCommands = NetCommander.RendPendingCommands();
@@ -81,8 +69,9 @@ namespace co_op_engine.GameStates
                     RouteNetCommand(command);
                 }
             }
-
+            Background.Update(gameTime);
             Camera.Instance.Update(gameTime);
+            
         }
 
         private void RouteNetCommand(NetworkCommandObject command)

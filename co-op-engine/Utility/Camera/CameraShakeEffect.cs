@@ -11,9 +11,9 @@ namespace co_op_engine.Utility.Camera
     {
         private Camera owner;
 
-        private const int shakeTotalEffectTime = 80;
+        private const int shakeTotalEffectTime = 180;
         private const int shakePieceTimeMax = 20;
-        private const int shakeForce = 2;
+        private const int shakeForce = 5;
         private TimeSpan ShakeTimeCurrent;
         private Vector2 CurrentShakeStartPosition;
         private Vector2 ShakeVector;
