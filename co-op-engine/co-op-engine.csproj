@@ -75,6 +75,7 @@
     <Compile Include="Networking\Commands\GameObjectCommand.cs" />
     <Compile Include="Pathing\GridNode.cs" />
     <Compile Include="Pathing\Path.cs" />
+    <Compile Include="Pathing\PathFinder.cs" />
     <Compile Include="Pathing\PathingGrid.cs" />
     <Compile Include="World\TiledBackground.cs" />
     <Content Include="Content\TowerData.txt">
