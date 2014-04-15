@@ -24,7 +24,7 @@ namespace co_op_engine
         public Game1()
             : base()
         {
-            screenRectangle = new Rectangle(0,0,800,600);
+            screenRectangle = new Rectangle(0,0,1920,1080);
             graphics = new GraphicsDeviceManager(this);
 
 
@@ -35,6 +35,8 @@ namespace co_op_engine
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
+            this.Window.SetPosition(screenRectangle.Location); //moved it here cause it couldn't be moved if it was being updated every game loop
+            //graphics.win
         }
 
         public void ChangeGameState(GameState state)
@@ -65,8 +67,6 @@ namespace co_op_engine
             AssetRepository.Initialize(this);
 
             CurrentGameState = new StartMenu(this);
-
-            this.Window.SetPosition(screenRectangle.Location); //moved it here cause it couldn't be moved if it was being updated every game loop
             
         }
 

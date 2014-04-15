@@ -84,6 +84,15 @@ namespace co_op_engine.Components.Brains
 
         private void HandleActions()
         {
+            if (InputHandler.KeyPressed(Keys.Space) || InputHandler.MouseLeftPressed())
+            {
+                owner.Weapon.TryInitiateAttack();
+            }
+
+            /*
+             * TODO
+             * Pretty much everything below here is for debugging / testing.
+             * */
             if (InputHandler.KeyPressed(Keys.T))
             {
                 TowerFactory.Instance.GetDoNothingTower();
@@ -93,15 +102,15 @@ namespace co_op_engine.Components.Brains
             {
                 PlayerFactory.Instance.GetEnemy();
             }
-
-            if (InputHandler.KeyPressed(Keys.Space) || InputHandler.MouseLeftPressed())
-            {
-                owner.Weapon.TryInitiateAttack();
-            }
-
+            
             if (InputHandler.KeyPressed(Keys.C))
             {
                 Camera.Instance.Shake();
+            }
+
+            if (InputHandler.KeyPressed(Keys.L)) // L is for teleport, duh
+            {
+                owner.Position = InputHandler.MousePositionVectorCameraAdjusted();
             }
         }
 
