@@ -18,11 +18,15 @@ namespace co_op_engine.Pathing
             AdvancePoint();
         }
 
-        public bool AdvancePoint()
+        public void AdvancePoint()
         {
             CurrentPoint = Points.First();
             Points.Remove(CurrentPoint);
-            return Points.Count() != 0;
+        }
+
+        public int PointsLeft()
+        {
+            return Points.Count();
         }
     }
 }

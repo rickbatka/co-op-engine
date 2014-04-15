@@ -32,11 +32,12 @@ namespace co_op_engine
             Components.Add(new InputHandler(this));
             //graphics.PreferredBackBufferHeight = screenRectangle.Height;
             //5graphics.PreferredBackBufferWidth = screenRectangle.Width;
+
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             this.Window.SetPosition(screenRectangle.Location); //moved it here cause it couldn't be moved if it was being updated every game loop
-            //graphics.win
+
         }
 
         public void ChangeGameState(GameState state)

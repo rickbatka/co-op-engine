@@ -29,7 +29,8 @@ namespace co_op_engine.GameStates
         public GamePlay(Game1 game)
             : base(game)
         {
-            container = new ObjectContainer(GameRef.screenRectangle);
+            container = new ObjectContainer(new Rectangle(-1000, -1000, 2000, 2000));
+            //container = new ObjectContainer(GameRef.screenRectangle);
             NetCommander.RegisterWorldWithNetwork(container);
             Camera.Instantiate(GameRef.screenRectangle);
             PlayerFactory.Initialize(this);
@@ -137,7 +138,7 @@ namespace co_op_engine.GameStates
             ParticleEngine.Instance.Draw(GameRef.spriteBatch);
 
             //@DEBUGDRAW DEBUG DRAW
-            //container.DebugDraw(GameRef.spriteBatch, AssetRepository.Instance.DebugGridTexture);
+            container.DebugDraw(GameRef.spriteBatch, AssetRepository.Instance.DebugGridTexture);
             DebugDrawStrings(gameTime);
 
 
