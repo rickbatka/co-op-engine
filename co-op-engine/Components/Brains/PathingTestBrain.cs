@@ -40,9 +40,13 @@ namespace co_op_engine.Components.Brains
         {
             if ((-owner.Position + Path.CurrentPoint).Length() <= distanceToProgress)
             {
-                if (!Path.AdvancePoint())
+                if (Path.Points.Count() == 0)
                 {
                     Path = GenRandPath();
+                }
+                else
+                {
+                    Path.AdvancePoint();
                 }
             }
             owner.InputMovementVector = Path.CurrentPoint - owner.Position;
@@ -50,7 +54,7 @@ namespace co_op_engine.Components.Brains
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            DrawingUtility.DrawLine(owner.Position, Path.CurrentPoint, spriteBatch);
+            //DrawingUtility.DrawLine(owner.Position, Path.CurrentPoint, spriteBatch);
         }
 
         public void SetPath(Path path)

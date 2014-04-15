@@ -32,9 +32,9 @@ namespace co_op_engine
             Components.Add(new InputHandler(this));
             //graphics.PreferredBackBufferHeight = screenRectangle.Height;
             //5graphics.PreferredBackBufferWidth = screenRectangle.Width;
-            graphics.IsFullScreen = true;
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferWidth = screenRectangle.Width;
+            graphics.PreferredBackBufferHeight = screenRectangle.Height;
         }
 
         public void ChangeGameState(GameState state)
