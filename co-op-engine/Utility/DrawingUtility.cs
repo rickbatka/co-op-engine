@@ -64,5 +64,38 @@ namespace co_op_engine.Utility
             vectorRes += origin;
             return vectorRes;
         }
+
+
+        public static Vector2 EaseInOutLinear(Vector2 start, Vector2 change, float duration, float currentTime)
+        {
+            return new Vector2(
+                EaseInOutLinear(start.X, change.X, duration, currentTime),
+                EaseInOutLinear(start.Y, change.Y, duration, currentTime)
+            );
     }
+
+		public static float EaseInOutLinear(float startValue, float changeInValue, float duration, float currentTime)
+		{
+			return changeInValue * currentTime / duration + startValue;
+}
+
+        public static Vector2 EaseInOutExpo(Vector2 start, Vector2 change, float duration, float currentTime)
+        {
+            return new Vector2(
+                EaseInOutExpo(start.X, change.X, duration, currentTime),
+                EaseInOutExpo(start.Y, change.Y, duration, currentTime)
+            );
+        }
+
+		public static float EaseInOutExpo(float startValue, float changeInValue, float duration, float currentTime)
+		{
+			currentTime /= duration/2;
+			if (currentTime < 1)
+			{
+				return changeInValue / 2 * (float)Math.Pow(2, 10 * (currentTime - 1)) + startValue;
+			}
+			currentTime--;
+			return changeInValue/2 * (float)( -Math.Pow( 2, -10 * currentTime) + 2 ) + startValue;
+		}
+	}
 }

@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Utility;
+using co_op_engine.Utility.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,7 +15,7 @@ namespace co_op_engine.World
         Vector2 origin;
         int numColumns;
         int numRows;
-        int fudgeFactor = 20;
+        int fudgeFactor = 40;
 
         public TiledBackground(BackgroundTile tile)
         {

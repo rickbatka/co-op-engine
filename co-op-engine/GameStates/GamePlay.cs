@@ -14,6 +14,7 @@ using co_op_engine.Networking.Commands;
 using co_op_engine.Components.Particles;
 using Microsoft.Xna.Framework.Input;
 using co_op_engine.World;
+using co_op_engine.Utility.Camera;
 
 namespace co_op_engine.GameStates
 {

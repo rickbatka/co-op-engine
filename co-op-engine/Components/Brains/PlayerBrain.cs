@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using co_op_engine.Components.Weapons;
+using co_op_engine.Utility.Camera;
 
 namespace co_op_engine.Components.Brains
 {
@@ -96,6 +97,11 @@ namespace co_op_engine.Components.Brains
             if (InputHandler.KeyPressed(Keys.Space) || InputHandler.MouseLeftPressed())
             {
                 owner.Weapon.TryInitiateAttack();
+            }
+
+            if (InputHandler.KeyPressed(Keys.C))
+            {
+                Camera.Instance.Shake();
             }
         }
 

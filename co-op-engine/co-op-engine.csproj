@@ -78,6 +78,8 @@
     <Compile Include="Pathing\Path.cs" />
     <Compile Include="Pathing\PathFinder.cs" />
     <Compile Include="Pathing\PathingGrid.cs" />
+    <Compile Include="Utility\Camera\CameraEffectBase.cs" />
+    <Compile Include="Utility\Camera\CameraShakeEffect.cs" />
     <Compile Include="World\TiledBackground.cs" />
     <Content Include="Content\TowerData.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -100,7 +102,7 @@
     <Compile Include="UIElements\Button.cs" />
     <Compile Include="UIElements\Control.cs" />
     <Compile Include="UIElements\ControlManager.cs" />
-    <Compile Include="Utility\Camera.cs" />
+    <Compile Include="Utility\Camera\Camera.cs" />
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="Utility\DrawingUtility.cs" />
     <Compile Include="Utility\GameTimerManager.cs" />

@@ -23,7 +23,7 @@ namespace co_op_engine.Components.Particles.Decorators
             BeginVelocity = particle.Velocity;
             particle.Velocity = new Vector2(0, 0);
             float delayPercentage = MechanicSingleton.Instance.rand.Next(50, 100) / 100f;
-            DelayTimeMS = (int)(BeginLifetime.Milliseconds * delayPercentage);
+            DelayTimeMS = (int)(BeginLifetime.TotalMilliseconds * delayPercentage);
 
             base.Begin();
         }
@@ -31,7 +31,7 @@ namespace co_op_engine.Components.Particles.Decorators
         public override void Update(GameTime gameTime)
         {
             // hold the particle still for 20% of its lifetime
-            if(!hasBeenReleased && particle.Lifetime.Milliseconds <= (0.8f * DelayTimeMS))
+            if(!hasBeenReleased && particle.Lifetime.TotalMilliseconds <= (0.8f * DelayTimeMS))
             {
                 particle.Velocity = BeginVelocity;
                 hasBeenReleased = true;

@@ -27,11 +27,14 @@ namespace co_op_engine
             screenRectangle = new Rectangle(0,0,800,600);
             graphics = new GraphicsDeviceManager(this);
 
+
             Content.RootDirectory = "Content";
             Components.Add(new InputHandler(this));
-            graphics.PreferredBackBufferHeight = screenRectangle.Height;
-            graphics.PreferredBackBufferWidth = screenRectangle.Width;
-
+            //graphics.PreferredBackBufferHeight = screenRectangle.Height;
+            //5graphics.PreferredBackBufferWidth = screenRectangle.Width;
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
         }
 
         public void ChangeGameState(GameState state)

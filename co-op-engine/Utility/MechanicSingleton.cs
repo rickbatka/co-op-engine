@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using co_op_engine.Networking;
+using Microsoft.Xna.Framework;
 
 namespace co_op_engine.Utility
 {
@@ -79,6 +80,21 @@ namespace co_op_engine.Utility
             return threadsafeTemp;
         }
 
+        public Vector2 RandomNormalizedVector()
+        {
+            int newX = 1;
+            int newY = 1;
+            if(rand.Next(0,9) < 5)
+            {
+                newX = -1;
+            }
+
+            if (rand.Next(0,9) < 5)
+            {
+                newY = -1;
+            }
+            return new Vector2(newX, newY);
+        }
 
     }
 }

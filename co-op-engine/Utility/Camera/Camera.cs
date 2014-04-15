@@ -5,7 +5,7 @@ using System.Text;
 using co_op_engine.Components;
 using Microsoft.Xna.Framework;
 
-namespace co_op_engine.Utility
+namespace co_op_engine.Utility.Camera
 {
     /// <summary>
     /// Provides a scrolling viewpoint into the game world
@@ -31,6 +31,8 @@ namespace co_op_engine.Utility
         public bool IsTracking;
         private GameObject target;
 
+        List<CameraEffectBase> CurrentEffects;
+
         /// <summary>
         /// the transformation matrix to be applied to the renderer
         /// </summary>
@@ -44,20 +46,24 @@ namespace co_op_engine.Utility
         }
 
         private Camera(Rectangle viewportRect)
-        {
-            Position = Vector2.Zero;
-            ViewportRectangle = viewportRect;
-        }
+            :this(viewportRect, Vector2.Zero) { }
 
         private Camera(Rectangle viewportRect, Vector2 position)
         {
             ViewportRectangle = viewportRect;
             Position = position;
+            CurrentEffects = new List<CameraEffectBase>();
         }
 
         public void SetCameraTackingObject(GameObject target)
         {
             this.target = target;
+        }
+
+        public void ApplyEffect(CameraEffectBase effect)
+        {
+            this.CurrentEffects.Add(effect);
+            effect.Apply();
         }
 
         public void Update(GameTime gameTime)
@@ -67,6 +73,34 @@ namespace co_op_engine.Utility
             {
                 Position = new Vector2(target.Position.X - ViewportRectangle.Center.X, target.Position.Y - ViewportRectangle.Center.Y);
             }
+
+            UpdateEffects(gameTime);
+        }
+
+        private void UpdateEffects(GameTime gameTime)
+        {
+            var effectsToRemove = new List<CameraEffectBase>();
+            foreach (var effect in CurrentEffects)
+            {
+                effect.Update(gameTime);
+
+                if (effect.EffectTimeRemaining <= TimeSpan.Zero)
+                {
+                    effectsToRemove.Add(effect);
+                }
+            }
+
+            int cnt = effectsToRemove.Count;
+            for (int i = 0; i < cnt; i++)
+            {
+                effectsToRemove[i].Finish();
+                CurrentEffects.Remove(effectsToRemove[i]);
+            }
+        }
+
+        public void Shake()
+        {
+            this.ApplyEffect(new CameraShakeEffect(this));
         }
 
         /// <summary>

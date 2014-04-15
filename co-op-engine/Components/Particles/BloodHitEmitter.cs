@@ -12,22 +12,24 @@ namespace co_op_engine.Components.Particles
     {
         private GameObject owner;
         private Vector2 HitRotation;
+        private int bloodForceMax = 8;
 
         public BloodHitEmitter(GameObject owner, Vector2 hitRotation)
         {
             this.owner = owner;
             HitRotation = hitRotation;
-            this.duration = TimeSpan.FromMilliseconds(175);
+            this.duration = TimeSpan.FromMilliseconds(75);
         }
 
         // this one emits in one big burst
         protected override void EmitParticle()
         {
-            int numBloodParticles = MechanicSingleton.Instance.rand.Next(1, 5);
+            int numBloodParticles = MechanicSingleton.Instance.rand.Next(10, 40);
             for (int i = 0; i < numBloodParticles; i++)
             {
                 var particle = new Particle();
-                particle.Lifetime = TimeSpan.FromMilliseconds(MechanicSingleton.Instance.rand.Next(50, 250));
+                //particle.Lifetime = TimeSpan.FromMilliseconds(MechanicSingleton.Instance.rand.Next(50, 250));
+                particle.Lifetime = TimeSpan.FromMilliseconds(75);
                 particle.Position = GetEmitPosition();
                 particle.Velocity = GetEmitVelocity();
                 particle.DrawColor = Color.Firebrick;
@@ -41,18 +43,18 @@ namespace co_op_engine.Components.Particles
         private Vector2 GetEmitPosition()
         {
             return new Vector2(
-                owner.BoundingBox.Center.X + MechanicSingleton.Instance.rand.Next(-10, 10),
-                owner.BoundingBox.Center.Y + MechanicSingleton.Instance.rand.Next(-10, 10));
+                MechanicSingleton.Instance.rand.Next(owner.BoundingBox.Center.X - 10, owner.BoundingBox.Center.X + 10),
+                MechanicSingleton.Instance.rand.Next(owner.BoundingBox.Center.Y - 10, owner.BoundingBox.Center.Y + 10));
         }
 
         private Vector2 GetEmitVelocity()
         {
             Vector2 vel = HitRotation;
             vel.Normalize();
-
-            // slow it down by 80 - 90%
-            vel.X *= (float)MechanicSingleton.Instance.rand.Next(10, 20) / 100f;
-            vel.Y *= (float)MechanicSingleton.Instance.rand.Next(10, 20) / 100f;
+            
+            // speed it up!
+            vel.X *= bloodForceMax * (float)MechanicSingleton.Instance.rand.Next(50, 90) / 100f;
+            vel.Y *= bloodForceMax * (float)MechanicSingleton.Instance.rand.Next(50, 90) / 100f;
 
             return vel;
         }

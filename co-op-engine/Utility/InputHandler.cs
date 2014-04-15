@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using co_op_engine.Utility.Camera;
 
 namespace co_op_engine.Utility
 {
@@ -234,13 +235,13 @@ namespace co_op_engine.Utility
 
 		public static Vector2 MousePositionVectorCameraAdjusted()
 		{
-			return new Vector2(Mouse.GetState().X, Mouse.GetState().Y) + Camera.Instance.Position;
+			return new Vector2(Mouse.GetState().X, Mouse.GetState().Y) + Camera.Camera.Instance.Position;
 		}
 
-        public static bool MouseMoved()
-        {
-            return mouseState.X != lastMouseState.X || mouseState.Y != lastMouseState.Y;
-        }
+		public static bool MouseMoved()
+		{
+			return mouseState.X != lastMouseState.X || mouseState.Y != lastMouseState.Y;
+		}
 
 		#endregion
 	}
