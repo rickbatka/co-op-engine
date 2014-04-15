@@ -27,6 +27,7 @@ namespace co_op_engine.Utility
         public Texture2D SwordTexture;
         public Texture2D AxeTexture;
         public Texture2D MaceTexture;
+        public Texture2D DebugFillTexture;
         public BackgroundTile BushesTile;
 
         string[] heroAnimationData;
@@ -60,6 +61,10 @@ namespace co_op_engine.Utility
         {
             Arial = gameRef.Content.Load<SpriteFont>("Arial");
 
+
+            DebugFillTexture = new Texture2D(gameRef.GraphicsDevice, 1, 1);
+            DebugFillTexture.SetData<Color>(new[] { Color.White });
+            
             DebugGridTexture = gameRef.Content.Load<Texture2D>("grid");
             PlainWhiteTexture = gameRef.Content.Load<Texture2D>("pixel");
             PlainWhiteTexture.SetData<Color>(new Color[] { Color.White });

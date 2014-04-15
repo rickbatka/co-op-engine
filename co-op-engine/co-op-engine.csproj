@@ -36,6 +36,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Components\Brains\PathingTestBrain.cs" />
     <Compile Include="Components\Particles\BloodHitEmitter.cs" />
     <Compile Include="Components\Particles\Decorators\DelayedStartDecorator.cs" />
     <Compile Include="Components\Particles\Decorators\ParticleDecoorator.cs" />

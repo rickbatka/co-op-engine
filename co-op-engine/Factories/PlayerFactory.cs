@@ -79,7 +79,7 @@ namespace co_op_engine.Factories
             enemy.SetPhysics(new CollidingPhysics(enemy));
             var renderer = new RenderBase(enemy, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
             enemy.SetRenderer(renderer);
-            enemy.SetBrain(new DoNothingBrain(enemy));
+            enemy.SetBrain(new PathingTestBrain(enemy));
             enemy.SetCombat(new CombatBase(enemy));
 
             // wire up the events between components
