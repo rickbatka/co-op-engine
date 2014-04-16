@@ -76,7 +76,7 @@ namespace co_op_engine.World.Level
 
         public void DebugDraw(SpriteBatch spriteBatch, Texture2D debugTexture)
         {
-            SpacialReference.Draw(spriteBatch, debugTexture);
+            //SpacialReference.Draw(spriteBatch, debugTexture);
         }
 
         public GameObject GetObjectById(int Id)

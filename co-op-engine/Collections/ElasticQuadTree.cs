@@ -334,6 +334,8 @@ namespace co_op_engine.Collections
             else if (SW.Insert(temp)) return;
             else if (NE.Insert(temp)) return;
             else if (SE.Insert(temp)) return;
+
+            MasterInsert(temp);
         }
 
         /// <summary>
