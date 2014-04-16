@@ -6,6 +6,7 @@ using co_op_engine.Collections;
 using co_op_engine.Components;
 using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
+using co_op_engine.Utility.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -68,9 +69,18 @@ namespace co_op_engine.World.Level
 
         public void DrawAll(SpriteBatch spriteBatch)
         {
+            //testing draw on screen
+            //foreach (var obj in SpacialReference.MasterQuery(Camera.Instance.ViewBoundsRectangle))
+            //{
+            //    obj.Draw(spriteBatch);
+            //}
+
             foreach (var obj in LinearReference)
             {
-                obj.Draw(spriteBatch);
+                if (Camera.Instance.ViewBoundsRectangle.Contains(new Point((int)obj.Position.X,(int)obj.Position.Y)))
+                {
+                    obj.Draw(spriteBatch);
+                }
             }
         }
 

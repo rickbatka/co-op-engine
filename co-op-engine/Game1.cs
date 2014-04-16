@@ -24,7 +24,7 @@ namespace co_op_engine
         public Game1()
             : base()
         {
-            screenRectangle = new Rectangle(0,0,1920,1080);
+            screenRectangle = new Rectangle(0,0,1024,768);
             graphics = new GraphicsDeviceManager(this);
 
 
@@ -33,9 +33,9 @@ namespace co_op_engine
             //graphics.PreferredBackBufferHeight = screenRectangle.Height;
             //5graphics.PreferredBackBufferWidth = screenRectangle.Width;
 
-            graphics.IsFullScreen = true;
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferWidth = screenRectangle.Width;
+            graphics.PreferredBackBufferHeight = screenRectangle.Height;
             this.Window.SetPosition(screenRectangle.Location); //moved it here cause it couldn't be moved if it was being updated every game loop
 
         }

@@ -25,6 +25,13 @@ namespace co_op_engine.Utility.Camera
         public Vector2 Position { get; set; }
         private float zoom = 1f;
         public Rectangle ViewportRectangle { get; private set; }
+        public Rectangle ViewBoundsRectangle
+        {
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, ViewportRectangle.Width, ViewportRectangle.Height);
+            }
+        }
         public bool IsTracking;
         private GameObject target;
 
@@ -81,6 +88,8 @@ namespace co_op_engine.Utility.Camera
                     );
                 }
             }
+
+            //ViewportRectangle = new Rectangle((int)Position.X, (int)Position.Y, ViewportRectangle.Width, ViewportRectangle.Height);
 
             UpdateEffects(gameTime);
         }
