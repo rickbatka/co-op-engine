@@ -9,6 +9,7 @@ namespace co_op_engine.Components.Rendering
     public struct Frame
     {
         public Rectangle SourceRectangle;
+        public Rectangle DrawRectangle;
         public Rectangle PhysicsRectangle;
         public Rectangle[] DamageDots;
         public int FrameTime;
@@ -16,13 +17,35 @@ namespace co_op_engine.Components.Rendering
 
     public static class FrameDataReader
     {
-        public static Frame BuildFromDataLine(string lineData)
+        public static Frame BuildFromDataLine(string lineData, float scale)
         {
             Rectangle sourceRectangle = readRectangles(lineData, '<', '>').First();
 
+            Rectangle drawRectangle;
+
+            drawRectangle = new Rectangle(0, 0, sourceRectangle.Width, sourceRectangle.Height);
+            drawRectangle.Width = (int)(sourceRectangle.Width * scale);
+            drawRectangle.Height = (int)(sourceRectangle.Height * scale);
+            //drawRectangle.X = drawRectangle.Width / 2;
+
             Rectangle physicsRectangle = readRectangles(lineData, '{', '}').FirstOrDefault();
+            physicsRectangle = new Rectangle(
+                (int)(physicsRectangle.X * scale),
+                (int)(physicsRectangle.Y * scale),
+                (int)(physicsRectangle.Width * scale),
+                (int)(physicsRectangle.Width * scale)
+            );
 
             List<Rectangle> damageDots = readRectangles(lineData, '(', ')');
+            for (int i = 0; i < damageDots.Count; i++ )
+            {
+                damageDots[i] = new Rectangle(
+                    (int)(damageDots[i].X * scale),
+                    (int)(damageDots[i].Y * scale),
+                    1,
+                    1
+                );
+            }
 
             int time = int.Parse(lineData.Substring(0, lineData.IndexOf('<')));
 
@@ -30,6 +53,7 @@ namespace co_op_engine.Components.Rendering
             {
                 FrameTime = time,
                 SourceRectangle = sourceRectangle,
+                DrawRectangle = drawRectangle,
                 PhysicsRectangle = physicsRectangle,
                 DamageDots = damageDots.ToArray()
             };

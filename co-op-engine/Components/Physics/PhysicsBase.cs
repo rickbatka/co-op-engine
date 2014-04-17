@@ -71,8 +71,8 @@ namespace co_op_engine.Components.Physics
         public void VerifyBoundingBox()
         {
             owner.BoundingBox = new Rectangle(
-                (int)(owner.CurrentFrame.PhysicsRectangle.X + (this.owner.Position.X - this.owner.CurrentFrame.SourceRectangle.Width / 2)),
-                (int)(owner.CurrentFrame.PhysicsRectangle.Y + (this.owner.Position.Y - this.owner.CurrentFrame.SourceRectangle.Height / 2)), 
+                (int)(owner.CurrentFrame.PhysicsRectangle.X + (this.owner.Position.X - this.owner.CurrentFrame.DrawRectangle.Center.X)),
+                (int)(owner.CurrentFrame.PhysicsRectangle.Y + (this.owner.Position.Y - this.owner.CurrentFrame.DrawRectangle.Center.Y)), 
                 this.owner.CurrentFrame.PhysicsRectangle.Width, 
                 this.owner.CurrentFrame.PhysicsRectangle.Height);
         }
@@ -132,8 +132,8 @@ namespace co_op_engine.Components.Physics
         private Vector2 PositionAboveHead(int distance)
         {
             var aboveHead = new Vector2(
-                x: owner.Position.X - (owner.CurrentFrame.SourceRectangle.Width / 2f),
-                y: owner.Position.Y - (owner.CurrentFrame.SourceRectangle.Height / 2f) - distance
+                x: owner.Position.X - (owner.CurrentFrame.DrawRectangle.Width / 2f),
+                y: owner.Position.Y - (owner.CurrentFrame.DrawRectangle.Height / 2f) - distance
             );
 
             return aboveHead;

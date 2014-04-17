@@ -58,13 +58,13 @@ namespace co_op_engine.Rendering
             return duration;
         }
 
-        public static Animation BuildFromDataLines(string[] lineData)
+        public static Animation BuildFromDataLines(string[] lineData, float scale)
         {
             List<Frame> frameList = new List<Frame>();
 
             for (int i = 0; i < lineData.Length; ++i)
             {
-                frameList.Add(FrameDataReader.BuildFromDataLine(lineData[i]));
+                frameList.Add(FrameDataReader.BuildFromDataLine(lineData[i], scale));
             }
 
             return new Animation(frameList.ToArray());

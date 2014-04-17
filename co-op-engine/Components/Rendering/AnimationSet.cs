@@ -20,7 +20,7 @@ namespace co_op_engine.Collections
 
         public AnimationSet() { }
 
-        public static AnimationSet BuildFromAsset(string[] lines)
+        public static AnimationSet BuildFromAsset(string[] lines, float scaleOverride = 1.0f)
         {
             var animationSet = new AnimationSet();
             int animationIndex = 0;
@@ -37,7 +37,7 @@ namespace co_op_engine.Collections
                         {
                             animationSet.animations.Add(animationIndex, new Animation[4]);
                         }
-                        animationSet.animations[animationIndex][directionIndex] = Animation.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>());
+                        animationSet.animations[animationIndex][directionIndex] = Animation.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>(), scaleOverride);
                     }
                     var indexes = line.Split(';');
                     animationIndex = int.Parse(indexes[1]);
@@ -55,7 +55,7 @@ namespace co_op_engine.Collections
                 {
                     animationSet.animations.Add(animationIndex, new Animation[4]);
                 }
-                animationSet.animations[animationIndex][directionIndex] = Animation.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>());
+                animationSet.animations[animationIndex][directionIndex] = Animation.BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>(), scaleOverride);
             }
 
             return animationSet;

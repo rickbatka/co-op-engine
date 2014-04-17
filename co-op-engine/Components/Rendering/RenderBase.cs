@@ -92,8 +92,8 @@ namespace co_op_engine.Components.Rendering
             return new Rectangle(
                 x: (int)(owner.Position.X),
                 y: (int)(owner.Position.Y),
-                width: owner.CurrentFrame.SourceRectangle.Width,
-                height: owner.CurrentFrame.SourceRectangle.Height
+                width: owner.CurrentFrame.DrawRectangle.Width,
+                height: owner.CurrentFrame.DrawRectangle.Height
             );
         }
 

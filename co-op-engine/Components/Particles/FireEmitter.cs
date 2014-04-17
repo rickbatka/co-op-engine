@@ -15,7 +15,7 @@ namespace co_op_engine.Components.Particles
         {
             this.owner = owner;
             this.duration = TimeSpan.FromMilliseconds(4000);
-            this.frequency = MechanicSingleton.Instance.rand.Next(25, 75);
+            this.frequency = 5;
         }
 
         protected override void EmitParticle()
