@@ -131,7 +131,7 @@ namespace co_op_engine.GameStates
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null, null, Camera.Instance.Transformation);
+            GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, null, null, Camera.Instance.Transformation);
             Background.Draw(GameRef.spriteBatch);
             ParticleEngine.Instance.Draw(GameRef.spriteBatch);
             container.DrawAll(GameRef.spriteBatch);
