@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace co_op_engine.Pathing
 {
-    class GridNode
+    public class GridNode
     {
         /* * * * * * * * * * * * * * * * * * * * * * * * * ** 
          * Not to repeat the problems experienced in the    *       
@@ -64,5 +65,7 @@ namespace co_op_engine.Pathing
 			Target = target;
 			
 		}
+
+        
     }
 }

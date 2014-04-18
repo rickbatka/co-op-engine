@@ -54,7 +54,7 @@ namespace co_op_engine.Pathing
 						//if it's not on the open list, add it and point it to this one
 						if(!openList.Contains(checkNode))
 						{
-							checkNode.SetTrace(currentNode);
+							checkNode.SetTrace(currentNode, Vector2.Distance(Vector2.Zero,new Vector2(x,y)));
 						}
 						else  //if it's on the open list and this G is better than it's G, point it at this one
 						{
@@ -75,12 +75,12 @@ namespace co_op_engine.Pathing
 		}
 		
 		//might come in handy later, but for not it's a waste
-        private class NodeComparer : IComparer<GridNode>
+        /*private class NodeComparer : IComparer<GridNode>
         {
             public int Compare(GridNode x, GridNode y)
             {
                 return (int)(x.FCost() - y.FCost() * 10f);
             }
-        }
+        }*/
     }
 }
