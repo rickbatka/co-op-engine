@@ -8,5 +8,6 @@ namespace co_op_engine.Pathing
     public class PathingGrid
     {
         //series of points weighted with things
+		public void PrepForPath
     }
 }

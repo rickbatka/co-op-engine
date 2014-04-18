@@ -37,17 +37,32 @@ namespace co_op_engine.Pathing
         private float Decay_RecentDeath = 1 / 1000; // F/t
 
         public float CurrentDistance_F = 0f;
+		public GridNode Target { get; private set; }
 
-        public float FCost()
+		/// <summary>
+		/// the G adjustment for this node taking into account pathing, traversal time, and recent deaths in the area
+		/// </summary>
+        public float GAdjustment()
         {
             return Adjustment_TimeToTraverse + Adjustment_RecentPath + Adjustment_RecentDeath;
         }
-
+		
+		public float CurrentG()
+		{
+			throw new NotImplementedException();
+		}
+		
         public void ApplyAdjustment(float objectInPath = 0f, float recentPath = 0f, float recentDeath = 0f)
         {
             Adjustment_TimeToTraverse += objectInPath;
             Adjustment_RecentPath += recentPath;
             Adjustment_RecentDeath += recentDeath;
         }
+		
+		public void SetTrace(GridNode target, float integralG)
+		{
+			Target = target;
+			
+		}
     }
 }
