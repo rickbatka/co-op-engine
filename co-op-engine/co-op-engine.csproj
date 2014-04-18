@@ -72,6 +72,7 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Collections\QuadTree.cs" />
     <Compile Include="Components\Brains\PathingTestBrain.cs" />
     <Compile Include="Components\Particles\BloodHitEmitter.cs" />
     <Compile Include="Components\Particles\Decorators\DelayedStartDecorator.cs" />
