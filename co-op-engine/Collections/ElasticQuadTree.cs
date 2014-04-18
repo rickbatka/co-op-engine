@@ -133,7 +133,7 @@ namespace co_op_engine.Collections
         /// <param name="newObject">object to be inserted</param>
         /// <returns>returns true if it was inserted</returns>
         public bool Insert(GameObject newObject)
-        {
+        {/*
             //check if object is in the node
             if (!bounds.ContainsInclusive(newObject.Position))
             {
@@ -193,7 +193,7 @@ namespace co_op_engine.Collections
                 InflateBoundry(newObject);
                 return true;
             }
-
+            */
             //very bad subdivision error, we should keep an eye out for this
             throw new Exception("couldn't insert into quadtree because it didn't fit into subquads");
         }
@@ -245,7 +245,7 @@ namespace co_op_engine.Collections
         /// folds up unused quads by checking this node and it's parent, and on up if it keeps finding empty nodes
         /// </summary>
         private void Verify()
-        {
+        {/*
             if (IsParent)
             {
                 //if it's 0, collapse check parent
@@ -275,7 +275,7 @@ namespace co_op_engine.Collections
                 {
                     parent.Verify();
                 }
-            }
+            }*/
         }
 
         /// <summary>

@@ -108,15 +108,6 @@ namespace co_op_engine
 
             CurrentGameState.Draw(gameTime);
 
-            //spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointWrap, null, null);
-
-            //container.DrawAll(spriteBatch);
-            //container.DebugDraw(spriteBatch, DEBUG_GRID_TEXTURE);
-
-
-
-            //spriteBatch.End();
-
             base.Draw(gameTime);
         }
 

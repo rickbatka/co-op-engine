@@ -23,7 +23,7 @@ namespace co_op_engine.Components
         public CombatBase Combat;
 
         public Rectangle BoundingBox;
-        public ElasticQuadTree CurrentQuad;
+        public QuadTree CurrentQuad;
         public Vector2 Velocity;
         public Vector2 Acceleration;
         public Vector2 InputMovementVector;

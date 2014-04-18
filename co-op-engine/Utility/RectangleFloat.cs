@@ -152,5 +152,15 @@ namespace co_op_engine.Utility
         {
             return new Rectangle((int)X, (int)Y, (int)Width, (int)Height);
         }
+
+        //public static implicit operator Rectangle(RectangleFloat rectf)
+        //{
+        //    return rectf.ToRectangle();
+        //}
+
+        public static implicit operator RectangleFloat(Rectangle rect)
+        {
+            return FromRectangle(rect);
+        }
     }
 }

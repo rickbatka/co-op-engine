@@ -12,9 +12,13 @@ namespace co_op_engine.Components.Physics
     {
         public event PhysicsCollideEventHandler OnCollision;
 
+        private Vector2 previousPosition;
+
         public CollidingPhysics(GameObject owner)
             : base(owner)
-        { }
+        {
+            previousPosition = owner.Position;
+        }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
@@ -32,10 +36,11 @@ namespace co_op_engine.Components.Physics
                 }
                 HandleCollisionPatternMethodTesting(colliders);
             }
-            else
+            else if (previousPosition != owner.Position)
             {
                 owner.CurrentQuad.NotfyOfMovement(owner);
             }
+            previousPosition = owner.Position;
         }
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch) 
@@ -47,7 +52,14 @@ namespace co_op_engine.Components.Physics
         {
             base.DebugDraw(spriteBatch);
             spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture,
-                owner.BoundingBox, Color.Black);
+                owner.BoundingBox, Color.Red);
+
+            owner.CurrentQuad.Draw(spriteBatch);
+
+            if (!owner.CurrentQuad.DEBUGEXPOSURE_DONOTUSE().Contains(owner))
+            {
+                spriteBatch.Draw(AssetRepository.Instance.DebugFillTexture, owner.BoundingBox, Color.Yellow);
+            }
         }
 
         private void HandleCollisionPatternMethodTesting(List<GameObject> colliders)
