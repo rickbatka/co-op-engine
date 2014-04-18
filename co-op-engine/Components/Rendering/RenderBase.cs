@@ -37,14 +37,15 @@ namespace co_op_engine.Components.Rendering
         virtual public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                texture: owner.Texture,
-                position: owner.Position,
-                sourceRectangle: owner.CurrentFrame.SourceRectangle,
-                color: GetSpriteDrawColor(),
-                rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
-                origin: GetCenterOrigin(),
-                effect: SpriteEffects.None,
-                depth: 0f
+                owner.Texture,
+                owner.Position,
+                owner.CurrentFrame.SourceRectangle,
+                GetSpriteDrawColor(),
+                owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
+                GetCenterOrigin(),
+                1f,
+                SpriteEffects.None,
+                0f
             );
         }
 
