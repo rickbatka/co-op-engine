@@ -34,7 +34,7 @@ namespace co_op_engine.Factories
             tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations.CurrentAnimatedRectangle.CurrentFrame;
 
-            tower.UnShovable = true;
+            tower.UsedInPathing = true;
             tower.SetPhysics(new CollidingPhysics(tower));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations));
             tower.SetBrain(new BasicTowerBrain(tower,

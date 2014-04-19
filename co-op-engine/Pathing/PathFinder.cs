@@ -3,20 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using co_op_engine.Components;
+using co_op_engine.World.Level;
 using Microsoft.Xna.Framework;
 
 namespace co_op_engine.Pathing
 {
     public class PathFinder
     {
-        SortedSet<GridNode> openList; //woot sorted list is a log n retrieval with sorted values (beats heap of nlog n)
-        List<GridNode> closedList;
-		PathingGrid grid;
-		
-        public PathFinder()
+        #region Singleton boilerplate
+        public static PathFinder Instance;
+        public static void Initialize(ObjectContainer container)
         {
-			grid = new PathingGrid();
+            Instance = new PathFinder(container);
         }
+
+        private PathFinder(ObjectContainer container)
+        {
+            containerRef = container;
+            grid = new PathingGrid();
+        }
+        #endregion
+
+        private SortedSet<GridNode> openList; //woot sorted list is a log n retrieval with sorted values (beats heap of nlog n)
+        private List<GridNode> closedList;
+		private PathingGrid grid;
+        private ObjectContainer containerRef;
 
         public Path GetPath(Vector2 startPosition, Vector2 endPosition)
         {
@@ -24,8 +35,8 @@ namespace co_op_engine.Pathing
 			closedList.Clear();
 		
             //round destination and start to nearest node
-			GridNode startNode = grid.RoundToNearest(startPosition);
-			GridNode endNode = grid.RoundToNearest(endPosition);
+			GridNode startNode = grid.RoundToNearestNode(startPosition);
+			GridNode endNode = grid.RoundToNearestNode(endPosition);
 
             //prepare/reset grid for new run
 			grid.PrepForPath();
@@ -42,7 +53,7 @@ namespace co_op_engine.Pathing
 				GridNode currentNode = openList.First();
 				openList.Remove(currentNode);
 				closedList.Add(currentNode);
-				Point currentNodePosition = grid.GetLocationOfNode(currentNode);
+				Point currentNodePosition = grid.GetCoordForNode(currentNode);
 				
             //  for each adjacent square
 				for(int x=-1; x<=1; ++x)
@@ -56,9 +67,10 @@ namespace co_op_engine.Pathing
 						{
 							checkNode.SetTrace(currentNode, Vector2.Distance(Vector2.Zero,new Vector2(x,y)));
 						}
-						else  //if it's on the open list and this G is better than it's G, point it at this one
+                        //if it's on the open list and this G is better than it's G, point it at this one
+						else if( currentNode.CurrentG() < checkNode.CurrentG() )
 						{
-							
+                            checkNode.SetTrace(currentNode, GetMovementCost(x, y));
 						}
 					}
 				}
@@ -67,20 +79,14 @@ namespace co_op_engine.Pathing
             throw new NotImplementedException();
         }
 		
+		private int GetMovementCost(int x, int y)
+        {
+            return x*y == 0 ? 100 : 140;
+        }
 		
-		
-		public void ReceiveSnapshot()
+		public void ReceiveSnapshot(object SpacialReference)
 		{
 			//receives quadtree and projects it onto the grid's metadata
-		}
-		
-		//might come in handy later, but for not it's a waste
-        /*private class NodeComparer : IComparer<GridNode>
-        {
-            public int Compare(GridNode x, GridNode y)
-            {
-                return (int)(x.FCost() - y.FCost() * 10f);
-            }
-        }*/
+		}		
     }
 }

@@ -98,7 +98,7 @@ namespace co_op_engine.Components.Brains
                 TowerFactory.Instance.GetDoNothingTower();
             }
 
-            if (InputHandler.KeyDown(Keys.E))
+            if (InputHandler.KeyPressed(Keys.E))
             {
                 PlayerFactory.Instance.GetEnemy();
             }

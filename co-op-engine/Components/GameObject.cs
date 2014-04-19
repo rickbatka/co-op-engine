@@ -28,9 +28,8 @@ namespace co_op_engine.Components
         public Vector2 Acceleration;
         public Vector2 InputMovementVector;
         public int ID;
-        public bool UnShovable = false;
+        public bool UsedInPathing = false;
         public string DisplayName { get { return "ID: " + ID; } }
-        public List<GameObjectCommand> PendingCommands; // we can do whatever here, I don't reall care
 
         public Texture2D Texture { get; set; }
         public Vector2 Position { get; set; }
@@ -52,7 +51,6 @@ namespace co_op_engine.Components
             CurrentState = Constants.ACTOR_STATE_IDLE;
             Health = 100;
             MaxHealth = 100;
-            PendingCommands = new List<GameObjectCommand>();
         }
 
         public void SetPhysics(PhysicsBase physics)
@@ -118,7 +116,7 @@ namespace co_op_engine.Components
 
             //@TODO DEBUGDRAW DEBUG DRAW
             //Renderer.DebugDraw(spriteBatch);
-            Physics.DebugDraw(spriteBatch);
+            //Physics.DebugDraw(spriteBatch);
         }
 
         public void HandleHitByWeapon(int weaponId, List<EffectDefinition> effects, Vector2 hitRotation)
