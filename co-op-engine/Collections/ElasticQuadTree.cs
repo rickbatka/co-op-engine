@@ -14,7 +14,7 @@ namespace co_op_engine.Collections
     /// A Quadtree that expands it's query boundaries based on the largest 
     /// child object in it's child's collection
     /// </summary>
-    public class ElasticQuadTree
+    public class ElasticQuadTree : SpacialBase
     {
         private RectangleFloat bounds;
         private RectangleFloat queryBounds;
@@ -22,7 +22,7 @@ namespace co_op_engine.Collections
 
         private bool IsParent { get { return NW != null; } }
         private ElasticQuadTree parent;
-        
+
         //children
         private ElasticQuadTree NW;
         private ElasticQuadTree NE;
@@ -46,7 +46,7 @@ namespace co_op_engine.Collections
         /// @TODO could just climb until insert works?
         /// </summary>
         /// <param name="newObject">object to be inserted</param>
-        public void MasterInsert(GameObject newObject)
+        public override void MasterInsert(GameObject newObject)
         {
             if (parent != null)
             {
@@ -64,7 +64,7 @@ namespace co_op_engine.Collections
         /// </summary>
         /// <param name="queryBounds">the location of the query area</param>
         /// <returns>list of objects the INTERSECTS with the query</returns>
-        public List<GameObject> MasterQuery(RectangleFloat queryBounds)
+        public override List<GameObject> MasterQuery(RectangleFloat queryBounds)
         {
             if (parent != null)
             {
@@ -93,7 +93,7 @@ namespace co_op_engine.Collections
         /// </summary>
         /// <param name="newObject">Object to remove</param>
         /// <returns>if the object was removed/found</returns>
-        public bool Remove(GameObject newObject)
+        public override bool Remove(GameObject newObject)
         {
             if (containedObject == newObject)
             {
@@ -109,20 +109,20 @@ namespace co_op_engine.Collections
         /// </summary>
         /// <param name="spriteBatch"></param>
         /// <param name="drawTexture"></param>
-        public void Draw(SpriteBatch spriteBatch, Texture2D drawTexture)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (!IsParent)
             {
-                spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(), Color.White);
+                spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, queryBounds.ToRectangle(), Color.White);
                 //spriteBatch.Draw(drawTexture, bounds.ToRectangle(), Color.White);
             }
             else
             {
-                NW.Draw(spriteBatch, drawTexture);
-                SW.Draw(spriteBatch, drawTexture);
-                NE.Draw(spriteBatch, drawTexture);
-                SE.Draw(spriteBatch, drawTexture);
-                spriteBatch.Draw(drawTexture, queryBounds.ToRectangle(), Color.White);
+                NW.Draw(spriteBatch);
+                SW.Draw(spriteBatch);
+                NE.Draw(spriteBatch);
+                SE.Draw(spriteBatch);
+                spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, queryBounds.ToRectangle(), Color.White);
             }
         }
 
@@ -132,8 +132,8 @@ namespace co_op_engine.Collections
         /// </summary>
         /// <param name="newObject">object to be inserted</param>
         /// <returns>returns true if it was inserted</returns>
-        public bool Insert(GameObject newObject)
-        {/*
+        public override bool Insert(GameObject newObject)
+        {
             //check if object is in the node
             if (!bounds.ContainsInclusive(newObject.Position))
             {
@@ -193,7 +193,6 @@ namespace co_op_engine.Collections
                 InflateBoundry(newObject);
                 return true;
             }
-            */
             //very bad subdivision error, we should keep an eye out for this
             throw new Exception("couldn't insert into quadtree because it didn't fit into subquads");
         }
@@ -368,7 +367,7 @@ namespace co_op_engine.Collections
         /// Allows objects to notify the quadtree that they moved
         /// </summary>
         /// <param name="ownedObject">the moved object</param>
-        public void NotfyOfMovement(GameObject ownedObject)
+        public override void NotifyOfMovement(GameObject ownedObject)
         {
             if (!bounds.ContainsInclusive(ownedObject.Position) || containedObject != ownedObject)
             {
@@ -378,6 +377,11 @@ namespace co_op_engine.Collections
                 }
                 Verify();
             }
+        }
+
+        public override List<GameObject> DEBUGEXPOSURE_DONOTUSE()
+        {
+            return new List<GameObject>() { this.containedObject };
         }
     }
 }

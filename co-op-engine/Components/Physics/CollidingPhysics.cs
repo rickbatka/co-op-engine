@@ -38,7 +38,7 @@ namespace co_op_engine.Components.Physics
             }
             else if (previousPosition != owner.Position)
             {
-                owner.CurrentQuad.NotfyOfMovement(owner);
+                owner.CurrentQuad.NotifyOfMovement(owner);
             }
             previousPosition = owner.Position;
         }
@@ -138,10 +138,10 @@ namespace co_op_engine.Components.Physics
             owner.Position += ownerMovement;
             biggest.Position += biggestMovement;
 
-            owner.CurrentQuad.NotfyOfMovement(owner);
+            owner.CurrentQuad.NotifyOfMovement(owner);
             this.VerifyBoundingBox();
 
-            biggest.CurrentQuad.NotfyOfMovement(biggest);
+            biggest.CurrentQuad.NotifyOfMovement(biggest);
             biggest.Physics.VerifyBoundingBox();
 
             base.HandleCollision(colliders);
@@ -219,10 +219,10 @@ namespace co_op_engine.Components.Physics
             owner.Position = newOwnerPos;
             biggest.Position = newBiggestPos;
 
-            owner.CurrentQuad.NotfyOfMovement(owner);
+            owner.CurrentQuad.NotifyOfMovement(owner);
             this.VerifyBoundingBox();
 
-            biggest.CurrentQuad.NotfyOfMovement(biggest);
+            biggest.CurrentQuad.NotifyOfMovement(biggest);
             biggest.Physics.VerifyBoundingBox();
 
             base.HandleCollision(collidors);

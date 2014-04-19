@@ -64,16 +64,16 @@ namespace co_op_engine.Factories
             };
 
             NetCommander.CreatedObject(player);
-            
+
             return player;
         }
 
-        public GameObject GetEnemy()
+        public GameObject GetEnemy(int Id = -1)
         {
             var enemy = new GameObject();
             enemy.ConstructionStamp = "Enemy";
 
-            enemy.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
+            enemy.ID = Id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : Id;
             enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
 
             enemy.SetPhysics(new CollidingPhysics(enemy));

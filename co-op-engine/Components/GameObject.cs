@@ -23,7 +23,7 @@ namespace co_op_engine.Components
         public CombatBase Combat;
 
         public Rectangle BoundingBox;
-        public QuadTree CurrentQuad;
+        public SpacialBase CurrentQuad;
         public Vector2 Velocity;
         public Vector2 Acceleration;
         public Vector2 InputMovementVector;
@@ -118,7 +118,7 @@ namespace co_op_engine.Components
 
             //@TODO DEBUGDRAW DEBUG DRAW
             //Renderer.DebugDraw(spriteBatch);
-            //Physics.DebugDraw(spriteBatch);
+            Physics.DebugDraw(spriteBatch);
         }
 
         public void HandleHitByWeapon(int weaponId, List<EffectDefinition> effects, Vector2 hitRotation)

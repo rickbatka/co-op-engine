@@ -43,6 +43,10 @@ namespace co_op_engine.Factories
                     {
                         return TowerFactory.Instance.GetDoNothingTower(true, parameters.ID);
                     }
+                case "Enemy":
+                    {
+                        return PlayerFactory.Instance.GetEnemy(parameters.ID);
+                    }
                 default:
                     {
                         throw new Exception("The Object Hasn't Been Set up to be created throug hthe network yet");

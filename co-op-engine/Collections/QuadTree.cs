@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.Collections
 {
-    public class QuadTree
+    public class QuadTree : SpacialBase
     {
         private readonly RectangleFloat hardBounds;
         private RectangleFloat queryBounds;
@@ -22,7 +22,7 @@ namespace co_op_engine.Collections
         private QuadTree SE;
 
         private List<GameObject> heldObjects;
-        private const int MAX_OBJECTS_PER_QUAD = 4;
+        private const int MAX_OBJECTS_PER_QUAD = 2;
 
         //done
         public QuadTree(RectangleFloat bounds, QuadTree parent)
@@ -34,7 +34,7 @@ namespace co_op_engine.Collections
         }
 
         //done
-        public void MasterInsert(GameObject newObject)
+        public override void MasterInsert(GameObject newObject)
         {
             if (parent != null)
             {
@@ -47,7 +47,7 @@ namespace co_op_engine.Collections
         }
 
         //done
-        public List<GameObject> MasterQuery(RectangleFloat queryBounds)
+        public override List<GameObject> MasterQuery(RectangleFloat queryBounds)
         {
             if (parent != null)
             {
@@ -60,13 +60,13 @@ namespace co_op_engine.Collections
         }
 
         //done
-        public bool Remove(GameObject newObject)
+        public override bool Remove(GameObject newObject)
         {
             return heldObjects.Remove(newObject);
         }
 
         //done
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (isParent)
             {
@@ -83,14 +83,21 @@ namespace co_op_engine.Collections
         }
 
         //done
-        public bool Insert(GameObject newObject)
+        public override bool Insert(GameObject newObject)
         {
-            if (!hardBounds.ContainsInclusive(newObject.Position))
+            if (!hardBounds.ContainsInclusive(newObject.BoundingBox.Center))
             {
                 return false;
             }
 
             //placeholder for when we need to bring back stacked objects
+
+            if (heldObjects.Count() != 0 && heldObjects.Any(o => o.Position == newObject.Position && o != newObject))
+            {
+                newObject.Position = new Vector2(newObject.Position.X + 1, newObject.Position.Y + 1);
+                MasterInsert(newObject);
+                return true;
+            }
 
             if (!isParent)
             {
@@ -233,7 +240,7 @@ namespace co_op_engine.Collections
         }
 
         //ehhhhh not quite done yet
-        public void NotfyOfMovement(GameObject ownedObject)
+        public override void NotifyOfMovement(GameObject ownedObject)
         {
             if (!hardBounds.ContainsInclusive(ownedObject.Position) || !heldObjects.Contains(ownedObject))
             {
@@ -245,7 +252,7 @@ namespace co_op_engine.Collections
             }
         }
 
-        public List<GameObject> DEBUGEXPOSURE_DONOTUSE()
+        public override List<GameObject> DEBUGEXPOSURE_DONOTUSE()
         {
             return heldObjects;
         }

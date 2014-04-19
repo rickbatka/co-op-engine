@@ -15,7 +15,7 @@ namespace co_op_engine.World.Level
     public class ObjectContainer
     {
         //needs spacial and iterative reference to objects, and probably even a unique indexable heap/binary tree
-        QuadTree SpacialReference;
+        SpacialBase SpacialReference;
 
         //iterative list for updating and linear referencing
         List<GameObject> LinearReference;
@@ -26,7 +26,7 @@ namespace co_op_engine.World.Level
 
         public ObjectContainer(Rectangle levelBounds)
         {
-            SpacialReference = new QuadTree(co_op_engine.Utility.RectangleFloat.FromRectangle(levelBounds), null);
+            SpacialReference = new ElasticQuadTree(co_op_engine.Utility.RectangleFloat.FromRectangle(levelBounds), null);
             LinearReference = new List<GameObject>();
             IndexedReference = new Dictionary<int, GameObject>();
         }

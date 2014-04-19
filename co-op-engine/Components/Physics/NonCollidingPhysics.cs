@@ -13,7 +13,7 @@ namespace co_op_engine.Components.Physics
 
         override public void Update(GameTime gameTime)
         {
-            owner.CurrentQuad.NotfyOfMovement(owner);
+            owner.CurrentQuad.NotifyOfMovement(owner);
             
             base.Update(gameTime);
         }
