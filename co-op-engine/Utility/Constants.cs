@@ -18,6 +18,7 @@ namespace co_op_engine.Utility
         public static readonly int ACTOR_STATE_DEAD = 3;
         public static readonly int ACTOR_STATE_PLACING = 4;
         public static readonly int ACTOR_STATE_BEING_HURT = 5;
+        public static readonly int ACTOR_STATE_BOOSTING = 6;
 
         public static readonly int WEAPON_STATE_IDLE = 0;
         public static readonly int WEAPON_STATE_WALKING = 1;

@@ -27,13 +27,12 @@ namespace co_op_engine.Components.Physics
             {
                 if (owner != null && owner.CurrentStateProperties.CanExceedSpeedLimit)
                 {
-                    return 300f;
+                    return 500f;
                 }
                 return 150f;
             }
         }
         protected float accelerationModifier = 400f;
-        protected float boostingModifier = 1.5f;
 
         protected GameObject owner;
 

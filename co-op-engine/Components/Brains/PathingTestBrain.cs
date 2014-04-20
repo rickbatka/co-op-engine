@@ -17,13 +17,7 @@ namespace co_op_engine.Components.Brains
         public PathingTestBrain(GameObject owner)
             : base(owner)
         {
-            this.Path = new Path(new List<Vector2>()
-            {
-                new Vector2(10,10),
-                new Vector2(500,10),
-                new Vector2(10,500),
-                new Vector2(500,500),
-            });
+            this.Path = GenRandPath();
         }
 
         private Path GenRandPath()
@@ -31,7 +25,7 @@ namespace co_op_engine.Components.Brains
             List<Vector2> path = new List<Vector2>();
             for (int i = 0; i < 20; ++i)
             {
-                path.Add(new Vector2((int)MechanicSingleton.Instance.rand.Next(10, 500), (int)MechanicSingleton.Instance.rand.Next(10, 500)));
+                path.Add(new Vector2((int)MechanicSingleton.Instance.rand.Next(-5000, 5000), (int)MechanicSingleton.Instance.rand.Next(-5000, 5000)));
             }
             return new Path(path);
         }

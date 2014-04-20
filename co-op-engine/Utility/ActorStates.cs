@@ -11,7 +11,7 @@ namespace co_op_engine.Utility
 
         private static ActorState[] BuildStateProperties()
         {
-            var props = new ActorState[6];
+            var props = new ActorState[7];
 
             props[Constants.ACTOR_STATE_IDLE] = new ActorState(
                 canInitiateIdleState: true,
@@ -22,7 +22,8 @@ namespace co_op_engine.Utility
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: true,
-                canExceedSpeedLimit: false
+                canExceedSpeedLimit: false,
+                canChangeRotation: true
             );
 
             props[Constants.ACTOR_STATE_WALKING] = new ActorState(
@@ -34,7 +35,8 @@ namespace co_op_engine.Utility
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: true,
-                canExceedSpeedLimit: false
+                canExceedSpeedLimit: false,
+                canChangeRotation: true
             );
 
             props[Constants.ACTOR_STATE_DYING] = new ActorState(
@@ -46,7 +48,8 @@ namespace co_op_engine.Utility
                 canFinishDying: true,
                 canBuild: false,
                 isVulnerable: false,
-                canExceedSpeedLimit: false
+                canExceedSpeedLimit: false,
+                canChangeRotation: true
             );
 
             props[Constants.ACTOR_STATE_DEAD] = new ActorState(
@@ -58,7 +61,8 @@ namespace co_op_engine.Utility
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: false,
-                canExceedSpeedLimit: false
+                canExceedSpeedLimit: false,
+                canChangeRotation: true
             );
 
             props[Constants.ACTOR_STATE_PLACING] = new ActorState(
@@ -70,7 +74,8 @@ namespace co_op_engine.Utility
                 canFinishDying: false,
                 canBuild: true,
                 isVulnerable: true,
-                canExceedSpeedLimit: false
+                canExceedSpeedLimit: false,
+                canChangeRotation: true
             );
 
             props[Constants.ACTOR_STATE_BEING_HURT] = new ActorState(
@@ -82,7 +87,21 @@ namespace co_op_engine.Utility
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: false,
-                canExceedSpeedLimit: true
+                canExceedSpeedLimit: true,
+                canChangeRotation: false
+            );
+
+            props[Constants.ACTOR_STATE_BOOSTING] = new ActorState(
+                canInitiateIdleState: false,
+                canInitiateWalkingState: false,
+                canInitiatePrimaryAttackState: false,
+                isAttacking: false,
+                canStartDying: false,
+                canFinishDying: false,
+                canBuild: false,
+                isVulnerable: true,
+                canExceedSpeedLimit: true,
+                canChangeRotation: false
             );
 
             return props;
@@ -101,10 +120,13 @@ namespace co_op_engine.Utility
         public bool CanBuild;
         public bool IsVulnerable;
         public bool CanExceedSpeedLimit;
+        public bool CanChangeRotation;
+
 
         public ActorState(bool canInitiateIdleState, bool canInitiateWalkingState, 
             bool canInitiatePrimaryAttackState, bool isAttacking, bool canStartDying, 
-            bool canFinishDying, bool canBuild, bool isVulnerable, bool canExceedSpeedLimit)
+            bool canFinishDying, bool canBuild, bool isVulnerable, bool canExceedSpeedLimit,
+            bool canChangeRotation)
         {
             CanInitiateIdleState = canInitiateIdleState;
             CanInitiateWalkingState = canInitiateWalkingState;
@@ -115,6 +137,7 @@ namespace co_op_engine.Utility
             CanBuild = canBuild;
             IsVulnerable = isVulnerable;
             CanExceedSpeedLimit = canExceedSpeedLimit;
+            CanChangeRotation = canChangeRotation;
         }
     }
 }

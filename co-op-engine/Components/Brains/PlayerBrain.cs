@@ -21,6 +21,7 @@ namespace co_op_engine.Components.Brains
         private Vector2 previousMovementVector;
         private int previousState;
         private WeaponBase previousWeapon;
+        private Vector2 boostStartMovementVector;
 
         public PlayerBrain(GameObject owner, PlayerControlInput input)
             : base(owner)
@@ -36,8 +37,6 @@ namespace co_op_engine.Components.Brains
 
         override public void Update(GameTime gameTime)
         {
-#warning hack here for positioning camera, may want to move elsewhere
-            //Camera.Instance.CenterCameraOnPosition(owner.Position);
             HandleAiming();
             HandleWeaponToggle();
             HandleActions();
@@ -112,6 +111,28 @@ namespace co_op_engine.Components.Brains
             {
                 owner.Position = InputHandler.MousePositionVectorCameraAdjusted();
             }
+
+            if(InputHandler.KeyPressed(Keys.B))
+            {
+                SetBoosting();
+            }
+        }
+
+        private void SetBoosting()
+        {
+            boostStartMovementVector = owner.InputMovementVector;
+            owner.CurrentState = Constants.ACTOR_STATE_BOOSTING;
+            GameTimerManager.Instance.SetTimer(
+                time: 500,
+                updateCallback: (t) =>
+                {
+                    owner.InputMovementVector = boostStartMovementVector;
+                },
+                endCallback: (t) =>
+                {
+                    owner.CurrentState = Constants.ACTOR_STATE_IDLE;
+                }
+            );
         }
 
         [Serializable]
@@ -125,7 +146,10 @@ namespace co_op_engine.Components.Brains
 
         private void HandleMovement()
         {
-            owner.InputMovementVector = input.GetMovement();
+            //if (owner.CurrentStateProperties.CanChangeRotation)
+            //{
+                owner.InputMovementVector = input.GetMovement();
+            //}
         }
 
         private void HandleAiming()

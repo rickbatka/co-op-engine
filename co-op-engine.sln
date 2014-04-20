@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "co-op-engine", "co-op-engine\co-op-engine.csproj", "{1238F14A-6978-4F34-A179-94C1B9740ED0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FD982ED7-C31F-4700-8E86-9D6D00F5798B} = {FD982ED7-C31F-4700-8E86-9D6D00F5798B}
@@ -13,6 +15,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Content1", "Content1\Content1.contentproj", "{D4B729BB-499E-4639-904A-E13F1F973869}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyContentLibrary", "DummyContentLibrary\DummyContentLibrary.csproj", "{FD982ED7-C31F-4700-8E86-9D6D00F5798B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{75B793AB-B933-402B-AB04-C95B3C5765B0}"
+	ProjectSection(SolutionItems) = preProject
+		Performance1.psess = Performance1.psess
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
