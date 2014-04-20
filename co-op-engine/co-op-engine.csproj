@@ -113,6 +113,7 @@
     <Compile Include="Networking\Commands\Commander.cs" />
     <Compile Include="Networking\Commands\GameObjectCommand.cs" />
     <Compile Include="Pathing\GridNode.cs" />
+    <Compile Include="Pathing\MetaObstacle.cs" />
     <Compile Include="Pathing\Path.cs" />
     <Compile Include="Pathing\PathFinder.cs" />
     <Compile Include="Pathing\PathingGrid.cs" />

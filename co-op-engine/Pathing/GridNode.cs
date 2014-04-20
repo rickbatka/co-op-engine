@@ -16,56 +16,43 @@ namespace co_op_engine.Pathing
          * Severity: magnitude, units of (F)                *
          * Time: in milliseconds, used in decay(T)          *
          * * * * * * * * * * * * * * * * * * * * * * * * * **/
+        public Point LocationInGrid = Point.Zero;
 
-        /// <summary>
-        /// this is used when there is a destroyable object in the path
-        /// </summary>
-        private float Adjustment_TimeToTraverse = 0f;   // F 
-        private float Decay_TimeToTraverse = 1 / 1000;  // F/t 
-
-        /// <summary>
-        /// offset for recently pathed nodes, weighted for 
-        /// their distance from the source object, used to
-        /// avoid collisions in paths
-        /// </summary>
-        private float Adjustment_RecentPath = 0f;   //F  
-        private float Decay_RecentPath = 1 / 1000;  //F/t
-
-        /// <summary>
-        /// recent deaths near this node tell ai to stay clear
-        /// </summary>
-        private float Adjustment_RecentDeath = 0f;  //F
-        private float Decay_RecentDeath = 1 / 1000; // F/t
-
-        public float CurrentDistance_F = 0f;
-		public GridNode Target { get; private set; }
-
-		/// <summary>
-		/// the G adjustment for this node taking into account pathing, traversal time, and recent deaths in the area
-		/// </summary>
-        public float GAdjustment()
+        private int _g;
+        public int G
         {
-            return Adjustment_TimeToTraverse + Adjustment_RecentPath + Adjustment_RecentDeath;
+            get
+            {
+                return _g + currentAdjustment;
+            }
+            set
+            {
+                _g = value;
+            }
         }
-		
-		public float CurrentG()
-		{
-			throw new NotImplementedException();
-		}
-		
-        public void ApplyAdjustment(float objectInPath = 0f, float recentPath = 0f, float recentDeath = 0f)
-        {
-            Adjustment_TimeToTraverse += objectInPath;
-            Adjustment_RecentPath += recentPath;
-            Adjustment_RecentDeath += recentDeath;
-        }
-		
-		public void SetTrace(GridNode target, float integralG)
-		{
-			Target = target;
-			
-		}
 
-        
+
+        public int H = 0;
+        public int F { get { return G + H; } }
+
+        private int currentAdjustment = 0;
+
+        public GridNode Target { get; private set; }
+
+        public void ApplyAdjustment(int adjustment)
+        {
+            currentAdjustment += adjustment;
+        }
+
+        public void SetTrace(GridNode target, int G)
+        {
+            Target = target;
+            this.G = G;
+        }
+
+        public void ClearAdjustments()
+        {
+            currentAdjustment = 0;
+        }
     }
 }

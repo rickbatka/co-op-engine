@@ -6,6 +6,7 @@ using co_op_engine.Collections;
 using co_op_engine.Components;
 using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
+using co_op_engine.Pathing;
 using co_op_engine.Utility.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,6 +27,7 @@ namespace co_op_engine.World.Level
 
         public ObjectContainer(Rectangle levelBounds)
         {
+            PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED = TimeSpan.Zero;
             SpacialReference = new ElasticQuadTree(co_op_engine.Utility.RectangleFloat.FromRectangle(levelBounds), null);
             LinearReference = new List<GameObject>();
             IndexedReference = new Dictionary<int, GameObject>();
@@ -49,35 +51,49 @@ namespace co_op_engine.World.Level
             }
         }
 
+#warning proto code, should be removed after commit
+        private TimeSpan PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED;
+        private int PATHING_TEST_RESET_MILLI = 5000;
+
         public void UpdateAll(GameTime gameTime)
         {
-            //really wish I could use an unsafe enumaretion... sigh... performance hit....
-            for (int i = 0; i < LinearReference.Count; i++)
+            PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED -= gameTime.ElapsedGameTime;
+            if (PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED <= TimeSpan.Zero)
             {
-                var obj = LinearReference[i];
-                obj.Update(gameTime);
+                PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED = TimeSpan.FromMilliseconds(PATHING_TEST_RESET_MILLI);
+                List<MetaObstacle> obstacles = new List<MetaObstacle>();
 
-#warning HACKHACKHACK HACK ALERT REFACTOR LATER!!!! WOOP WOOP WOOP pizza...
-                //not as rediculous a hack as before but still not pleasant ^_^
-                foreach (var command in LinearReference[i].PendingCommands)
+                for (int i = 0; i < LinearReference.Count; i++)
                 {
-                    NetCommander.SendCommand(command);
+                    var obj = LinearReference[i];
+                    obj.Update(gameTime);
+                    if (obj.UsedInPathing)
+                    {
+                        obstacles.Add(new MetaObstacle()
+                        {
+                            bounds = obj.BoundingBox,
+                            pathingWeight = 9999,
+                        });
+                    }
                 }
 
+                PathFinder.Instance.ReceiveSnapshot(obstacles, SpacialReference.Dimensions.ToRectangle());
+            }
+            else
+            {
+                for (int i = 0; i < LinearReference.Count; i++)
+                {
+                    var obj = LinearReference[i];
+                    obj.Update(gameTime);
+                }
             }
         }
 
         public void DrawAll(SpriteBatch spriteBatch)
         {
-            //testing draw on screen
-            //foreach (var obj in SpacialReference.MasterQuery(Camera.Instance.ViewBoundsRectangle))
-            //{
-            //    obj.Draw(spriteBatch);
-            //}
-
             foreach (var obj in LinearReference)
             {
-                if (Camera.Instance.ViewBoundsRectangle.Contains(new Point((int)obj.Position.X,(int)obj.Position.Y)))
+                if (Camera.Instance.ViewBoundsRectangle.Contains(new Point((int)obj.Position.X, (int)obj.Position.Y)))
                 {
                     obj.Draw(spriteBatch);
                 }

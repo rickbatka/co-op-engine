@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.Factories;
 using co_op_engine.Pathing;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
@@ -12,43 +13,68 @@ namespace co_op_engine.Components.Brains
     {
         Path Path;
         float distanceToProgress = 32f;
-
+        bool pursue = false;
 
         public PathingTestBrain(GameObject owner)
             : base(owner)
         {
-            this.Path = GenRandPath();
+            this.Path = new Path(new List<Vector2>()
+            {
+                new Vector2(10,10),
+            });
         }
 
         private Path GenRandPath()
         {
-            List<Vector2> path = new List<Vector2>();
-            for (int i = 0; i < 20; ++i)
+            if (Vector2.Distance(PlayerFactory.Instance.playerRef_testing_pathing.Position, owner.Position) < 100)
             {
-                path.Add(new Vector2((int)MechanicSingleton.Instance.rand.Next(-5000, 5000), (int)MechanicSingleton.Instance.rand.Next(-5000, 5000)));
+                List<Vector2> path = new List<Vector2>();
+                for (int i = 0; i < 1; ++i)
+                {
+                    path.Add(new Vector2((int)MechanicSingleton.Instance.rand.Next(10, 500), (int)MechanicSingleton.Instance.rand.Next(10, 500)));
+                }
+                return new Path(path);
             }
-            return new Path(path);
+            else
+            {
+                return PathFinder.Instance.GetPath(owner.Position, PlayerFactory.Instance.playerRef_testing_pathing.Position, owner.BoundingBox);
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
-            if ((-owner.Position + Path.CurrentPoint).Length() <= distanceToProgress)
+            if (pursue)
             {
-                if (Path.Points.Count() == 0)
+                if ((-owner.Position + Path.CurrentPoint).Length() <= distanceToProgress)
                 {
-                    Path = GenRandPath();
+                    if (Path.Points.Count() == 0)
+                    {
+                        Path = GenRandPath();
+                    }
+                    else
+                    {
+                        Path.AdvancePoint();
+                    }
                 }
-                else
-                {
-                    Path.AdvancePoint();
-                }
+                owner.InputMovementVector = Path.CurrentPoint - owner.Position;
             }
-            owner.InputMovementVector = Path.CurrentPoint - owner.Position;
+            else
+            {
+                owner.InputMovementVector = Vector2.Zero;
+            }
+
+
+            if (InputHandler.KeyPressed(Microsoft.Xna.Framework.Input.Keys.X))
+            {
+                pursue = pursue ? false : true;
+                Path = GenRandPath();
+            }
         }
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            //DrawingUtility.DrawLine(owner.Position, Path.CurrentPoint, spriteBatch);
+            Path.DEBUG_DRAW(spriteBatch);
+            DrawingUtility.DrawLine(owner.Position, Path.CurrentPoint, spriteBatch, Color.White);
         }
 
         public void SetPath(Path path)

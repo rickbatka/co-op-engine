@@ -10,7 +10,7 @@ namespace co_op_engine.Utility
 {
 	public static class DrawingUtility
 	{
-		public static void DrawLine(Vector2 a, Vector2 b, SpriteBatch spritebatch)
+		public static void DrawLine(Vector2 a, Vector2 b, SpriteBatch spritebatch, Color color)
 		{
 			//Vector2 b = v.Length() > r.Length() ? v : r;
 			//Vector2 a = v.Length() > r.Length() ? r : v;
@@ -18,7 +18,7 @@ namespace co_op_engine.Utility
 			spritebatch.Draw(AssetRepository.Instance.DebugFillTexture,
 				new Rectangle((int)(a.X), (int)(a.Y), (int)(1), (int)( Math.Abs( (a-b).Length() ))),
 				null,
-				Color.White,
+				color,
 				Vector2ToRadian(b - a),
 				new Vector2(1,1),
 				SpriteEffects.None,

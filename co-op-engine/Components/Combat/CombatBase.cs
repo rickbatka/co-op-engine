@@ -68,14 +68,14 @@ namespace co_op_engine.Components.Combat
                 time: Constants.BEING_HURT_EFFECT_TIME_MS,
                 updateCallback: (t) =>
                 {
-                    if (!owner.UnShovable)
+                    if (!owner.UsedInPathing)
                     {
                         owner.InputMovementVector = beingHurtHitRotation;
                     }
                 },
                 endCallback: (t) =>
                 {
-                    if (!owner.UnShovable)
+                    if (!owner.UsedInPathing)
                     {
                         owner.InputMovementVector = Vector2.Zero;
                     }

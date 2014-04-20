@@ -15,6 +15,7 @@ using co_op_engine.Components.Particles;
 using Microsoft.Xna.Framework.Input;
 using co_op_engine.World;
 using co_op_engine.Utility.Camera;
+using co_op_engine.Pathing;
 
 namespace co_op_engine.GameStates
 {
@@ -29,8 +30,8 @@ namespace co_op_engine.GameStates
         public GamePlay(Game1 game)
             : base(game)
         {
-            container = new ObjectContainer(new Rectangle(-1000, -1000, 5000, 5000));
-            //container = new ObjectContainer(GameRef.screenRectangle);
+            container = new ObjectContainer(new Rectangle(-1000, -1000, 2000, 2000));
+            PathFinder.Initialize(container);
             NetCommander.RegisterWorldWithNetwork(container);
             Camera.Instantiate(GameRef.screenRectangle);
             PlayerFactory.Initialize(this);
@@ -139,7 +140,7 @@ namespace co_op_engine.GameStates
             //@DEBUGDRAW DEBUG DRAW
             container.DebugDraw(GameRef.spriteBatch);
             DebugDrawStrings(gameTime);
-
+            PathFinder.Instance.Draw(GameRef.spriteBatch);
 
             GameRef.spriteBatch.End();
         }

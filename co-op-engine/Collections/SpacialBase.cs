@@ -10,6 +10,7 @@ namespace co_op_engine.Collections
 {
     public abstract class SpacialBase
     {
+        abstract public RectangleFloat Dimensions { get; }
         abstract public void MasterInsert(GameObject newObject);
         abstract public List<GameObject> MasterQuery(RectangleFloat query);
         abstract public bool Remove(GameObject removeObject);

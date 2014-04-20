@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 
 namespace co_op_engine.Pathing
@@ -27,6 +28,19 @@ namespace co_op_engine.Pathing
         public int PointsLeft()
         {
             return Points.Count();
+        }
+
+        public void DEBUG_DRAW(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        {
+            if (Points.Count() > 0 && CurrentPoint != null)
+            {
+                DrawingUtility.DrawLine(CurrentPoint, Points[0], spriteBatch, Color.Red);
+            }
+
+            for (int i = 1; i < Points.Count(); ++i)
+            {
+                DrawingUtility.DrawLine(Points[i - 1], Points[i], spriteBatch, Color.Red);
+            }
         }
     }
 }

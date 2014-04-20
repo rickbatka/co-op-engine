@@ -16,6 +16,10 @@ namespace co_op_engine.Collections
     /// </summary>
     public class ElasticQuadTree : SpacialBase
     {
+        public override RectangleFloat Dimensions
+        {
+            get { return bounds; }
+        }
         private RectangleFloat bounds;
         private RectangleFloat queryBounds;
         private GameObject containedObject;

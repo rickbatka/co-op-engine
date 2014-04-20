@@ -26,7 +26,7 @@ namespace co_op_engine.Components.Physics
 
             var colliders = owner.CurrentQuad.MasterQuery(owner.BoundingBox);
 
-            if (!owner.UnShovable && colliders.Any(u => u != this.owner)) //probably a more efficient check
+            if (!owner.UsedInPathing && colliders.Any(u => u != this.owner)) //probably a more efficient check
             {
                 //there is a collision
                 colliders.Remove(owner);
@@ -92,13 +92,13 @@ namespace co_op_engine.Components.Physics
             Vector2 newOwnerBoundingBoxPos = new Vector2(owner.BoundingBox.Center.X, owner.BoundingBox.Center.Y);
             Vector2 newBiggestBoundingBoxPos = new Vector2(biggest.BoundingBox.Center.X, biggest.BoundingBox.Center.Y);
 
-            int mod = biggest.UnShovable ? 1 : 2;
+            int mod = biggest.UsedInPathing ? 1 : 2;
             if (xOverlap < yOverlap)
             {
                 if (owner.BoundingBox.Center.X < biggest.BoundingBox.Center.X)
                 {
                     newOwnerBoundingBoxPos.X -= xOverlap / mod;
-                    if (!biggest.UnShovable)
+                    if (!biggest.UsedInPathing)
                     {
                         newBiggestBoundingBoxPos.X += xOverlap / mod;
                     }
@@ -106,7 +106,7 @@ namespace co_op_engine.Components.Physics
                 else
                 {
                     newOwnerBoundingBoxPos.X += xOverlap / mod;
-                    if (!biggest.UnShovable)
+                    if (!biggest.UsedInPathing)
                     {
                         newBiggestBoundingBoxPos.X -= xOverlap / mod;
                     }
@@ -117,7 +117,7 @@ namespace co_op_engine.Components.Physics
                 if (owner.BoundingBox.Center.Y < biggest.BoundingBox.Center.Y)
                 {
                     newOwnerBoundingBoxPos.Y -= yOverlap / mod;
-                    if (!biggest.UnShovable)
+                    if (!biggest.UsedInPathing)
                     {
                         newBiggestBoundingBoxPos.Y += yOverlap / mod;
                     }
@@ -125,7 +125,7 @@ namespace co_op_engine.Components.Physics
                 else
                 {
                     newOwnerBoundingBoxPos.Y += yOverlap / mod;
-                    if (!biggest.UnShovable)
+                    if (!biggest.UsedInPathing)
                     {
                         newBiggestBoundingBoxPos.Y -= yOverlap / mod;
                     }
@@ -177,13 +177,13 @@ namespace co_op_engine.Components.Physics
             Vector2 newOwnerPos = new Vector2(owner.Position.X, owner.Position.Y);
             Vector2 newBiggestPos = new Vector2(biggest.Position.X, biggest.Position.Y);
 
-            int mod = biggest.UnShovable ? 1 : 2;
+            int mod = biggest.UsedInPathing ? 1 : 2;
             if (xOverlap < yOverlap)
             {
                 if (owner.Position.X < biggest.Position.X)
                 {
                     newOwnerPos.X -= xOverlap / mod;
-                    if (!biggest.UnShovable)
+                    if (!biggest.UsedInPathing)
                     {
                         newBiggestPos.X += xOverlap / mod;
                     }
@@ -191,7 +191,7 @@ namespace co_op_engine.Components.Physics
                 else
                 {
                     newOwnerPos.X += xOverlap / mod;
-                    if (!biggest.UnShovable)
+                    if (!biggest.UsedInPathing)
                     {
                         newBiggestPos.X -= xOverlap / mod;
                     }
@@ -202,7 +202,7 @@ namespace co_op_engine.Components.Physics
                 if (owner.Position.Y < biggest.Position.Y)
                 {
                     newOwnerPos.Y -= yOverlap / mod;
-                    if (!biggest.UnShovable)
+                    if (!biggest.UsedInPathing)
                     {
                         newBiggestPos.Y += yOverlap / mod;
                     }
@@ -210,7 +210,7 @@ namespace co_op_engine.Components.Physics
                 else
                 {
                     newOwnerPos.Y += yOverlap / mod;
-                    if (!biggest.UnShovable)
+                    if (!biggest.UsedInPathing)
                     {
                         newBiggestPos.Y -= yOverlap / mod;
                     }
