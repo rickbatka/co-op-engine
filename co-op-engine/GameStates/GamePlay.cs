@@ -140,7 +140,7 @@ namespace co_op_engine.GameStates
             //@DEBUGDRAW DEBUG DRAW
             container.DebugDraw(GameRef.spriteBatch);
             DebugDrawStrings(gameTime);
-
+            PathFinder.Instance.Draw(GameRef.spriteBatch);
 
             GameRef.spriteBatch.End();
         }

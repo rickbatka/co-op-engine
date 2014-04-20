@@ -27,7 +27,7 @@ namespace co_op_engine.World.Level
 
         public ObjectContainer(Rectangle levelBounds)
         {
-            PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED = TimeSpan.FromMilliseconds(PATHING_TEST_RESET_MILLI);
+            PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED = TimeSpan.Zero;
             SpacialReference = new ElasticQuadTree(co_op_engine.Utility.RectangleFloat.FromRectangle(levelBounds), null);
             LinearReference = new List<GameObject>();
             IndexedReference = new Dictionary<int, GameObject>();
@@ -51,7 +51,7 @@ namespace co_op_engine.World.Level
             }
         }
 
-        #warning proto code, should be removed after commit
+#warning proto code, should be removed after commit
         private TimeSpan PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED;
         private int PATHING_TEST_RESET_MILLI = 5000;
 
@@ -67,11 +67,14 @@ namespace co_op_engine.World.Level
                 {
                     var obj = LinearReference[i];
                     obj.Update(gameTime);
-                    obstacles.Add(new MetaObstacle()
+                    if (obj.UsedInPathing)
                     {
-                        bounds = obj.BoundingBox,
-                        pathingWeight = 9999,
-                    });
+                        obstacles.Add(new MetaObstacle()
+                        {
+                            bounds = obj.BoundingBox,
+                            pathingWeight = 9999,
+                        });
+                    }
                 }
 
                 PathFinder.Instance.ReceiveSnapshot(obstacles, SpacialReference.Dimensions.ToRectangle());
@@ -90,7 +93,7 @@ namespace co_op_engine.World.Level
         {
             foreach (var obj in LinearReference)
             {
-                if (Camera.Instance.ViewBoundsRectangle.Contains(new Point((int)obj.Position.X,(int)obj.Position.Y)))
+                if (Camera.Instance.ViewBoundsRectangle.Contains(new Point((int)obj.Position.X, (int)obj.Position.Y)))
                 {
                     obj.Draw(spriteBatch);
                 }

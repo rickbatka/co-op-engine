@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using co_op_engine.Collections;
 using co_op_engine.Components;
+using co_op_engine.Utility;
 using co_op_engine.World.Level;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.Pathing
 {
@@ -23,7 +25,9 @@ namespace co_op_engine.Pathing
         private List<GridNode> closedList;
         private PathingGrid grid;
         private ObjectContainer containerRef;
-        private int GridSpacing = 10;
+        private int GridSpacing = 20;
+
+        private int TESTING_LAST_PATH_G = 0;
 
         private PathFinder(ObjectContainer container)
         {
@@ -33,7 +37,7 @@ namespace co_op_engine.Pathing
             grid = new PathingGrid();
         }
 
-        public Path GetPath(Vector2 startPosition, Vector2 endPosition)
+        public Path GetPath(Vector2 startPosition, Vector2 endPosition, Rectangle collisionBox)
         {
             openList.Clear();
             closedList.Clear();
@@ -48,7 +52,7 @@ namespace co_op_engine.Pathing
             }
 
             //prepare/reset grid for new run
-            grid.PrepForPath();
+            grid.PrepForPath(collisionBox);
 
             //insert start node into open
             openList.Add(startNode);
@@ -82,18 +86,19 @@ namespace co_op_engine.Pathing
                             if (checkNode == endNode)
                             {
                                 checkNode.SetTrace(currentNode, 0);
+                                TESTING_LAST_PATH_G = currentNode.G;
                                 finished = true;
                             }
                             //if it's not on the open list, add it and point it to this one
                             else if (!openList.Contains(checkNode))
                             {
-                                checkNode.SetTrace(currentNode, GetMovementCost(x, y));
+                                checkNode.SetTrace(currentNode, currentNode.G + GetMovementCost(x, y));
                                 openList.Add(checkNode);
                             }
                             //if it's on the open list and this G is better than it's G, point it at this one
-                            else if (currentNode.CurrentG() < checkNode.CurrentG())
+                            else if (currentNode.G + GetMovementCost(x, y) < checkNode.G)
                             {
-                                checkNode.SetTrace(currentNode, GetMovementCost(x, y));
+                                checkNode.SetTrace(currentNode, currentNode.G + GetMovementCost(x, y));
                             }
                         }
                     }
@@ -129,7 +134,7 @@ namespace co_op_engine.Pathing
 
         private int GetMovementCost(int x, int y)
         {
-            return x * y == 0 ? 100 : 140;
+            return x * y == 0 ? 100 : 141;
         }
 
         public void ReceiveSnapshot(List<MetaObstacle> obstacles, Rectangle worldSize)
@@ -137,12 +142,18 @@ namespace co_op_engine.Pathing
             grid.UpdateGrid(GridSpacing, worldSize, obstacles);
         }
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            grid.Draw(spriteBatch);
+            spriteBatch.DrawString(AssetRepository.Instance.Arial, TESTING_LAST_PATH_G.ToString(), new Vector2(500, 500), Color.Red);
+        }
+
         private NodeComparer comparer = new NodeComparer();
         private class NodeComparer : IComparer<GridNode>
         {
             public int Compare(GridNode x, GridNode y)
             {
-                return (x.CurrentG() - y.CurrentG());
+                return (x.F + -y.F);
             }
         }
     }
