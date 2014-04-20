@@ -27,6 +27,9 @@ namespace co_op_engine.Factories
         public static PlayerFactory Instance;
         private GamePlay gameRef;
 
+#warning TEST VARS FOR PATHING REMOVE WHEN POLISHED
+        public GameObject playerRef_testing_pathing { get; private set; }
+
         private PlayerFactory(GamePlay gameRef)
         {
             this.gameRef = gameRef;
@@ -63,6 +66,7 @@ namespace co_op_engine.Factories
                 Position = player.Position
             };
 
+            playerRef_testing_pathing = player;
             NetCommander.CreatedObject(player);
 
             return player;

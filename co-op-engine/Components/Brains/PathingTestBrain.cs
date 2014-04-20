@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.Factories;
 using co_op_engine.Pathing;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
@@ -21,19 +22,19 @@ namespace co_op_engine.Components.Brains
             {
                 new Vector2(10,10),
                 new Vector2(500,10),
-                new Vector2(10,500),
-                new Vector2(500,500),
             });
         }
 
         private Path GenRandPath()
         {
-            List<Vector2> path = new List<Vector2>();
-            for (int i = 0; i < 20; ++i)
-            {
-                path.Add(new Vector2((int)MechanicSingleton.Instance.rand.Next(10, 500), (int)MechanicSingleton.Instance.rand.Next(10, 500)));
-            }
-            return new Path(path);
+            return PathFinder.Instance.GetPath(owner.Position, PlayerFactory.Instance.playerRef_testing_pathing.Position);
+            
+            //List<Vector2> path = new List<Vector2>();
+            //for (int i = 0; i < 20; ++i)
+            //{
+            //    path.Add(new Vector2((int)MechanicSingleton.Instance.rand.Next(10, 500), (int)MechanicSingleton.Instance.rand.Next(10, 500)));
+            //}
+            //return new Path(path);
         }
 
         public override void Update(GameTime gameTime)

@@ -27,6 +27,7 @@ namespace co_op_engine.World.Level
 
         public ObjectContainer(Rectangle levelBounds)
         {
+            PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED = TimeSpan.FromMilliseconds(PATHING_TEST_RESET_MILLI);
             SpacialReference = new ElasticQuadTree(co_op_engine.Utility.RectangleFloat.FromRectangle(levelBounds), null);
             LinearReference = new List<GameObject>();
             IndexedReference = new Dictionary<int, GameObject>();
@@ -50,12 +51,38 @@ namespace co_op_engine.World.Level
             }
         }
 
+        #warning proto code, should be removed after commit
+        private TimeSpan PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED;
+        private int PATHING_TEST_RESET_MILLI = 5000;
+
         public void UpdateAll(GameTime gameTime)
         {
-            for (int i = 0; i < LinearReference.Count; i++)
+            PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED -= gameTime.ElapsedGameTime;
+            if (PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED <= TimeSpan.Zero)
             {
-                var obj = LinearReference[i];
-                obj.Update(gameTime);
+                PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED = TimeSpan.FromMilliseconds(PATHING_TEST_RESET_MILLI);
+                List<MetaObstacle> obstacles = new List<MetaObstacle>();
+
+                for (int i = 0; i < LinearReference.Count; i++)
+                {
+                    var obj = LinearReference[i];
+                    obj.Update(gameTime);
+                    obstacles.Add(new MetaObstacle()
+                    {
+                        bounds = obj.BoundingBox,
+                        pathingWeight = 9999,
+                    });
+                }
+
+                PathFinder.Instance.ReceiveSnapshot(obstacles, SpacialReference.Dimensions.ToRectangle());
+            }
+            else
+            {
+                for (int i = 0; i < LinearReference.Count; i++)
+                {
+                    var obj = LinearReference[i];
+                    obj.Update(gameTime);
+                }
             }
         }
 

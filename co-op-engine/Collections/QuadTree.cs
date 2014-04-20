@@ -11,6 +11,10 @@ namespace co_op_engine.Collections
 {
     public class QuadTree : SpacialBase
     {
+        public override RectangleFloat Dimensions
+        {
+            get { return hardBounds; }
+        }
         private readonly RectangleFloat hardBounds;
         private RectangleFloat queryBounds;
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.Collections;
 using co_op_engine.Components;
 using co_op_engine.World.Level;
 using Microsoft.Xna.Framework;
@@ -16,77 +17,133 @@ namespace co_op_engine.Pathing
         {
             Instance = new PathFinder(container);
         }
+        #endregion
+
+        private List<GridNode> openList; //woot sorted list is a log n retrieval with sorted values (beats heap of nlog n), can't sort on demand :(
+        private List<GridNode> closedList;
+        private PathingGrid grid;
+        private ObjectContainer containerRef;
+        private int GridSpacing = 10;
 
         private PathFinder(ObjectContainer container)
         {
+            openList = new List<GridNode>();
+            closedList = new List<GridNode>();
             containerRef = container;
             grid = new PathingGrid();
         }
-        #endregion
-
-        private SortedSet<GridNode> openList; //woot sorted list is a log n retrieval with sorted values (beats heap of nlog n)
-        private List<GridNode> closedList;
-		private PathingGrid grid;
-        private ObjectContainer containerRef;
 
         public Path GetPath(Vector2 startPosition, Vector2 endPosition)
         {
-			openList.Clear();
-			closedList.Clear();
-		
+            openList.Clear();
+            closedList.Clear();
+
             //round destination and start to nearest node
-			GridNode startNode = grid.RoundToNearestNode(startPosition);
-			GridNode endNode = grid.RoundToNearestNode(endPosition);
+            GridNode startNode = grid.RoundToNearestNode(startPosition);
+            GridNode endNode = grid.RoundToNearestNode(endPosition);
+
+            if (startNode == endNode)
+            {
+                return new Path(new List<Vector2>() { startPosition, endPosition });
+            }
 
             //prepare/reset grid for new run
-			grid.PrepForPath();
+            grid.PrepForPath();
 
             //insert start node into open
-			openList.Add(startNode);
+            openList.Add(startNode);
 
             //looping until bumped into target node:
-			bool finished = false;
-			while(!finished)
-			{
-            //  find lowest cost in open list, move to closed list
+            bool finished = false;
+            while (!finished)
+            {
+                //  find lowest cost in open list, move to closed list
 #warning needs sort method here
-				GridNode currentNode = openList.First();
-				openList.Remove(currentNode);
-				closedList.Add(currentNode);
-				Point currentNodePosition = grid.GetCoordForNode(currentNode);
-				
-            //  for each adjacent square
-				for(int x=-1; x<=1; ++x)
-				{
-					for(int y=-1; y<=1; ++y)
-					{
-						GridNode checkNode = grid.GetNodeAt(currentNodePosition.X, currentNodePosition.Y);
-            
-						//if it's not on the open list, add it and point it to this one
-						if(!openList.Contains(checkNode))
-						{
-							checkNode.SetTrace(currentNode, Vector2.Distance(Vector2.Zero,new Vector2(x,y)));
-						}
-                        //if it's on the open list and this G is better than it's G, point it at this one
-						else if( currentNode.CurrentG() < checkNode.CurrentG() )
-						{
-                            checkNode.SetTrace(currentNode, GetMovementCost(x, y));
-						}
-					}
-				}
-			}
+                openList.Sort(comparer);
+                GridNode currentNode = openList.First();
+                openList.Remove(currentNode);
+                closedList.Add(currentNode);
 
-            throw new NotImplementedException();
+                //  for each adjacent square
+                for (int x = -1; x <= 1; ++x)
+                {
+                    for (int y = -1; y <= 1; ++y)
+                    {
+                        int checkX = currentNode.LocationInGrid.X + x;
+                        int checkY = currentNode.LocationInGrid.Y + y;
+                        if (!grid.WithinBounds(checkX, checkY))
+                        {
+                            continue;
+                        }
+
+                        GridNode checkNode = grid.GetNodeAt(checkX, checkY);
+                        if (!closedList.Contains(checkNode))
+                        {
+                            if (checkNode == endNode)
+                            {
+                                checkNode.SetTrace(currentNode, 0);
+                                finished = true;
+                            }
+                            //if it's not on the open list, add it and point it to this one
+                            else if (!openList.Contains(checkNode))
+                            {
+                                checkNode.SetTrace(currentNode, GetMovementCost(x, y));
+                                openList.Add(checkNode);
+                            }
+                            //if it's on the open list and this G is better than it's G, point it at this one
+                            else if (currentNode.CurrentG() < checkNode.CurrentG())
+                            {
+                                checkNode.SetTrace(currentNode, GetMovementCost(x, y));
+                            }
+                        }
+                    }
+                }
+            }
+
+            return ConstructPath(endNode);
         }
-		
-		private int GetMovementCost(int x, int y)
+
+        private Path ConstructPath(GridNode endPoint)
         {
-            return x*y == 0 ? 100 : 140;
+            List<Vector2> positions = new List<Vector2>();
+
+            GridNode currentNode = endPoint;
+
+            bool done = false;
+            while (!done)
+            {
+                positions.Insert(0, grid.GetPositionFromNode(currentNode));
+
+                if (currentNode.Target != null)
+                {
+                    currentNode = currentNode.Target;
+                }
+                else
+                {
+                    done = true;
+                }
+            }
+
+            return new Path(positions);
         }
-		
-		public void ReceiveSnapshot(object SpacialReference)
-		{
-			//receives quadtree and projects it onto the grid's metadata
-		}		
+
+        private int GetMovementCost(int x, int y)
+        {
+            return x * y == 0 ? 100 : 140;
+        }
+
+        public void ReceiveSnapshot(List<MetaObstacle> obstacles, Rectangle worldSize)
+        {
+            grid.UpdateGrid(GridSpacing, worldSize, obstacles);
+        }
+
+        private NodeComparer comparer = new NodeComparer();
+        private class NodeComparer : IComparer<GridNode>
+        {
+            public int Compare(GridNode x, GridNode y)
+            {
+                return (x.CurrentG() - y.CurrentG());
+            }
+        }
     }
 }
