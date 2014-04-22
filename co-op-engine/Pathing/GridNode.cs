@@ -33,7 +33,7 @@ namespace co_op_engine.Pathing
 
 
         public int H = 0;
-        public int F { get { return G + H; } }
+        public int F { get { return G +H; } }
 
         private int currentAdjustment = 0;
 

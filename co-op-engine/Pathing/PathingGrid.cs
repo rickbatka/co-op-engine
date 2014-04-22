@@ -46,6 +46,8 @@ namespace co_op_engine.Pathing
         /// </summary>
         public void PrepForPath(Rectangle physBox)
         {
+            physBox.Inflate(physBox.Width / 2, physBox.Height / 2);
+
             foreach (GridNode node in nodes)
             {
                 node.SetTrace(null, 0, 0);
@@ -53,16 +55,18 @@ namespace co_op_engine.Pathing
 
                 foreach (MetaObstacle obstacle in currentObstacles)
                 {
-                    if (obstacle.bounds.Intersects(new Rectangle(
-                        physBox.X - physBox.Width/2,
-                        physBox.Y - physBox.Height/2,
-                        physBox.Width,
-                        physBox.Height)))
+                    if (obstacle.bounds.Intersects(CenterOnNode(node, physBox)))
                     {
                         node.ApplyAdjustment(obstacle.pathingWeight);
                     }
                 }
             }
+        }
+
+        private Rectangle CenterOnNode(GridNode node, Rectangle centerer)
+        {
+            Vector2 position = GetPositionFromNode(node);
+            return new Rectangle((int)(position.X - centerer.Width / 2), (int)(position.Y - centerer.Height / 2), centerer.Width, centerer.Height);
         }
 
         public GridNode GetNodeAt(int x, int y)
