@@ -48,7 +48,7 @@ namespace co_op_engine.Pathing
         {
             foreach (GridNode node in nodes)
             {
-                node.SetTrace(null, 0);
+                node.SetTrace(null, 0, 0);
                 node.ClearAdjustments();
 
                 foreach (MetaObstacle obstacle in currentObstacles)

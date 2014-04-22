@@ -44,10 +44,11 @@ namespace co_op_engine.Pathing
             currentAdjustment += adjustment;
         }
 
-        public void SetTrace(GridNode target, int G)
+        public void SetTrace(GridNode target, int g, int h)
         {
             Target = target;
-            this.G = G;
+            this.G = g;
+            H = h;
         }
 
         public void ClearAdjustments()

@@ -85,20 +85,20 @@ namespace co_op_engine.Pathing
                         {
                             if (checkNode == endNode)
                             {
-                                checkNode.SetTrace(currentNode, 0);
+                                checkNode.SetTrace(currentNode, 0, GetHeuristic(checkNode, endPosition));
                                 TESTING_LAST_PATH_G = currentNode.G;
                                 finished = true;
                             }
                             //if it's not on the open list, add it and point it to this one
                             else if (!openList.Contains(checkNode))
                             {
-                                checkNode.SetTrace(currentNode, currentNode.G + GetMovementCost(x, y));
+                                checkNode.SetTrace(currentNode, currentNode.G + GetMovementCost(x, y), GetHeuristic(checkNode, endPosition));
                                 openList.Add(checkNode);
                             }
                             //if it's on the open list and this G is better than it's G, point it at this one
                             else if (currentNode.G + GetMovementCost(x, y) < checkNode.G)
                             {
-                                checkNode.SetTrace(currentNode, currentNode.G + GetMovementCost(x, y));
+                                checkNode.SetTrace(currentNode, currentNode.G + GetMovementCost(x, y), GetHeuristic(checkNode, endPosition));
                             }
                         }
                     }
@@ -106,6 +106,16 @@ namespace co_op_engine.Pathing
             }
 
             return ConstructPath(endNode);
+        }
+
+        private List<int> DebugHelperTraceThingy(List<GridNode> nodes)
+        {
+            return nodes.Select(n => n.F).ToList();
+        }
+
+        private int GetHeuristic(GridNode node, Vector2 endPoint)
+        {
+            return (int)Vector2.Distance(grid.GetPositionFromNode(node), endPoint)*10;
         }
 
         private Path ConstructPath(GridNode endPoint)
