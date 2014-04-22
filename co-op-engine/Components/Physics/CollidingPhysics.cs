@@ -143,8 +143,6 @@ namespace co_op_engine.Components.Physics
 
             biggest.CurrentQuad.NotifyOfMovement(biggest);
             biggest.Physics.VerifyBoundingBox();
-
-            base.HandleCollision(colliders);
         }
 
         private void HandleCollision(List<GameObject> collidors)
@@ -224,8 +222,6 @@ namespace co_op_engine.Components.Physics
 
             biggest.CurrentQuad.NotifyOfMovement(biggest);
             biggest.Physics.VerifyBoundingBox();
-
-            base.HandleCollision(collidors);
         }
     }
 }

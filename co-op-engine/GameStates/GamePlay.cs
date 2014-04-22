@@ -99,7 +99,6 @@ namespace co_op_engine.GameStates
                     {
                         throw new NotImplementedException("this command type has not been implemented yet");
                     }
-                    break;
             }
         }
 

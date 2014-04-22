@@ -32,7 +32,7 @@ namespace co_op_engine.Components.Physics
                 return 150f;
             }
         }
-        protected float accelerationModifier = 400f;
+        protected float accelerationModifier = 75f;
 
         protected GameObject owner;
 
@@ -48,17 +48,17 @@ namespace co_op_engine.Components.Physics
 
             owner.Velocity *= friction;
 
-            if ((owner.Velocity + owner.Acceleration).Length() < speedLimit)
-            {
+            //if ((owner.Velocity + owner.Acceleration).Length() < speedLimit)
+            //{
                 owner.Velocity += owner.Acceleration;
-            }
+            /*}
             else
             {
 #warning quick fix, this was a bad setup before leading to only accellerating if < speed, needs in betweens
                 owner.Velocity += owner.Acceleration;
                 owner.Velocity.Normalize();
                 owner.Velocity *= speedLimit;
-            }
+            }*/
 
             owner.Acceleration = Vector2.Zero;
 
@@ -105,8 +105,6 @@ namespace co_op_engine.Components.Physics
 
             owner.FacingDirection = newDirection;
         }
-
-        virtual public void HandleCollision(List<GameObject> collidors) { }
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
 

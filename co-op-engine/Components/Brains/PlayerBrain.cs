@@ -16,7 +16,7 @@ namespace co_op_engine.Components.Brains
     {
         private PlayerControlInput input;
         private Device currentAimingDevice = Device.Mouse;
-        
+
         private Vector2 previousMouseVector;
         private Vector2 previousMovementVector;
         private int previousState;
@@ -32,7 +32,7 @@ namespace co_op_engine.Components.Brains
         override public void Draw(SpriteBatch spriteBatch) { }
 
         override public void BeforeUpdate()
-        { 
+        {
         }
 
         override public void Update(GameTime gameTime)
@@ -47,7 +47,7 @@ namespace co_op_engine.Components.Brains
         override public void AfterUpdate()
         {
             if ((previousMovementVector != null && previousMovementVector != owner.InputMovementVector)
-                || (previousState != null && previousState != owner.CurrentState)
+                || (previousState != owner.CurrentState)
                 || previousWeapon != null && previousWeapon != owner.Weapon)
             {
                 SendUpdate(new PlayerBrainUpdateParams()
@@ -67,7 +67,7 @@ namespace co_op_engine.Components.Brains
 
         private void HandleWeaponToggle()
         {
-            if(InputHandler.KeyPressed(Keys.D1))
+            if (InputHandler.KeyPressed(Keys.D1))
             {
                 owner.EquipWeapon(PlayerFactory.Instance.GetSword(owner));
             }
@@ -101,7 +101,7 @@ namespace co_op_engine.Components.Brains
             {
                 PlayerFactory.Instance.GetEnemy();
             }
-            
+
             if (InputHandler.KeyPressed(Keys.C))
             {
                 Camera.Instance.Shake();
@@ -112,7 +112,7 @@ namespace co_op_engine.Components.Brains
                 owner.Position = InputHandler.MousePositionVectorCameraAdjusted();
             }
 
-            if(InputHandler.KeyPressed(Keys.B))
+            if (InputHandler.KeyPressed(Keys.B))
             {
                 SetBoosting();
             }
@@ -148,29 +148,29 @@ namespace co_op_engine.Components.Brains
         {
             //if (owner.CurrentStateProperties.CanChangeRotation)
             //{
-                owner.InputMovementVector = input.GetMovement();
+            owner.InputMovementVector = input.GetMovement();
             //}
         }
 
         private void HandleAiming()
         {
             var currentMouseVector = InputHandler.MousePositionVectorCameraAdjusted();
-            if(previousMouseVector == null)
+            if (previousMouseVector == null)
             {
                 previousMouseVector = currentMouseVector;
             }
-            
-            if(currentAimingDevice == Device.Mouse)
+
+            if (currentAimingDevice == Device.Mouse)
             {
                 owner.FacingDirectionRaw = InputHandler.MousePositionVectorCameraAdjusted() - owner.Position;
                 owner.FacingDirectionRaw.Normalize();
             }
-            else if(currentAimingDevice == Device.Joystick)
+            else if (currentAimingDevice == Device.Joystick)
             {
             }
 
             owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(owner.FacingDirectionRaw);
-            
+
         }
 
         private void SetState()
@@ -182,7 +182,7 @@ namespace co_op_engine.Components.Brains
             {
                 newPlayerState = Constants.ACTOR_STATE_WALKING;
             }
-            else if(owner.CurrentStateProperties.CanInitiateIdleState)
+            else if (owner.CurrentStateProperties.CanInitiateIdleState)
             {
                 newPlayerState = Constants.ACTOR_STATE_IDLE;
             }

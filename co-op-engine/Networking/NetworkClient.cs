@@ -5,7 +5,6 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Threading;
 using co_op_engine.Collections;
 using co_op_engine.Utility;
@@ -171,7 +170,6 @@ namespace co_op_engine.Networking
         {
             var stream = thisClient.Client.GetStream();
             var formatter = new BinaryFormatter();
-#warning currently unsafe, need to work on it
 
             stream.Flush();
 

@@ -62,7 +62,6 @@ namespace co_op_engine.Pathing
             while (!finished)
             {
                 //  find lowest cost in open list, move to closed list
-#warning needs sort method here
                 openList.Sort(comparer);
                 GridNode currentNode = openList.First();
                 openList.Remove(currentNode);
