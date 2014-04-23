@@ -117,7 +117,16 @@ namespace co_op_engine.Collections
         {
             if (!IsParent)
             {
-                spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, queryBounds.ToRectangle(), Color.White);
+                spriteBatch.Draw(
+                    texture: AssetRepository.Instance.DebugGridTexture, 
+                    destinationRectangle: queryBounds.ToRectangle(), 
+                    sourceRectangle: null, 
+                    color: Color.White,
+                    rotation: 0f,
+                    origin: Vector2.Zero,
+                    effect: SpriteEffects.None,
+                    depth: 1f
+                );
                 //spriteBatch.Draw(drawTexture, bounds.ToRectangle(), Color.White);
             }
             else
@@ -126,7 +135,16 @@ namespace co_op_engine.Collections
                 SW.Draw(spriteBatch);
                 NE.Draw(spriteBatch);
                 SE.Draw(spriteBatch);
-                spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, queryBounds.ToRectangle(), Color.White);
+                spriteBatch.Draw(
+                    texture: AssetRepository.Instance.DebugGridTexture,
+                    destinationRectangle: queryBounds.ToRectangle(), 
+                    sourceRectangle: null,
+                    color: Color.White,
+                    rotation: 0f,
+                    origin: Vector2.Zero,
+                    effect: SpriteEffects.None,
+                    depth: 1f
+                );
             }
         }
 

@@ -109,8 +109,28 @@ namespace co_op_engine.UIElements
             {
                 color = Color.Red;
             }
-            spriteBatch.Draw(BackgroundTexture, Bounds, color);
-            spriteBatch.DrawString(textFont, Text, new Vector2(Bounds.X, Bounds.Y), color);
+            spriteBatch.Draw(
+                texture: BackgroundTexture, 
+                destinationRectangle: Bounds, 
+                sourceRectangle: null,
+                color: color,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                effect: SpriteEffects.None,
+                depth: 1f
+            );
+            spriteBatch.DrawString(
+                spriteFont: textFont, 
+                text: Text, 
+                position: new Vector2(Bounds.X, Bounds.Y),
+                color: color,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                scale: 1f,
+                effects: SpriteEffects.None,
+                depth: 1f
+
+            );
         }
 
         public override void Select()

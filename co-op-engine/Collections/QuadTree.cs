@@ -81,8 +81,26 @@ namespace co_op_engine.Collections
             }
             else
             {
-                spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, queryBounds.ToRectangle(), Color.White);
-                spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture, hardBounds.ToRectangle(), Color.Red);
+                spriteBatch.Draw(
+                    texture: AssetRepository.Instance.DebugGridTexture, 
+                    destinationRectangle: queryBounds.ToRectangle(), 
+                    sourceRectangle: null,
+                    color: Color.White,
+                    rotation: 0f,
+                    origin: Vector2.Zero,
+                    effect: SpriteEffects.None,
+                    depth: 1f
+                );
+                spriteBatch.Draw(
+                    texture: AssetRepository.Instance.DebugGridTexture, 
+                    destinationRectangle: hardBounds.ToRectangle(), 
+                    sourceRectangle: null,
+                    color: Color.Red,
+                    rotation: 0f,
+                    origin: Vector2.Zero,
+                    effect: SpriteEffects.None,
+                    depth: 1f
+                );
             }
         }
 

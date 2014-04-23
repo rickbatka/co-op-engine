@@ -89,7 +89,6 @@ namespace co_op_engine
         {
             if(InputHandler.ButtonPressed(Buttons.Back, PlayerIndex.One) || InputHandler.KeyPressed(Keys.Escape))
                 Exit();
-            GameTimerManager.Instance.Update(gameTime);
 
             //container.UpdateAll(gameTime);
 

@@ -25,14 +25,25 @@ namespace co_op_engine.Components.Physics
         {
             get
             {
-                if (owner != null && owner.CurrentStateProperties.CanExceedSpeedLimit)
+                if (owner != null && owner.CurrentStateProperties.IsBoosting)
                 {
                     return 500f;
                 }
                 return 150f;
             }
         }
-        protected float accelerationModifier = 75f;
+
+        protected float accelerationModifier
+        {
+            get
+            {
+                if (owner != null && owner.CurrentStateProperties.IsBoosting)
+                {
+                    return 175f;
+                }
+                return 75f;
+            }
+        }
 
         protected GameObject owner;
 
@@ -44,6 +55,7 @@ namespace co_op_engine.Components.Physics
 
         virtual public void Update(GameTime gameTime)
         {
+            if (owner.InputMovementVector.Length() > 0) owner.InputMovementVector.Normalize();
             owner.Acceleration = (owner.InputMovementVector * accelerationModifier);
 
             owner.Velocity *= friction;
@@ -115,14 +127,24 @@ namespace co_op_engine.Components.Physics
                 spriteFont: AssetRepository.Instance.Arial,
                 text: owner.Health + "/" + owner.MaxHealth,
                 position: PositionAboveHead(25),
-                color: Color.White
+                color: Color.White,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                scale: 1f,
+                effects: SpriteEffects.None,
+                depth: 1f
             );
 
             spriteBatch.DrawString(
                 spriteFont: AssetRepository.Instance.Arial,
                 text: owner.DisplayName,
                 position: PositionAboveHead(50),
-                color: Color.White
+                color: Color.White,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                scale: 1f,
+                effects: SpriteEffects.None,
+                depth: 1f
             );
         }
 

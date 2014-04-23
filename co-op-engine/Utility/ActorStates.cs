@@ -22,8 +22,8 @@ namespace co_op_engine.Utility
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: true,
-                canExceedSpeedLimit: false,
-                canChangeRotation: true
+                isBoosting: false,
+                canChangeMovementVector: true
             );
 
             props[Constants.ACTOR_STATE_WALKING] = new ActorState(
@@ -35,8 +35,8 @@ namespace co_op_engine.Utility
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: true,
-                canExceedSpeedLimit: false,
-                canChangeRotation: true
+                isBoosting: false,
+                canChangeMovementVector: true
             );
 
             props[Constants.ACTOR_STATE_DYING] = new ActorState(
@@ -48,8 +48,8 @@ namespace co_op_engine.Utility
                 canFinishDying: true,
                 canBuild: false,
                 isVulnerable: false,
-                canExceedSpeedLimit: false,
-                canChangeRotation: true
+                isBoosting: false,
+                canChangeMovementVector: true
             );
 
             props[Constants.ACTOR_STATE_DEAD] = new ActorState(
@@ -61,8 +61,8 @@ namespace co_op_engine.Utility
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: false,
-                canExceedSpeedLimit: false,
-                canChangeRotation: true
+                isBoosting: false,
+                canChangeMovementVector: true
             );
 
             props[Constants.ACTOR_STATE_PLACING] = new ActorState(
@@ -74,8 +74,8 @@ namespace co_op_engine.Utility
                 canFinishDying: false,
                 canBuild: true,
                 isVulnerable: true,
-                canExceedSpeedLimit: false,
-                canChangeRotation: true
+                isBoosting: false,
+                canChangeMovementVector: true
             );
 
             props[Constants.ACTOR_STATE_BEING_HURT] = new ActorState(
@@ -87,8 +87,8 @@ namespace co_op_engine.Utility
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: false,
-                canExceedSpeedLimit: true,
-                canChangeRotation: false
+                isBoosting: true,
+                canChangeMovementVector: false
             );
 
             props[Constants.ACTOR_STATE_BOOSTING] = new ActorState(
@@ -100,8 +100,8 @@ namespace co_op_engine.Utility
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: true,
-                canExceedSpeedLimit: true,
-                canChangeRotation: false
+                isBoosting: true,
+                canChangeMovementVector: false
             );
 
             return props;
@@ -119,14 +119,14 @@ namespace co_op_engine.Utility
         public bool CanFinishDying;
         public bool CanBuild;
         public bool IsVulnerable;
-        public bool CanExceedSpeedLimit;
-        public bool CanChangeRotation;
+        public bool IsBoosting;
+        public bool CanChangeMovementVector;
 
 
         public ActorState(bool canInitiateIdleState, bool canInitiateWalkingState, 
             bool canInitiatePrimaryAttackState, bool isAttacking, bool canStartDying, 
-            bool canFinishDying, bool canBuild, bool isVulnerable, bool canExceedSpeedLimit,
-            bool canChangeRotation)
+            bool canFinishDying, bool canBuild, bool isVulnerable, bool isBoosting,
+            bool canChangeMovementVector)
         {
             CanInitiateIdleState = canInitiateIdleState;
             CanInitiateWalkingState = canInitiateWalkingState;
@@ -136,8 +136,8 @@ namespace co_op_engine.Utility
             CanFinishDying = canFinishDying;
             CanBuild = canBuild;
             IsVulnerable = isVulnerable;
-            CanExceedSpeedLimit = canExceedSpeedLimit;
-            CanChangeRotation = canChangeRotation;
+            IsBoosting = isBoosting;
+            CanChangeMovementVector = canChangeMovementVector;
         }
     }
 }

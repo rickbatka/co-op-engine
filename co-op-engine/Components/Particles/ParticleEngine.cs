@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Utility;
+using co_op_engine.Utility.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -47,8 +48,13 @@ namespace co_op_engine.Components.Particles
             { 
                 spriteBatch.Draw(
                     texture: Pool[i].Texture,
-                    rectangle: Pool[i].DrawRectangle,
-                    color: Pool[i].DrawColor
+                    destinationRectangle: Pool[i].DrawRectangle,
+                    sourceRectangle: null,
+                    color: Pool[i].DrawColor,
+                    rotation: 0f,
+                    origin: Vector2.Zero,
+                    effect: SpriteEffects.None,
+                    depth: Pool[i].Position.Y / Camera.Instance.ViewBoundsRectangle.Bottom
                 );
             }
 
@@ -57,7 +63,12 @@ namespace co_op_engine.Components.Particles
                 spriteFont: AssetRepository.Instance.Arial,
                 text: "Particles: alive: " + NumAliveParticles,
                 position: debugTextPosition,
-                color: Color.White
+                color: Color.White,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                scale: 1f,
+                effects: SpriteEffects.None,
+                depth: 1f
             );
         }
 

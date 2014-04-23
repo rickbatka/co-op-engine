@@ -15,14 +15,16 @@ namespace co_op_engine.Utility
 			//Vector2 b = v.Length() > r.Length() ? v : r;
 			//Vector2 a = v.Length() > r.Length() ? r : v;
 
-			spritebatch.Draw(AssetRepository.Instance.DebugFillTexture,
-				new Rectangle((int)(a.X), (int)(a.Y), (int)(1), (int)( Math.Abs( (a-b).Length() ))),
-				null,
-				color,
-				Vector2ToRadian(b - a),
-				new Vector2(1,1),
-				SpriteEffects.None,
-				0f);
+			spritebatch.Draw(
+                texture: AssetRepository.Instance.DebugFillTexture,
+				destinationRectangle: new Rectangle((int)(a.X), (int)(a.Y), (int)(1), (int)( Math.Abs( (a-b).Length() ))),
+				sourceRectangle: null,
+				color: color,
+				rotation: Vector2ToRadian(b - a),
+				origin: new Vector2(1,1),
+				effect: SpriteEffects.None,
+				depth: 1f
+            );
 		}
 
 		public static float Vector2ToRadian(Vector2 direction)

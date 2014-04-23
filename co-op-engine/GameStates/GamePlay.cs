@@ -131,7 +131,7 @@ namespace co_op_engine.GameStates
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            GameRef.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, null, null, Camera.Instance.Transformation);
+            GameRef.spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.LinearWrap, null, null, null, Camera.Instance.Transformation);
             Background.Draw(GameRef.spriteBatch);
             ParticleEngine.Instance.Draw(GameRef.spriteBatch);
             container.DrawAll(GameRef.spriteBatch);
@@ -160,7 +160,12 @@ namespace co_op_engine.GameStates
                     spriteFont: AssetRepository.Instance.Arial,
                     text: debugInfos[i],
                     position: new Vector2(25, (i + 1) * 25),
-                    color: Color.White
+                    color: Color.White,
+                    rotation: 0f,
+                    origin: Vector2.Zero,
+                    scale: 1f,
+                    effects: SpriteEffects.None,
+                    depth: 1f
                 );
             }
         }

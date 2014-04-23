@@ -123,11 +123,8 @@ namespace co_op_engine.Components.Brains
             boostStartMovementVector = owner.InputMovementVector;
             owner.CurrentState = Constants.ACTOR_STATE_BOOSTING;
             GameTimerManager.Instance.SetTimer(
-                time: 500,
-                updateCallback: (t) =>
-                {
-                    owner.InputMovementVector = boostStartMovementVector;
-                },
+                time: 250,
+                updateCallback: (t) => { },
                 endCallback: (t) =>
                 {
                     owner.CurrentState = Constants.ACTOR_STATE_IDLE;
@@ -146,10 +143,10 @@ namespace co_op_engine.Components.Brains
 
         private void HandleMovement()
         {
-            //if (owner.CurrentStateProperties.CanChangeRotation)
-            //{
-            owner.InputMovementVector = input.GetMovement();
-            //}
+            if (owner.CurrentStateProperties.CanChangeMovementVector)
+            {
+                owner.InputMovementVector = input.GetMovement();
+            }
         }
 
         private void HandleAiming()

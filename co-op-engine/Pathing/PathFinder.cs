@@ -154,7 +154,17 @@ namespace co_op_engine.Pathing
         public void Draw(SpriteBatch spriteBatch)
         {
             grid.Draw(spriteBatch);
-            spriteBatch.DrawString(AssetRepository.Instance.Arial, TESTING_LAST_PATH_G.ToString(), new Vector2(500, 500), Color.Red);
+            spriteBatch.DrawString(
+                spriteFont: AssetRepository.Instance.Arial, 
+                text: TESTING_LAST_PATH_G.ToString(), 
+                position: new Vector2(500, 500),
+                color: Color.Red,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                scale: 1f,
+                effects: SpriteEffects.None,
+                depth: 1f
+            );
         }
 
         private NodeComparer comparer = new NodeComparer();

@@ -2,6 +2,7 @@
 using co_op_engine.Components.Rendering;
 using co_op_engine.Rendering;
 using co_op_engine.Utility;
+using co_op_engine.Utility.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -45,7 +46,7 @@ namespace co_op_engine.Components.Rendering
                 GetCenterOrigin(),
                 1f,
                 SpriteEffects.None,
-                0f
+                owner.Position.Y / Camera.Instance.ViewBoundsRectangle.Bottom
             );
         }
 
@@ -82,7 +83,13 @@ namespace co_op_engine.Components.Rendering
                     spriteBatch.Draw(
                         texture: AssetRepository.Instance.PlainWhiteTexture,
                         position: DrawingUtility.GetAbsolutePosition(owner, dot.Location),
-                        color: Color.Black
+                        sourceRectangle: null,
+                        color: Color.Black,
+                        rotation: 0f,
+                        origin: Vector2.Zero,
+                        scale: 1f,
+                        effect: SpriteEffects.None,
+                        depth: 1f
                     );
                 }
             }

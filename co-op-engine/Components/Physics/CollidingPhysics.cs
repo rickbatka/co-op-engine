@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace co_op_engine.Components.Physics
 {
@@ -51,8 +52,16 @@ namespace co_op_engine.Components.Physics
         public override void DebugDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
             base.DebugDraw(spriteBatch);
-            spriteBatch.Draw(AssetRepository.Instance.DebugGridTexture,
-                owner.BoundingBox, Color.Red);
+            spriteBatch.Draw(
+                texture: AssetRepository.Instance.DebugGridTexture,
+                destinationRectangle: owner.BoundingBox, 
+                sourceRectangle: null,
+                color: Color.Red,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                effect: SpriteEffects.None,
+                depth: 1f
+            );
 
             owner.CurrentQuad.Draw(spriteBatch);
 
