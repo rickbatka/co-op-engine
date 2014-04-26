@@ -15,6 +15,11 @@ namespace co_op_engine.Components.Brains
         float distanceToProgress = 32f;
         bool pursue = false;
 
+        int MoveThreshhold = 100;
+        TimeSpan MoveCheckTimer = TimeSpan.Zero;
+        int MoveCheckTimerReset = 1000;
+        Vector2 moveCheckLastPosition = Vector2.Zero;
+
         public PathingTestBrain(GameObject owner)
             : base(owner)
         {
@@ -41,6 +46,8 @@ namespace co_op_engine.Components.Brains
             }
         }
 
+        
+
         public override void Update(GameTime gameTime)
         {
             if (pursue)
@@ -56,13 +63,26 @@ namespace co_op_engine.Components.Brains
                         Path.AdvancePoint();
                     }
                 }
+
+                MoveCheckTimer -= gameTime.ElapsedGameTime;
+                if (MoveCheckTimer <= TimeSpan.Zero)
+                {
+                    MoveCheckTimer = TimeSpan.FromMilliseconds(MoveCheckTimerReset);
+
+                    if (Vector2.Distance(moveCheckLastPosition, owner.Position) < MoveThreshhold)
+                    {
+                        Path = GenRandPath();
+                    }
+
+                    moveCheckLastPosition = owner.Position;
+                }
+
                 owner.InputMovementVector = Path.CurrentPoint - owner.Position;
             }
             else
             {
                 owner.InputMovementVector = Vector2.Zero;
             }
-
 
             if (InputHandler.KeyPressed(Microsoft.Xna.Framework.Input.Keys.X))
             {

@@ -139,7 +139,7 @@ namespace co_op_engine.GameStates
             //@DEBUGDRAW DEBUG DRAW
             container.DebugDraw(GameRef.spriteBatch);
             DebugDrawStrings(gameTime);
-            PathFinder.Instance.Draw(GameRef.spriteBatch);
+            //PathFinder.Instance.Draw(GameRef.spriteBatch);
 
             GameRef.spriteBatch.End();
         }
@@ -148,7 +148,7 @@ namespace co_op_engine.GameStates
         {
             string[] debugInfos = new string[] 
             { 
-                "fps:" + 1000f / (float)gameTime.ElapsedGameTime.Milliseconds,
+                "fps:" + 1000 / (int)gameTime.ElapsedGameTime.TotalMilliseconds,
                 "obj count:" + container.ObjectCount,
                 "net sent:" + NetCommander.SentCount,
                 "net recv:" + NetCommander.RecvCount,
