@@ -53,17 +53,18 @@ namespace co_op_engine.World
                 for (int j = 0; j < numRows + 1; j++)
                 {
                     spriteBatch.Draw(
-                        texture: tile.texture, 
-                        position: new Vector2(
+                        tile.texture, 
+                        new Vector2(
                             origin.X + tile.width * i, 
                             origin.Y + tile.height * j
                         ), 
-                        sourceRectangle: null,
-                        color: Color.White,
-                        rotation: 0f,
-                        origin: Vector2.Zero,
-                        effect: SpriteEffects.None,
-                        depth: 0f
+                        null,
+                        Color.White,
+                        0f,
+                        Vector2.Zero,
+                        1f,
+                        SpriteEffects.None,
+                        0f
                     );
                 }
             }
