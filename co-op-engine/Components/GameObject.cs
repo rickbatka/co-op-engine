@@ -37,7 +37,10 @@ namespace co_op_engine.Components
         public ActorState CurrentStateProperties { get { return ActorStates.States[CurrentState]; } }
         public int FacingDirection { get; set; }
         public Vector2 FacingDirectionRaw { get; set; }
-        public float RotationTowardFacingDirectionRadians { get; set; }
+        public float RotationTowardFacingDirectionRadians { 
+            get; 
+            set; 
+        }
         public bool FullyRotatable { get { return false; } }
         public int Health { get; set; }
         public int MaxHealth { get; set; }

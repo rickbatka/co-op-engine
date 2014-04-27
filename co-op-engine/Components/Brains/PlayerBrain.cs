@@ -11,13 +11,12 @@ using co_op_engine.Utility.Camera;
 
 namespace co_op_engine.Components.Brains
 {
-    enum Device { Mouse, Joystick }
+    
     class PlayerBrain : BrainBase
     {
         private PlayerControlInput input;
-        private Device currentAimingDevice = Device.Mouse;
 
-        private Vector2 previousMouseVector;
+
         private Vector2 previousMovementVector;
         private int previousState;
         private WeaponBase previousWeapon;
@@ -33,10 +32,12 @@ namespace co_op_engine.Components.Brains
 
         override public void BeforeUpdate()
         {
+            input.BeforeUpdate();
         }
 
         override public void Update(GameTime gameTime)
         {
+            input.Update(gameTime);
             HandleAiming();
             HandleWeaponToggle();
             HandleActions();
@@ -46,6 +47,7 @@ namespace co_op_engine.Components.Brains
 
         override public void AfterUpdate()
         {
+            input.AfterUpdate();
             if ((previousMovementVector != null && previousMovementVector != owner.InputMovementVector)
                 || (previousState != owner.CurrentState)
                 || previousWeapon != null && previousWeapon != owner.Weapon)
@@ -59,7 +61,6 @@ namespace co_op_engine.Components.Brains
                 });
             }
 
-            previousMouseVector = InputHandler.MousePositionVector();
             previousMovementVector = owner.InputMovementVector;
             previousState = owner.CurrentState;
             previousWeapon = owner.Weapon;
@@ -83,7 +84,7 @@ namespace co_op_engine.Components.Brains
 
         private void HandleActions()
         {
-            if (InputHandler.KeyPressed(Keys.Space) || InputHandler.MouseLeftPressed())
+            if (input.IsPressingAttackButton())
             {
                 owner.Weapon.TryInitiateAttack();
             }
@@ -151,23 +152,9 @@ namespace co_op_engine.Components.Brains
 
         private void HandleAiming()
         {
-            var currentMouseVector = InputHandler.MousePositionVectorCameraAdjusted();
-            if (previousMouseVector == null)
-            {
-                previousMouseVector = currentMouseVector;
-            }
-
-            if (currentAimingDevice == Device.Mouse)
-            {
-                owner.FacingDirectionRaw = InputHandler.MousePositionVectorCameraAdjusted() - owner.Position;
-                owner.FacingDirectionRaw.Normalize();
-            }
-            else if (currentAimingDevice == Device.Joystick)
-            {
-            }
-
-            owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(owner.FacingDirectionRaw);
-
+            owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(
+                input.GetFacingDirection(owner.Position)
+            );
         }
 
         private void SetState()

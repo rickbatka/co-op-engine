@@ -75,6 +75,7 @@
     <Compile Include="Collections\QuadTree.cs" />
     <Compile Include="Collections\SpacialBase.cs" />
     <Compile Include="Components\Brains\PathingTestBrain.cs" />
+    <Compile Include="Components\Input\KeyBindings.cs" />
     <Compile Include="Components\Particles\BloodHitEmitter.cs" />
     <Compile Include="Components\Particles\Decorators\DelayedStartDecorator.cs" />
     <Compile Include="Components\Particles\Decorators\ParticleDecoorator.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Pathing\PathingGrid.cs" />
     <Compile Include="Utility\Camera\CameraEffectBase.cs" />
     <Compile Include="Utility\Camera\CameraShakeEffect.cs" />
+    <Compile Include="Utility\Input\InputTypes.cs" />
     <Compile Include="World\TiledBackground.cs" />
     <Content Include="Content\TowerData.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -145,7 +147,7 @@
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="Utility\DrawingUtility.cs" />
     <Compile Include="Utility\GameTimerManager.cs" />
-    <Compile Include="Utility\InputHandler.cs" />
+    <Compile Include="Utility\Input\InputHandler.cs" />
     <Compile Include="Utility\MechanicSingleton.cs" />
     <Compile Include="Utility\RectangleFloat.cs" />
     <Compile Include="Utility\ActorStates.cs" />
@@ -193,7 +195,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />
-    <Content Include="SDL.dll" />
+    <Content Include="SDL.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\softpixel.xnb">

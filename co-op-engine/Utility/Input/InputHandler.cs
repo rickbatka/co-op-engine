@@ -13,6 +13,8 @@ namespace co_op_engine.Utility
 	/// </summary>
 	public class InputHandler : GameComponent
 	{
+        private const float TriggerDeadZone = 0.65f;
+
 		#region Fields & Properties
 
 		//keyboard tracking
@@ -167,6 +169,36 @@ namespace co_op_engine.Utility
 		{
 			return gamePadStates[(int)index].IsButtonDown(button);
 		}
+
+        public static bool LeftTriggerReleased(PlayerIndex index)
+        {
+            return gamePadStates[(int)index].Triggers.Left < TriggerDeadZone && lastGamePadStates[(int)index].Triggers.Left >= TriggerDeadZone;
+        }
+
+        public static bool RightTriggerReleased(PlayerIndex index)
+        {
+            return gamePadStates[(int)index].Triggers.Right < TriggerDeadZone && lastGamePadStates[(int)index].Triggers.Right >= TriggerDeadZone;
+        }
+
+        public static bool LeftTriggerDown(PlayerIndex index)
+        {
+            return gamePadStates[(int)index].Triggers.Left >= TriggerDeadZone;
+        }
+
+        public static bool RightTriggerDown(PlayerIndex index)
+        {
+            return gamePadStates[(int)index].Triggers.Right >= TriggerDeadZone;
+        }
+
+        public static bool LeftTriggerPressed(PlayerIndex index)
+        {
+            return gamePadStates[(int)index].Triggers.Left >= TriggerDeadZone && lastGamePadStates[(int)index].Triggers.Left < TriggerDeadZone;
+        }
+
+        public static bool RightTriggerPressed(PlayerIndex index)
+        {
+            return gamePadStates[(int)index].Triggers.Right >= TriggerDeadZone && lastGamePadStates[(int)index].Triggers.Right < TriggerDeadZone;
+        }
 
 		//left up
 		public static bool MouseLeftReleased()
