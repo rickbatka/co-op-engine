@@ -16,6 +16,10 @@ namespace co_op_engine.Pathing
         private int nodeSpacing = 200;
         private List<MetaObstacle> currentObstacles;
 
+        private int pendingNodeSpacing;
+        private Rectangle pendingWorldSpace;
+        private List<MetaObstacle> pendingObstacles;
+
         public PathingGrid()
         {
             nodes = new GridNode[1, 1];
@@ -23,21 +27,35 @@ namespace co_op_engine.Pathing
 
         public void UpdateGrid(int nodeSpacing, Rectangle worldSpace, List<MetaObstacle> obstacles)
         {
-            this.nodeSpacing = nodeSpacing;
+            pendingNodeSpacing = nodeSpacing;
+            pendingWorldSpace = worldSpace;
+            pendingObstacles = obstacles;
+        }
 
-            //initialize array size
-            nodes = new GridNode[worldSpace.Width / nodeSpacing, worldSpace.Height / nodeSpacing];
-
-            currentObstacles = obstacles;
-
-            ////loop and weigh
-            for (int x = 0; x < nodes.GetLength(0); ++x)
+        private void BuildGridFromSnapshot()
+        {
+            if (pendingNodeSpacing != 0 && pendingWorldSpace != Rectangle.Empty && pendingObstacles != null)
             {
-                for (int y = 0; y < nodes.GetLength(1); ++y)
+                nodeSpacing = pendingNodeSpacing;
+
+                //initialize array size
+                nodes = new GridNode[pendingWorldSpace.Width / nodeSpacing, pendingWorldSpace.Height / nodeSpacing];
+
+                currentObstacles = pendingObstacles;
+
+                ////loop and weigh
+                for (int x = 0; x < nodes.GetLength(0); ++x)
                 {
-                    GridNode currentNode = nodes[x, y] = new GridNode();
-                    currentNode.LocationInGrid = new Point(x, y);
+                    for (int y = 0; y < nodes.GetLength(1); ++y)
+                    {
+                        GridNode currentNode = nodes[x, y] = new GridNode();
+                        currentNode.LocationInGrid = new Point(x, y);
+                    }
                 }
+
+                pendingObstacles = null;
+                pendingWorldSpace = Rectangle.Empty;
+                pendingNodeSpacing = 0;
             }
         }
 
@@ -46,6 +64,8 @@ namespace co_op_engine.Pathing
         /// </summary>
         public void PrepForPath(Rectangle physBox)
         {
+            BuildGridFromSnapshot();
+
             physBox.Inflate(physBox.Width / 2, physBox.Height / 2);
 
             foreach (GridNode node in nodes)

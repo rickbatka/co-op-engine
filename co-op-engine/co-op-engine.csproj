@@ -118,6 +118,7 @@
     <Compile Include="Pathing\Path.cs" />
     <Compile Include="Pathing\PathFinder.cs" />
     <Compile Include="Pathing\PathingGrid.cs" />
+    <Compile Include="Pathing\PathRequest.cs" />
     <Compile Include="Utility\Camera\CameraEffectBase.cs" />
     <Compile Include="Utility\Camera\CameraShakeEffect.cs" />
     <Compile Include="Utility\Input\InputTypes.cs" />

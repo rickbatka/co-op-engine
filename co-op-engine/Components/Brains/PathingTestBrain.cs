@@ -14,6 +14,7 @@ namespace co_op_engine.Components.Brains
         Path Path;
         float distanceToProgress = 32f;
         bool pursue = false;
+        bool waitingForPathing = false;
 
         int MoveThreshhold = 100;
         TimeSpan MoveCheckTimer = TimeSpan.Zero;
@@ -29,7 +30,7 @@ namespace co_op_engine.Components.Brains
             });
         }
 
-        private Path GenRandPath()
+        /*private Path GenRandPath()
         {
             if (Vector2.Distance(PlayerFactory.Instance.playerRef_testing_pathing.Position, owner.Position) < 100)
             {
@@ -42,21 +43,32 @@ namespace co_op_engine.Components.Brains
             }
             else
             {
-                return PathFinder.Instance.GetPath(owner.Position, PlayerFactory.Instance.playerRef_testing_pathing.Position, owner.BoundingBox);
+                waitingForPathing = true;
+                PathFinder.RequestPath(owner.Position, PlayerFactory.Instance.playerRef_testing_pathing.Position, owner.BoundingBox, SetPath);
+                //return PathFinder.Instance.ConstructPath(owner.Position, PlayerFactory.Instance.playerRef_testing_pathing.Position, owner.BoundingBox);
             }
-        }
+        }*/
 
-        
+        private void SetCurrentPath(Path path)
+        {
+            waitingForPathing = false;
+            this.Path = path;
+        }
 
         public override void Update(GameTime gameTime)
         {
-            if (pursue)
+            //3 states pursue y/n, waiting for path
+
+
+
+            if (pursue && !waitingForPathing)
             {
                 if ((-owner.Position + Path.CurrentPoint).Length() <= distanceToProgress)
                 {
                     if (Path.Points.Count() == 0)
                     {
-                        Path = GenRandPath();
+                        waitingForPathing = true;
+                        PathFinder.RequestPath(owner.Position, PlayerFactory.Instance.playerRef_testing_pathing.Position, owner.BoundingBox, SetPath);
                     }
                     else
                     {
@@ -71,7 +83,8 @@ namespace co_op_engine.Components.Brains
 
                     if (Vector2.Distance(moveCheckLastPosition, owner.Position) < MoveThreshhold)
                     {
-                        Path = GenRandPath();
+                        waitingForPathing = true;
+                        PathFinder.RequestPath(owner.Position, PlayerFactory.Instance.playerRef_testing_pathing.Position, owner.BoundingBox, SetPath);
                     }
 
                     moveCheckLastPosition = owner.Position;
@@ -87,7 +100,8 @@ namespace co_op_engine.Components.Brains
             if (InputHandler.KeyPressed(Microsoft.Xna.Framework.Input.Keys.X))
             {
                 pursue = pursue ? false : true;
-                Path = GenRandPath();
+                waitingForPathing = true;
+                PathFinder.RequestPath(owner.Position, PlayerFactory.Instance.playerRef_testing_pathing.Position, owner.BoundingBox, SetPath);
             }
         }
 
@@ -99,6 +113,7 @@ namespace co_op_engine.Components.Brains
 
         public void SetPath(Path path)
         {
+            waitingForPathing = false;
             Path = path;
         }
     }

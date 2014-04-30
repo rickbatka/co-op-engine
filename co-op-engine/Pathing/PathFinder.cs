@@ -8,6 +8,7 @@ using co_op_engine.Utility;
 using co_op_engine.World.Level;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Threading;
 
 namespace co_op_engine.Pathing
 {
@@ -19,7 +20,11 @@ namespace co_op_engine.Pathing
         {
             Instance = new PathFinder(container);
         }
+
         #endregion
+
+        private ThreadSafeBuffer<PathRequest> pathRequests;
+        private Thread pathingThread;
 
         private List<GridNode> openList; //woot sorted list is a log n retrieval with sorted values (beats heap of nlog n), can't sort on demand :(
         private List<GridNode> closedList;
@@ -35,12 +40,50 @@ namespace co_op_engine.Pathing
             closedList = new List<GridNode>();
             containerRef = container;
             grid = new PathingGrid();
+            pathRequests = new ThreadSafeBuffer<PathRequest>();
+            pathingThread = new Thread(new ThreadStart(PathingLoop));
+            pathingThread.IsBackground = true;
+            pathingThread.Start();
         }
 
-        public Path GetPath(Vector2 startPosition, Vector2 endPosition, Rectangle collisionBox)
+        /// <summary>
+        /// Be sure your callback is quick and threadsafe, it won't be getting called on the same thread it enters
+        /// </summary>
+        /// <param name="callback">ENSURE THIS IS QUICK AND THREADSAFE!!!!</param>
+        public static void RequestPath(Vector2 startPosition, Vector2 endPosition, Rectangle collisionBox, Action<Path> callback)
+        {
+            Instance.pathRequests.Add(new PathRequest(startPosition, endPosition, collisionBox, callback));
+        }
+
+        private void PathingLoop()
+        {
+#warning needs to live and die with gameplay object, shouldn't be a while true forever
+            while (true)
+            {
+                List<PathRequest> requests = pathRequests.Gather();
+
+                if (requests.Count == 0)
+                {
+                    Thread.Sleep(200);
+                }
+                else
+                {
+                    foreach (PathRequest request in requests)
+                    {
+                        Path path = BuildNewPath(request.startPosition, request.endPosition, request.collisionBox);
+                        request.callback(path);
+                    }
+                }
+            }
+        }
+
+        private Path BuildNewPath(Vector2 startPosition, Vector2 endPosition, Rectangle collisionBox)
         {
             openList.Clear();
             closedList.Clear();
+
+            //prepare/reset grid for new run
+            grid.PrepForPath(collisionBox);
 
             //round destination and start to nearest node
             GridNode startNode = grid.RoundToNearestNode(startPosition);
@@ -50,9 +93,6 @@ namespace co_op_engine.Pathing
             {
                 return new Path(new List<Vector2>() { startPosition, endPosition });
             }
-
-            //prepare/reset grid for new run
-            grid.PrepForPath(collisionBox);
 
             //insert start node into open
             openList.Add(startNode);
