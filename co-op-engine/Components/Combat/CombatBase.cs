@@ -35,7 +35,7 @@ namespace co_op_engine.Components.Combat
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
-        public void HandleHitByWeapon(int weaponId, List<EffectDefinition> effects, Vector2 hitRotation)
+        public void HandleHitByWeapon(int weaponId, List<WeaponEffectBase> effects, Vector2 hitRotation)
         {
             foreach(var effect in effects)
             {
@@ -43,7 +43,9 @@ namespace co_op_engine.Components.Combat
                 if (owner.CurrentStateProperties.IsVulnerable 
                     && !effectsByWeapon.ContainsKey(hash))
                 {
-                    var newEffect = WeaponEffectBuilder.Build(receiver: owner, weaponId: weaponId, effectDef: effect);
+                    //var newEffect = WeaponEffectBuilder.Build(receiver: owner, weaponId: weaponId, effectDef: effect);
+                    var newEffect = (WeaponEffectBase)effect.Clone();
+                    newEffect.SetReceiver(owner);
                     effectsByWeapon.Add(hash, newEffect);
 
                     // Apply the status effect
@@ -139,9 +141,9 @@ namespace co_op_engine.Components.Combat
             }
         }
 
-        private string GetHash(int weaponId, EffectDefinition effect)
+        private string GetHash(int weaponId, WeaponEffectBase effect)
         {
-            return "" + weaponId + "_" + effect.UniqueIdentifier;
+            return "" + weaponId + "_" + effect.WeaponEffectID;
         }
 
         internal void ReceiveCommand(Networking.Commands.GameObjectCommand command)

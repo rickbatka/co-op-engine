@@ -28,7 +28,7 @@ namespace co_op_engine.Components.Weapons
         public Vector2 FacingDirectionRaw { get { return owner.FacingDirectionRaw; } set { owner.FacingDirectionRaw = value; } }
         public float RotationTowardFacingDirectionRadians { get { return owner.RotationTowardFacingDirectionRadians; } set { owner.RotationTowardFacingDirectionRadians = value; } }
 
-        protected List<EffectDefinition> Effects = new List<EffectDefinition>();
+        protected List<WeaponEffectBase> RealEffects = new List<WeaponEffectBase>();
 
         public WeaponBase(GameObject owner)
         {
@@ -85,7 +85,7 @@ namespace co_op_engine.Components.Weapons
                     {
                         if(collider.ID != owner.ID)
                         {
-                            collider.HandleHitByWeapon(this.ID, Effects, FacingDirectionRaw);
+                            collider.HandleHitByWeapon(this.ID, RealEffects, FacingDirectionRaw);
                         }
                     }
                 }
@@ -131,9 +131,9 @@ namespace co_op_engine.Components.Weapons
             } 
         }
 
-        public void EquipEffect(EffectDefinition effectDef)
+        public void EquipRealEffect(WeaponEffectBase effect)
         {
-            this.Effects.Add(effectDef);
+            this.RealEffects.Add(effect);
         }
     }
 }

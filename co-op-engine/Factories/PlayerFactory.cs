@@ -121,10 +121,12 @@ namespace co_op_engine.Factories
             var swordRenderer = new RenderBase(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations);
             sword.SetRenderer(swordRenderer);
 
-            sword.EquipEffect(new BasicDamageEffectDefinition(
+            sword.EquipRealEffect(new BasicDamageEffect(
+                weaponEffectId: (int)EffectIdentifiers.BASIC_DAMAGE,
                 durationMS: swordRenderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection),
                 damageRating: 25
             ));
+
             return sword;
         }
 

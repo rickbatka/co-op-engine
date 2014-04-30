@@ -6,19 +6,23 @@ using System.Text;
 
 namespace co_op_engine.Components.Weapons.Effects
 {
-    public abstract class WeaponEffectBase
+    public abstract class WeaponEffectBase : ICloneable
     {
-        int WeaponID;
+        public int WeaponEffectID;
         protected GameObject Receiver;
         int DurationMS;
         public TimeSpan Timer;
         public bool IsFinished = false;
 
-        protected WeaponEffectBase(GameObject receiver, int weaponId, int durationMs)
+        protected WeaponEffectBase(int weaponEffectId, int durationMs)
+        {
+            this.WeaponEffectID = weaponEffectId;
+            this.DurationMS = durationMs;
+        }
+
+        public void SetReceiver(GameObject receiver)
         {
             this.Receiver = receiver;
-            this.WeaponID = weaponId;
-            this.DurationMS = durationMs;
         }
 
         public virtual void Apply()
@@ -38,5 +42,7 @@ namespace co_op_engine.Components.Weapons.Effects
         }
 
         public virtual void Draw() { }
+
+        public abstract object Clone();
     }
 }

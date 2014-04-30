@@ -12,10 +12,15 @@ namespace co_op_engine.Components.Weapons.Effects
     {
         int DamageRating;
 
-        public BasicDamageEffect(GameObject receiver, int weaponId, BasicDamageEffectDefinition def)
-            :base(receiver, weaponId, def.DurationMS)
+        public BasicDamageEffect(int weaponEffectId, int durationMS, int damageRating)
+            :base(weaponEffectId, durationMS)
         {
-            this.DamageRating = def.DamageRating;
+            this.DamageRating = damageRating;
+        }
+
+        public override object Clone()
+        {
+            return this.MemberwiseClone();
         }
 
         public override void Apply()

@@ -122,7 +122,7 @@ namespace co_op_engine.Components
             //Physics.DebugDraw(spriteBatch);
         }
 
-        public void HandleHitByWeapon(int weaponId, List<EffectDefinition> effects, Vector2 hitRotation)
+        public void HandleHitByWeapon(int weaponId, List<WeaponEffectBase> effects, Vector2 hitRotation)
         {
             if (Combat != null)
             {

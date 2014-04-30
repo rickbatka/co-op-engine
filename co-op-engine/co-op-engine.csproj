@@ -107,6 +107,7 @@
     <Compile Include="Components\Rendering\RenderBase.cs" />
     <Compile Include="Components\Weapons\Effects\BasicDamageEffect.cs" />
     <Compile Include="Components\Weapons\Effects\EffectDefinitions.cs" />
+    <Compile Include="Components\Weapons\Effects\RegenHealthEffect.cs" />
     <Compile Include="Components\Weapons\Sword.cs" />
     <Compile Include="Components\Weapons\WeaponBase.cs" />
     <Compile Include="Components\Weapons\Effects\WeaponEffectBase.cs" />
