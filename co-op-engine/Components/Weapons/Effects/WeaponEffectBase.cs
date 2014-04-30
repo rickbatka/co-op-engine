@@ -13,6 +13,7 @@ namespace co_op_engine.Components.Weapons.Effects
         int DurationMS;
         public TimeSpan Timer;
         public bool IsFinished = false;
+        protected Vector2 RotationAtTimeOfHit;
 
         protected WeaponEffectBase(int weaponEffectId, int durationMs)
         {
@@ -25,12 +26,18 @@ namespace co_op_engine.Components.Weapons.Effects
             this.Receiver = receiver;
         }
 
+        public void SetRotationAtTimeOfHit(Vector2 rotation)
+        {
+            this.RotationAtTimeOfHit = rotation;
+        }
+
         public virtual void Apply()
         {
             this.Timer = new TimeSpan(0, 0, 0, 0, DurationMS);
         }
         public virtual void Clear()
         { }
+
 
         public virtual void Update(GameTime gameTime)
         {
@@ -43,6 +50,9 @@ namespace co_op_engine.Components.Weapons.Effects
 
         public virtual void Draw() { }
 
-        public abstract object Clone();
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

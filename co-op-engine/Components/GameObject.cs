@@ -19,7 +19,7 @@ namespace co_op_engine.Components
         public PhysicsBase Physics;
         public RenderBase Renderer;
         public BrainBase Brain;
-        public WeaponBase Weapon;
+        public Weapon Weapon;
         public CombatBase Combat;
 
         public Rectangle BoundingBox;
@@ -29,6 +29,7 @@ namespace co_op_engine.Components
         public Vector2 InputMovementVector;
         public int ID;
         public bool UsedInPathing = false;
+        public bool Friendly = false;
         public string DisplayName { get { return "ID: " + ID; } }
 
         public Texture2D Texture { get; set; }
@@ -36,11 +37,7 @@ namespace co_op_engine.Components
         public int CurrentState { get; set; }
         public ActorState CurrentStateProperties { get { return ActorStates.States[CurrentState]; } }
         public int FacingDirection { get; set; }
-        public Vector2 FacingDirectionRaw { get; set; }
-        public float RotationTowardFacingDirectionRadians { 
-            get; 
-            set; 
-        }
+        public float RotationTowardFacingDirectionRadians { get; set; }
         public bool FullyRotatable { get { return false; } }
         public int Health { get; set; }
         public int MaxHealth { get; set; }
@@ -76,7 +73,7 @@ namespace co_op_engine.Components
             this.Combat = combat;
         }
 
-        public void EquipWeapon(WeaponBase weapon)
+        public void EquipWeapon(Weapon weapon)
         {
             this.Weapon = weapon;
         }
@@ -119,14 +116,14 @@ namespace co_op_engine.Components
 
             //@TODO DEBUGDRAW DEBUG DRAW
             //Renderer.DebugDraw(spriteBatch);
-            //Physics.DebugDraw(spriteBatch);
+            Physics.DebugDraw(spriteBatch);
         }
 
-        public void HandleHitByWeapon(int weaponId, List<WeaponEffectBase> effects, Vector2 hitRotation)
+        public void HandleHitByWeapon(Weapon weapon)
         {
             if (Combat != null)
             {
-                Combat.HandleHitByWeapon(weaponId, effects, hitRotation);
+                Combat.HandleHitByWeapon(weapon);
             }
         }
 

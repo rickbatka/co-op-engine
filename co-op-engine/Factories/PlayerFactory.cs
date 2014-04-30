@@ -44,6 +44,7 @@ namespace co_op_engine.Factories
         {
             var player = new GameObject();
             player.ConstructionStamp = "Player";
+            player.Friendly = true;
 
             player.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
             player.Position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 100));
@@ -100,6 +101,7 @@ namespace co_op_engine.Factories
         {
             var player = new GameObject();
             player.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
+            player.Friendly = true;
             player.Position = new Vector2(100, 100);
 
             player.SetPhysics(new CollidingPhysics(player));
@@ -114,15 +116,14 @@ namespace co_op_engine.Factories
             return player;
         }
 
-        public Sword GetSword(GameObject owner)
+        public Weapon GetSword(GameObject owner)
         {
-            var sword = new Sword(owner);
+            var sword = new Weapon(owner);
 
             var swordRenderer = new RenderBase(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations);
             sword.SetRenderer(swordRenderer);
 
-            sword.EquipRealEffect(new BasicDamageEffect(
-                weaponEffectId: (int)EffectIdentifiers.BASIC_DAMAGE,
+            sword.EquipEffect(new BasicDamageEffect(
                 durationMS: swordRenderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection),
                 damageRating: 25
             ));
@@ -130,17 +131,17 @@ namespace co_op_engine.Factories
             return sword;
         }
 
-        public Sword GetAxe(GameObject owner)
+        public Weapon GetAxe(GameObject owner)
         {
-            var axe = new Sword(owner);
+            var axe = new Weapon(owner);
             var axeRenderer = new RenderBase(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations);
             axe.SetRenderer(axeRenderer);
             return axe;
         }
 
-        public Sword GetMace(GameObject owner)
+        public Weapon GetMace(GameObject owner)
         {
-            var mace = new Sword(owner);
+            var mace = new Weapon(owner);
             var maceRenderer = new RenderBase(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations);
             mace.SetRenderer(maceRenderer);
             return mace;

@@ -32,6 +32,12 @@ namespace co_op_engine.Utility
 			return (float)Math.Atan2(direction.X, -direction.Y);
 		}
 
+        public static Vector2 RadianToVector2(float radian)
+        {
+            radian = EuclideanRadianToXnaRadian(radian);
+            return new Vector2((float)Math.Cos(radian), -(float)Math.Sin(radian));
+        }
+
 		public static float EuclideanRadianToXnaRadian(float direction)
 		{
 			return (float)Math.Atan2(Math.Cos(direction), (float)Math.Sin(direction));

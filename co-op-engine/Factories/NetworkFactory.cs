@@ -41,7 +41,7 @@ namespace co_op_engine.Factories
                     }
                 case "Tower":
                     {
-                        return TowerFactory.Instance.GetDoNothingTower(true, parameters.ID);
+                        return TowerFactory.Instance.GetFriendlyAOEHealingTower(true, parameters.ID);
                     }
                 case "Enemy":
                     {
