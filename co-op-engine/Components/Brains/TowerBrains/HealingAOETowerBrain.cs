@@ -65,9 +65,9 @@ namespace co_op_engine.Components.Brains.TowerBrains
                         new LineParticle()
                         {
                             DrawColor = Color.White,
-                            Lifetime = TimeSpan.FromMilliseconds(1200),
+                            Lifetime = TimeSpan.FromMilliseconds(100),
                             Texture = AssetRepository.Instance.HealBeam,
-                            width = 100,
+                            width = 20,
                             end = owner.Position,
                             start = collider.Position
                         });
