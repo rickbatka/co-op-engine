@@ -19,7 +19,7 @@ namespace co_op_engine.Components.Brains
 
         private Vector2 previousMovementVector;
         private int previousState;
-        private WeaponBase previousWeapon;
+        private Weapon previousWeapon;
         private Vector2 boostStartMovementVector;
 
         public PlayerBrain(GameObject owner, PlayerControlInput input)
@@ -95,7 +95,7 @@ namespace co_op_engine.Components.Brains
              * */
             if (InputHandler.KeyPressed(Keys.T))
             {
-                TowerFactory.Instance.GetDoNothingTower();
+                TowerFactory.Instance.GetFriendlyAOEHealingTower();
             }
 
             if (InputHandler.KeyPressed(Keys.E))

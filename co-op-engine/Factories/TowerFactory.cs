@@ -4,6 +4,8 @@ using co_op_engine.Components.Combat;
 using co_op_engine.Components.Input;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
+using co_op_engine.Components.Weapons;
+using co_op_engine.Components.Weapons.Effects;
 using co_op_engine.GameStates;
 using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
@@ -27,19 +29,23 @@ namespace co_op_engine.Factories
             Instance = new TowerFactory(gameRef);
         }
 
-        public GameObject GetDoNothingTower(bool fromNetwork = false, int id = -1)
+        public GameObject GetFriendlyAOEHealingTower(bool fromNetwork = false, int id = -1)
         {
             var tower = new GameObject();
-            tower.ConstructionStamp = "Tower";
+            tower.ConstructionStamp = "FriendlyAOEHealingTower";
+            tower.Friendly = true;
             tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations.CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UsedInPathing = true;
             tower.SetPhysics(new CollidingPhysics(tower));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations));
-            tower.SetBrain(new BasicTowerBrain(tower,
-                AssetRepository.Instance.PlainWhiteTexture,
+            tower.SetBrain(new HealingAOETowerBrain(tower,
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));
+
+            var healingAOEWeapon = new Weapon(tower);
+            healingAOEWeapon.EquipEffect(new BasicHealEffect(durationMS: 250, healRating: 25));
+            tower.EquipWeapon(healingAOEWeapon);
 
             if (fromNetwork)
             {

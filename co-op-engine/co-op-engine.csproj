@@ -75,6 +75,7 @@
     <Compile Include="Collections\QuadTree.cs" />
     <Compile Include="Collections\SpacialBase.cs" />
     <Compile Include="Components\Brains\PathingTestBrain.cs" />
+    <Compile Include="Components\Brains\TowerBrains\HealingAOETowerBrain.cs" />
     <Compile Include="Components\Input\KeyBindings.cs" />
     <Compile Include="Components\Particles\BloodHitEmitter.cs" />
     <Compile Include="Components\Particles\Decorators\DelayedStartDecorator.cs" />
@@ -107,8 +108,8 @@
     <Compile Include="Components\Rendering\RenderBase.cs" />
     <Compile Include="Components\Weapons\Effects\BasicDamageEffect.cs" />
     <Compile Include="Components\Weapons\Effects\EffectDefinitions.cs" />
-    <Compile Include="Components\Weapons\Sword.cs" />
-    <Compile Include="Components\Weapons\WeaponBase.cs" />
+    <Compile Include="Components\Weapons\Effects\BasicHealEffect.cs" />
+    <Compile Include="Components\Weapons\Weapon.cs" />
     <Compile Include="Components\Weapons\Effects\WeaponEffectBase.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Networking\Commands\Commander.cs" />

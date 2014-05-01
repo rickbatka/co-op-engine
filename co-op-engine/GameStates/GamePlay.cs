@@ -133,9 +133,9 @@ namespace co_op_engine.GameStates
         {
             GameRef.spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.LinearWrap, null, null, null, Camera.Instance.Transformation);
             Background.Draw(GameRef.spriteBatch);
-            ParticleEngine.Instance.Draw(GameRef.spriteBatch);
+            
             container.DrawAll(GameRef.spriteBatch);
-
+            ParticleEngine.Instance.Draw(GameRef.spriteBatch);
             //@DEBUGDRAW DEBUG DRAW
             container.DebugDraw(GameRef.spriteBatch);
             DebugDrawStrings(gameTime);

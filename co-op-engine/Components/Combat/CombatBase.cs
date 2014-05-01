@@ -17,7 +17,6 @@ namespace co_op_engine.Components.Combat
         Dictionary<string, WeaponEffectBase> effectsByWeapon = new Dictionary<string, WeaponEffectBase>();
 
         private Vector2 beingHurtHitRotation;
-        private TimeSpan beingHurtTimer;
         private TimeSpan dyingAnimationTimer;
 
         public CombatBase(GameObject owner)
@@ -35,54 +34,28 @@ namespace co_op_engine.Components.Combat
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
-        public void HandleHitByWeapon(int weaponId, List<EffectDefinition> effects, Vector2 hitRotation)
+        public void HandleHitByWeapon(Weapon weapon)
         {
-            foreach(var effect in effects)
+            foreach(var effect in weapon.Effects)
             {
-                string hash = GetHash(weaponId, effect);
+                string hash = GetHash(weapon.ID, effect);
                 if (owner.CurrentStateProperties.IsVulnerable 
                     && !effectsByWeapon.ContainsKey(hash))
                 {
-                    var newEffect = WeaponEffectBuilder.Build(receiver: owner, weaponId: weaponId, effectDef: effect);
+                    // get the effect from the weapon, set its receiver to this owner, register it in the list of actie effects
+                    var newEffect = (WeaponEffectBase)effect.Clone();
+                    newEffect.SetReceiver(owner);
+                    newEffect.SetRotationAtTimeOfHit(DrawingUtility.RadianToVector2(weapon.RotationTowardFacingDirectionRadians));
                     effectsByWeapon.Add(hash, newEffect);
 
                     // Apply the status effect
                     newEffect.Apply();
 
-                    KnockBack(hitRotation);
-
-                    ParticleEngine.Instance.AddEmitter(
-                        new BloodHitEmitter(owner, hitRotation)
-                        //new FireEmitter(owner)
-                    );
                 }
             }
         }
 
-        private void KnockBack(Vector2 hitRotation)
-        {
-            owner.CurrentState = Constants.ACTOR_STATE_BEING_HURT;
-            beingHurtHitRotation = hitRotation;
-            beingHurtTimer = TimeSpan.FromMilliseconds(Constants.BEING_HURT_EFFECT_TIME_MS);
-            GameTimerManager.Instance.SetTimer(
-                time: Constants.BEING_HURT_EFFECT_TIME_MS,
-                updateCallback: (t) =>
-                {
-                    if (!owner.UsedInPathing)
-                    {
-                        owner.InputMovementVector = beingHurtHitRotation;
-                    }
-                },
-                endCallback: (t) =>
-                {
-                    if (!owner.UsedInPathing)
-                    {
-                        owner.InputMovementVector = Vector2.Zero;
-                    }
-                    owner.CurrentState = Constants.ACTOR_STATE_IDLE;
-                }
-            );
-        }
+        
 
         private void UpdateCurrentWeaponEffects(GameTime gameTime)
         {
@@ -130,18 +103,15 @@ namespace co_op_engine.Components.Combat
                         endCallback: (t) => 
                         { 
                             owner.CurrentState = Constants.ACTOR_STATE_DEAD;
-                            ParticleEngine.Instance.AddEmitter(
-                                new FireEmitter(owner)
-                            );
                         }
                     );
                 }
             }
         }
 
-        private string GetHash(int weaponId, EffectDefinition effect)
+        private string GetHash(int weaponId, WeaponEffectBase effect)
         {
-            return "" + weaponId + "_" + effect.UniqueIdentifier;
+            return "" + weaponId + "_" + effect.WeaponEffectID;
         }
 
         internal void ReceiveCommand(Networking.Commands.GameObjectCommand command)

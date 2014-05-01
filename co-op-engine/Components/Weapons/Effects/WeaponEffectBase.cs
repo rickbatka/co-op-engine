@@ -6,19 +6,29 @@ using System.Text;
 
 namespace co_op_engine.Components.Weapons.Effects
 {
-    public abstract class WeaponEffectBase
+    public abstract class WeaponEffectBase : ICloneable
     {
-        int WeaponID;
+        public int WeaponEffectID;
         protected GameObject Receiver;
         int DurationMS;
         public TimeSpan Timer;
         public bool IsFinished = false;
+        protected Vector2 RotationAtTimeOfHit;
 
-        protected WeaponEffectBase(GameObject receiver, int weaponId, int durationMs)
+        protected WeaponEffectBase(int weaponEffectId, int durationMs)
+        {
+            this.WeaponEffectID = weaponEffectId;
+            this.DurationMS = durationMs;
+        }
+
+        public void SetReceiver(GameObject receiver)
         {
             this.Receiver = receiver;
-            this.WeaponID = weaponId;
-            this.DurationMS = durationMs;
+        }
+
+        public void SetRotationAtTimeOfHit(Vector2 rotation)
+        {
+            this.RotationAtTimeOfHit = rotation;
         }
 
         public virtual void Apply()
@@ -27,6 +37,7 @@ namespace co_op_engine.Components.Weapons.Effects
         }
         public virtual void Clear()
         { }
+
 
         public virtual void Update(GameTime gameTime)
         {
@@ -38,5 +49,10 @@ namespace co_op_engine.Components.Weapons.Effects
         }
 
         public virtual void Draw() { }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

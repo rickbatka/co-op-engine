@@ -9,11 +9,11 @@ using System.Text;
 
 namespace co_op_engine.Components.Brains.TowerBrains
 {
-	class BasicTowerBrain : BrainBase
+	public class BasicTowerBrain : BrainBase
 	{
 		private TowerPlacingInput placingInput;
 
-		public BasicTowerBrain(GameObject owner, Texture2D placingZoneTexture, TowerPlacingInput placingInput)
+		public BasicTowerBrain(GameObject owner, TowerPlacingInput placingInput)
 			: base(owner)
 		{
 			this.placingInput = placingInput;
@@ -21,11 +21,13 @@ namespace co_op_engine.Components.Brains.TowerBrains
 
 		override public void Update(GameTime gameTime)
 		{
+			base.Update(gameTime);
 			HandleInput();
 		}
 
 		override public void Draw(SpriteBatch spriteBatch)
 		{
+			base.Draw(spriteBatch);
 		}
 
 		private void HandleInput()

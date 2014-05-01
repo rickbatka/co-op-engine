@@ -11,26 +11,25 @@ using System.Text;
 
 namespace co_op_engine.Components.Weapons
 {
-    public abstract class WeaponBase : IRenderable
+    public class Weapon : IRenderable
     {
-        protected GameObject owner;
-        protected RenderBase renderer;
+        private GameObject owner;
+        private RenderBase renderer;
 
         public int ID;
-        protected TimeSpan currentAttackTimer;
+        private TimeSpan currentAttackTimer;
         public int CurrentState { get; set; }
-        protected WeaponState CurrentWeaponStateProperties { get { return WeaponStates.States[CurrentState]; } }
+        private WeaponState CurrentWeaponStateProperties { get { return WeaponStates.States[CurrentState]; } }
 
         public Frame CurrentFrame { get; set; }
         public Texture2D Texture { get; set; }
         public Vector2 Position { get { return owner.Position; } }
         public int FacingDirection { get { return owner.FacingDirection; } set { owner.FacingDirection = value; } }
-        public Vector2 FacingDirectionRaw { get { return owner.FacingDirectionRaw; } set { owner.FacingDirectionRaw = value; } }
         public float RotationTowardFacingDirectionRadians { get { return owner.RotationTowardFacingDirectionRadians; } set { owner.RotationTowardFacingDirectionRadians = value; } }
 
-        protected List<EffectDefinition> Effects = new List<EffectDefinition>();
+        public List<WeaponEffectBase> Effects = new List<WeaponEffectBase>();
 
-        public WeaponBase(GameObject owner)
+        public Weapon(GameObject owner)
         {
             this.owner = owner;
             this.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
@@ -41,24 +40,34 @@ namespace co_op_engine.Components.Weapons
             this.renderer = renderer;
         }
 
-        virtual public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             UpdateState(gameTime);
             QueryForHits();
-            renderer.Update(gameTime);
+
+            if(renderer != null)
+            {
+                renderer.Update(gameTime);
+            }
         }
 
-        virtual public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            renderer.Draw(spriteBatch);
+            if (renderer != null)
+            {
+                renderer.Draw(spriteBatch);
+            }
         }
 
-        virtual public void DebugDraw(SpriteBatch spriteBatch)
+        public void DebugDraw(SpriteBatch spriteBatch)
         {
-            renderer.DebugDraw(spriteBatch);
+            if (renderer != null)
+            {
+                renderer.DebugDraw(spriteBatch);
+            }
         }
 
-        virtual public void TryInitiateAttack()
+        public void TryInitiateAttack()
         {
             if (CurrentWeaponStateProperties.CanInitiatePrimaryAttack)
             {
@@ -66,7 +75,7 @@ namespace co_op_engine.Components.Weapons
             }
         }
 
-        virtual public void PrimaryAttack()
+        public void PrimaryAttack()
         {
             currentAttackTimer = TimeSpan.FromMilliseconds(renderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection));
             CurrentState = Constants.WEAPON_STATE_ATTACKING_PRIMARY;
@@ -76,16 +85,20 @@ namespace co_op_engine.Components.Weapons
         {
             if (CurrentWeaponStateProperties.IsAttacking)
             {
-                var damageDots = renderer.CurrentAnimation.CurrentFrame.DamageDots;
-                foreach (var damageDot in damageDots)
+                // damage dots come from the animated renderer, if there are any
+                if (renderer != null)
                 {
-                    var damageDotPositionVector = DrawingUtility.GetAbsolutePosition(this, damageDot.Location);
-                    var colliders = owner.CurrentQuad.MasterQuery(DrawingUtility.VectorToPointRect(damageDotPositionVector));
-                    foreach (var collider in colliders)
+                    var damageDots = renderer.CurrentAnimation.CurrentFrame.DamageDots;
+                    foreach (var damageDot in damageDots)
                     {
-                        if(collider.ID != owner.ID)
+                        var damageDotPositionVector = DrawingUtility.GetAbsolutePosition(this, damageDot.Location);
+                        var colliders = owner.CurrentQuad.MasterQuery(DrawingUtility.VectorToPointRect(damageDotPositionVector));
+                        foreach (var collider in colliders)
                         {
-                            collider.HandleHitByWeapon(this.ID, Effects, FacingDirectionRaw);
+                            if (collider.ID != owner.ID)
+                            {
+                                collider.HandleHitByWeapon(this);
+                            }
                         }
                     }
                 }
@@ -101,7 +114,10 @@ namespace co_op_engine.Components.Weapons
                 {
                     CurrentState = Constants.WEAPON_STATE_IDLE;
                     currentAttackTimer = TimeSpan.Zero;
-                    renderer.animationSet.GetAnimationFallbackToDefault(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection).Reset();
+                    if (renderer != null)
+                    {
+                        renderer.animationSet.GetAnimationFallbackToDefault(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection).Reset();
+                    }
                 }
             }
 
@@ -131,9 +147,9 @@ namespace co_op_engine.Components.Weapons
             } 
         }
 
-        public void EquipEffect(EffectDefinition effectDef)
+        public void EquipEffect(WeaponEffectBase effect)
         {
-            this.Effects.Add(effectDef);
+            this.Effects.Add(effect);
         }
     }
 }
