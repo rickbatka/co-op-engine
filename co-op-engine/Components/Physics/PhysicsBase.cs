@@ -20,6 +20,10 @@ namespace co_op_engine.Components.Physics
     /// </summary>
     public class PhysicsBase
     {
+        //UNITS!!!
+        //100px is 1 meter
+        //time is in seconds
+
         protected float friction = 0.5f;
         protected float speedLimit
         {
@@ -164,3 +168,12 @@ namespace co_op_engine.Components.Physics
         }
     }
 }
+
+
+/* * * * * *
+ * notes on physics overhaul:
+ *  - units units units
+ *  - only use friction and force
+ *  - introduce concept of impulse force along with it's own friction coefficient
+ *  - 
+ */
