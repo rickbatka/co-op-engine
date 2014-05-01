@@ -28,6 +28,8 @@ namespace co_op_engine.Utility
         public Texture2D AxeTexture;
         public Texture2D MaceTexture;
         public Texture2D DebugFillTexture;
+        public Texture2D GreenCircle;
+        public Texture2D HealBeam;
         public BackgroundTile BushesTile;
 
         string[] heroAnimationData;
@@ -76,6 +78,8 @@ namespace co_op_engine.Utility
             SwordTexture = gameRef.Content.Load<Texture2D>("Sword");
             AxeTexture = gameRef.Content.Load<Texture2D>("Axe");
             MaceTexture = gameRef.Content.Load<Texture2D>("Mace");
+            GreenCircle = gameRef.Content.Load<Texture2D>("HealCircle");//yeah it will probably blow up for you up I can't compile textures (sorry in advance)
+            HealBeam = gameRef.Content.Load<Texture2D>("HealZap");
             BushesTile = new BackgroundTile(gameRef.Content.Load<Texture2D>("bushes"), 450, 450);
 
             heroAnimationData = File.ReadAllLines("content/HeroNoArmsData.txt");
@@ -84,5 +88,6 @@ namespace co_op_engine.Utility
             maceAnimationData = File.ReadAllLines("content/MaceData.txt");
             towerAnimationData = File.ReadAllLines("content/TowerData.txt");
         }
+
     }
 }

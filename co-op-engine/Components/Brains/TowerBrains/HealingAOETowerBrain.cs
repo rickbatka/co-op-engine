@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.Components.Particles;
+using co_op_engine.Components.Particles.Decorators;
 
 namespace co_op_engine.Components.Brains.TowerBrains
 {
@@ -16,7 +18,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
         private int Range = 250;
 
         public HealingAOETowerBrain(GameObject owner, TowerPlacingInput placingInput)
-            :base(owner, placingInput)
+            : base(owner, placingInput)
         {
             Area = new RectangleFloat(owner.Position.X - (Range / 2), owner.Position.Y - (Range / 2), Range, Range);
         }
@@ -37,7 +39,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
         {
             base.Draw(spriteBatch);
 
-            if (owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
+            /*if (owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
             {
                 spriteBatch.Draw(
                     texture: AssetRepository.Instance.PlainWhiteTexture,
@@ -49,16 +51,27 @@ namespace co_op_engine.Components.Brains.TowerBrains
                     effect: SpriteEffects.None,
                     depth: 0.01f //behind everythign but background hopefully
                 );
-            }
+            }*/
         }
 
         private void HealFriendsWithinRange()
         {
             var colliders = owner.CurrentQuad.MasterQuery(Area);
-            foreach(var collider in colliders)
+            foreach (var collider in colliders)
             {
                 if (collider != owner && collider.Friendly)
                 {
+                    ParticleEngine.Instance.Add(
+                        new LineParticle()
+                        {
+                            DrawColor = Color.White,
+                            Lifetime = TimeSpan.FromMilliseconds(1200),
+                            Texture = AssetRepository.Instance.HealBeam,
+                            width = 100,
+                            end = owner.Position,
+                            start = collider.Position
+                        });
+
                     collider.HandleHitByWeapon(owner.Weapon);
                 }
             }

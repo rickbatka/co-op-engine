@@ -108,7 +108,7 @@ namespace co_op_engine.Components.Brains
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
             Path.DEBUG_DRAW(spriteBatch);
-            DrawingUtility.DrawLine(owner.Position, Path.CurrentPoint, spriteBatch, Color.White);
+            DrawingUtility.DrawLine(owner.Position, Path.CurrentPoint, 1, AssetRepository.Instance.DebugFillTexture, spriteBatch, Color.White);
         }
 
         public void SetPath(Path path)
