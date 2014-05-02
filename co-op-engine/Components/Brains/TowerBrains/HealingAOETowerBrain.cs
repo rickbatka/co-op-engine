@@ -14,20 +14,21 @@ namespace co_op_engine.Components.Brains.TowerBrains
 {
     public class HealingAOETowerBrain : BasicTowerBrain
     {
-        private RectangleFloat Area;
-        private int Range = 250;
+        private RectangleFloat DrawArea;
+        private int Radius = 250;
+        Color TextureColor = new Color(Color.White, 0.001f);
 
         public HealingAOETowerBrain(GameObject owner, TowerPlacingInput placingInput)
             : base(owner, placingInput)
         {
-            Area = new RectangleFloat(owner.Position.X - (Range / 2), owner.Position.Y - (Range / 2), Range, Range);
+            DrawArea = new RectangleFloat(owner.Position.X - Radius, owner.Position.Y - Radius, Radius*2, Radius*2);
         }
         override public void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            Area.X = owner.Position.X - (Range / 2);
-            Area.Y = owner.Position.Y - (Range / 2);
+            DrawArea.X = owner.Position.X - Radius;
+            DrawArea.Y = owner.Position.Y - Radius;
 
             if (owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
             {
@@ -39,27 +40,28 @@ namespace co_op_engine.Components.Brains.TowerBrains
         {
             base.Draw(spriteBatch);
 
-            /*if (owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
+            if (owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
             {
                 spriteBatch.Draw(
-                    texture: AssetRepository.Instance.PlainWhiteTexture,
-                    destinationRectangle: Area.ToRectangle(),
+                    texture: AssetRepository.Instance.GreenCircle,
+                    destinationRectangle: DrawArea.ToRectangle(),
                     sourceRectangle: null,
-                    color: Color.LightGreen,
+                    color: TextureColor,
                     rotation: 0f,
                     origin: Vector2.Zero,
                     effect: SpriteEffects.None,
                     depth: 0.01f //behind everythign but background hopefully
                 );
-            }*/
+            }
         }
 
         private void HealFriendsWithinRange()
         {
-            var colliders = owner.CurrentQuad.MasterQuery(Area);
+            var colliders = owner.CurrentQuad.MasterQuery(DrawArea);
             foreach (var collider in colliders)
             {
-                if (collider != owner && collider.Friendly)
+                if (collider != owner && collider.Friendly
+                    && IsWithinRadius(collider))
                 {
                     ParticleEngine.Instance.Add(
                         new LineParticle()
@@ -75,6 +77,11 @@ namespace co_op_engine.Components.Brains.TowerBrains
                     collider.HandleHitByWeapon(owner.Weapon);
                 }
             }
+        }
+
+        private bool IsWithinRadius(GameObject collider)
+        {
+            return (collider.Position - owner.Position).Length() <= Radius;
         }
     }
 }

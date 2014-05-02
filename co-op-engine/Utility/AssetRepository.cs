@@ -78,7 +78,7 @@ namespace co_op_engine.Utility
             SwordTexture = gameRef.Content.Load<Texture2D>("Sword");
             AxeTexture = gameRef.Content.Load<Texture2D>("Axe");
             MaceTexture = gameRef.Content.Load<Texture2D>("Mace");
-            GreenCircle = gameRef.Content.Load<Texture2D>("HealCircle");//yeah it will probably blow up for you up I can't compile textures (sorry in advance)
+            GreenCircle = gameRef.Content.Load<Texture2D>("HealCircle");
             HealBeam = gameRef.Content.Load<Texture2D>("HealZap");
             BushesTile = new BackgroundTile(gameRef.Content.Load<Texture2D>("bushes"), 450, 450);
 
