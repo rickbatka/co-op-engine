@@ -115,7 +115,7 @@ namespace co_op_engine.Components.Particles
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            DrawingUtility.DrawLine(start, end, width, this.Texture, spriteBatch, this.DrawColor);
+            DrawingUtility.DrawLineScaledWithImageJittered(start, end, width, this.Texture, spriteBatch, this.DrawColor);
         }
     }
 }

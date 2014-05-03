@@ -30,6 +30,7 @@ namespace co_op_engine.Utility
         public Texture2D DebugFillTexture;
         public Texture2D GreenCircle;
         public Texture2D HealBeam;
+        public Texture2D FuzzyLazer;
         public BackgroundTile BushesTile;
 
         string[] heroAnimationData;
@@ -80,6 +81,7 @@ namespace co_op_engine.Utility
             MaceTexture = gameRef.Content.Load<Texture2D>("Mace");
             GreenCircle = gameRef.Content.Load<Texture2D>("HealCircle");
             HealBeam = gameRef.Content.Load<Texture2D>("HealZap");
+            FuzzyLazer = gameRef.Content.Load<Texture2D>("FuzzyLazer");
             BushesTile = new BackgroundTile(gameRef.Content.Load<Texture2D>("bushes"), 450, 450);
 
             heroAnimationData = File.ReadAllLines("content/HeroNoArmsData.txt");

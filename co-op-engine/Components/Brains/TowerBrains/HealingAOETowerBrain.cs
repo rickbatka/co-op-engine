@@ -39,20 +39,6 @@ namespace co_op_engine.Components.Brains.TowerBrains
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-
-            if (owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
-            {
-                spriteBatch.Draw(
-                    texture: AssetRepository.Instance.GreenCircle,
-                    destinationRectangle: DrawArea.ToRectangle(),
-                    sourceRectangle: null,
-                    color: TextureColor,
-                    rotation: 0f,
-                    origin: Vector2.Zero,
-                    effect: SpriteEffects.None,
-                    depth: 0.01f //behind everythign but background hopefully
-                );
-            }
         }
 
         private void HealFriendsWithinRange()
@@ -67,9 +53,9 @@ namespace co_op_engine.Components.Brains.TowerBrains
                         new LineParticle()
                         {
                             DrawColor = Color.White,
-                            Lifetime = TimeSpan.FromMilliseconds(100),
-                            Texture = AssetRepository.Instance.HealBeam,
-                            width = 20,
+                            Lifetime = TimeSpan.FromMilliseconds(32),
+                            Texture = AssetRepository.Instance.FuzzyLazer,
+                            width = 40,
                             end = owner.Position,
                             start = collider.Position
                         });
