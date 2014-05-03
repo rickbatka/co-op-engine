@@ -28,6 +28,7 @@ namespace co_op_engine.Pathing
 
         private List<GridNode> openList; //woot sorted list is a log n retrieval with sorted values (beats heap of nlog n), can't sort on demand :(
         private List<GridNode> closedList;
+        private List<LengthyRequestContainer> requeuedRequests;
         private PathingGrid grid;
         private ObjectContainer containerRef;
         private int GridSpacing = 20;
@@ -38,6 +39,7 @@ namespace co_op_engine.Pathing
         {
             openList = new List<GridNode>();
             closedList = new List<GridNode>();
+            requeuedRequests = new List<LengthyRequestContainer>();
             containerRef = container;
             grid = new PathingGrid();
             pathRequests = new ThreadSafeBuffer<PathRequest>();
@@ -62,19 +64,66 @@ namespace co_op_engine.Pathing
             {
                 List<PathRequest> requests = pathRequests.Gather();
 
-                if (requests.Count == 0)
+                if (requests.Count == 0 && requeuedRequests.Count == 0)
                 {
                     Thread.Sleep(200);
                 }
                 else
                 {
+                    List<LengthyRequestContainer> slowAgainRequests = new List<LengthyRequestContainer>();
+
+                    foreach (LengthyRequestContainer requeuedRequest in requeuedRequests)
+                    {
+                        Path path = ContinuePath(requeuedRequest.Request.startPosition, requeuedRequest.Request.endPosition, requeuedRequest.Request.collisionBox, requeuedRequest.Nodes,requeuedRequest.OpenList, requeuedRequest.ClosedList);
+                        if (path != null)
+                        {
+                            requeuedRequest.Request.callback(path);
+                        }
+                        else
+                        {
+                            slowAgainRequests.Add(new LengthyRequestContainer(
+                                grid.GetNodesForStorage(),
+                                requeuedRequest.Request,
+                                openList,
+                                closedList));
+                        }
+                    }
+
+                    requeuedRequests = slowAgainRequests;
+
                     foreach (PathRequest request in requests)
                     {
                         Path path = BuildNewPath(request.startPosition, request.endPosition, request.collisionBox);
-                        request.callback(path);
+
+                        if (path != null)
+                        {
+                            request.callback(path);
+                        }
+                        else
+                        {
+                            requeuedRequests.Add(new LengthyRequestContainer(
+                                grid.GetNodesForStorage(),
+                                request,
+                                openList,
+                                closedList));
+                        }
                     }
                 }
             }
+        }
+
+        private Path ContinuePath(Vector2 startPosition, Vector2 endPosition, Rectangle collisionBox, GridNode[,] savedNodes, List<GridNode> open, List<GridNode> closed)
+        {
+            openList = open;
+            closedList = closed;
+
+            grid.LoadNodes(savedNodes);
+            grid.PrepForPath(collisionBox, true);
+
+            GridNode startNode = grid.RoundToNearestNode(startPosition);
+            GridNode endNode = grid.RoundToNearestNode(endPosition);
+
+            return ConstructionLoop(startNode, endNode, startPosition, endPosition);
         }
 
         private Path BuildNewPath(Vector2 startPosition, Vector2 endPosition, Rectangle collisionBox)
@@ -97,10 +146,21 @@ namespace co_op_engine.Pathing
             //insert start node into open
             openList.Add(startNode);
 
+            return ConstructionLoop(startNode, endNode, startPosition, endPosition);
+        }
+
+        private Path ConstructionLoop(GridNode startNode, GridNode endNode, Vector2 startPosition, Vector2 endPosition)
+        {
             //looping until bumped into target node:
             bool finished = false;
+            int countCheck = 0;
             while (!finished)
             {
+                ++countCheck;
+                if (countCheck > 100)
+                {
+                    return null;
+                }
                 //  find lowest cost in open list, move to closed list
                 openList.Sort(comparer);
                 GridNode currentNode = openList.First();
@@ -205,6 +265,22 @@ namespace co_op_engine.Pathing
                 effects: SpriteEffects.None,
                 depth: 1f
             );
+        }
+
+        private class LengthyRequestContainer
+        {
+            public GridNode[,] Nodes { get; set; }
+            public PathRequest Request { get; set; }
+            public List<GridNode> OpenList { get; set; }
+            public List<GridNode> ClosedList { get; set; }
+
+            public LengthyRequestContainer(GridNode[,] noded, PathRequest request, List<GridNode> openlist, List<GridNode> closedList)
+            {
+                Nodes = noded;
+                Request = request;
+                OpenList = openlist.ToList();
+                ClosedList = closedList.ToList();
+            }
         }
 
         private NodeComparer comparer = new NodeComparer();

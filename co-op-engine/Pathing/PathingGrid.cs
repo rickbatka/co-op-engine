@@ -34,7 +34,7 @@ namespace co_op_engine.Pathing
 
         private void BuildGridFromSnapshot()
         {
-            if (pendingNodeSpacing != 0 && pendingWorldSpace != Rectangle.Empty && pendingObstacles != null)
+            if ( pendingNodeSpacing != 0 && pendingWorldSpace != Rectangle.Empty && pendingObstacles != null)
             {
                 nodeSpacing = pendingNodeSpacing;
 
@@ -59,18 +59,29 @@ namespace co_op_engine.Pathing
             }
         }
 
+        public GridNode[,] GetNodesForStorage()
+        {
+            GridNode[,] tempNodes = nodes;
+            return tempNodes;
+        }
+
+        public void LoadNodes(GridNode[,] storedNodes)
+        {
+            nodes = storedNodes;
+        }
+
         /// <summary>
         /// clears nodes of any previous path specific information
         /// </summary>
-        public void PrepForPath(Rectangle physBox)
+        public void PrepForPath(Rectangle physBox, bool suppressReset = false)
         {
-            BuildGridFromSnapshot();
+            if ( !suppressReset) BuildGridFromSnapshot();
 
             physBox.Inflate(physBox.Width / 2, physBox.Height / 2);
 
             foreach (GridNode node in nodes)
             {
-                node.SetTrace(null, 0, 0);
+                if (!suppressReset) node.SetTrace(null, 0, 0);
                 node.ClearAdjustments();
 
                 foreach (MetaObstacle obstacle in currentObstacles)
