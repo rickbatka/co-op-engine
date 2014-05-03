@@ -11,7 +11,7 @@ namespace co_op_engine.Components.Particles.Decorators
     {
         protected IParticle particle;
 
-        public Rectangle DrawRectangle { get { return particle.DrawRectangle; } }
+        public Rectangle DrawRectangle { get { return particle.DrawRectangle; } set { particle.DrawRectangle = value; } }
         public Texture2D Texture { get { return particle.Texture; } }
         public Color DrawColor { get { return particle.DrawColor; } }
         public bool IsAlive { get { return particle.IsAlive; } }
@@ -26,7 +26,7 @@ namespace co_op_engine.Components.Particles.Decorators
             this.particle = particle;
         }
 
-        public virtual void Begin() 
+        public virtual void Begin()
         {
             particle.Begin();
         }
@@ -37,6 +37,9 @@ namespace co_op_engine.Components.Particles.Decorators
         }
 
         public virtual void End() { }
-
+        public virtual void Draw(SpriteBatch spriteBatch) 
+        {
+            particle.Draw(spriteBatch);
+        }
     }
 }

@@ -45,17 +45,8 @@ namespace co_op_engine.Components.Particles
         public void Draw(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < NumAliveParticles; i++)
-            { 
-                spriteBatch.Draw(
-                    texture: Pool[i].Texture,
-                    destinationRectangle: Pool[i].DrawRectangle,
-                    sourceRectangle: null,
-                    color: Pool[i].DrawColor,
-                    rotation: 0f,
-                    origin: Vector2.Zero,
-                    effect: SpriteEffects.None,
-                    depth: Pool[i].Position.Y / Camera.Instance.ViewBoundsRectangle.Bottom
-                );
+            {
+                Pool[i].Draw(spriteBatch);
             }
 
             //DEBUG drawing

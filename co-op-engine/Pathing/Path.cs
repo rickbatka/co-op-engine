@@ -34,12 +34,12 @@ namespace co_op_engine.Pathing
         {
             if (Points.Count() > 0 && CurrentPoint != null)
             {
-                DrawingUtility.DrawLine(CurrentPoint, Points[0], spriteBatch, Color.Red);
+                DrawingUtility.DrawLine(CurrentPoint, Points[0], 1,AssetRepository.Instance.DebugFillTexture, spriteBatch, Color.Red);
             }
 
             for (int i = 1; i < Points.Count(); ++i)
             {
-                DrawingUtility.DrawLine(Points[i - 1], Points[i], spriteBatch, Color.Red);
+                DrawingUtility.DrawLine(Points[i - 1], Points[i], 1, AssetRepository.Instance.DebugFillTexture, spriteBatch, Color.Red);
             }
         }
     }

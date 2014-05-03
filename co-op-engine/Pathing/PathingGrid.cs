@@ -115,7 +115,7 @@ namespace co_op_engine.Pathing
             {
                 if (node != null && node.Target != null)
                 {
-                    DrawingUtility.DrawLine(GetPositionFromNode(node), GetPositionFromNode(node.Target), spriteBatch, Color.White);
+                    DrawingUtility.DrawLine(GetPositionFromNode(node), GetPositionFromNode(node.Target), 1, AssetRepository.Instance.DebugFillTexture, spriteBatch, Color.White);
                 }
             }
         }

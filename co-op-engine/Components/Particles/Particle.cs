@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.Utility.Camera;
 
 namespace co_op_engine.Components.Particles
 {
     public interface IParticle
     {
-        Rectangle DrawRectangle { get; }
+        Rectangle DrawRectangle { get; set; }
         Texture2D Texture { get; }
         Color DrawColor { get; }
         bool IsAlive { get; }
@@ -23,6 +24,7 @@ namespace co_op_engine.Components.Particles
         void Begin();
         void Update(GameTime gameTime);
         void End();
+        void Draw(SpriteBatch spriteBatch);
     }
 
     public class Particle : IParticle
@@ -49,17 +51,17 @@ namespace co_op_engine.Components.Particles
             }
         }
         private Rectangle drawRectangle;
-        public Rectangle DrawRectangle { get { return drawRectangle; } }
+        public Rectangle DrawRectangle { get { return drawRectangle; } set { drawRectangle = value; } }
         public Texture2D Texture { get; set; }
 
         private int width;
         public int Width { get { return width; } set { width = value; drawRectangle.Width = value; } }
         private int height;
-        public int Height { get { return height; } set { height= value; drawRectangle.Height = value; } }
+        public int Height { get { return height; } set { height = value; drawRectangle.Height = value; } }
 
         public Color DrawColor { get; set; }
 
-        public Particle() 
+        public Particle()
         {
             IsAlive = true;
             Lifetime = TimeSpan.FromMilliseconds(500);
@@ -89,5 +91,31 @@ namespace co_op_engine.Components.Particles
         }
 
         public void End() { }
+
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                    texture: Texture,
+                    destinationRectangle: DrawRectangle,
+                    sourceRectangle: null,
+                    color: DrawColor,
+                    rotation: 0f,
+                    origin: Vector2.Zero,
+                    effect: SpriteEffects.None,
+                    depth: Position.Y / Camera.Instance.ViewBoundsRectangle.Bottom
+                );
+        }
+    }
+
+    public class LineParticle : Particle
+    {
+        public Vector2 start;
+        public Vector2 end;
+        public int width;
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            DrawingUtility.DrawLine(start, end, width, this.Texture, spriteBatch, this.DrawColor);
+        }
     }
 }

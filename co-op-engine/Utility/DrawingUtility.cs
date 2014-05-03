@@ -10,18 +10,18 @@ namespace co_op_engine.Utility
 {
 	public static class DrawingUtility
 	{
-		public static void DrawLine(Vector2 a, Vector2 b, SpriteBatch spritebatch, Color color)
+		public static void DrawLine(Vector2 a, Vector2 b, int width, Texture2D texture , SpriteBatch spritebatch, Color color)
 		{
 			//Vector2 b = v.Length() > r.Length() ? v : r;
 			//Vector2 a = v.Length() > r.Length() ? r : v;
 
 			spritebatch.Draw(
-                texture: AssetRepository.Instance.DebugFillTexture,
-				destinationRectangle: new Rectangle((int)(a.X), (int)(a.Y), (int)(1), (int)( Math.Abs( (a-b).Length() ))),
+                texture: texture,
+				destinationRectangle: new Rectangle((int)(a.X), (int)(a.Y), (int)(width), (int)( Math.Abs( (a-b).Length() ))),
 				sourceRectangle: null,
 				color: color,
-				rotation: Vector2ToRadian(b - a),
-				origin: new Vector2(1,1),
+				rotation: Vector2ToRadian(a - b),
+				origin: new Vector2(texture.Width/2,0),
 				effect: SpriteEffects.None,
 				depth: 1f
             );
