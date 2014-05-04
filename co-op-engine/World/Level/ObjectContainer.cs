@@ -72,7 +72,7 @@ namespace co_op_engine.World.Level
                         obstacles.Add(new MetaObstacle()
                         {
                             bounds = obj.BoundingBox,
-                            pathingWeight = 90000,
+                            pathingWeight = 900000,
                         });
                     }
                 }

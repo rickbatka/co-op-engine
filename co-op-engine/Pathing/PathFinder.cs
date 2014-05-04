@@ -32,8 +32,10 @@ namespace co_op_engine.Pathing
         private PathingGrid grid;
         private ObjectContainer containerRef;
         private int GridSpacing = 20;
+        private int lengthyPathThreshhold = 200;
 
         private int TESTING_LAST_PATH_G = 0;
+        private int TESTING_LAST_PATH_LENGTH = 0;
 
         private PathFinder(ObjectContainer container)
         {
@@ -154,10 +156,12 @@ namespace co_op_engine.Pathing
             //looping until bumped into target node:
             bool finished = false;
             int countCheck = 0;
+            TESTING_LAST_PATH_LENGTH = 0;
             while (!finished)
             {
                 ++countCheck;
-                if (countCheck > 100)
+                ++TESTING_LAST_PATH_LENGTH;
+                if (countCheck > lengthyPathThreshhold)
                 {
                     return null;
                 }
@@ -253,10 +257,11 @@ namespace co_op_engine.Pathing
 
         public void Draw(SpriteBatch spriteBatch)
         {
+#warning this is unsafe and will blow up if game runs for a while, for debugging only
             grid.Draw(spriteBatch);
             spriteBatch.DrawString(
                 spriteFont: AssetRepository.Instance.Arial, 
-                text: TESTING_LAST_PATH_G.ToString(), 
+                text: TESTING_LAST_PATH_G.ToString() + '\n' + TESTING_LAST_PATH_LENGTH.ToString(), 
                 position: new Vector2(500, 500),
                 color: Color.Red,
                 rotation: 0f,

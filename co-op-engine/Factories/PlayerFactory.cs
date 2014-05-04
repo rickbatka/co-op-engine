@@ -73,18 +73,27 @@ namespace co_op_engine.Factories
             return player;
         }
 
-        public GameObject GetEnemy(int Id = -1)
+        public GameObject GetEnemy(int id = -1)
         {
             var enemy = new GameObject();
             enemy.ConstructionStamp = "Enemy";
 
-            enemy.ID = Id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : Id;
+            enemy.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
 
             enemy.SetPhysics(new CollidingPhysics(enemy));
             var renderer = new RenderBase(enemy, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
             enemy.SetRenderer(renderer);
-            enemy.SetBrain(new PathingTestBrain(enemy));
+
+            if (id == -1)
+            {
+                enemy.SetBrain(new PathingTestBrain(enemy));
+            }
+            else
+            {
+                enemy.SetBrain(new NetworkPlayerBrain(enemy));
+            }
+
             enemy.SetCombat(new CombatBase(enemy));
 
             // wire up the events between components
@@ -92,7 +101,10 @@ namespace co_op_engine.Factories
 
             gameRef.container.AddObject(enemy);
 
-            NetCommander.CreatedObject(enemy);
+            if (id == -1)
+            {
+                NetCommander.CreatedObject(enemy);
+            }
 
             return enemy;
         }

@@ -73,6 +73,15 @@ namespace co_op_engine.Components.Brains
                     else
                     {
                         Path.AdvancePoint();
+                        owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(Path.CurrentPoint - owner.Position);
+                        
+                        SendUpdate(new co_op_engine.Components.Brains.PlayerBrain.PlayerBrainUpdateParams()
+                        {
+                            InputMovementVector = owner.InputMovementVector,
+                            Position = owner.Position,
+                            RotationTowardFacingDirectionRadians = owner.RotationTowardFacingDirectionRadians,
+                            CurrentState = owner.CurrentState
+                        });
                     }
                 }
 

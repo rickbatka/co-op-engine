@@ -137,8 +137,8 @@ namespace co_op_engine.GameStates
             container.DrawAll(GameRef.spriteBatch);
             ParticleEngine.Instance.Draw(GameRef.spriteBatch);
             //@DEBUGDRAW DEBUG DRAW
-            container.DebugDraw(GameRef.spriteBatch);
-            DebugDrawStrings(gameTime);
+            //container.DebugDraw(GameRef.spriteBatch);
+            //DebugDrawStrings(gameTime);
             //PathFinder.Instance.Draw(GameRef.spriteBatch);
 
             GameRef.spriteBatch.End();
