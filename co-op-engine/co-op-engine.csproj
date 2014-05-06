@@ -111,6 +111,7 @@
     <Compile Include="Components\Weapons\Effects\BasicHealEffect.cs" />
     <Compile Include="Components\Weapons\Weapon.cs" />
     <Compile Include="Components\Weapons\Effects\WeaponEffectBase.cs" />
+    <Compile Include="Factories\LevelFactory.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Networking\Commands\Commander.cs" />
     <Compile Include="Networking\Commands\GameObjectCommand.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Utility\Camera\CameraEffectBase.cs" />
     <Compile Include="Utility\Camera\CameraShakeEffect.cs" />
     <Compile Include="Utility\Input\InputTypes.cs" />
+    <Compile Include="World\Level\GameDirectorBase.cs" />
     <Compile Include="World\TiledBackground.cs" />
     <Content Include="Content\TowerData.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -154,8 +156,7 @@
     <Compile Include="Utility\RectangleFloat.cs" />
     <Compile Include="Utility\ActorStates.cs" />
     <Compile Include="Utility\WeaponStates.cs" />
-    <Compile Include="World\GameWorld.cs" />
-    <Compile Include="World\Level\GameLevel.cs" />
+    <Compile Include="World\Level\Level.cs" />
     <Compile Include="World\Level\ObjectContainer.cs" />
   </ItemGroup>
   <ItemGroup>

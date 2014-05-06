@@ -16,8 +16,6 @@ namespace co_op_engine.Components.Particles
         int NumAliveParticles;
         List<Emitter> Emitters = new List<Emitter>();
 
-        private Vector2 debugTextPosition = new Vector2(500, 100);
-
         private static ParticleEngine _instance;
         public static ParticleEngine Instance
         {
@@ -53,7 +51,7 @@ namespace co_op_engine.Components.Particles
             spriteBatch.DrawString(
                 spriteFont: AssetRepository.Instance.Arial,
                 text: "Particles: alive: " + NumAliveParticles,
-                position: debugTextPosition,
+                position: new Vector2(Camera.Instance.ViewBoundsRectangle.Right - 250, Camera.Instance.ViewBoundsRectangle.Top + 25),
                 color: Color.White,
                 rotation: 0f,
                 origin: Vector2.Zero,

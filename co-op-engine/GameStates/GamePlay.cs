@@ -22,15 +22,17 @@ namespace co_op_engine.GameStates
     public class GamePlay : GameState
     {
         public ObjectContainer container;
-
-        public TiledBackground Background;
+        
+        public Level Level;
 
         private bool isHosting;
 
-        public GamePlay(Game1 game)
+        public GamePlay(Game1 game, Level level)
             : base(game)
         {
-            container = new ObjectContainer(new Rectangle(-1000, -1000, 2000, 2000));
+            Level = level;
+            Level.Initialize();
+            container = new ObjectContainer(Level.Bounds);
             PathFinder.Initialize(container);
             NetCommander.RegisterWorldWithNetwork(container);
             Camera.Instantiate(GameRef.screenRectangle);
@@ -41,7 +43,8 @@ namespace co_op_engine.GameStates
 
         public override void LoadContent()
         {
-            Background = new TiledBackground(AssetRepository.Instance.BushesTile);
+            Level.LoadContent();
+            
             ///////////////////////////////////////////////////////////
 
             //@TODO move to level setup
@@ -57,7 +60,9 @@ namespace co_op_engine.GameStates
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             GameTimerManager.Instance.Update(gameTime);
-            
+
+            Level.Update(gameTime);
+
             container.UpdateAll(gameTime);
             
             ParticleEngine.Instance.Update(gameTime);
@@ -71,8 +76,11 @@ namespace co_op_engine.GameStates
                     RouteNetCommand(command);
                 }
             }
-            Background.Update(gameTime);
-            Camera.Instance.Update(gameTime);
+            
+            if(Level.MatchState == MatchStates.Playing)
+            {
+                Camera.Instance.Update(gameTime);
+            }
             
         }
 
@@ -132,13 +140,13 @@ namespace co_op_engine.GameStates
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             GameRef.spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.LinearWrap, null, null, null, Camera.Instance.Transformation);
-            Background.Draw(GameRef.spriteBatch);
+            Level.Draw(GameRef.spriteBatch);
             
             container.DrawAll(GameRef.spriteBatch);
             ParticleEngine.Instance.Draw(GameRef.spriteBatch);
             //@DEBUGDRAW DEBUG DRAW
             //container.DebugDraw(GameRef.spriteBatch);
-            //DebugDrawStrings(gameTime);
+            DebugDrawStrings(gameTime);
             //PathFinder.Instance.Draw(GameRef.spriteBatch);
 
             GameRef.spriteBatch.End();
@@ -159,7 +167,7 @@ namespace co_op_engine.GameStates
                 GameRef.spriteBatch.DrawString(
                     spriteFont: AssetRepository.Instance.Arial,
                     text: debugInfos[i],
-                    position: new Vector2(25, (i + 1) * 25),
+                    position: new Vector2(Camera.Instance.ViewBoundsRectangle.Left + 25, Camera.Instance.ViewBoundsRectangle.Top + ((i+1)*25) ),
                     color: Color.White,
                     rotation: 0f,
                     origin: Vector2.Zero,

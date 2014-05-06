@@ -91,6 +91,7 @@ namespace co_op_engine.Components.Combat
             if (owner.Health <= 0)
             {
                 owner.Health = 0;
+
                 if (owner.CurrentStateProperties.CanStartDying)
                 {
                     owner.CurrentState = Constants.ACTOR_STATE_DYING;
