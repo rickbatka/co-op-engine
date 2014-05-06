@@ -12,9 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DevTools.ViewModel;
 using DevTools.GraphicsControls.Boiler;
 using DevTools.GraphicsControls;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace DevTools
 {
@@ -23,15 +24,24 @@ namespace DevTools
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ConsoleViewModel VM
-        {
-            get { return (ConsoleViewModel)this.DataContext; }
-        }
+        ContentBuilder builder;
+        ContentManager contentMgr;
 
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new ViewModel.ConsoleViewModel();
+            
+            builder = new ContentBuilder();
+
+        }
+
+        public void BuildAllContent()
+        {
+            builder.Clear();
+            builder.Add(@"C:\dev\coop\DevTools\Chains.png", "Chains", "TextureImporter", "TextureProcessor");
+            string errors = builder.Build();
+
+            
         }
 
         private void LoadContent(object sender, LoadContentArgs e)
@@ -40,46 +50,15 @@ namespace DevTools
             //would look like:
             //ContentManager Content = new ContentManager(this.graphicsTest.graphicsService);
             //Content.Load<Texture2D>("stuff"); etc
+            //ContentManager Content = new ContentManager();
+            BuildAllContent();
         }
 
+        private SpriteBatch spriteBatch;
         private void graphicsTest_RenderXna_1(object sender, GraphicsDeviceEventArgs e)
         {
             //HERE IS WHERE THE MAGIC HAS FINALLY COME TOGETHER>>>.......F DSLKIFJMH KSLDUHFMLIUDHF
             e.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
         }
-
-        public void ConnectClient(object sender, RoutedEventArgs args)
-        {
-            VM.Connect();
-        }
-
-        public void CloseClient(object sender, RoutedEventArgs e)
-        {
-            VM.Disconnect();
-        }
-
-        public void StartServer(object sender, RoutedEventArgs e)
-        {
-            VM.Host();
-        }
-
-        public void StopServer(object sender, RoutedEventArgs e)
-        {
-            VM.StopHost();
-        }
-
-        public void CheckForConfirmInInput(object sender, RoutedEventArgs e)
-        {
-            var input = (KeyEventArgs)e;
-            var textbox = (TextBox)sender;
-
-            if (input.Key == Key.Enter)
-            {
-                VM.ExecuteCommand(textbox.Text);
-                textbox.Text = "";
-            }
-        }
-
-        
     }
 }

@@ -19,6 +19,8 @@ namespace DevTools.GraphicsControls
         private IntPtr hWnd;
 
         private GraphicsDeviceService graphicsService;
+        private ServiceContainer services = new ServiceContainer();
+
 
         private bool applicationHasFocus = false;
         private bool mouseInWindow = false;
@@ -141,10 +143,11 @@ namespace DevTools.GraphicsControls
             if (graphicsService == null)
             {
                 graphicsService = GraphicsDeviceService.AddRef(hWnd, (int)ActualWidth, (int)ActualHeight);
+                services.AddService<IGraphicsDeviceService>(graphicsService);
 
                 if (LoadContent != null)
                 {
-                    LoadContent(this, new LoadContentArgs(graphicsService.GraphicsDevice, graphicsService));
+                    LoadContent(this, new LoadContentArgs(graphicsService.GraphicsDevice, graphicsService, services));
                 }
             }
         }
@@ -365,12 +368,14 @@ namespace DevTools.GraphicsControls
     public class LoadContentArgs : EventArgs
     {
         public GraphicsDevice GraphicsDevice { get; private set; }
-        public GraphicsDeviceService Service {get;private set;}
+        public GraphicsDeviceService GraphicsService { get; private set; }
+        public ServiceContainer Services;
 
-        public LoadContentArgs(GraphicsDevice device, GraphicsDeviceService service)
+        public LoadContentArgs(GraphicsDevice device, GraphicsDeviceService graphicsService, ServiceContainer services)
         {
             GraphicsDevice = device;
-            Service = service;
+            GraphicsService = graphicsService;
+            Services = services;
         }
     }
 }

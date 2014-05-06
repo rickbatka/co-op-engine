@@ -38,8 +38,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -71,18 +74,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GraphicsControls\Boiler\ContentBuilder.cs" />
+    <Compile Include="GraphicsControls\Boiler\ErrorLogger.cs" />
     <Compile Include="GraphicsControls\Boiler\GraphicsDeviceService.cs" />
     <Compile Include="GraphicsControls\Boiler\HwndMouseState.cs" />
     <Compile Include="GraphicsControls\Boiler\NativeBinaries.cs" />
+    <Compile Include="GraphicsControls\Boiler\ServiceContainer.cs" />
     <Compile Include="GraphicsControls\GraphicsControlBase.cs" />
-    <Compile Include="ViewModel\ConsoleViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\GameClientWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -110,12 +114,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\co-op-engine\co-op-engine.csproj">
-      <Project>{1238f14a-6978-4f34-a179-94c1b9740ed0}</Project>
-      <Name>co-op-engine</Name>
-    </ProjectReference>
+    <Folder Include="ViewModel\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

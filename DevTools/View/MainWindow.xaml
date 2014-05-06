@@ -19,12 +19,8 @@
             </MenuItem>
             <MenuItem Header="_Network">
                 <MenuItem Header="_Client" >
-                    <MenuItem Header="_Connect" Click="ConnectClient"/>
-                    <MenuItem Header="Cl_ose Connection" Click="CloseClient"/>
                 </MenuItem>
                 <MenuItem Header="_Server" >
-                    <MenuItem Header="_Start Hosting" Click="StartServer"/>
-                    <MenuItem Header="St_op Hosting" Click="StopServer"/>
                 </MenuItem>
             </MenuItem>
         </Menu>
