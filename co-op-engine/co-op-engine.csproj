@@ -236,8 +236,20 @@
       <Link>Content\Axe.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\BloodDroplet.xnb">
+      <Link>Content\BloodDroplet.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\chains.xnb">
+      <Link>Content\chains.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\coin.xnb">
       <Link>Content\coin.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\FuzzyLazer.xnb">
+      <Link>Content\FuzzyLazer.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\grass.xnb">
@@ -246,6 +258,10 @@
     </Content>
     <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\HealCircle.xnb">
       <Link>Content\HealCircle.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\HealCross.xnb">
+      <Link>Content\HealCross.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\HealZap.xnb">
