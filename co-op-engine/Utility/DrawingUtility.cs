@@ -132,6 +132,11 @@ namespace co_op_engine.Utility
             return new RectangleFloat(point.X, point.Y, 1, 1);
         }
 
+        public static Vector2 PointToVector(Point point)
+        {
+            return new Vector2(point.X, point.Y);
+        }
+
         public static Vector2 GetAbsolutePosition(IRenderable owner, Point relativePosition)
         {
             return DrawingUtility.RotateVectorAboutOrigin(
