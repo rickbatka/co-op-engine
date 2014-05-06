@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DevTools.ViewModel;
+using DevTools.GraphicsControls.Boiler;
+using DevTools.GraphicsControls;
 
 namespace DevTools
 {
@@ -30,6 +32,20 @@ namespace DevTools
         {
             InitializeComponent();
             this.DataContext = new ViewModel.ConsoleViewModel();
+        }
+
+        private void LoadContent(object sender, LoadContentArgs e)
+        {
+            //could bring in the content manager stuff,
+            //would look like:
+            //ContentManager Content = new ContentManager(this.graphicsTest.graphicsService);
+            //Content.Load<Texture2D>("stuff"); etc
+        }
+
+        private void graphicsTest_RenderXna_1(object sender, GraphicsDeviceEventArgs e)
+        {
+            //HERE IS WHERE THE MAGIC HAS FINALLY COME TOGETHER>>>.......F DSLKIFJMH KSLDUHFMLIUDHF
+            e.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
         }
 
         public void ConnectClient(object sender, RoutedEventArgs args)
@@ -63,5 +79,7 @@ namespace DevTools
                 textbox.Text = "";
             }
         }
+
+        
     }
 }
