@@ -80,7 +80,7 @@ namespace DevTools.GraphicsControls.Boiler
                                          "v4.0\\Microsoft.Xna.GameStudio.ContentPipeline.targets");
             buildProject = new Project(projectRootElement);
             buildProject.SetProperty("XnaPlatform", "Windows");
-            buildProject.SetProperty("XnaProfile", "HiDef");
+            buildProject.SetProperty("XnaProfile", "Reach");
             //buildProject.SetProperty("Platform", "x86");
             buildProject.SetProperty("XnaFrameworkVersion", "v4.0");
             buildProject.SetProperty("TargetFrameworkVersion", "v4.0");

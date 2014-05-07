@@ -1,0 +1,11 @@
+﻿<Window x:Class="DevTools.View.SpriteAnimator"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Graphics="clr-namespace:DevTools.GraphicsControls"
+        Title="SpriteAnimator" Height="300" Width="300">
+    <Grid>
+        <Graphics:GraphicsControlBase x:Name="graphicsTest" Grid.Row="1"
+                                      LoadContent="LoadContent"
+                                      RenderXna="RenderBox"/>
+    </Grid>
+</Window>
