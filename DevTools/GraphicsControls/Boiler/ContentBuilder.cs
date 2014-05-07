@@ -80,7 +80,7 @@ namespace DevTools.GraphicsControls.Boiler
                                          "v4.0\\Microsoft.Xna.GameStudio.ContentPipeline.targets");
             buildProject = new Project(projectRootElement);
             buildProject.SetProperty("XnaPlatform", "Windows");
-            buildProject.SetProperty("XnaProfile", "Reach");
+            buildProject.SetProperty("XnaProfile", "HiDef");
             //buildProject.SetProperty("Platform", "x86");
             buildProject.SetProperty("XnaFrameworkVersion", "v4.0");
             buildProject.SetProperty("TargetFrameworkVersion", "v4.0");
@@ -110,8 +110,6 @@ namespace DevTools.GraphicsControls.Boiler
             if (!string.IsNullOrEmpty(processor))
                 item.SetMetadataValue("Processor", processor);
 
-            //File.Copy(filename, item.Metadata
-
             projectItems.Add(item);
         }
 
@@ -134,12 +132,16 @@ namespace DevTools.GraphicsControls.Boiler
             submission.ExecuteAsync(null, null);
             submission.WaitHandle.WaitOne();
             BuildManager.DefaultBuildManager.EndBuild();
-            
+
             if (submission.BuildResult.OverallResult == BuildResultCode.Failure)
             {
                 return string.Join("\n", errorLogger.Errors.ToArray());
             }
-            return null;
+            else
+            {
+                return OutputDirectory;
+            }
+            
         }
 
         void CreateTempDirectory()

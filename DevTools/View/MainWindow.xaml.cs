@@ -40,8 +40,6 @@ namespace DevTools
             builder.Clear();
             builder.Add(@"C:\dev\coop\DevTools\Chains.png", "Chains", "TextureImporter", "TextureProcessor");
             string errors = builder.Build();
-
-            
         }
 
         private void LoadContent(object sender, LoadContentArgs e)

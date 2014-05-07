@@ -1,0 +1,19 @@
+﻿<Window x:Class="DevTools.View.Builder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Builder" Height="300" Width="300">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" >
+            <Button Content="Browse..." Padding="4 2 4 2" Margin="3"/>
+            <TextBox Text="{Binding InputDirectory}" Padding="4 2 4 2" Margin="3" />
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <Button Content="Browse..." Padding="4 2 4 2" Margin="3"/>
+            <TextBox Text="{Binding OutputDirectory}" Padding="4 2 4 2" Margin="3"/>
+        </DockPanel>
+        <Button DockPanel.Dock="Top" Content="BUILD" Click="Button_Click_1"></Button>
+        <Border BorderBrush="#999" BorderThickness="1" Margin="5">
+            <TextBlock Text="{Binding OutputText}" Height="auto" Background="#f4f4f4" />
+        </Border>
+    </DockPanel>
+</Window>
