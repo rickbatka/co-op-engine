@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "co-op-engine", "co-op-engin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTools", "DevTools\DevTools.csproj", "{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentCompiler", "ContentCompiler\ContentCompiler.csproj", "{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,19 @@ Global
 		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Release|x86.ActiveCfg = Release|Any CPU
+		{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}.Release|x86.Build.0 = Release|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Debug|x86.Build.0 = Debug|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Release|x86.ActiveCfg = Release|Any CPU
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

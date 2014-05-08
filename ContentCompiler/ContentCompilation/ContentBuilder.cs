@@ -6,12 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
-namespace DevTools.GraphicsControls.Boiler
+namespace ContentCompiler.ContentCompilation
 {
-    class ContentBuilder : IDisposable
+    public class ContentBuilder : IDisposable
     {
         const string xnaVersion = ", Version=4.0.0.0, PublicKeyToken=842cf8be1de50553";
+
+        public event EventHandler<ContentBuildEventArgs> OnOutput;
 
         static string[] pipelineAssemblies =
         {
@@ -110,6 +113,8 @@ namespace DevTools.GraphicsControls.Boiler
             if (!string.IsNullOrEmpty(processor))
                 item.SetMetadataValue("Processor", processor);
 
+            //File.Copy(filename, item.Metadata
+
             projectItems.Add(item);
         }
 
@@ -119,7 +124,7 @@ namespace DevTools.GraphicsControls.Boiler
 
             projectItems.Clear();
         }
-        
+
         public string Build()
         {
             errorLogger.Errors.Clear();
@@ -137,11 +142,7 @@ namespace DevTools.GraphicsControls.Boiler
             {
                 return string.Join("\n", errorLogger.Errors.ToArray());
             }
-            else
-            {
-                return OutputDirectory;
-            }
-            
+            return null;
         }
 
         void CreateTempDirectory()
@@ -185,6 +186,81 @@ namespace DevTools.GraphicsControls.Boiler
                     }
                 }
             }
+        }
+
+        public void BuildAssets(string inputDirectory, string outputDirectory, bool clear)
+        {
+            if (clear)
+            {
+                DirectoryInfo clearDirectoryInfo = new DirectoryInfo(outputDirectory);
+                try
+                {
+                    FileInfo[] clearingFiles = clearDirectoryInfo.GetFiles("*.xnb");
+
+                    foreach (FileInfo file in clearingFiles)
+                    {
+                        file.Delete();
+                    }
+                }
+                catch
+                { }
+            }
+
+            TriggerOutput("Gathering Files...");
+
+            DirectoryInfo dinfo = new DirectoryInfo(inputDirectory);
+            FileInfo[] infos = dinfo.GetFiles("*.png"); //there should be an expression fot this, but explorer was being an ass
+            infos.ToList().AddRange(dinfo.GetFiles("*.jpg"));
+            infos.ToList().AddRange(dinfo.GetFiles("*.tif"));
+            infos.ToList().AddRange(dinfo.GetFiles("*.bmp"));
+
+            Clear();
+
+            foreach (FileInfo finfo in infos)
+            {
+                TriggerOutput(finfo.FullName);
+                Add(finfo.FullName, finfo.Name.Replace(finfo.Extension,""), "TextureImporter", "TextureProcessor");
+            }
+
+            if (Build() == null)
+            {
+                TriggerOutput("\n - Done Building - \n\nCopying Files to:\n" + outputDirectory + "\n");
+
+                DirectoryInfo builtDirectoryInfo = new DirectoryInfo(buildDirectory);
+                FileInfo[] builtFiles = builtDirectoryInfo.GetFiles("*.xnb",SearchOption.AllDirectories);
+
+                foreach (FileInfo builtFile in builtFiles)
+                {
+                    bool fileExists = File.Exists(outputDirectory + "\\" + builtFile.Name);// builtFile.Exists;
+                    builtFile.CopyTo(outputDirectory + "\\" + builtFile.Name, true);
+                    TriggerOutput(builtFile.Name + (fileExists == true ? " was overwritten" : string.Empty));
+                }
+            }
+            else
+            {
+                foreach (string error in errorLogger.Errors)
+                {
+                    TriggerOutput(error);
+                }
+            }
+        }
+
+        private void TriggerOutput(string text)
+        {
+            if (OnOutput != null)
+            {
+                OnOutput.Invoke(this, new ContentBuildEventArgs(text));
+            }
+        }
+    }
+
+    public class ContentBuildEventArgs : EventArgs
+    {
+        public string Text { get; private set; }
+
+        public ContentBuildEventArgs(string outputText)
+        {
+            Text = outputText;
         }
     }
 }

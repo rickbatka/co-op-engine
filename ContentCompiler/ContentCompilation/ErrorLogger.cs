@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DevTools.GraphicsControls.Boiler
+namespace ContentCompiler.ContentCompilation
 {
-    class ErrorLogger : ILogger
+    public class ErrorLogger : ILogger
     {
         public void Initialize(IEventSource eventSource)
         {

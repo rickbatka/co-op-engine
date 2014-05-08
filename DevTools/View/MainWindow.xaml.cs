@@ -16,6 +16,7 @@ using DevTools.GraphicsControls.Boiler;
 using DevTools.GraphicsControls;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using ContentCompiler.ContentCompilation;
 
 namespace DevTools
 {

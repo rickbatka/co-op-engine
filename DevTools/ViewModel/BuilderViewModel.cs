@@ -8,12 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using DevTools.GraphicsControls.Boiler;
 using DevTools.ViewModel.Shared;
+using ContentCompiler.ContentCompilation;
 
 namespace DevTools.ViewModel
 {
     public class BuilderViewModel : ViewModelBase
     {
         private ContentBuilder contentBuilder;
+
+        
 
         private string _id;
         public string InputDirectory
@@ -62,33 +65,16 @@ namespace DevTools.ViewModel
 
         public void BuildAssets()
         {
-            OutputText = "Gathering Files...\n";
+            contentBuilder.OnOutput += HandleOutput;
 
-            DirectoryInfo dinfo = new DirectoryInfo(InputDirectory);
-            FileInfo[] infos = dinfo.GetFiles("*.png");
-            infos.ToList().AddRange(dinfo.GetFiles("*.jpg"));
-            infos.ToList().AddRange(dinfo.GetFiles("*.tif"));
-            infos.ToList().AddRange(dinfo.GetFiles("*.bmp"));
+            contentBuilder.BuildAssets(InputDirectory, OutputDirectory, false);
 
-            contentBuilder.Clear();
+            contentBuilder.OnOutput -= HandleOutput;
+        }
 
-            foreach (FileInfo finfo in infos)
-            {
-                OutputText += finfo.FullName + "\n";
-                contentBuilder.Add(finfo.FullName, finfo.Name, "TextureImporter", "TextureProcessor");
-            }
-
-            string builtDir = contentBuilder.Build();
-            OutputText += " - Done Building - \nCopying Files to:\n" + OutputDirectory + "\n";
-
-            DirectoryInfo builtDirectoryInfo = new DirectoryInfo(builtDir);
-            FileInfo[] builtFiles = builtDirectoryInfo.GetFiles();
-
-            foreach (FileInfo builtFile in builtFiles)
-            {
-                OutputText += builtFile.Name + "\n";
-                builtFile.CopyTo(OutputDirectory + "\\" + builtFile.Name, true);
-            }
+        private void HandleOutput(object sender, ContentBuildEventArgs e)
+        {
+            OutputText += e.Text + "\n";
         }
     }
 }
