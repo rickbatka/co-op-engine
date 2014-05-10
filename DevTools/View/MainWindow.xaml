@@ -2,34 +2,35 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Graphics="clr-namespace:DevTools.GraphicsControls"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="30" />
-        </Grid.RowDefinitions>
+        Title="MainWindow" SizeToContent="WidthAndHeight">
+    <DockPanel >
 
-        <Menu Grid.Row="0">
+        <Menu Grid.Row="0" DockPanel.Dock="Top">
             <MenuItem Header="_File" >
-                <MenuItem Header="E_xit" />
+                <MenuItem Header="E_xit" Click="MenuFileExitClicked"/>
             </MenuItem>
-            <MenuItem Header="_Edit">
+            <MenuItem Header="_Edit" IsEnabled="False">
                 <MenuItem Header="_Clear Console" />
             </MenuItem>
-            <MenuItem Header="_Network">
+            <MenuItem Header="_Network" IsEnabled="False">
                 <MenuItem Header="_Client" >
                 </MenuItem>
                 <MenuItem Header="_Server" >
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" Click="MenuHelpAboutClicked">
+                </MenuItem>
+            </MenuItem>
         </Menu>
 
-        <!--<ListBox Focusable="False" Grid.Row="1" Margin="5" ItemsSource="{Binding Messages}"></ListBox>
-        <TextBox Grid.Row="2" Margin="2" KeyUp="CheckForConfirmInInput"></TextBox>-->
-        <Graphics:GraphicsControlBase x:Name="graphicsTest" Grid.Row="1"
-                                      LoadContent="LoadContent"
-                                      RenderXna="graphicsTest_RenderXna_1"/>
-                                      
-    </Grid>
+        <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="4" CornerRadius="8">
+            <DockPanel>
+                <Button DockPanel.Dock="Top" Margin="2" Padding="5 3 5 3" Click="ButtonContentCompilerPressed">Content Compiler GUI</Button>
+                <Button DockPanel.Dock="Top" Margin="2" Padding="5 3 5 3" Click="ButtonSpriteAnimatorPressed">Sprite Animator</Button>
+                <Button DockPanel.Dock="Top" Margin="2" Padding="5 3 5 3" IsEnabled="False">Leve Editor</Button>
+                <Button DockPanel.Dock="Top" Margin="2" Padding="5 3 5 3" IsEnabled="False">Network Diagnostics</Button>
+            </DockPanel>
+        </Border>
+    </DockPanel>
 </Window>

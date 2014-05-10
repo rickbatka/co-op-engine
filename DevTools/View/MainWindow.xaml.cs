@@ -17,6 +17,7 @@ using DevTools.GraphicsControls;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using ContentCompiler.ContentCompilation;
+using DevTools.View;
 
 namespace DevTools
 {
@@ -25,39 +26,31 @@ namespace DevTools
     /// </summary>
     public partial class MainWindow : Window
     {
-        ContentBuilder builder;
-        ContentManager contentMgr;
-
         public MainWindow()
         {
             InitializeComponent();
-            
-            builder = new ContentBuilder();
-
         }
 
-        public void BuildAllContent()
+        public void MenuHelpAboutClicked(object sender, RoutedEventArgs e)
         {
-            builder.Clear();
-            builder.Add(@"C:\dev\coop\DevTools\Chains.png", "Chains", "TextureImporter", "TextureProcessor");
-            string errors = builder.Build();
+            MessageBox.Show("Version:" + "<pending versioning feature>");
         }
 
-        private void LoadContent(object sender, LoadContentArgs e)
+        public void MenuFileExitClicked(object sender, RoutedEventArgs e)
         {
-            //could bring in the content manager stuff,
-            //would look like:
-            //ContentManager Content = new ContentManager(this.graphicsTest.graphicsService);
-            //Content.Load<Texture2D>("stuff"); etc
-            //ContentManager Content = new ContentManager();
-            BuildAllContent();
+            this.Close();
         }
 
-        private SpriteBatch spriteBatch;
-        private void graphicsTest_RenderXna_1(object sender, GraphicsDeviceEventArgs e)
+        public void ButtonSpriteAnimatorPressed(object sender, RoutedEventArgs e)
         {
-            //HERE IS WHERE THE MAGIC HAS FINALLY COME TOGETHER>>>.......F DSLKIFJMH KSLDUHFMLIUDHF
-            e.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
+            Builder builder = new Builder();
+            builder.Show();
+        }
+
+        public void ButtonContentCompilerPressed(object sender, RoutedEventArgs e)
+        {
+            SpriteAnimator spriteAnimator = new SpriteAnimator();
+            spriteAnimator.Show();
         }
     }
 }
