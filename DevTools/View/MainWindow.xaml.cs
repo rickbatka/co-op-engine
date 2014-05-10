@@ -43,14 +43,14 @@ namespace DevTools
 
         public void ButtonSpriteAnimatorPressed(object sender, RoutedEventArgs e)
         {
-            Builder builder = new Builder();
-            builder.Show();
+            SpriteAnimator spriteAnimator = new SpriteAnimator();
+            spriteAnimator.Show();
         }
 
         public void ButtonContentCompilerPressed(object sender, RoutedEventArgs e)
         {
-            SpriteAnimator spriteAnimator = new SpriteAnimator();
-            spriteAnimator.Show();
+            Builder builder = new Builder();
+            builder.Show();
         }
     }
 }
