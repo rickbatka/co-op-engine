@@ -66,6 +66,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\AnimationToolSystem.cs" />
+    <Compile Include="ViewModel\SpriteAnimator.cs" />
     <Compile Include="View\SpriteAnimator.xaml.cs">
       <DependentUpon>SpriteAnimator.xaml</DependentUpon>
     </Compile>
@@ -132,6 +134,9 @@
       <Project>{6e8e9324-f7a8-4b21-bcf6-38d1b0f9af1d}</Project>
       <Name>ContentCompiler</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\SpriteAnimator\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

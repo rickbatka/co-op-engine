@@ -3,9 +3,58 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Graphics="clr-namespace:DevTools.GraphicsControls"
         Title="SpriteAnimator" Height="300" Width="300">
-    <Grid>
-        <Graphics:GraphicsControlBase x:Name="graphicsTest" Grid.Row="1"
-                                      LoadContent="LoadContent"
-                                      RenderXna="RenderBox"/>
-    </Grid>
+    <DockPanel>
+
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New From Image" Click="MenuItem_Click_1"/>
+                <MenuItem Header="_Open" Click="MenuItem_Click_2"/>
+                <MenuItem Header="_Save" Click="MenuItem_Click_3"/>
+                <MenuItem Header="E_xit" Click="MenuItem_Click_4"/>
+            </MenuItem>
+        </Menu>
+
+        <DockPanel DockPanel.Dock="Top" Margin="5">
+            <TextBox DockPanel.Dock="Right">100%</TextBox>
+            <Label DockPanel.Dock="Right">Timescale</Label>
+            <Slider DockPanel.Dock="Left" />
+        </DockPanel>
+
+        <DockPanel DockPanel.Dock="Top" Margin="2">
+            <Button DockPanel.Dock="Right" Width="20" Height="20">+</Button>
+            <Label DockPanel.Dock="Right">Direction</Label>
+            <ComboBox DockPanel.Dock="Left">
+            </ComboBox>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top" Margin="2">
+            <Button DockPanel.Dock="Right" Width="20" Height="20">+</Button>
+            <Label DockPanel.Dock="Right">Action</Label>
+            <ComboBox DockPanel.Dock="Left">
+            </ComboBox>
+        </DockPanel>
+
+        <DockPanel DockPanel.Dock="Top">
+            <Button DockPanel.Dock="Right" Width="20" Height="20" Margin="4">></Button>
+            <Button DockPanel.Dock="Right" Width="20" Height="20" Margin="4">||</Button>
+            <Label DockPanel.Dock="Right">1/14</Label>
+            <Slider DockPanel.Dock="Left"></Slider>
+        </DockPanel>
+        
+        <DockPanel DockPanel.Dock="Top">
+            <Label DockPanel.Dock="Right">Zoom</Label>
+            <ComboBox DockPanel.Dock="Left" />
+        </DockPanel>
+        
+        <Label DockPanel.Dock="Bottom">Selection ( 0, 0, 20, 20 )</Label>
+        
+        <Border Margin="5" Padding="3" BorderBrush="Gray" BorderThickness="1" >
+            <Graphics:GraphicsControlBase
+                DockPanel.Dock="Top"
+                x:Name="graphicsTest" Grid.Row="1"
+                LoadContent="LoadContent"
+                RenderXna="RenderBox"/>
+        </Border>
+        
+        
+    </DockPanel>
 </Window>

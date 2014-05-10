@@ -60,5 +60,25 @@ namespace DevTools.View
         {
             spriteBatch.Draw(DevTexture, new Microsoft.Xna.Framework.Rectangle(0, 0, 1000, 1000), Microsoft.Xna.Framework.Color.White);
         }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
