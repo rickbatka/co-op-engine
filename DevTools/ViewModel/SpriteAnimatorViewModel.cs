@@ -80,13 +80,24 @@ namespace DevTools.ViewModel
             model.Draw(spriteBatch);
         }
 
+        bool hasLoadedContentBefore = false;
         internal void OpenFilePair(string filename)
         {
             FileInfo info = new FileInfo(filename);
-            Content.RootDirectory = info.Directory.FullName;
+            if (!hasLoadedContentBefore)
+            {
+                hasLoadedContentBefore = true;
+                Content.RootDirectory = info.Directory.FullName;
+            }
             model.LoadTexture( filename , Content);
+            model.FileName = filename;
             UpdateParameters();
             OnPropertyChanged(() => this.FileName);
+        }
+
+        internal void RefreshCurrentContent()
+        {
+            OpenFilePair(FileName);
         }
     }
 }
