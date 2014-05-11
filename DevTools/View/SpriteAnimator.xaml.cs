@@ -39,7 +39,7 @@ namespace DevTools.View
 
         public void LoadContent(object sender, LoadContentArgs e)
         {
-            VM.LoadContent(new ContentManager(e.Services));
+            VM.LoadContent(new ContentManager(e.Services, "Content"));
             spriteBatch = new SpriteBatch(e.GraphicsDevice);
         }
 
@@ -59,6 +59,16 @@ namespace DevTools.View
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
+            //open
+            System.Windows.Forms.OpenFileDialog opener = new System.Windows.Forms.OpenFileDialog();
+
+            opener.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+            opener.Filter = "Content files (*.xnb)|*.xnb";
+
+            if (opener.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                VM.OpenFilePair(opener.FileName);
+            }
 
         }
 

@@ -7,6 +7,8 @@ using DevTools.Model;
 using DevTools.ViewModel.Shared;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.ObjectModel;
+using System.IO;
 
 namespace DevTools.ViewModel
 {
@@ -29,11 +31,38 @@ namespace DevTools.ViewModel
         public string FileName
         {
             get { return model.FileName; }
-            set
+        }
+
+        public int SelectedDirection
+        {
+            get { return model.CurrentDirection; }
+            set { model.CurrentDirection = value; }
+        }
+        public ObservableCollection<string> Directions
+        {
+            get
             {
-                model.SetFile(value, Content);
-                OnPropertyChanged("FileName");
+                return new ObservableCollection<string>(){"1","2","3","4"};
             }
+        }
+
+        public int SelectedAction
+        {
+            get { return model.CurrentAnimation; }
+            set { model.CurrentAnimation = value; }
+        }
+        public ObservableCollection<string> Actions
+        {
+            get
+            {
+                return new ObservableCollection<string>(model.animations.Keys.Select((i) => i.ToString()));
+            }
+        }
+
+        private void UpdateParameters()
+        {
+            OnPropertyChanged(() => this.Directions);
+            OnPropertyChanged(() => this.Actions);
         }
 
         public SpriteAnimatorViewModel()
@@ -49,6 +78,15 @@ namespace DevTools.ViewModel
         internal void Draw(SpriteBatch spriteBatch)
         {
             model.Draw(spriteBatch);
+        }
+
+        internal void OpenFilePair(string filename)
+        {
+            FileInfo info = new FileInfo(filename);
+            Content.RootDirectory = info.Directory.FullName;
+            model.LoadTexture( filename , Content);
+            UpdateParameters();
+            OnPropertyChanged(() => this.FileName);
         }
     }
 }

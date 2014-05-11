@@ -23,13 +23,13 @@
         <DockPanel DockPanel.Dock="Top" Margin="2">
             <Button DockPanel.Dock="Right" Width="20" Height="20">+</Button>
             <Label DockPanel.Dock="Right">Direction</Label>
-            <ComboBox DockPanel.Dock="Left">
+            <ComboBox DockPanel.Dock="Left" ItemsSource="{Binding Directions}" SelectedIndex="{Binding SelectedDirection}">
             </ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="2">
             <Button DockPanel.Dock="Right" Width="20" Height="20">+</Button>
             <Label DockPanel.Dock="Right">Action</Label>
-            <ComboBox DockPanel.Dock="Left">
+            <ComboBox DockPanel.Dock="Left" ItemsSource="{Binding Actions}" SelectedIndex="{Binding SelectedAction}">
             </ComboBox>
         </DockPanel>
 
