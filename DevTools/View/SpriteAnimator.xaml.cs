@@ -15,6 +15,7 @@ using DevTools.GraphicsControls;
 using DevTools.GraphicsControls.Boiler;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using DevTools.ViewModel;
 
 namespace DevTools.View
 {
@@ -23,42 +24,32 @@ namespace DevTools.View
     /// </summary>
     public partial class SpriteAnimator : Window
     {
-        ContentManager contentMgr;
-        Texture2D DevTexture;
+        SpriteAnimatorViewModel VM
+        {
+            get { return this.DataContext as SpriteAnimatorViewModel; }
+            set { this.DataContext = value; }
+        }
+        SpriteBatch spriteBatch;
 
         public SpriteAnimator()
         {
             InitializeComponent();
+            VM = new SpriteAnimatorViewModel();
         }
 
         public void LoadContent(object sender, LoadContentArgs e)
         {
-            contentMgr = new ContentManager(e.Services, "Content");
-            DevTexture = contentMgr.Load<Texture2D>("HealCross.png");
+            VM.LoadContent(new ContentManager(e.Services));
+            spriteBatch = new SpriteBatch(e.GraphicsDevice);
         }
 
-        SpriteBatch spritebatch;
-        bool hasInstantiatedSpriteBatch = false;
         private void RenderBox(object sender, GraphicsDeviceEventArgs e)
         {
             e.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
-            if (!hasInstantiatedSpriteBatch)
-            {
-                spritebatch = new SpriteBatch(e.GraphicsDevice);
-                hasInstantiatedSpriteBatch = true;
-            }
 
-            spritebatch.Begin();
-
-            Draw(spritebatch);
-
-            spritebatch.End();
-
-        }
-
-        private void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(DevTexture, new Microsoft.Xna.Framework.Rectangle(0, 0, 1000, 1000), Microsoft.Xna.Framework.Color.White);
+            spriteBatch.Begin();
+            VM.Draw(spriteBatch);
+            spriteBatch.End();
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)

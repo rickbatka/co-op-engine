@@ -3,30 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using co_op_engine.Collections;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace DevTools.Model
 {
     class AnimationToolSystem
     {
         //current file
-        
-        //current animation data model
-        //info to run specific animation (direction/action)
+        string spritesheetFilename;
+        string metadataFilename;
+        AnimationSet animations;
 
-        //animation timers
-
-        //timescale?
+        private TimeSpan frameTimer;
         public float Timescale { get; set; }
-
-
         public string FileName { get; set; }
 
-        internal void SetTimeScale(int p)
+        private bool isLoaded = false;
+
+        public AnimationToolSystem()
         {
-            throw new NotImplementedException();
+
         }
 
-        internal void SetFile(string value)
+        public void Draw(SpriteBatch spriteBatch)
+        {
+
+        }
+
+        internal void SetFile(string filename, ContentManager content)
         {
             throw new NotImplementedException();
         }

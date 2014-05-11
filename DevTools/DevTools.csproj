@@ -67,7 +67,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\AnimationToolSystem.cs" />
-    <Compile Include="ViewModel\SpriteAnimator.cs" />
+    <Compile Include="ViewModel\SpriteAnimatorViewModel.cs" />
     <Compile Include="View\SpriteAnimator.xaml.cs">
       <DependentUpon>SpriteAnimator.xaml</DependentUpon>
     </Compile>
@@ -130,6 +130,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\co-op-engine\co-op-engine.csproj">
+      <Project>{1238f14a-6978-4f34-a179-94c1b9740ed0}</Project>
+      <Name>co-op-engine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ContentCompiler\ContentCompiler.csproj">
       <Project>{6e8e9324-f7a8-4b21-bcf6-38d1b0f9af1d}</Project>
       <Name>ContentCompiler</Name>

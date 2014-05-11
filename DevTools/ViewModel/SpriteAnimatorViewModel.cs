@@ -5,16 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using DevTools.Model;
 using DevTools.ViewModel.Shared;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DevTools.ViewModel
 {
-    class SpriteAnimator : ViewModelBase
+    class SpriteAnimatorViewModel : ViewModelBase
     {
         AnimationToolSystem model;
+        ContentManager Content;
 
-        public SpriteAnimator()
+        public SpriteAnimatorViewModel()
+        {}
+
+        public void LoadContent(ContentManager contentmgr)
         {
-            model = new AnimationToolSystem();
+            Content = contentmgr;
         }
 
         public int maxSliderValue = 100;
@@ -23,7 +29,7 @@ namespace DevTools.ViewModel
             get { return (int)(model.Timescale * maxSliderValue); }
             set
             {
-                model.SetTimeScale(value / maxSliderValue);
+                model.Timescale = (float)value / (float)maxSliderValue;
                 OnPropertyChanged("TimescaleSliderValue");
             }
         }
@@ -33,11 +39,14 @@ namespace DevTools.ViewModel
             get { return model.FileName; }
             set
             {
-                model.SetFile(value);
+                model.SetFile(value, Content);
                 OnPropertyChanged("FileName");
             }
         }
 
-
+        internal void Draw(SpriteBatch spriteBatch)
+        {
+            model.Draw(spriteBatch);
+        }
     }
 }
