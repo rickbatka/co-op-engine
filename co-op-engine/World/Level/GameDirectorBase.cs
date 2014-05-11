@@ -82,7 +82,7 @@ namespace co_op_engine.World.Level
         private void CheckWinConditions(GameTime gameTime)
         {
             //if(PlayerOneKills >= 1)
-            if(gameTime.TotalGameTime.TotalSeconds >= 15)
+            if(gameTime.TotalGameTime.TotalSeconds >= 150)
             {
                 BigCenterBannerText = "You won.";
                 ChangeToState(MatchStates.Ended);

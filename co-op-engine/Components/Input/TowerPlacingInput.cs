@@ -28,12 +28,12 @@ namespace co_op_engine.Components.Input
         {
             var pos = InputHandler.MousePositionVectorCameraAdjusted();
 
-            var lockedPos = LockToScreenGrid(pos);
+            var lockedPos = LockToGrid(pos);
 
             return lockedPos;
         }
 
-        private Vector2 LockToScreenGrid(Vector2 pos)
+        private Vector2 LockToGrid(Vector2 pos)
         {
             float newX = pos.X;
             float newY = pos.Y;
@@ -41,10 +41,6 @@ namespace co_op_engine.Components.Input
             //lock to grid
             newX = LockToGrid(newX);
             newY = LockToGrid(newY);
-
-            // lock to screen
-            newX = MathHelper.Clamp(newX, 0, gameRef.ScreenRectangle.Right - towerPlacingBox.Width);
-            newY = MathHelper.Clamp(newY, 0, gameRef.ScreenRectangle.Bottom - towerPlacingBox.Height);
 
             return new Vector2(newX, newY);
         }

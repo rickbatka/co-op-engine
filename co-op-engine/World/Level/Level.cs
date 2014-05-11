@@ -23,6 +23,7 @@ namespace co_op_engine.World.Level
 
         public Rectangle Bounds;
         public MatchStates MatchState;
+        public Vector2 StartingPositionPlayer0;
 
         public Level()
         {
@@ -35,7 +36,8 @@ namespace co_op_engine.World.Level
 
         public void Initialize()
         {
-            Bounds = new Rectangle(-1000, -1000, 2000, 2000);
+            Bounds = new Rectangle(0, 0, 2000, 2000);
+            StartingPositionPlayer0 = new Vector2(Bounds.Width / 2, Bounds.Height / 2);
         }
 
         public void LoadContent()
@@ -53,6 +55,18 @@ namespace co_op_engine.World.Level
         {
             Background.Draw(spriteBatch);
             GameDirector.Draw(spriteBatch);
+
+            //debugdraw
+            spriteBatch.Draw(
+                texture: AssetRepository.Instance.DebugGridTexture,
+                destinationRectangle: Bounds,
+                sourceRectangle: null,
+                color: Color.Black,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                effect: SpriteEffects.None,
+                depth: 1f
+            );
         }
     }
 }

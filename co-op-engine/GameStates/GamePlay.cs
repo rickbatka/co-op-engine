@@ -35,7 +35,7 @@ namespace co_op_engine.GameStates
             container = new ObjectContainer(Level.Bounds);
             PathFinder.Initialize(container);
             NetCommander.RegisterWorldWithNetwork(container);
-            Camera.Instantiate(GameRef.screenRectangle);
+            Camera.Instantiate(GameRef.screenRectangleActual);
             PlayerFactory.Initialize(this);
             TowerFactory.Initialize(this);
             NetworkFactory.Initialize(this);
@@ -44,17 +44,9 @@ namespace co_op_engine.GameStates
         public override void LoadContent()
         {
             Level.LoadContent();
-            
-            ///////////////////////////////////////////////////////////
-
-            //@TODO move to level setup
-            Camera.Instance.SetCameraTackingObject(PlayerFactory.Instance.GetPlayer());
+            var player = PlayerFactory.Instance.GetPlayer(Level.StartingPositionPlayer0);
+            Camera.Instance.SetCameraTackingObject(player);
             Camera.Instance.IsTracking = true;
-            //TowerFactory.GetDoNothingTower(container, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.PlainWhiteTexture);
-
-            //var devTower = TowerFactory.GetDoNothingTower(this, tree, towerTexture, plainWhiteTexture);
-            //Towers.Add(devTower);
-
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
@@ -139,13 +131,21 @@ namespace co_op_engine.GameStates
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            GameRef.spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.LinearWrap, null, null, null, Camera.Instance.Transformation);
+            GameRef.spriteBatch.Begin(
+                SpriteSortMode.FrontToBack, 
+                null, 
+                SamplerState.LinearWrap, 
+                null, 
+                null, 
+                null,
+                Camera.Instance.Transformation
+            );
             Level.Draw(GameRef.spriteBatch);
             
             container.DrawAll(GameRef.spriteBatch);
             ParticleEngine.Instance.Draw(GameRef.spriteBatch);
             //@DEBUGDRAW DEBUG DRAW
-            //container.DebugDraw(GameRef.spriteBatch);
+            container.DebugDraw(GameRef.spriteBatch);
             DebugDrawStrings(gameTime);
             //PathFinder.Instance.Draw(GameRef.spriteBatch);
 
@@ -179,7 +179,7 @@ namespace co_op_engine.GameStates
         }
 
 
-        public Rectangle ScreenRectangle { get { return GameRef.screenRectangle; } }
+        public Rectangle ScreenRectangle { get { return GameRef.screenRectangleActual; } }
         public int GridSize { get { return GameRef.gridSize; } }
     }
 }

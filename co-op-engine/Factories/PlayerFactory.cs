@@ -40,14 +40,20 @@ namespace co_op_engine.Factories
             Instance = new PlayerFactory(gameRef);
         }
 
-        public GameObject GetPlayer()
+        public GameObject GetPlayer(Vector2? position = null)
         {
             var player = new GameObject();
             player.ConstructionStamp = "Player";
             player.Friendly = true;
 
             player.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
-            player.Position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 100));
+
+            if(position == null)
+            {
+                position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 100));
+            }
+
+            player.Position = position.Value;
 
             player.SetPhysics(new CollidingPhysics(player));
             var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);

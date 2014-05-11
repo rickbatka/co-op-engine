@@ -13,7 +13,7 @@ namespace co_op_engine
     /// </summary>
     public class Game1 : Game
     {
-        public Rectangle screenRectangle;
+        public Rectangle screenRectangleActual;
         public int gridSize = 32;
 
         GraphicsDeviceManager graphics;
@@ -24,20 +24,13 @@ namespace co_op_engine
         public Game1()
             : base()
         {
-            screenRectangle = new Rectangle(0,0,1024,768);
+            
             graphics = new GraphicsDeviceManager(this);
-
+            Window.IsBorderless = true; // monogame fullscreen hack :)
+            this.Window.SetPosition(new Point(0, 0));
 
             Content.RootDirectory = "Content";
             Components.Add(new InputHandler(this));
-            //graphics.PreferredBackBufferHeight = screenRectangle.Height;
-            //5graphics.PreferredBackBufferWidth = screenRectangle.Width;
-
-            graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = screenRectangle.Width;
-            graphics.PreferredBackBufferHeight = screenRectangle.Height;
-            this.Window.SetPosition(screenRectangle.Location); //moved it here cause it couldn't be moved if it was being updated every game loop
-
         }
 
         public void ChangeGameState(GameState state)
@@ -55,6 +48,10 @@ namespace co_op_engine
         protected override void Initialize()
         {
             base.Initialize();
+            screenRectangleActual = new Rectangle(0, 0, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
+
+            graphics.PreferredBackBufferWidth = screenRectangleActual.Width;
+            graphics.PreferredBackBufferHeight = screenRectangleActual.Height;
         }
 
         /// <summary>
@@ -63,6 +60,7 @@ namespace co_op_engine
         /// </summary>
         protected override void LoadContent()
         {
+
             // Create a new SpriteBatch, load textures
             spriteBatch = new SpriteBatch(GraphicsDevice);
             AssetRepository.Initialize(this);
