@@ -15,14 +15,6 @@ namespace DevTools.ViewModel
         AnimationToolSystem model;
         ContentManager Content;
 
-        public SpriteAnimatorViewModel()
-        {}
-
-        public void LoadContent(ContentManager contentmgr)
-        {
-            Content = contentmgr;
-        }
-
         public int maxSliderValue = 100;
         public int TimescaleSliderValue
         {
@@ -42,6 +34,16 @@ namespace DevTools.ViewModel
                 model.SetFile(value, Content);
                 OnPropertyChanged("FileName");
             }
+        }
+
+        public SpriteAnimatorViewModel()
+        {
+            model = new AnimationToolSystem();
+        }
+
+        public void LoadContent(ContentManager contentmgr)
+        {
+            Content = contentmgr;
         }
 
         internal void Draw(SpriteBatch spriteBatch)
