@@ -97,7 +97,7 @@ namespace DevTools.ViewModel
 
         internal void RefreshCurrentContent()
         {
-            OpenFilePair(FileName);
+            model.RecompileReload(Content);
         }
     }
 }

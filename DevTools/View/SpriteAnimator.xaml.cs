@@ -63,7 +63,7 @@ namespace DevTools.View
             System.Windows.Forms.OpenFileDialog opener = new System.Windows.Forms.OpenFileDialog();
 
             opener.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
-            opener.Filter = "Content files (*.xnb)|*.xnb";
+            opener.Filter = "Image files (*.jpg, *.bmp, *.png) | *.jpg; *.bmp; *.png";//"Content files| *.jpg; *.bmp; *.png | All Files (*.*) | *.*";
 
             if (opener.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {

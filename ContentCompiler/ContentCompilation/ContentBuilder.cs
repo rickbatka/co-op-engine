@@ -169,7 +169,7 @@ namespace ContentCompiler.ContentCompilation
             }
         }
 
-        void PurgeStaleTempDirectories()
+        private void PurgeStaleTempDirectories()
         {
             foreach (string directory in Directory.GetDirectories(baseDirectory))
             {
@@ -188,10 +188,8 @@ namespace ContentCompiler.ContentCompilation
             }
         }
 
-        public void BuildAssets(string inputDirectory, string outputDirectory, bool clear)
+        public void ClearDirectory(string outputDirectory)
         {
-            if (clear)
-            {
                 DirectoryInfo clearDirectoryInfo = new DirectoryInfo(outputDirectory);
                 try
                 {
@@ -204,10 +202,10 @@ namespace ContentCompiler.ContentCompilation
                 }
                 catch
                 { }
-            }
+        }
 
-            TriggerOutput("Gathering Files...");
-
+        public void GatherInputFiles(string inputDirectory)
+        {
             DirectoryInfo dinfo = new DirectoryInfo(inputDirectory);
             FileInfo[] infos = dinfo.GetFiles("*.png"); //there should be an expression fot this, but explorer was being an ass
             infos.ToList().AddRange(dinfo.GetFiles("*.jpg"));
@@ -219,22 +217,58 @@ namespace ContentCompiler.ContentCompilation
             foreach (FileInfo finfo in infos)
             {
                 TriggerOutput(finfo.FullName);
-                Add(finfo.FullName, finfo.Name.Replace(finfo.Extension,""), "TextureImporter", "TextureProcessor");
+                Add(finfo.FullName, finfo.Name.Replace(finfo.Extension, ""), "TextureImporter", "TextureProcessor");
             }
+        }
+
+        private void MoveBuiltFilesToOutputDirectory(string outputDirectory)
+        {
+            DirectoryInfo builtDirectoryInfo = new DirectoryInfo(buildDirectory);
+            FileInfo[] builtFiles = builtDirectoryInfo.GetFiles("*.xnb", SearchOption.AllDirectories);
+
+            foreach (FileInfo builtFile in builtFiles)
+            {
+                bool fileExists = File.Exists(outputDirectory + "\\" + builtFile.Name);// builtFile.Exists;
+                builtFile.CopyTo(outputDirectory + "\\" + builtFile.Name, true);
+                TriggerOutput(builtFile.Name + (fileExists == true ? " was overwritten" : string.Empty));
+            }
+        }
+
+        public void BuildSingleAsset(string filename)
+        {
+            Clear();
+            Add(filename, "temp", "TextureImporter", "TextureProcessor");
+            string output = string.Empty;
 
             if (Build() == null)
             {
+                FileInfo info = new FileInfo(buildDirectory + "\\temp.xnb");
+                output = info.FullName;
+            }
+            else
+            {
+                throw new Exception("error");
+            }
+
+            FileInfo inputFileInfo = new FileInfo(filename);
+
+            MoveBuiltFilesToOutputDirectory(inputFileInfo.DirectoryName);
+        }
+        
+        public void BuildAssets(string inputDirectory, string outputDirectory, bool clear)
+        {
+            ClearDirectory(OutputDirectory);
+            TriggerOutput("Gathering Files...");
+
+            GatherInputFiles(inputDirectory);
+
+            string builtText = Build();
+
+            if (builtText == null)
+            {
                 TriggerOutput("\n - Done Building - \n\nCopying Files to:\n" + outputDirectory + "\n");
 
-                DirectoryInfo builtDirectoryInfo = new DirectoryInfo(buildDirectory);
-                FileInfo[] builtFiles = builtDirectoryInfo.GetFiles("*.xnb",SearchOption.AllDirectories);
-
-                foreach (FileInfo builtFile in builtFiles)
-                {
-                    bool fileExists = File.Exists(outputDirectory + "\\" + builtFile.Name);// builtFile.Exists;
-                    builtFile.CopyTo(outputDirectory + "\\" + builtFile.Name, true);
-                    TriggerOutput(builtFile.Name + (fileExists == true ? " was overwritten" : string.Empty));
-                }
+                MoveBuiltFilesToOutputDirectory(outputDirectory);
             }
             else
             {

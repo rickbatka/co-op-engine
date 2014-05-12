@@ -73,9 +73,6 @@ namespace DevTools.Model
 
     static class LightAnimationsDataReader
     {
-        
-
-
         public static LightFrame BuildFromDataLine(string lineData, float scale)
         {
             Rectangle sourceRectangle = readRectangles(lineData, '<', '>').First();

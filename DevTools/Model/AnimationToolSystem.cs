@@ -7,14 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System.IO;
+using ContentCompiler.ContentCompilation;
 
 namespace DevTools.Model
 {
     class AnimationToolSystem
     {
         //current file
-        string spritesheetFilename;
-        string metadataFilename;
+        string compiledName;
 
         public Dictionary<int, LightAnimation[]> animations;
         public int CurrentDirection;
@@ -44,12 +44,42 @@ namespace DevTools.Model
             }
         }
 
+        public void RecompileReload(ContentManager content)
+        {
+            //unload
+            content.Unload();
+            //delete
+            File.Delete(compiledName);
+            //recompile
+            BuildAndLoad(FileName, content);
+        }
+
+        private void BuildAndLoad(string filename, ContentManager content)
+        {
+            content.Unload();
+
+            if (File.Exists(compiledName))
+            {
+                File.Delete(compiledName);
+            }
+
+            ContentBuilder builder = new ContentBuilder();
+            builder.BuildSingleAsset(FileName);
+
+            FileInfo info = new FileInfo(filename);
+            FileInfo compiledFileInfo = new FileInfo(info.Directory.FullName + "\\temp.xnb");
+
+            compiledName = compiledFileInfo.FullName;
+
+            content.RootDirectory = info.Directory.FullName;
+            currentTexture = content.Load<Texture2D>("temp");
+        }
 
         public void LoadMetaData(string filename)
         {
             string[] animationData = File.ReadAllLines(filename);
             BuildFromAsset(animationData);
-            
+
 
             isLoaded = true;
         }
@@ -61,12 +91,15 @@ namespace DevTools.Model
 
         internal void LoadTexture(string filename, ContentManager content)
         {
+            FileName = filename;
+            BuildAndLoad(filename, content);
+
             //should be UI enforced
             FileInfo fileInfo = new FileInfo(filename);
-            string baseName = fileInfo.Name.Replace(fileInfo.Extension, "");
-            currentTexture = content.Load<Texture2D>(baseName);
 
-            string dataName = "Content/" + baseName + "Data.txt";
+            string baseName = fileInfo.Name.Replace(fileInfo.Extension, "");
+
+            string dataName = fileInfo.DirectoryName + "\\" + baseName + "Data.txt";
             if (File.Exists(dataName))
             {
                 BuildFromAsset(File.ReadAllLines(dataName));
