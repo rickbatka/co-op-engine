@@ -28,11 +28,15 @@ namespace co_op_engine.Components.Brains
             this.input = input;
         }
 
-        override public void Draw(SpriteBatch spriteBatch) { }
+        override public void Draw(SpriteBatch spriteBatch) 
+        {
+            base.Draw(spriteBatch);
+        }
 
         override public void BeforeUpdate()
         {
             input.BeforeUpdate();
+            base.BeforeUpdate();
         }
 
         override public void Update(GameTime gameTime)
@@ -42,6 +46,7 @@ namespace co_op_engine.Components.Brains
             HandleWeaponToggle();
             HandleActions();
             HandleMovement();
+            base.Update(gameTime);
         }
 
         override public void AfterUpdate()
@@ -63,6 +68,7 @@ namespace co_op_engine.Components.Brains
             previousMovementVector = Owner.InputMovementVector;
             previousState = Owner.CurrentState;
             previousWeapon = Owner.Weapon;
+            base.AfterUpdate();
         }
 
         private void HandleWeaponToggle()
