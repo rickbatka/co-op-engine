@@ -17,7 +17,7 @@ namespace MonoGameExtensions
 
         public static OpenTK.GameWindow GetForm(this GameWindow gameWindow)
         {
-            Type type = typeof(OpenTKGameWindow);
+            Type type = typeof(OpenTK.GameWindow);
             System.Reflection.FieldInfo field = type.GetField("window", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             if (field != null)
                 return field.GetValue(gameWindow) as OpenTK.GameWindow;

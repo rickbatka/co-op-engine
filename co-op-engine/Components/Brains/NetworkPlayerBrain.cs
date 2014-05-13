@@ -18,10 +18,10 @@ namespace co_op_engine.Components.Brains
         {
             PlayerBrain.PlayerBrainUpdateParams parms = (PlayerBrain.PlayerBrainUpdateParams)command.Parameters;
 
-            owner.InputMovementVector = parms.InputMovementVector;
-            owner.Position = parms.Position;
-            owner.RotationTowardFacingDirectionRadians = parms.RotationTowardFacingDirectionRadians;
-            owner.CurrentState = parms.CurrentState;
+            Owner.InputMovementVector = parms.InputMovementVector;
+            Owner.Position = parms.Position;
+            Owner.RotationTowardFacingDirectionRadians = parms.RotationTowardFacingDirectionRadians;
+            Owner.CurrentState = parms.CurrentState;
         }
     }
 }

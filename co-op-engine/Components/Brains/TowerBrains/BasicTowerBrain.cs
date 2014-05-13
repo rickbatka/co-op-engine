@@ -14,7 +14,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
 		private TowerPlacingInput placingInput;
 
 		public BasicTowerBrain(GameObject owner, TowerPlacingInput placingInput)
-			: base(owner)
+			: base(owner, false)
 		{
 			this.placingInput = placingInput;
 		}
@@ -32,12 +32,12 @@ namespace co_op_engine.Components.Brains.TowerBrains
 
 		private void HandleInput()
 		{
-			if (owner.CurrentState == Constants.ACTOR_STATE_PLACING)
+			if (Owner.CurrentState == Constants.ACTOR_STATE_PLACING)
 			{
-				owner.Position = placingInput.GetCoords();
+				Owner.Position = placingInput.GetCoords();
 				if (placingInput.DidPressBuildButton())
 				{
-					owner.CurrentState = Constants.ACTOR_STATE_IDLE;
+					Owner.CurrentState = Constants.ACTOR_STATE_IDLE;
 				}
 			}
 		}

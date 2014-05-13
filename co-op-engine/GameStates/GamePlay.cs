@@ -44,9 +44,6 @@ namespace co_op_engine.GameStates
         public override void LoadContent()
         {
             Level.LoadContent();
-            var player = PlayerFactory.Instance.GetPlayer(Level.StartingPositionPlayer0);
-            Camera.Instance.SetCameraTackingObject(player);
-            Camera.Instance.IsTracking = true;
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
@@ -145,7 +142,7 @@ namespace co_op_engine.GameStates
             container.DrawAll(GameRef.spriteBatch);
             ParticleEngine.Instance.Draw(GameRef.spriteBatch);
             //@DEBUGDRAW DEBUG DRAW
-            container.DebugDraw(GameRef.spriteBatch);
+            //container.DebugDraw(GameRef.spriteBatch);
             DebugDrawStrings(gameTime);
             //PathFinder.Instance.Draw(GameRef.spriteBatch);
 

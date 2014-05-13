@@ -21,6 +21,7 @@ namespace co_op_engine.Components.Weapons
         public int CurrentState { get; set; }
         private WeaponState CurrentWeaponStateProperties { get { return WeaponStates.States[CurrentState]; } }
 
+        public bool Visible { get; set; }
         public Frame CurrentFrame { get; set; }
         public Texture2D Texture { get; set; }
         public Vector2 Position { get { return owner.Position; } }
@@ -33,6 +34,7 @@ namespace co_op_engine.Components.Weapons
         {
             this.owner = owner;
             this.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
+            this.Visible = true;
         }
 
         public void SetRenderer(RenderBase renderer)

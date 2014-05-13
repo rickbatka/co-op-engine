@@ -11,6 +11,7 @@ using System;
 using co_op_engine.Networking.Commands;
 using co_op_engine.Components.Weapons.Effects;
 using System.Collections.Generic;
+using co_op_engine.World.Level;
 
 namespace co_op_engine.Components
 {
@@ -22,6 +23,8 @@ namespace co_op_engine.Components
         public Weapon Weapon;
         public CombatBase Combat;
 
+        public Level CurrentLevel;
+
         public Rectangle BoundingBox;
         public SpacialBase CurrentQuad;
         public Vector2 Velocity;
@@ -30,10 +33,25 @@ namespace co_op_engine.Components
         public int ID;
         public bool UsedInPathing = false;
         public bool Friendly = false;
+        public bool Visible { get; set; }
         public string DisplayName { get { return "ID: " + ID; } }
+        public float SpeedAccel = 75f;
 
         public Texture2D Texture { get; set; }
-        public Vector2 Position { get; set; }
+
+        private Vector2 _pos;
+        public Vector2 Position
+        {
+            get { return _pos; }
+            set
+            {
+                _pos = new Vector2(
+                    x: MathHelper.Clamp(value.X, CurrentLevel.Bounds.Left + (BoundingBox.Width / 2) + Level.BorderWallSize, CurrentLevel.Bounds.Right - (BoundingBox.Width / 2) - Level.BorderWallSize) ,
+                    y: MathHelper.Clamp(value.Y, CurrentLevel.Bounds.Top + (BoundingBox.Height / 2) + Level.BorderWallSize, CurrentLevel.Bounds.Bottom - (BoundingBox.Width / 2) - Level.BorderWallSize)
+                );
+            } 
+        }
+
         public int CurrentState { get; set; }
         public ActorState CurrentStateProperties { get { return ActorStates.States[CurrentState]; } }
         public int FacingDirection { get; set; }
@@ -46,11 +64,13 @@ namespace co_op_engine.Components
 
         public event EventHandler OnDeath;
 
-        public GameObject()
+        public GameObject(Level currentLevel)
         {
+            CurrentLevel = currentLevel;
             CurrentState = Constants.ACTOR_STATE_IDLE;
             Health = 100;
             MaxHealth = 100;
+            Visible = true;
         }
 
         public void SetPhysics(PhysicsBase physics)
@@ -80,13 +100,23 @@ namespace co_op_engine.Components
 
         public void Update(GameTime gameTime)
         {
-            Brain.BeforeUpdate();
-            Brain.Update(gameTime);
-            Brain.AfterUpdate();
+            if(Brain != null)
+            {
+                Brain.BeforeUpdate();
+                Brain.Update(gameTime);
+                Brain.AfterUpdate();
+            }
+            
+            if(Physics != null)
+            {
+                Physics.Update(gameTime);
+            }
 
-            Physics.Update(gameTime);
-            Renderer.Update(gameTime);
-
+            if(Renderer != null)
+            {
+                Renderer.Update(gameTime);
+            }
+            
             if (Combat != null)
             {
                 Combat.Update(gameTime);
@@ -99,10 +129,21 @@ namespace co_op_engine.Components
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            Renderer.Draw(spriteBatch);
-            Physics.Draw(spriteBatch);
-            Brain.Draw(spriteBatch);
+            if(Renderer != null)
+            {
+                Renderer.Draw(spriteBatch);
+            }
+            
+            if(Physics != null)
+            {
+                Physics.Draw(spriteBatch);
+            }
 
+            if(Brain != null)
+            {
+                Brain.Draw(spriteBatch);
+            }
+            
             if (Combat != null)
             {
                 Combat.Draw(spriteBatch);
@@ -116,7 +157,7 @@ namespace co_op_engine.Components
 
             //@TODO DEBUGDRAW DEBUG DRAW
             //Renderer.DebugDraw(spriteBatch);
-            Physics.DebugDraw(spriteBatch);
+            //Physics.DebugDraw(spriteBatch);
         }
 
         public void HandleHitByWeapon(Weapon weapon)

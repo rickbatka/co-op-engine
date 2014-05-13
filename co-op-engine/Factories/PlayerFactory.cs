@@ -42,7 +42,7 @@ namespace co_op_engine.Factories
 
         public GameObject GetPlayer(Vector2? position = null)
         {
-            var player = new GameObject();
+            var player = new GameObject(gameRef.Level);
             player.ConstructionStamp = "Player";
             player.Friendly = true;
 
@@ -79,9 +79,9 @@ namespace co_op_engine.Factories
             return player;
         }
 
-        public GameObject GetEnemy(int id = -1)
+        public GameObject GetEnemyFootSoldier(int id = -1)
         {
-            var enemy = new GameObject();
+            var enemy = new GameObject(gameRef.Level);
             enemy.ConstructionStamp = "Enemy";
 
             enemy.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
@@ -93,7 +93,7 @@ namespace co_op_engine.Factories
 
             if (id == -1)
             {
-                enemy.SetBrain(new PathingTestBrain(enemy));
+                enemy.SetBrain(new FootSoldierBrain(enemy, gameRef.container.GetObjectById(0)));
             }
             else
             {
@@ -103,7 +103,7 @@ namespace co_op_engine.Factories
             enemy.SetCombat(new CombatBase(enemy));
 
             // wire up the events between components
-            enemy.EquipWeapon(GetAxe(enemy));
+            enemy.EquipWeapon(GetSword(enemy));
 
             gameRef.container.AddObject(enemy);
 
@@ -112,12 +112,14 @@ namespace co_op_engine.Factories
                 NetCommander.CreatedObject(enemy);
             }
 
+            enemy.SpeedAccel = 25f;
+
             return enemy;
         }
 
         public GameObject GetNetworkPlayer(int id = -1)
         {
-            var player = new GameObject();
+            var player = new GameObject(gameRef.Level);
             player.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             player.Friendly = true;
             player.Position = new Vector2(100, 100);

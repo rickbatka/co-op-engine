@@ -37,6 +37,8 @@ namespace co_op_engine.Components.Rendering
 
         virtual public void Draw(SpriteBatch spriteBatch)
         {
+            if (!owner.Visible) { return; }
+
             spriteBatch.Draw(
                 owner.Texture,
                 owner.Position,

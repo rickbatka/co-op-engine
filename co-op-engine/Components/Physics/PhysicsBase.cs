@@ -43,9 +43,9 @@ namespace co_op_engine.Components.Physics
             {
                 if (owner != null && owner.CurrentStateProperties.IsBoosting)
                 {
-                    return 175f;
+                    return 2*owner.SpeedAccel;
                 }
-                return 75f;
+                return owner.SpeedAccel;
             }
         }
 
@@ -78,9 +78,27 @@ namespace co_op_engine.Components.Physics
 
             owner.Acceleration = Vector2.Zero;
 
-            owner.Position += owner.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            var newPosition = owner.Position + (owner.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds);
+            owner.Position = LockToLevel(newPosition); // we can't ever let a player out of the level. ever.
             VerifyBoundingBox();
             SetFacingDirection();
+        }
+
+        private Vector2 LockToLevel(Vector2 position)
+        {
+            var lockedX = MathHelper.Clamp(
+                position.X, 
+                owner.CurrentLevel.Bounds.Left + owner.BoundingBox.Width / 2, 
+                owner.CurrentLevel.Bounds.Right - owner.BoundingBox.Width / 2
+            );
+
+            var lockedY = MathHelper.Clamp(
+                position.Y, 
+                owner.CurrentLevel.Bounds.Top + owner.BoundingBox.Height / 2, 
+                owner.CurrentLevel.Bounds.Bottom - owner.BoundingBox.Height / 2
+            );
+
+            return new Vector2(lockedX, lockedY);
         }
 
         public void VerifyBoundingBox()

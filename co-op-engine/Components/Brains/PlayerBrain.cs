@@ -23,16 +23,20 @@ namespace co_op_engine.Components.Brains
         private Vector2 boostStartMovementVector;
 
         public PlayerBrain(GameObject owner, PlayerControlInput input)
-            : base(owner)
+            : base(owner, false)
         {
             this.input = input;
         }
 
-        override public void Draw(SpriteBatch spriteBatch) { }
+        override public void Draw(SpriteBatch spriteBatch) 
+        {
+            base.Draw(spriteBatch);
+        }
 
         override public void BeforeUpdate()
         {
             input.BeforeUpdate();
+            base.BeforeUpdate();
         }
 
         override public void Update(GameTime gameTime)
@@ -42,43 +46,44 @@ namespace co_op_engine.Components.Brains
             HandleWeaponToggle();
             HandleActions();
             HandleMovement();
-            SetState();
+            base.Update(gameTime);
         }
 
         override public void AfterUpdate()
         {
             input.AfterUpdate();
-            if ((previousMovementVector != null && previousMovementVector != owner.InputMovementVector)
-                || (previousState != owner.CurrentState)
-                || previousWeapon != null && previousWeapon != owner.Weapon)
+            if ((previousMovementVector != null && previousMovementVector != Owner.InputMovementVector)
+                || (previousState != Owner.CurrentState)
+                || previousWeapon != null && previousWeapon != Owner.Weapon)
             {
                 SendUpdate(new PlayerBrainUpdateParams()
                 {
-                    InputMovementVector = owner.InputMovementVector,
-                    Position = owner.Position,
-                    RotationTowardFacingDirectionRadians = owner.RotationTowardFacingDirectionRadians,
-                    CurrentState = owner.CurrentState
+                    InputMovementVector = Owner.InputMovementVector,
+                    Position = Owner.Position,
+                    RotationTowardFacingDirectionRadians = Owner.RotationTowardFacingDirectionRadians,
+                    CurrentState = Owner.CurrentState
                 });
             }
 
-            previousMovementVector = owner.InputMovementVector;
-            previousState = owner.CurrentState;
-            previousWeapon = owner.Weapon;
+            previousMovementVector = Owner.InputMovementVector;
+            previousState = Owner.CurrentState;
+            previousWeapon = Owner.Weapon;
+            base.AfterUpdate();
         }
 
         private void HandleWeaponToggle()
         {
             if (InputHandler.KeyPressed(Keys.D1))
             {
-                owner.EquipWeapon(PlayerFactory.Instance.GetSword(owner));
+                Owner.EquipWeapon(PlayerFactory.Instance.GetSword(Owner));
             }
             if (InputHandler.KeyPressed(Keys.D2))
             {
-                owner.EquipWeapon(PlayerFactory.Instance.GetAxe(owner));
+                Owner.EquipWeapon(PlayerFactory.Instance.GetAxe(Owner));
             }
             if (InputHandler.KeyPressed(Keys.D3))
             {
-                owner.EquipWeapon(PlayerFactory.Instance.GetMace(owner));
+                Owner.EquipWeapon(PlayerFactory.Instance.GetMace(Owner));
             }
         }
 
@@ -86,7 +91,7 @@ namespace co_op_engine.Components.Brains
         {
             if (input.IsPressingAttackButton())
             {
-                owner.Weapon.TryInitiateAttack();
+                Owner.Weapon.TryInitiateAttack();
             }
 
             /*
@@ -100,7 +105,7 @@ namespace co_op_engine.Components.Brains
 
             if (InputHandler.KeyPressed(Keys.E))
             {
-                PlayerFactory.Instance.GetEnemy();
+                PlayerFactory.Instance.GetEnemyFootSoldier();
             }
 
             if (InputHandler.KeyPressed(Keys.C))
@@ -110,7 +115,7 @@ namespace co_op_engine.Components.Brains
 
             if (InputHandler.KeyPressed(Keys.L)) // L is for teleport, duh
             {
-                owner.Position = InputHandler.MousePositionVectorCameraAdjusted();
+                Owner.Position = InputHandler.MousePositionVectorCameraAdjusted();
             }
 
             if (InputHandler.KeyPressed(Keys.B))
@@ -121,14 +126,14 @@ namespace co_op_engine.Components.Brains
 
         private void SetBoosting()
         {
-            boostStartMovementVector = owner.InputMovementVector;
-            owner.CurrentState = Constants.ACTOR_STATE_BOOSTING;
+            boostStartMovementVector = Owner.InputMovementVector;
+            Owner.CurrentState = Constants.ACTOR_STATE_BOOSTING;
             GameTimerManager.Instance.SetTimer(
                 time: 250,
                 updateCallback: (t) => { },
                 endCallback: (t) =>
                 {
-                    owner.CurrentState = Constants.ACTOR_STATE_IDLE;
+                    Owner.CurrentState = Constants.ACTOR_STATE_IDLE;
                 }
             );
         }
@@ -144,37 +149,18 @@ namespace co_op_engine.Components.Brains
 
         private void HandleMovement()
         {
-            if (owner.CurrentStateProperties.CanChangeMovementVector)
+            if (Owner.CurrentStateProperties.CanChangeMovementVector)
             {
-                owner.InputMovementVector = input.GetMovement();
+                Owner.InputMovementVector = input.GetMovement();
             }
         }
 
         private void HandleAiming()
         {
-            owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(
-                input.GetFacingDirection(owner.Position)
+            Owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(
+                input.GetFacingDirection(Owner.Position)
             );
         }
 
-        private void SetState()
-        {
-            var newPlayerState = owner.CurrentState;
-
-            if ((owner.InputMovementVector.X != 0 || owner.InputMovementVector.Y != 0)
-                && owner.CurrentStateProperties.CanInitiateWalkingState)
-            {
-                newPlayerState = Constants.ACTOR_STATE_WALKING;
-            }
-            else if (owner.CurrentStateProperties.CanInitiateIdleState)
-            {
-                newPlayerState = Constants.ACTOR_STATE_IDLE;
-            }
-
-            if (newPlayerState != owner.CurrentState)
-            {
-                ChangeState(newPlayerState);
-            }
-        }
     }
 }
