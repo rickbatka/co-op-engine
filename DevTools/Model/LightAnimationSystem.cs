@@ -12,8 +12,9 @@ namespace DevTools.Model
     class LightAnimation
     {
         List<LightFrame> frames;
-        int currentFrameIndex;
+        public int currentFrameIndex { get; private set; }
         TimeSpan currentFrameTimer;
+        public int FrameCount { get { return frames.Count; } }
 
         public LightAnimation(List<LightFrame> frameList)
         {
@@ -27,14 +28,16 @@ namespace DevTools.Model
             frames.Add(frame);
         }
 
-        public void DrawAndUpdate(SpriteBatch spriteBatch, TimeSpan elapsedTime, Texture2D spriteSheet)
+        public void DrawAndUpdate(SpriteBatch spriteBatch, TimeSpan elapsedTime, Texture2D spriteSheet, float timescale)
         {
-            currentFrameTimer -= elapsedTime;
-            if (currentFrameTimer <= TimeSpan.Zero)
+            if (timescale != 0)
             {
-                AdvanceFrameAndReset();
+                currentFrameTimer -= TimeSpan.FromMilliseconds(elapsedTime.TotalMilliseconds * timescale);
+                if (currentFrameTimer <= TimeSpan.Zero)
+                {
+                    AdvanceFrameAndReset();
+                }
             }
-
 
             //threading issue
             if (currentFrameIndex >= frames.Count)
@@ -64,6 +67,11 @@ namespace DevTools.Model
         internal void DrawPhysics(SpriteBatch spriteBatch, Texture2D debugTex)
         {
             spriteBatch.Draw(debugTex, frames[currentFrameIndex].PhysicsRectangle, Color.Yellow);
+        }
+
+        internal void SetIndex(int value)
+        {
+            currentFrameIndex = value;
         }
     }
 

@@ -18,7 +18,29 @@ namespace DevTools.ViewModel
         ContentManager Content;
         GraphicsDevice device;
 
-        public int maxSliderValue = 100;
+        public int maxSliderValue
+        {
+            get { return model.GetAnimationLength(); }
+        }
+
+        public int CurrentSliderValue
+        {
+            get { return model.GetCurrentFrameIndex(); }
+            set
+            {
+                if (CurrentSliderValue != value)
+                {
+                    model.SetFrameIndex(value);
+                    UpdateParameters();
+                }
+            }
+        }
+
+        public string SliderText
+        {
+            get { return CurrentSliderValue + "/" + maxSliderValue; }
+        }
+
         public int TimescaleSliderValue
         {
             get { return (int)(model.Timescale * maxSliderValue); }
@@ -64,6 +86,9 @@ namespace DevTools.ViewModel
         {
             OnPropertyChanged(() => this.Directions);
             OnPropertyChanged(() => this.Actions);
+            OnPropertyChanged(() => this.maxSliderValue);
+            OnPropertyChanged(() => this.SliderText);
+            OnPropertyChanged(() => this.CurrentSliderValue);
         }
 
         public SpriteAnimatorViewModel()
@@ -105,6 +130,18 @@ namespace DevTools.ViewModel
         internal void DrawPhysics(SpriteBatch spriteBatch)
         {
             model.DrawPhysics(spriteBatch);
+        }
+
+        internal void Pause()
+        {
+            model.Timescale = 0;
+            UpdateParameters();
+        }
+
+        internal void Play()
+        {
+            model.Timescale = 1;
+            UpdateParameters();
         }
     }
 }

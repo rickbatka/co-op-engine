@@ -34,6 +34,7 @@ namespace DevTools.Model
             animations = new Dictionary<int, LightAnimation[]>();
             CurrentAnimation = 0;
             CurrentDirection = 0;
+            Timescale = 1;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -41,7 +42,7 @@ namespace DevTools.Model
             TimeSpan elapsedTime = HitAndGetInterval();
             if (currentTexture != null && animations[CurrentAnimation] != null)
             {
-                animations[CurrentAnimation][CurrentDirection].DrawAndUpdate(spriteBatch, elapsedTime, currentTexture);
+                animations[CurrentAnimation][CurrentDirection].DrawAndUpdate(spriteBatch, elapsedTime, currentTexture, Timescale);
             }
         }
 
@@ -173,6 +174,30 @@ namespace DevTools.Model
             return new LightAnimation(frameList);
         }
 
-        
+        internal int GetAnimationLength()
+        {
+            if (currentTexture != null && animations[CurrentAnimation] != null)
+            {
+                return animations[CurrentAnimation][CurrentDirection].FrameCount;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        internal int GetCurrentFrameIndex()
+        {
+            if (currentTexture != null && animations[CurrentAnimation] != null)
+            {
+                return animations[CurrentAnimation][CurrentDirection].currentFrameIndex;
+            }
+            else return 0;
+        }
+
+        internal void SetFrameIndex(int value)
+        {
+            animations[CurrentAnimation][CurrentDirection].SetIndex(value);
+        }
     }
 }

@@ -33,11 +33,11 @@
             </ComboBox>
         </DockPanel>
 
-        <DockPanel DockPanel.Dock="Top" IsEnabled="False">
-            <Button DockPanel.Dock="Right" Width="20" Height="20" Margin="4">></Button>
-            <Button DockPanel.Dock="Right" Width="20" Height="20" Margin="4">||</Button>
-            <Label DockPanel.Dock="Right">1/14</Label>
-            <Slider DockPanel.Dock="Left"></Slider>
+        <DockPanel DockPanel.Dock="Top">
+            <Button DockPanel.Dock="Right" Click="Play" Width="20" Height="20" Margin="4">></Button>
+            <Button DockPanel.Dock="Right" Click="Pause" Width="20" Height="20" Margin="4">||</Button>
+            <Label DockPanel.Dock="Right" Content="{Binding SliderText}"></Label>
+            <Slider DockPanel.Dock="Left" Value="{Binding CurrentSliderValue}" Maximum="{Binding maxSliderValue}"></Slider>
         </DockPanel>
         
         <DockPanel DockPanel.Dock="Top" IsEnabled="False">

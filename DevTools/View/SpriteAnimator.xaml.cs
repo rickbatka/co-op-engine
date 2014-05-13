@@ -91,5 +91,15 @@ namespace DevTools.View
         {
             VM.RefreshCurrentContent();
         }
+
+        private void Pause(object sender, RoutedEventArgs e)
+        {
+            VM.Pause();
+        }
+
+        private void Play(object sender, RoutedEventArgs e)
+        {
+            VM.Play();
+        }
     }
 }
