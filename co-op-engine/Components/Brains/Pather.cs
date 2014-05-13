@@ -73,7 +73,7 @@ namespace co_op_engine.Components.Brains
                     else
                     {
                         Path.AdvancePoint();
-                        Owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(Path.CurrentPoint - Owner.Position);
+                        Owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(Path.LastOrCurrent() - Owner.Position);
 
                         OwningBrain.SendUpdate(new co_op_engine.Components.Brains.PlayerBrain.PlayerBrainUpdateParams()
                         {
@@ -111,8 +111,9 @@ namespace co_op_engine.Components.Brains
         {
             if (Path != null)
             {
-                Path.DEBUG_DRAW(spriteBatch);
-                DrawingUtility.DrawLine(Owner.Position, Path.CurrentPoint, 1, AssetRepository.Instance.DebugFillTexture, spriteBatch, Color.White);
+                //DEBUGDRAW PATH
+                //Path.DEBUG_DRAW(spriteBatch);
+                //DrawingUtility.DrawLine(Owner.Position, Path.CurrentPoint, 1, AssetRepository.Instance.DebugFillTexture, spriteBatch, Color.White);
             }
         }
     }

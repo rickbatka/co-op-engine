@@ -27,6 +27,7 @@ namespace co_op_engine.Components.Brains
             {
                 Pather.Update(gameTime);
             }
+            SetState();
         }
 
         virtual public void AfterUpdate() { }
@@ -46,6 +47,27 @@ namespace co_op_engine.Components.Brains
                 Owner.CurrentState = newState;
             }
 
+        }
+
+
+        private void SetState()
+        {
+            var newPlayerState = Owner.CurrentState;
+
+            if ((Owner.InputMovementVector.X != 0 || Owner.InputMovementVector.Y != 0)
+                && Owner.CurrentStateProperties.CanInitiateWalkingState)
+            {
+                newPlayerState = Constants.ACTOR_STATE_WALKING;
+            }
+            else if (Owner.CurrentStateProperties.CanInitiateIdleState)
+            {
+                newPlayerState = Constants.ACTOR_STATE_IDLE;
+            }
+
+            if (newPlayerState != Owner.CurrentState)
+            {
+                ChangeState(newPlayerState);
+            }
         }
 
         virtual public void ReceiveCommand(Networking.Commands.GameObjectCommand command)

@@ -25,6 +25,11 @@ namespace co_op_engine.Pathing
             Points.Remove(CurrentPoint);
         }
 
+        public Vector2 LastOrCurrent()
+        {
+            return Points.Count > 0 ? Points.Last() : CurrentPoint;
+        }
+
         public int PointsLeft()
         {
             return Points.Count();

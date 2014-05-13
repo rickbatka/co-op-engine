@@ -68,7 +68,9 @@ namespace co_op_engine.Components.Brains.AI
                 if(PursuitType == PursuitTypes.CrowFlies 
                     || !Pather.HasPath()) // we might have switched bak to path but not have a path yet, don't want to stutter
                 {
+                    Owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(Target.Position - Owner.Position);
                     Owner.InputMovementVector = Target.Position - Owner.Position;
+
                     if ((Target.Position - Owner.Position).Length() >= HotPursuitDistance)
                     {
                         Pather.RequestPath();
@@ -84,7 +86,6 @@ namespace co_op_engine.Components.Brains.AI
                 && Owner.CurrentStateProperties.CanInitiatePrimaryAttackState
                 && Owner.Weapon != null)
             {
-                Owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(Target.Position - Owner.Position);
                 Owner.Weapon.PrimaryAttack();
             }
         }
