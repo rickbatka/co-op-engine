@@ -8,24 +8,42 @@ namespace co_op_engine.Components.Brains
 {
     public class BrainBase
     {
-        protected GameObject owner;
+        protected GameObject Owner;
+        protected Pather Pather;
 
-        public BrainBase(GameObject owner)
+        public BrainBase(GameObject owner, bool usePathing = true)
         {
-            this.owner = owner;
-            this.owner.CurrentState = Constants.ACTOR_STATE_IDLE;
+            this.Owner = owner;
+            this.Owner.CurrentState = Constants.ACTOR_STATE_IDLE;
+            if(usePathing)
+            {
+                this.Pather = new Pather(this, this.Owner);
+            }
         }
         virtual public void BeforeUpdate() { }
-        virtual public void Update(GameTime gameTime) { }
+        virtual public void Update(GameTime gameTime) 
+        {
+            if(Pather != null)
+            {
+                Pather.Update(gameTime);
+            }
+        }
+
         virtual public void AfterUpdate() { }
-        virtual public void Draw(SpriteBatch spriteBatch) { }
+        virtual public void Draw(SpriteBatch spriteBatch) 
+        { 
+            if(Pather != null)
+            {
+                Pather.Draw(spriteBatch);
+            }
+        }
 
         protected void ChangeState(int newState)
         {
-            if (newState != owner.CurrentState)
+            if (newState != Owner.CurrentState)
             {
-                var oldState = owner.CurrentState;
-                owner.CurrentState = newState;
+                var oldState = Owner.CurrentState;
+                Owner.CurrentState = newState;
             }
 
         }
@@ -34,11 +52,11 @@ namespace co_op_engine.Components.Brains
         {
         }
 
-        protected void SendUpdate(object parameters)
+        public void SendUpdate(object parameters)
         {
             NetCommander.SendCommand(new GameObjectCommand()
             {
-                ID = owner.ID,
+                ID = Owner.ID,
                 CommandType = GameObjectCommandType.Update,
                 ReceivingComponent = GameObjectComponentType.Brain,
                 Parameters = parameters,

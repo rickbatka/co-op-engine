@@ -16,6 +16,7 @@ namespace co_op_engine.Components.Rendering
         int FacingDirection { get; set; }
         float RotationTowardFacingDirectionRadians { get; set; }
         bool FullyRotatable { get; }
+        bool Visible { get; set; }
         Frame CurrentFrame { get; set; }
     }
 }

@@ -29,9 +29,37 @@ namespace co_op_engine.Factories
             Instance = new TowerFactory(gameRef);
         }
 
+        public GameObject GetInvisibleWall(bool fromNetwork = false)
+        {
+            var tower = new GameObject(gameRef.Level);
+            tower.ConstructionStamp = "InvisibleWallTall";
+            tower.Friendly = true;
+            tower.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
+            tower.CurrentFrame = AssetRepository.Instance.TowerAnimations.CurrentAnimatedRectangle.CurrentFrame;
+
+            tower.UsedInPathing = true;
+            tower.SetPhysics(new CollidingPhysics(tower));
+            tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations));
+            //tower.SetBrain(new HealingAOETowerBrain(tower, new TowerPlacingInput(gameRef, tower.BoundingBox)));
+            tower.CurrentState = Constants.ACTOR_STATE_IDLE;
+
+            //tower.SetCombat(new CombatBase(tower));
+
+            //tower.Visible = false;
+
+            gameRef.container.AddObject(tower);
+
+            if (!fromNetwork)
+            {
+                NetCommander.CreatedObject(tower);
+            }
+
+            return tower;
+        }
+
         public GameObject GetFriendlyAOEHealingTower(bool fromNetwork = false, int id = -1)
         {
-            var tower = new GameObject();
+            var tower = new GameObject(gameRef.Level);
             tower.ConstructionStamp = "FriendlyAOEHealingTower";
             tower.Friendly = true;
             tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;

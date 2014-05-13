@@ -1,4 +1,6 @@
-﻿using co_op_engine.Utility;
+﻿using co_op_engine.Factories;
+using co_op_engine.Utility;
+using co_op_engine.Utility.Camera;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -25,6 +27,8 @@ namespace co_op_engine.World.Level
         public MatchStates MatchState;
         public Vector2 StartingPositionPlayer0;
 
+        public const int BorderWallSize = 32;
+
         public Level()
         {
         }
@@ -36,13 +40,16 @@ namespace co_op_engine.World.Level
 
         public void Initialize()
         {
-            Bounds = new Rectangle(0, 0, 2000, 2000);
+            Bounds = new Rectangle(0, 0, 1000, 1000);
             StartingPositionPlayer0 = new Vector2(Bounds.Width / 2, Bounds.Height / 2);
         }
 
         public void LoadContent()
         {
             Background = new TiledBackground(AssetRepository.Instance.BushesTile);
+            var player = PlayerFactory.Instance.GetPlayer(StartingPositionPlayer0);
+            Camera.Instance.SetCameraTackingObject(player);
+            Camera.Instance.IsTracking = true;
         }
 
         public void Update(GameTime gameTime)

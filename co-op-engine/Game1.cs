@@ -48,10 +48,7 @@ namespace co_op_engine
         protected override void Initialize()
         {
             base.Initialize();
-            screenRectangleActual = new Rectangle(0, 0, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
-
-            graphics.PreferredBackBufferWidth = screenRectangleActual.Width;
-            graphics.PreferredBackBufferHeight = screenRectangleActual.Height;
+            
         }
 
         /// <summary>
@@ -66,7 +63,11 @@ namespace co_op_engine
             AssetRepository.Initialize(this);
 
             CurrentGameState = new StartMenu(this);
-            
+
+            screenRectangleActual = new Rectangle(0, 0, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
+
+            graphics.PreferredBackBufferWidth = screenRectangleActual.Width;
+            graphics.PreferredBackBufferHeight = screenRectangleActual.Height;
         }
 
         /// <summary>

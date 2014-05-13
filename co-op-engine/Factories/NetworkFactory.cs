@@ -45,7 +45,7 @@ namespace co_op_engine.Factories
                     }
                 case "Enemy":
                     {
-                        return PlayerFactory.Instance.GetEnemy(parameters.ID);
+                        return PlayerFactory.Instance.GetEnemyFootSoldier(parameters.ID);
                     }
                 default:
                     {

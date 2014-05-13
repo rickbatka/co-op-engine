@@ -74,7 +74,8 @@
   <ItemGroup>
     <Compile Include="Collections\QuadTree.cs" />
     <Compile Include="Collections\SpacialBase.cs" />
-    <Compile Include="Components\Brains\PathingTestBrain.cs" />
+    <Compile Include="Components\Brains\AI\FootSoldierBrain.cs" />
+    <Compile Include="Components\Brains\Pather.cs" />
     <Compile Include="Components\Brains\TowerBrains\HealingAOETowerBrain.cs" />
     <Compile Include="Components\Input\KeyBindings.cs" />
     <Compile Include="Components\Particles\BloodHitEmitter.cs" />
@@ -160,11 +161,12 @@
     <Compile Include="World\Level\ObjectContainer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Lidgren.Network">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Lidgren.Network.dll</HintPath>

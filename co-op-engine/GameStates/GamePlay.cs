@@ -44,9 +44,6 @@ namespace co_op_engine.GameStates
         public override void LoadContent()
         {
             Level.LoadContent();
-            var player = PlayerFactory.Instance.GetPlayer(Level.StartingPositionPlayer0);
-            Camera.Instance.SetCameraTackingObject(player);
-            Camera.Instance.IsTracking = true;
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)

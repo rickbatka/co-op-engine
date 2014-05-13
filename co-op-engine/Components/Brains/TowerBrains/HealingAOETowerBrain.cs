@@ -27,10 +27,10 @@ namespace co_op_engine.Components.Brains.TowerBrains
         {
             base.Update(gameTime);
 
-            DrawArea.X = owner.Position.X - Radius;
-            DrawArea.Y = owner.Position.Y - Radius;
+            DrawArea.X = Owner.Position.X - Radius;
+            DrawArea.Y = Owner.Position.Y - Radius;
 
-            if (owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
+            if (Owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
             {
                 HealFriendsWithinRange();
             }
@@ -43,10 +43,10 @@ namespace co_op_engine.Components.Brains.TowerBrains
 
         private void HealFriendsWithinRange()
         {
-            var colliders = owner.CurrentQuad.MasterQuery(DrawArea);
+            var colliders = Owner.CurrentQuad.MasterQuery(DrawArea);
             foreach (var collider in colliders)
             {
-                if (collider != owner && collider.Friendly
+                if (collider != Owner && collider.Friendly
                     && IsWithinRadius(collider))
                 {
                     ParticleEngine.Instance.Add(
@@ -56,18 +56,18 @@ namespace co_op_engine.Components.Brains.TowerBrains
                             Lifetime = TimeSpan.FromMilliseconds(32),
                             Texture = AssetRepository.Instance.FuzzyLazer,
                             width = 40,
-                            end = owner.Position,
+                            end = Owner.Position,
                             start = collider.Position
                         });
 
-                    collider.HandleHitByWeapon(owner.Weapon);
+                    collider.HandleHitByWeapon(Owner.Weapon);
                 }
             }
         }
 
         private bool IsWithinRadius(GameObject collider)
         {
-            return (collider.Position - owner.Position).Length() <= Radius;
+            return (collider.Position - Owner.Position).Length() <= Radius;
         }
     }
 }
