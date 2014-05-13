@@ -39,7 +39,7 @@ namespace DevTools.View
 
         public void LoadContent(object sender, LoadContentArgs e)
         {
-            VM.LoadContent(new ContentManager(e.Services, "Content"));
+            VM.LoadContent(new ContentManager(e.Services, "Content"), e.GraphicsDevice);
             spriteBatch = new SpriteBatch(e.GraphicsDevice);
         }
 
@@ -49,6 +49,12 @@ namespace DevTools.View
 
             spriteBatch.Begin();
             VM.Draw(spriteBatch);
+
+            if (PhysCheck.IsChecked.Value)
+            {
+                VM.DrawPhysics(spriteBatch);
+            }
+
             spriteBatch.End();
         }
 
@@ -69,7 +75,6 @@ namespace DevTools.View
             {
                 VM.OpenFilePair(opener.FileName);
             }
-
         }
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)

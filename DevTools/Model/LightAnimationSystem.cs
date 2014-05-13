@@ -60,6 +60,11 @@ namespace DevTools.Model
             }
             currentFrameTimer = TimeSpan.FromMilliseconds(frames[currentFrameIndex].FrameTime);
         }
+
+        internal void DrawPhysics(SpriteBatch spriteBatch, Texture2D debugTex)
+        {
+            spriteBatch.Draw(debugTex, frames[currentFrameIndex].PhysicsRectangle, Color.Yellow);
+        }
     }
 
     class LightFrame

@@ -26,6 +26,7 @@ namespace DevTools.Model
         private bool isLoaded = false;
         private DateTime lastHit;
         private Texture2D currentTexture;
+        private Texture2D debugTex;
 
         public AnimationToolSystem()
         {
@@ -44,17 +45,22 @@ namespace DevTools.Model
             }
         }
 
-        public void RecompileReload(ContentManager content)
+        internal void DrawPhysics(SpriteBatch spriteBatch)
+        {
+            animations[CurrentAnimation][CurrentDirection].DrawPhysics(spriteBatch, debugTex);
+        }
+
+        public void RecompileReload(ContentManager content, GraphicsDevice device)
         {
             //unload
             content.Unload();
             //delete
             File.Delete(compiledName);
             //recompile
-            BuildAndLoad(FileName, content);
+            BuildAndLoad(FileName, content, device);
         }
 
-        private void BuildAndLoad(string filename, ContentManager content)
+        private void BuildAndLoad(string filename, ContentManager content, GraphicsDevice device)
         {
             content.Unload();
 
@@ -73,6 +79,10 @@ namespace DevTools.Model
 
             content.RootDirectory = info.Directory.FullName;
             currentTexture = content.Load<Texture2D>("temp");
+            debugTex = new Texture2D(device, 1, 1, false, SurfaceFormat.Color);
+            uint[] white = new uint[1];
+            white[0] = Color.White.PackedValue;
+            debugTex.SetData<uint>(white);
         }
 
         public void LoadMetaData(string filename)
@@ -89,10 +99,10 @@ namespace DevTools.Model
             throw new NotImplementedException();
         }
 
-        internal void LoadTexture(string filename, ContentManager content)
+        internal void LoadTexture(string filename, ContentManager content, GraphicsDevice device)
         {
             FileName = filename;
-            BuildAndLoad(filename, content);
+            BuildAndLoad(filename, content, device);
 
             //should be UI enforced
             FileInfo fileInfo = new FileInfo(filename);
@@ -162,5 +172,7 @@ namespace DevTools.Model
 
             return new LightAnimation(frameList);
         }
+
+        
     }
 }

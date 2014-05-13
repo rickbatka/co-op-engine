@@ -16,6 +16,7 @@ namespace DevTools.ViewModel
     {
         AnimationToolSystem model;
         ContentManager Content;
+        GraphicsDevice device;
 
         public int maxSliderValue = 100;
         public int TimescaleSliderValue
@@ -70,9 +71,10 @@ namespace DevTools.ViewModel
             model = new AnimationToolSystem();
         }
 
-        public void LoadContent(ContentManager contentmgr)
+        public void LoadContent(ContentManager contentmgr, GraphicsDevice Device)
         {
             Content = contentmgr;
+            device = Device;
         }
 
         internal void Draw(SpriteBatch spriteBatch)
@@ -89,7 +91,7 @@ namespace DevTools.ViewModel
                 hasLoadedContentBefore = true;
                 Content.RootDirectory = info.Directory.FullName;
             }
-            model.LoadTexture( filename , Content);
+            model.LoadTexture( filename , Content, device);
             model.FileName = filename;
             UpdateParameters();
             OnPropertyChanged(() => this.FileName);
@@ -97,7 +99,12 @@ namespace DevTools.ViewModel
 
         internal void RefreshCurrentContent()
         {
-            model.RecompileReload(Content);
+            model.RecompileReload(Content, device);
+        }
+
+        internal void DrawPhysics(SpriteBatch spriteBatch)
+        {
+            model.DrawPhysics(spriteBatch);
         }
     }
 }
