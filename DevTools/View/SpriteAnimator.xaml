@@ -14,10 +14,10 @@
             </MenuItem>
         </Menu>
 
-        <DockPanel DockPanel.Dock="Top" Margin="5" IsEnabled="False">
-            <TextBox DockPanel.Dock="Right">100%</TextBox>
+        <DockPanel DockPanel.Dock="Top" Margin="5">
+            <Label DockPanel.Dock="Right" Content="{Binding TimescaleLabelText}"></Label>
             <Label DockPanel.Dock="Right">Timescale</Label>
-            <Slider DockPanel.Dock="Left" />
+            <Slider DockPanel.Dock="Left" Value="{Binding TimescaleSliderValue}" Maximum="100"/>
         </DockPanel>
 
         <DockPanel DockPanel.Dock="Top" Margin="2">

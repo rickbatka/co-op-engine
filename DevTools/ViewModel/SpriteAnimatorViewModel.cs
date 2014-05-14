@@ -22,7 +22,6 @@ namespace DevTools.ViewModel
         {
             get { return model.GetAnimationLength(); }
         }
-
         public int CurrentSliderValue
         {
             get { return model.GetCurrentFrameIndex(); }
@@ -35,20 +34,24 @@ namespace DevTools.ViewModel
                 }
             }
         }
-
         public string SliderText
         {
             get { return CurrentSliderValue + "/" + maxSliderValue; }
         }
 
+        public readonly int MaxTimscaleSliderValue = 100;
         public int TimescaleSliderValue
         {
             get { return (int)(model.Timescale * maxSliderValue); }
             set
             {
                 model.Timescale = (float)value / (float)maxSliderValue;
-                OnPropertyChanged("TimescaleSliderValue");
+                OnPropertyChanged(() => this.TimescaleSliderValue);
             }
+        }
+        public string TimescaleLabelText
+        {
+            get { return TimescaleSliderValue + "%"; }
         }
 
         public string FileName
@@ -65,7 +68,7 @@ namespace DevTools.ViewModel
         {
             get
             {
-                return new ObservableCollection<string>(){"1","2","3","4"};
+                return new ObservableCollection<string>() { "1", "2", "3", "4" };
             }
         }
 
@@ -89,6 +92,7 @@ namespace DevTools.ViewModel
             OnPropertyChanged(() => this.maxSliderValue);
             OnPropertyChanged(() => this.SliderText);
             OnPropertyChanged(() => this.CurrentSliderValue);
+            OnPropertyChanged(() => this.TimescaleLabelText);
         }
 
         public SpriteAnimatorViewModel()
@@ -116,7 +120,7 @@ namespace DevTools.ViewModel
                 hasLoadedContentBefore = true;
                 Content.RootDirectory = info.Directory.FullName;
             }
-            model.LoadTexture( filename , Content, device);
+            model.LoadTexture(filename, Content, device);
             model.FileName = filename;
             UpdateParameters();
             OnPropertyChanged(() => this.FileName);
