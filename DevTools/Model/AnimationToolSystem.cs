@@ -27,6 +27,7 @@ namespace DevTools.Model
         private DateTime lastHit;
         private Texture2D currentTexture;
         private Texture2D debugTex;
+        private FileSystemWatcher watcher;
 
         public AnimationToolSystem()
         {
@@ -49,6 +50,16 @@ namespace DevTools.Model
         internal void DrawPhysics(SpriteBatch spriteBatch)
         {
             animations[CurrentAnimation][CurrentDirection].DrawPhysics(spriteBatch, debugTex);
+        }
+
+        internal void DrawDamageDots(SpriteBatch spriteBatch)
+        {
+            animations[CurrentAnimation][CurrentDirection].DrawDamageDots(spriteBatch, debugTex);
+        }
+
+        internal void DrawSelection(SpriteBatch spriteBatch, Rectangle CurrentSelection)
+        {
+            spriteBatch.Draw(debugTex, CurrentSelection, Color.Red);
         }
 
         public void RecompileReload(ContentManager content, GraphicsDevice device)
@@ -198,6 +209,28 @@ namespace DevTools.Model
         internal void SetFrameIndex(int value)
         {
             animations[CurrentAnimation][CurrentDirection].SetIndex(value);
+        }
+
+        private void CreateFileWatcher(FileInfo file)
+        {
+            if (watcher != null)
+            {
+                watcher.Dispose();
+            }
+
+            watcher = new FileSystemWatcher();
+            watcher.Path = file.DirectoryName;
+            watcher.NotifyFilter = NotifyFilters.LastWrite; //can have more later | NotifyFilters.LastAccess | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+            watcher.Filter = file.Name;
+
+            watcher.Changed += new FileSystemEventHandler(OnChanged);
+
+            watcher.EnableRaisingEvents = true;
+        }
+
+        private void OnChanged(object source, FileSystemEventArgs e)
+        {
+            //didn't quite finish tonight... D:
         }
     }
 }

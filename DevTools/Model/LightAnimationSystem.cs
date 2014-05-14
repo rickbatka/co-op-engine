@@ -66,7 +66,15 @@ namespace DevTools.Model
 
         internal void DrawPhysics(SpriteBatch spriteBatch, Texture2D debugTex)
         {
-            spriteBatch.Draw(debugTex, frames[currentFrameIndex].PhysicsRectangle, Color.Yellow);
+            spriteBatch.Draw(debugTex, frames[currentFrameIndex].PhysicsRectangle, currentFrameIndex % 2 == 1 ? Color.Yellow : Color.White);
+        }
+
+        internal void DrawDamageDots(SpriteBatch spriteBatch, Texture2D debugTex)
+        {
+            foreach (var dot in frames[currentFrameIndex].DamageDots)
+            {
+                spriteBatch.Draw(debugTex, dot, currentFrameIndex % 2 == 1 ? Color.Yellow : Color.White);
+            }
         }
 
         internal void SetIndex(int value)

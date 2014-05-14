@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.ObjectModel;
 using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace DevTools.ViewModel
 {
@@ -42,11 +43,12 @@ namespace DevTools.ViewModel
         public readonly int MaxTimscaleSliderValue = 100;
         public int TimescaleSliderValue
         {
-            get { return (int)(model.Timescale * maxSliderValue); }
+            get { return (int)(model.Timescale * MaxTimscaleSliderValue); }
             set
             {
-                model.Timescale = (float)value / (float)maxSliderValue;
+                model.Timescale = (float)value / (float)MaxTimscaleSliderValue;
                 OnPropertyChanged(() => this.TimescaleSliderValue);
+                OnPropertyChanged(() => this.TimescaleLabelText);
             }
         }
         public string TimescaleLabelText
@@ -136,6 +138,16 @@ namespace DevTools.ViewModel
             model.DrawPhysics(spriteBatch);
         }
 
+        internal void DrawSelection(SpriteBatch spriteBatch)
+        {
+            model.DrawSelection(spriteBatch, CurrentSelection);
+        }
+
+        internal void DrawDamageDots(SpriteBatch spriteBatch)
+        {
+            model.DrawDamageDots(spriteBatch);
+        }
+
         internal void Pause()
         {
             model.Timescale = 0;
@@ -147,5 +159,18 @@ namespace DevTools.ViewModel
             model.Timescale = 1;
             UpdateParameters();
         }
+
+        private Rectangle _cs = new Rectangle(0,0,1,1);
+        public Rectangle CurrentSelection
+        {
+            get { return _cs; }
+            set
+            {
+                _cs = value;
+                OnPropertyChanged(() => this.CurrentSelection);
+            }
+        }
+
+      
     }
 }

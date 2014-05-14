@@ -4,7 +4,7 @@
         xmlns:Graphics="clr-namespace:DevTools.GraphicsControls"
         Title="SpriteAnimator" Height="400" Width="300">
     <DockPanel>
-
+        
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_New From Image" Click="MenuItem_Click_1" IsEnabled="False"/>
@@ -13,6 +13,10 @@
                 <MenuItem Header="E_xit" Click="MenuItem_Click_4" IsEnabled="False"/>
             </MenuItem>
         </Menu>
+        
+        
+        
+        
 
         <DockPanel DockPanel.Dock="Top" Margin="5">
             <Label DockPanel.Dock="Right" Content="{Binding TimescaleLabelText}"></Label>
@@ -46,15 +50,27 @@
         </DockPanel>
         
         <DockPanel DockPanel.Dock="Bottom">
-            <Button DockPanel.Dock="Right" Click="Button_Click_1">refresh</Button>
             <Label DockPanel.Dock="Left" IsEnabled="False">Selection ( 0, 0, 20, 20 )</Label>
-            <CheckBox Name="PhysCheck" DockPanel.Dock="Left"/>
-            <CheckBox Name="DamageDotsCheck" DockPanel.Dock="Left"/>
         </DockPanel>
 
-        <Border Margin="5" Padding="3" BorderBrush="Gray" BorderThickness="1" >
+        <DockPanel DockPanel.Dock="Right">
+            <Button DockPanel.Dock="Bottom" Click="Button_Click_1">refresh</Button>
+            <DockPanel DockPanel.Dock="Bottom">
+                <CheckBox Name="SelectionCheckBox" VerticalAlignment="Center"></CheckBox>
+                <Label VerticalAlignment="Center">Selection</Label>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Bottom">
+                <CheckBox Name="PhysBoxCheckBox" VerticalAlignment="Center"></CheckBox>
+                <Label VerticalAlignment="Center">Physics</Label>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                <CheckBox Name="DamageDotsCheckBox" VerticalAlignment="Center"></CheckBox>
+                <Label VerticalAlignment="Center">Damage Dots</Label>
+            </DockPanel>
+        </DockPanel>
+        
+        <Border DockPanel.Dock="Right" Margin="5" Padding="3" BorderBrush="Gray" BorderThickness="1" >
             <Graphics:GraphicsControlBase
-                DockPanel.Dock="Top"
                 x:Name="graphicsTest" Grid.Row="1"
                 LoadContent="LoadContent"
                 RenderXna="RenderBox"/>

@@ -50,9 +50,17 @@ namespace DevTools.View
             spriteBatch.Begin();
             VM.Draw(spriteBatch);
 
-            if (PhysCheck.IsChecked.Value)
+            if (PhysBoxCheckBox.IsChecked.Value)
             {
                 VM.DrawPhysics(spriteBatch);
+            }
+            if (DamageDotsCheckBox.IsChecked.Value)
+            {
+                VM.DrawDamageDots(spriteBatch);
+            }
+            if (SelectionCheckBox.IsChecked.Value)
+            {
+                VM.DrawSelection(spriteBatch);
             }
 
             spriteBatch.End();
