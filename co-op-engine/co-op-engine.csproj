@@ -71,6 +71,9 @@
   <PropertyGroup>
     <SignManifests>false</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Collections\QuadTree.cs" />
     <Compile Include="Collections\SpacialBase.cs" />
@@ -127,9 +130,6 @@
     <Compile Include="Utility\Input\InputTypes.cs" />
     <Compile Include="World\Level\GameDirectorBase.cs" />
     <Compile Include="World\TiledBackground.cs" />
-    <Content Include="Content\TowerData.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Compile Include="Networking\NetworkBase.cs" />
     <Compile Include="Utility\AssetRepository.cs" />
     <Compile Include="Factories\PlayerFactory.cs" />
@@ -178,125 +178,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\AxeData.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\exampleAnimationMetaData.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\exampleTileSheetMetaData.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\HeroNoArmsData.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\MaceData.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\SwordData.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\ww.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Icon.ico" />
     <Content Include="SDL.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\softpixel.xnb">
-      <Link>Content\softpixel.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\arial.xnb">
-      <Link>Content\arial.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\HeroNoArms.xnb">
-      <Link>Content\HeroNoArms.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\Sword.xnb">
-      <Link>Content\Sword.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\bushes.xnb">
-      <Link>Content\bushes.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\arrow.xnb">
-      <Link>Content\arrow.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\Axe.xnb">
-      <Link>Content\Axe.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\BloodDroplet.xnb">
-      <Link>Content\BloodDroplet.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\chains.xnb">
-      <Link>Content\chains.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\coin.xnb">
-      <Link>Content\coin.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\FuzzyLazer.xnb">
-      <Link>Content\FuzzyLazer.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\grass.xnb">
-      <Link>Content\grass.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\HealCircle.xnb">
-      <Link>Content\HealCircle.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\HealCross.xnb">
-      <Link>Content\HealCross.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\HealZap.xnb">
-      <Link>Content\HealZap.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\grid.xnb">
-      <Link>Content\grid.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\knightsheet.xnb">
-      <Link>Content\knightsheet.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\Mace.xnb">
-      <Link>Content\Mace.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\pixel.xnb">
-      <Link>Content\pixel.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\tower.xnb">
-      <Link>Content\tower.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\wall.xnb">
-      <Link>Content\wall.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\DummyContentLibrary\bin\Windows Phone\Debug\Content1\ww.xnb">
-      <Link>Content\ww.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -328,6 +211,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)ContentCompiler\bin\Debug\ContentCompiler.exe $(SolutionDir)Assets $(TargetDir)Content</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
