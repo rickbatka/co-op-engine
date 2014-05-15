@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "co-op-engine", "co-op-engine\co-op-engine.csproj", "{1238F14A-6978-4F34-A179-94C1B9740ED0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D} = {6E8E9324-F7A8-4B21-BCF6-38D1B0F9AF1D}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTools", "DevTools\DevTools.csproj", "{1D88E321-5E3E-4F9D-93C7-CE99907F6F5B}"
 EndProject
