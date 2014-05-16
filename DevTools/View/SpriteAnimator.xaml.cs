@@ -110,6 +110,7 @@ namespace DevTools.View
             VM.Play();
         }
 
+        private double hackyScale = .66;
         private bool isDragging = false;
         private Point downPosition;
         private void graphicsTest_HwndLButtonDown_1(object sender, HwndMouseEventArgs e)
@@ -123,10 +124,10 @@ namespace DevTools.View
             if (isDragging)
             {
                 VM.CurrentSelection = new Microsoft.Xna.Framework.Rectangle(
-                    (int)downPosition.X,
-                    (int)(downPosition.Y),
-                    (int)(-downPosition.X + e.Position.X), 
-                    (int)(-downPosition.Y + e.Position.Y)
+                    (int)(downPosition.X * hackyScale),
+                    (int)(downPosition.Y * hackyScale),
+                    (int)((-downPosition.X + e.Position.X) * hackyScale),
+                    (int)((-downPosition.Y + e.Position.Y) * hackyScale)
                 );
             }
             isDragging = false;
@@ -137,11 +138,11 @@ namespace DevTools.View
             if (isDragging)
             {
                 VM.CurrentSelection = new Microsoft.Xna.Framework.Rectangle(
-                   (int)downPosition.X,
-                   (int)(downPosition.Y),
-                   (int)(-downPosition.X + e.Position.X),
-                   (int)(-downPosition.Y + e.Position.Y)
-               );
+                    (int)(downPosition.X * hackyScale),
+                    (int)(downPosition.Y * hackyScale),
+                    (int)((-downPosition.X + e.Position.X) * hackyScale),
+                    (int)((-downPosition.Y + e.Position.Y) * hackyScale)
+                );
             }
         }
     }

@@ -135,6 +135,8 @@ namespace DevTools.ViewModel
 
         internal void OpenFilePair(string filename)
         {
+            LogDebug("Opening File");
+
             FileInfo info = new FileInfo(filename);
             if (!hasLoadedContentBefore)
             {
@@ -149,6 +151,8 @@ namespace DevTools.ViewModel
 
         internal void RefreshCurrentContent()
         {
+            LogDebug("Refreshing Content");
+
             model.RecompileReload(Content, device);
         }
 
