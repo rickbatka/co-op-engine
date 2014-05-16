@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.ObjectModel;
 using System.IO;
 using Microsoft.Xna.Framework;
+using DevTools.GraphicsControls;
 
 namespace DevTools.ViewModel
 {
@@ -18,6 +19,9 @@ namespace DevTools.ViewModel
         AnimationToolSystem model;
         ContentManager Content;
         GraphicsDevice device;
+        bool hasLoadedContentBefore = false;
+
+        #region PropertyBinds
 
         public int maxSliderValue
         {
@@ -87,6 +91,36 @@ namespace DevTools.ViewModel
             }
         }
 
+        public void LogDebug(string message)
+        {
+            DebugEntry.Insert(0, message);
+            OnPropertyChanged(() => this.DebugEntry);
+        }
+        public ObservableCollection<string> DebugEntry
+        {
+            get;
+            set;
+        }
+
+        private Rectangle _cs = new Rectangle(0, 0, 1, 1);
+        public Rectangle CurrentSelection
+        {
+            get { return _cs; }
+            set
+            {
+                _cs = value;
+                OnPropertyChanged(() => this.CurrentSelection);
+            }
+        }
+
+        #endregion PropertyBinds
+
+        public SpriteAnimatorViewModel(GraphicsControlBase drawElement)
+        {
+            DebugEntry = new ObservableCollection<string>();
+            model = new AnimationToolSystem();
+        }
+
         private void UpdateParameters()
         {
             OnPropertyChanged(() => this.Directions);
@@ -97,23 +131,8 @@ namespace DevTools.ViewModel
             OnPropertyChanged(() => this.TimescaleLabelText);
         }
 
-        public SpriteAnimatorViewModel()
-        {
-            model = new AnimationToolSystem();
-        }
+        #region Actions
 
-        public void LoadContent(ContentManager contentmgr, GraphicsDevice Device)
-        {
-            Content = contentmgr;
-            device = Device;
-        }
-
-        internal void Draw(SpriteBatch spriteBatch)
-        {
-            model.Draw(spriteBatch);
-        }
-
-        bool hasLoadedContentBefore = false;
         internal void OpenFilePair(string filename)
         {
             FileInfo info = new FileInfo(filename);
@@ -131,6 +150,17 @@ namespace DevTools.ViewModel
         internal void RefreshCurrentContent()
         {
             model.RecompileReload(Content, device);
+        }
+
+        public void LoadContent(ContentManager contentmgr, GraphicsDevice Device)
+        {
+            Content = contentmgr;
+            device = Device;
+        }
+
+        internal void Draw(SpriteBatch spriteBatch)
+        {
+            model.Draw(spriteBatch);
         }
 
         internal void DrawPhysics(SpriteBatch spriteBatch)
@@ -160,17 +190,6 @@ namespace DevTools.ViewModel
             UpdateParameters();
         }
 
-        private Rectangle _cs = new Rectangle(0,0,1,1);
-        public Rectangle CurrentSelection
-        {
-            get { return _cs; }
-            set
-            {
-                _cs = value;
-                OnPropertyChanged(() => this.CurrentSelection);
-            }
-        }
-
-      
+        #endregion Actions
     }
 }

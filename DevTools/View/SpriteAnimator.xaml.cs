@@ -34,7 +34,7 @@ namespace DevTools.View
         public SpriteAnimator()
         {
             InitializeComponent();
-            VM = new SpriteAnimatorViewModel();
+            VM = new SpriteAnimatorViewModel(graphicsTest);
         }
 
         public void LoadContent(object sender, LoadContentArgs e)
@@ -108,6 +108,41 @@ namespace DevTools.View
         private void Play(object sender, RoutedEventArgs e)
         {
             VM.Play();
+        }
+
+        private bool isDragging = false;
+        private Point downPosition;
+        private void graphicsTest_HwndLButtonDown_1(object sender, HwndMouseEventArgs e)
+        {
+            downPosition = e.Position;
+            isDragging = true;
+        }
+
+        private void graphicsTest_HwndLButtonUp_1(object sender, HwndMouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                VM.CurrentSelection = new Microsoft.Xna.Framework.Rectangle(
+                    (int)downPosition.X,
+                    (int)(downPosition.Y),
+                    (int)(-downPosition.X + e.Position.X), 
+                    (int)(-downPosition.Y + e.Position.Y)
+                );
+            }
+            isDragging = false;
+        }
+
+        private void graphicsTest_HwndMouseMove_1(object sender, HwndMouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                VM.CurrentSelection = new Microsoft.Xna.Framework.Rectangle(
+                   (int)downPosition.X,
+                   (int)(downPosition.Y),
+                   (int)(-downPosition.X + e.Position.X),
+                   (int)(-downPosition.Y + e.Position.Y)
+               );
+            }
         }
     }
 }
