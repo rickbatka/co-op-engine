@@ -72,8 +72,51 @@ namespace co_op_engine.Factories
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));
 
             var healingAOEWeapon = new Weapon(tower);
-            healingAOEWeapon.EquipEffect(new BasicHealEffect(durationMS: 250, healRating: 25));
+            var healingEffect = new BasicHealEffect(durationMS: 250, healRating: 25);
+            healingEffect.AffectsFriendlies = true;
+            healingEffect.AffectsNonFriendlies = false;
+            healingAOEWeapon.EquipEffect(healingEffect);
+            healingAOEWeapon.Friendly = true;
             tower.EquipWeapon(healingAOEWeapon);
+
+            if (fromNetwork)
+            {
+                tower.CurrentState = Constants.ACTOR_STATE_IDLE;
+            }
+            else
+            {
+                tower.CurrentState = Constants.ACTOR_STATE_PLACING;
+            }
+
+            tower.SetCombat(new CombatBase(tower));
+
+            gameRef.container.AddObject(tower);
+
+            if (!fromNetwork)
+            {
+                NetCommander.CreatedObject(tower);
+            }
+
+            return tower;
+        }
+
+        public GameObject GetArrowTower(bool fromNetwork = false, int id = -1)
+        {
+            var tower = new GameObject(gameRef.Level);
+            tower.ConstructionStamp = "ArrowTower";
+            tower.Friendly = true;
+            tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
+            tower.CurrentFrame = AssetRepository.Instance.TowerAnimations.CurrentAnimatedRectangle.CurrentFrame;
+
+            tower.UsedInPathing = true;
+            tower.SetPhysics(new CollidingPhysics(tower));
+            tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations));
+            tower.SetBrain(new ArrowTowerBrain(tower,
+                new TowerPlacingInput(gameRef, tower.BoundingBox)));
+
+            var emptyWeapon = new Weapon(tower);
+            emptyWeapon.Friendly = true;
+            tower.EquipWeapon(emptyWeapon);
 
             if (fromNetwork)
             {

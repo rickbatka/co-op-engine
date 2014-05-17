@@ -61,8 +61,7 @@ namespace co_op_engine.Components
         public int MaxHealth { get; set; }
         public Frame CurrentFrame { get; set; }
         public string ConstructionStamp { get; set; }
-
-        public event EventHandler OnDeath;
+        public bool ShouldDelete = false;
 
         public GameObject(Level currentLevel)
         {
@@ -147,6 +146,7 @@ namespace co_op_engine.Components
             if (Combat != null)
             {
                 Combat.Draw(spriteBatch);
+                Combat.DebugDraw(spriteBatch);
             }
 
             if (Weapon != null)
@@ -208,5 +208,17 @@ namespace co_op_engine.Components
                 Position = Position
             };
         }
+
+        public event EventHandler<EventArgs> OnDeath;
+        public event EventHandler<EventArgs> OnDidAttackNonFriendly;
+        public event EventHandler<EventArgs> OnWasAffectedByNonFriendlyWeapon;
+        public event EventHandler<EventArgs> OnUsedWeaponEffectOnFriendly;
+        public event EventHandler<EventArgs> OnWasAffectedByFriendlyWeapon;
+
+        public void FireOnDeath(object sender, EventArgs args) { if (OnDeath != null) OnDeath(sender, args); }
+        public void FireOnWasAffectedByFriendlyWeapon(object sender, EventArgs args) { if (OnWasAffectedByFriendlyWeapon != null) OnWasAffectedByFriendlyWeapon(sender, args); }
+        public void FireOnWasAffectedByNonFriendlyWeapon(object sender, EventArgs args) { if (OnWasAffectedByNonFriendlyWeapon != null) OnWasAffectedByNonFriendlyWeapon(sender, args); }
+        public void FireOnDidAttackNonFriendly(object sender, EventArgs args) { if (OnDidAttackNonFriendly != null) OnDidAttackNonFriendly(sender, args); }
+        public void FireOnUsedWeaponEffectOnFriendly(object sender, EventArgs args) { if (OnUsedWeaponEffectOnFriendly != null) OnUsedWeaponEffectOnFriendly(sender, args); }
     }
 }

@@ -103,6 +103,11 @@ namespace co_op_engine.Components.Brains
                 TowerFactory.Instance.GetFriendlyAOEHealingTower();
             }
 
+            if (InputHandler.KeyPressed(Keys.Y))
+            {
+                TowerFactory.Instance.GetArrowTower();
+            }
+
             if (InputHandler.KeyPressed(Keys.E))
             {
                 PlayerFactory.Instance.GetEnemyFootSoldier();

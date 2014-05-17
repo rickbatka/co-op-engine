@@ -19,9 +19,10 @@ namespace co_op_engine.Components.Weapons
         public int ID;
         private TimeSpan currentAttackTimer;
         public int CurrentState { get; set; }
-        private WeaponState CurrentWeaponStateProperties { get { return WeaponStates.States[CurrentState]; } }
+        public virtual WeaponState CurrentWeaponStateProperties { get { return WeaponStates.States[CurrentState]; } }
 
         public bool Visible { get; set; }
+        public bool Friendly = false;
         public Frame CurrentFrame { get; set; }
         public Texture2D Texture { get; set; }
         public Vector2 Position { get { return owner.Position; } }
@@ -77,9 +78,13 @@ namespace co_op_engine.Components.Weapons
             }
         }
 
-        public void PrimaryAttack()
+        public void PrimaryAttack(int attackTimer = 0)
         {
-            currentAttackTimer = TimeSpan.FromMilliseconds(renderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection));
+            if(attackTimer == 0)
+            {
+                attackTimer = renderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection);
+            }
+            currentAttackTimer = TimeSpan.FromMilliseconds(attackTimer);
             CurrentState = Constants.WEAPON_STATE_ATTACKING_PRIMARY;
         }
 
@@ -100,6 +105,7 @@ namespace co_op_engine.Components.Weapons
                             if (collider.ID != owner.ID)
                             {
                                 collider.HandleHitByWeapon(this);
+                                FireUsedWeaponEvent(collider);
                             }
                         }
                     }
@@ -107,7 +113,19 @@ namespace co_op_engine.Components.Weapons
             }
         }
 
-        private void UpdateState(GameTime gameTime)
+        private void FireUsedWeaponEvent(GameObject receiver)
+        {
+            if(this.Friendly == receiver.Friendly)
+            {
+                owner.FireOnUsedWeaponEffectOnFriendly(this, null);
+            }
+            else
+            {
+                owner.FireOnDidAttackNonFriendly(this, null);
+            }
+        }
+
+        protected virtual void UpdateState(GameTime gameTime)
         {
             if (CurrentState == Constants.WEAPON_STATE_ATTACKING_PRIMARY)
             {

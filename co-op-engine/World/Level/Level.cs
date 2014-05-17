@@ -50,6 +50,8 @@ namespace co_op_engine.World.Level
             var player = PlayerFactory.Instance.GetPlayer(StartingPositionPlayer0);
             Camera.Instance.SetCameraTackingObject(player);
             Camera.Instance.IsTracking = true;
+
+            //var arrow = ProjectileFactory.Instance.GetArrow();
         }
 
         public void Update(GameTime gameTime)

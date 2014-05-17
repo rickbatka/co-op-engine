@@ -31,8 +31,6 @@ namespace co_op_engine.Utility
         {
             //build scale get length, if length > scale stretch, otherwise crops sourceRectangle
 
-
-
             float distance = Vector2.Distance(a, b);
 
             int scaledHeight = (int)(texture.Height * ((float)width / texture.Width));

@@ -142,43 +142,7 @@ namespace co_op_engine.Components.Physics
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
-        virtual public void DebugDraw(SpriteBatch spriteBatch) 
-        {
-            // object debug info
-            spriteBatch.DrawString(
-                spriteFont: AssetRepository.Instance.Arial,
-                text: owner.Health + "/" + owner.MaxHealth,
-                position: PositionAboveHead(25),
-                color: Color.White,
-                rotation: 0f,
-                origin: Vector2.Zero,
-                scale: 1f,
-                effects: SpriteEffects.None,
-                depth: 1f
-            );
-
-            spriteBatch.DrawString(
-                spriteFont: AssetRepository.Instance.Arial,
-                text: owner.DisplayName,
-                position: PositionAboveHead(50),
-                color: Color.White,
-                rotation: 0f,
-                origin: Vector2.Zero,
-                scale: 1f,
-                effects: SpriteEffects.None,
-                depth: 1f
-            );
-        }
-
-        private Vector2 PositionAboveHead(int distance)
-        {
-            var aboveHead = new Vector2(
-                x: owner.Position.X - (owner.CurrentFrame.DrawRectangle.Width / 2f),
-                y: owner.Position.Y - (owner.CurrentFrame.DrawRectangle.Height / 2f) - distance
-            );
-
-            return aboveHead;
-        }
+        virtual public void DebugDraw(SpriteBatch spriteBatch) { }
 
         internal void ReceiveCommand(Networking.Commands.GameObjectCommand command)
         {

@@ -43,6 +43,8 @@ namespace co_op_engine.Utility
         public AnimationSet MaceAnimations { get { return AnimationSet.BuildFromAsset(maceAnimationData); } }
         string[] towerAnimationData;
         public AnimationSet TowerAnimations { get { return AnimationSet.BuildFromAsset(towerAnimationData); } }
+        string[] arrowAnimationData;
+        public AnimationSet ArrowAnimations { get { return AnimationSet.BuildFromAsset(arrowAnimationData); } }
 
         public void TempSetWindowText(string text)
         {
@@ -89,6 +91,7 @@ namespace co_op_engine.Utility
             axeAnimationData = File.ReadAllLines("content/AxeData.txt");
             maceAnimationData = File.ReadAllLines("content/MaceData.txt");
             towerAnimationData = File.ReadAllLines("content/TowerData.txt");
+            arrowAnimationData = File.ReadAllLines("content/arrowData.txt");
         }
     }
 }

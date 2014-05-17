@@ -14,6 +14,8 @@ namespace co_op_engine.Components.Weapons.Effects
         public TimeSpan Timer;
         public bool IsFinished = false;
         protected Vector2 RotationAtTimeOfHit;
+        public bool AffectsNonFriendlies = true;
+        public bool AffectsFriendlies = false;
 
         protected WeaponEffectBase(int weaponEffectId, int durationMs)
         {

@@ -40,6 +40,7 @@ namespace co_op_engine.Components.Combat
             {
                 string hash = GetHash(weapon.ID, effect);
                 if (owner.CurrentStateProperties.IsVulnerable 
+                    && IsAffected(weapon, effect)
                     && !effectsByWeapon.ContainsKey(hash))
                 {
                     // get the effect from the weapon, set its receiver to this owner, register it in the list of actie effects
@@ -50,12 +51,32 @@ namespace co_op_engine.Components.Combat
 
                     // Apply the status effect
                     newEffect.Apply();
-
+                    FireWasAffectedEvent(weapon, effect);
                 }
             }
         }
 
-        
+        private bool IsAffected(Weapon weapon, WeaponEffectBase effect)
+        {
+            if(owner.Friendly == weapon.Friendly)
+            {
+                return effect.AffectsFriendlies;
+            }
+
+            return effect.AffectsNonFriendlies;
+        }
+
+        private void FireWasAffectedEvent(Weapon weapon, WeaponEffectBase effect)
+        {
+            if (owner.Friendly == weapon.Friendly)
+            {
+                owner.FireOnWasAffectedByFriendlyWeapon(this, null);
+            }
+            else
+            {
+                owner.FireOnWasAffectedByNonFriendlyWeapon(this, null);
+            }
+        }
 
         private void UpdateCurrentWeaponEffects(GameTime gameTime)
         {
@@ -108,6 +129,44 @@ namespace co_op_engine.Components.Combat
                     );
                 }
             }
+        }
+
+        virtual public void DebugDraw(SpriteBatch spriteBatch)
+        {
+            // object debug info
+            spriteBatch.DrawString(
+                spriteFont: AssetRepository.Instance.Arial,
+                text: owner.Health + "/" + owner.MaxHealth,
+                position: PositionAboveHead(25),
+                color: Color.White,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                scale: 1f,
+                effects: SpriteEffects.None,
+                depth: 1f
+            );
+
+            spriteBatch.DrawString(
+                spriteFont: AssetRepository.Instance.Arial,
+                text: owner.DisplayName,
+                position: PositionAboveHead(50),
+                color: Color.White,
+                rotation: 0f,
+                origin: Vector2.Zero,
+                scale: 1f,
+                effects: SpriteEffects.None,
+                depth: 1f
+            );
+        }
+
+        private Vector2 PositionAboveHead(int distance)
+        {
+            var aboveHead = new Vector2(
+                x: owner.Position.X - (owner.CurrentFrame.DrawRectangle.Width / 2f),
+                y: owner.Position.Y - (owner.CurrentFrame.DrawRectangle.Height / 2f) - distance
+            );
+
+            return aboveHead;
         }
 
         private string GetHash(int weaponId, WeaponEffectBase effect)

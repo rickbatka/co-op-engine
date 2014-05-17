@@ -112,8 +112,8 @@ namespace co_op_engine.Components.Brains
             if (Path != null)
             {
                 //DEBUGDRAW PATH
-                //Path.DEBUG_DRAW(spriteBatch);
-                //DrawingUtility.DrawLine(Owner.Position, Path.CurrentPoint, 1, AssetRepository.Instance.DebugFillTexture, spriteBatch, Color.White);
+                Path.DEBUG_DRAW(spriteBatch);
+                DrawingUtility.DrawLine(Owner.Position, Path.CurrentPoint, 1, AssetRepository.Instance.DebugFillTexture, spriteBatch, Color.White);
             }
         }
     }
