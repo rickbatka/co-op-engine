@@ -16,6 +16,7 @@ namespace DevTools.Model
         public event EventHandler OnModelChanged;
 
         //current file
+        Random rand;
         string compiledName;
 
         public Dictionary<int, LightAnimation[]> animations;
@@ -47,6 +48,7 @@ namespace DevTools.Model
 
         public AnimationToolSystem()
         {
+            rand = new Random();
             lastHit = DateTime.Now;
             animations = new Dictionary<int, LightAnimation[]>();
             CurrentAnimationIndex = 0;
@@ -71,17 +73,22 @@ namespace DevTools.Model
 
         internal void DrawPhysics(SpriteBatch spriteBatch)
         {
-            animations[CurrentAnimationIndex][CurrentDirectionIndex].DrawPhysics(spriteBatch, debugTex);
+            animations[CurrentAnimationIndex][CurrentDirectionIndex].DrawPhysics(spriteBatch, debugTex, GetRandColor());
         }
 
         internal void DrawDamageDots(SpriteBatch spriteBatch)
         {
-            animations[CurrentAnimationIndex][CurrentDirectionIndex].DrawDamageDots(spriteBatch, debugTex);
+            animations[CurrentAnimationIndex][CurrentDirectionIndex].DrawDamageDots(spriteBatch, debugTex, GetRandColor());
         }
 
         internal void DrawSelection(SpriteBatch spriteBatch, Rectangle CurrentSelection)
         {
             spriteBatch.Draw(debugTex, CurrentSelection, Color.Red);
+        }
+
+        private Color GetRandColor()
+        {
+            return new Color(rand.Next(1, 255), rand.Next(1, 255), rand.Next(1, 255));
         }
 
         public void RecompileReload()

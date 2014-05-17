@@ -64,16 +64,16 @@ namespace DevTools.Model
             currentFrameTimer = TimeSpan.FromMilliseconds(frames[currentFrameIndex].FrameTime);
         }
 
-        internal void DrawPhysics(SpriteBatch spriteBatch, Texture2D debugTex)
+        internal void DrawPhysics(SpriteBatch spriteBatch, Texture2D debugTex, Color color)
         {
-            spriteBatch.Draw(debugTex, frames[currentFrameIndex].PhysicsRectangle, currentFrameIndex % 2 == 1 ? Color.Yellow : Color.White);
+            spriteBatch.Draw(debugTex, frames[currentFrameIndex].PhysicsRectangle, color);
         }
 
-        internal void DrawDamageDots(SpriteBatch spriteBatch, Texture2D debugTex)
+        internal void DrawDamageDots(SpriteBatch spriteBatch, Texture2D debugTex, Color color)
         {
             foreach (var dot in frames[currentFrameIndex].DamageDots)
             {
-                spriteBatch.Draw(debugTex, dot, currentFrameIndex % 2 == 1 ? Color.Yellow : Color.White);
+                spriteBatch.Draw(debugTex, dot, color);
             }
         }
 
