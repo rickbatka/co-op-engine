@@ -17,9 +17,9 @@ namespace co_op_engine.Components.Brains
         GameObject Target;
         float distanceToProgress = 32f;
 
-        int MoveThreshhold = 100;
+        int MoveThreshhold = 20;
         TimeSpan MoveCheckTimer = TimeSpan.Zero;
-        int MoveCheckTimerReset = 1000;
+        int MoveCheckTimerReset = 2000;
         Vector2 moveCheckLastPosition = Vector2.Zero;
 
         public Pather(BrainBase owningBrain, GameObject owner)

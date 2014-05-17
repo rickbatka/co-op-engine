@@ -56,7 +56,10 @@ namespace co_op_engine.Components.Brains.AI
                 }
                 else //out of range, need path again
                 {
-                    Pather.RequestPath();
+                    if (!Pather.HasPath())
+                    {
+                        Pather.RequestPath();
+                    }
                 }
             }
         }
