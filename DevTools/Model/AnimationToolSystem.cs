@@ -13,6 +13,8 @@ namespace DevTools.Model
 {
     class AnimationToolSystem
     {
+        public event EventHandler OnModelChanged;
+
         //current file
         string compiledName;
 

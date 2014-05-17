@@ -14,7 +14,7 @@ using DevTools.GraphicsControls;
 
 namespace DevTools.ViewModel
 {
-    class SpriteAnimatorViewModel : ViewModelBase
+    internal class SpriteAnimatorViewModel : ViewModelBase
     {
         AnimationToolSystem model;
         ContentManager Content;
@@ -47,7 +47,7 @@ namespace DevTools.ViewModel
         private bool ShowFrameEditBool;
         public System.Windows.Visibility ShowFrameEdit
         {
-            get 
+            get
             {
                 if (ShowFrameEditBool)
                 {
@@ -131,10 +131,85 @@ namespace DevTools.ViewModel
 
         #endregion PropertyBinds
 
-        public SpriteAnimatorViewModel(GraphicsControlBase drawElement)
+        #region Command Binds
+
+        private VMCommand _tfep;
+        public VMCommand ToggleFrameEditPanel
+        {
+            get
+            {
+                return _tfep ?? (_tfep = new VMCommand((o) =>
+                    {
+                        ShowFrameEditBool = !ShowFrameEditBool;
+                        OnPropertyChanged(() => this.ShowFrameEdit);
+                    }));
+            }
+        }
+
+        private VMCommand _smd;
+        public VMCommand SaveMetaData
+        {
+            get
+            {
+                return _smd ?? (_smd = new VMCommand((o) =>
+                    {
+                        model.SaveMetaData();
+                    }));
+            }
+        }
+
+        private VMCommand _rcc;
+        public VMCommand RefreshCurrentContent
+        {
+            get
+            {
+                return _rcc ?? (_rcc = new VMCommand((o) =>
+                    {
+                        LogDebug("Refreshing Content");
+                        model.RecompileReload(Content, device);
+                    }));
+            }
+        }
+
+        private VMCommand _pause;
+        public VMCommand Pause
+        {
+            get
+            {
+                return _pause ?? (_pause = new VMCommand((o) =>
+                    {
+                        model.Timescale = 0;
+                        UpdateParameters();
+                    }));
+            }
+        }
+
+        private VMCommand _play;
+        public VMCommand Play
+        {
+            get
+            {
+                return _play ?? (_play = new VMCommand((o) =>
+                    {
+                        model.Timescale = 1;
+                        UpdateParameters();
+                    }));
+            }
+        }
+
+        #endregion Command Binds
+
+        public SpriteAnimatorViewModel()
         {
             DebugEntry = new ObservableCollection<string>();
             model = new AnimationToolSystem();
+
+            model.OnModelChanged += HandleModelChanged;
+        }
+
+        private void HandleModelChanged(object sender, EventArgs e)
+        {
+            UpdateParameters();
         }
 
         private void UpdateParameters()
@@ -148,60 +223,6 @@ namespace DevTools.ViewModel
         }
 
         #region Actions
-
-        internal void ToggleFrameEditPanel()
-        {
-            ShowFrameEditBool = !ShowFrameEditBool;
-            OnPropertyChanged(() => this.ShowFrameEdit);
-        }
-
-        internal void OpenFilePair(string filename)
-        {
-            LogDebug("Opening File");
-
-            FileInfo info = new FileInfo(filename);
-            if (!hasLoadedContentBefore)
-            {
-                hasLoadedContentBefore = true;
-                Content.RootDirectory = info.Directory.FullName;
-            }
-
-            model.LoadTexture(filename, Content, device);
-            model.LoadMetaData(filename);
-
-            UpdateParameters();
-            OnPropertyChanged(() => this.FileName);
-        }
-
-        internal void OpenNewFile(string file)
-        {
-            LogDebug("Opening Image, Creating Metadata");
-
-            FileInfo info = new FileInfo(file);
-            if (!hasLoadedContentBefore)
-            {
-                hasLoadedContentBefore = true;
-                Content.RootDirectory = info.Directory.FullName;
-            }
-
-            model.LoadTexture(file, Content, device);
-            model.CreateNewMetaData(info);
-
-            UpdateParameters();
-            OnPropertyChanged(() => this.FileName);
-        }
-
-        internal void SaveMetaFile()
-        {
-            model.SaveMetaData();
-        }
-
-        internal void RefreshCurrentContent()
-        {
-            LogDebug("Refreshing Content");
-
-            model.RecompileReload(Content, device);
-        }
 
         public void LoadContent(ContentManager contentmgr, GraphicsDevice Device)
         {
@@ -229,17 +250,43 @@ namespace DevTools.ViewModel
             model.DrawDamageDots(spriteBatch);
         }
 
-        internal void Pause()
+        public void OpenNewFile(string file)
         {
-            model.Timescale = 0;
+            LogDebug("Opening Image, Creating Metadata");
+
+            FileInfo info = new FileInfo(file);
+            if (!hasLoadedContentBefore)
+            {
+                hasLoadedContentBefore = true;
+                Content.RootDirectory = info.Directory.FullName;
+            }
+
+            model.LoadTexture(file, Content, device);
+            model.CreateNewMetaData(info);
+
             UpdateParameters();
+            OnPropertyChanged(() => this.FileName);
         }
 
-        internal void Play()
+        public void OpenFilePair(string filename)
         {
-            model.Timescale = 1;
+            LogDebug("Opening File");
+
+            FileInfo info = new FileInfo(filename);
+            if (!hasLoadedContentBefore)
+            {
+                hasLoadedContentBefore = true;
+                Content.RootDirectory = info.Directory.FullName;
+            }
+
+            model.LoadTexture(filename, Content, device);
+            model.LoadMetaData(filename);
+
             UpdateParameters();
+            OnPropertyChanged(() => this.FileName);
         }
+
+
 
         #endregion Actions
     }

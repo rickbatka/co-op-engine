@@ -70,6 +70,7 @@
     <Compile Include="Model\AnimationToolSystem.cs" />
     <Compile Include="Model\LightAnimationSystem.cs" />
     <Compile Include="Model\MetaFileAnimationManager.cs" />
+    <Compile Include="ViewModel\Shared\VMCommand.cs" />
     <Compile Include="ViewModel\SpriteAnimatorViewModel.cs" />
     <Compile Include="View\SpriteAnimator.xaml.cs">
       <DependentUpon>SpriteAnimator.xaml</DependentUpon>

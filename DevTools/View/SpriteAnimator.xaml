@@ -1,26 +1,27 @@
 ﻿<Window x:Class="DevTools.View.SpriteAnimator"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:VM="clr-namespace:DevTools.ViewModel"
         xmlns:Graphics="clr-namespace:DevTools.GraphicsControls"
         Title="SpriteAnimator" SizeToContent="WidthAndHeight">
     <DockPanel>
 
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New From Image" Click="MenuFileNew" IsEnabled="False"/>
-                <MenuItem Header="_Open" Click="MenuFileOpen"/>
-                <MenuItem Header="_Save" Click="MenuFileSave"/>
-                <MenuItem Header="E_xit" Click="MenuFileExit" IsEnabled="False"/>
+                <MenuItem Header="_New From Image" IsEnabled="False"/>
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Save" />
+                <MenuItem Header="E_xit" IsEnabled="False"/>
             </MenuItem>
         </Menu>
 
-        <ListView ItemsSource="{Binding DebugEntry}" MinWidth="200">
+        <ListView Name="DebugEventView" ItemsSource="{Binding DebugEntry}" MinWidth="200">
         </ListView>
 
         <Border Visibility="{Binding ShowFrameEdit}" DockPanel.Dock="Right" Padding="5" Margin="8" BorderBrush="Black" CornerRadius="5" BorderThickness="1" >
             <DockPanel>
                 <Label DockPanel.Dock="Top">Source</Label>
-                <TextBox DockPanel.Dock="Top">1,1,1,1</TextBox>
+                <TextBox DockPanel.Dock="Top" >1,1,1,1</TextBox>
                 <Label DockPanel.Dock="Top">Physics</Label>
                 <TextBox DockPanel.Dock="Top">1,1,1,1</TextBox>
                 <Label DockPanel.Dock="Top">Damage Dots</Label>
@@ -49,8 +50,8 @@
         </DockPanel>
 
         <DockPanel DockPanel.Dock="Top">
-            <Button DockPanel.Dock="Right" Click="ButtonPlay" Width="20" Height="20" Margin="4">></Button>
-            <Button DockPanel.Dock="Right" Click="ButtonPause" Width="20" Height="20" Margin="4">||</Button>
+            <Button DockPanel.Dock="Right" Width="20" Height="20" Margin="4">></Button>
+            <Button DockPanel.Dock="Right" Width="20" Height="20" Margin="4">||</Button>
             <Label DockPanel.Dock="Right" Content="{Binding SliderText}"></Label>
             <Slider DockPanel.Dock="Left" Value="{Binding CurrentSliderValue}" Maximum="{Binding maxSliderValue}"></Slider>
         </DockPanel>
@@ -66,8 +67,8 @@
 
         <DockPanel DockPanel.Dock="Right">
 
-            <Button DockPanel.Dock="Bottom" Click="ButtonRefreshContent">refresh</Button>
-            <Button DockPanel.Dock="Bottom" Click="ButtonToggleFrameEditPanel">Edit Frame</Button>
+            <Button DockPanel.Dock="Bottom">refresh</Button>
+            <Button DockPanel.Dock="Bottom" Command="{Binding ToggleFramEditPanel}">Edit Frame</Button>
 
             <DockPanel DockPanel.Dock="Bottom">
                 <CheckBox Name="SelectionCheckBox" VerticalAlignment="Center"></CheckBox>

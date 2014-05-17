@@ -37,13 +37,16 @@ namespace DevTools.View
         public SpriteAnimator()
         {
             InitializeComponent();
-            VM = new SpriteAnimatorViewModel(graphicsTest);
+            DebugEventView.Visibility = System.Windows.Visibility.Collapsed;
+
+            VM = new SpriteAnimatorViewModel();
 
             this.Loaded += FinishedLoading;
         }
 
         void FinishedLoading(object sender, RoutedEventArgs e)
         {
+            //windows scaling issues...
             Matrix screenMatrix = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
             double dx = screenMatrix.M11;
             double dy = screenMatrix.M22;
@@ -122,36 +125,6 @@ namespace DevTools.View
             }
         }
 
-        private void MenuFileSave(object sender, RoutedEventArgs e)
-        {
-            VM.SaveMetaFile();
-        }
-
-        private void MenuFileExit(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ButtonRefreshContent(object sender, RoutedEventArgs e)
-        {
-            VM.RefreshCurrentContent();
-        }
-
-        private void ButtonToggleFrameEditPanel(object sender, RoutedEventArgs e)
-        {
-            VM.ToggleFrameEditPanel();
-        }
-
-        private void ButtonPause(object sender, RoutedEventArgs e)
-        {
-            VM.Pause();
-        }
-
-        private void ButtonPlay(object sender, RoutedEventArgs e)
-        {
-            VM.Play();
-        }
-
         private void GraphicsBoxMouseLeftDown(object sender, HwndMouseEventArgs e)
         {
             downPosition = e.Position;
@@ -184,7 +157,5 @@ namespace DevTools.View
                 );
             }
         }
-
-        
     }
 }
