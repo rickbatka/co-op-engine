@@ -90,6 +90,5 @@ namespace co_op_engine.Utility
             maceAnimationData = File.ReadAllLines("content/MaceData.txt");
             towerAnimationData = File.ReadAllLines("content/TowerData.txt");
         }
-
     }
 }

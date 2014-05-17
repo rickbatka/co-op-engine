@@ -7,10 +7,10 @@
 
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New From Image" Click="MenuItem_Click_1" IsEnabled="False"/>
-                <MenuItem Header="_Open" Click="MenuItem_Click_2"/>
-                <MenuItem Header="_Save" Click="MenuItem_Click_3" IsEnabled="False"/>
-                <MenuItem Header="E_xit" Click="MenuItem_Click_4" IsEnabled="False"/>
+                <MenuItem Header="_New From Image" Click="MenuFileNew" IsEnabled="False"/>
+                <MenuItem Header="_Open" Click="MenuFileOpen"/>
+                <MenuItem Header="_Save" Click="MenuFileSave" IsEnabled="False"/>
+                <MenuItem Header="E_xit" Click="MenuFileExit" IsEnabled="False"/>
             </MenuItem>
         </Menu>
 
@@ -39,8 +39,8 @@
         </DockPanel>
 
         <DockPanel DockPanel.Dock="Top">
-            <Button DockPanel.Dock="Right" Click="Play" Width="20" Height="20" Margin="4">></Button>
-            <Button DockPanel.Dock="Right" Click="Pause" Width="20" Height="20" Margin="4">||</Button>
+            <Button DockPanel.Dock="Right" Click="ButtonPlay" Width="20" Height="20" Margin="4">></Button>
+            <Button DockPanel.Dock="Right" Click="ButtonPause" Width="20" Height="20" Margin="4">||</Button>
             <Label DockPanel.Dock="Right" Content="{Binding SliderText}"></Label>
             <Slider DockPanel.Dock="Left" Value="{Binding CurrentSliderValue}" Maximum="{Binding maxSliderValue}"></Slider>
         </DockPanel>
@@ -56,7 +56,7 @@
 
         <DockPanel DockPanel.Dock="Right">
 
-            <Button DockPanel.Dock="Bottom" Click="Button_Click_1">refresh</Button>
+            <Button DockPanel.Dock="Bottom" Click="ButtonRefreshContent">refresh</Button>
 
             <DockPanel DockPanel.Dock="Bottom">
                 <CheckBox Name="SelectionCheckBox" VerticalAlignment="Center"></CheckBox>
@@ -80,9 +80,9 @@
                 x:Name="graphicsTest" Grid.Row="1"
                 LoadContent="LoadContent"
                 RenderXna="RenderBox"
-                HwndLButtonDown="graphicsTest_HwndLButtonDown_1"
-                HwndLButtonUp="graphicsTest_HwndLButtonUp_1"
-                HwndMouseMove="graphicsTest_HwndMouseMove_1"/>
+                HwndLButtonDown="GraphicsBoxMouseLeftDown"
+                HwndLButtonUp="GraphicsBoxMouseLeftUp"
+                HwndMouseMove="GraphicsBoxMouseMove"/>
         </Border>
 
     </DockPanel>

@@ -97,15 +97,6 @@ namespace DevTools.Model
             debugTex.SetData<uint>(white);
         }
 
-        public void LoadMetaData(string filename)
-        {
-            string[] animationData = File.ReadAllLines(filename);
-            BuildFromAsset(animationData);
-
-
-            isLoaded = true;
-        }
-
         public void SaveMetaData()
         {
             throw new NotImplementedException();
@@ -115,8 +106,11 @@ namespace DevTools.Model
         {
             FileName = filename;
             BuildAndLoad(filename, content, device);
+            
+        }
 
-            //should be UI enforced
+        internal void LoadMetaData(string filename)
+        {
             FileInfo fileInfo = new FileInfo(filename);
 
             string baseName = fileInfo.Name.Replace(fileInfo.Extension, "");

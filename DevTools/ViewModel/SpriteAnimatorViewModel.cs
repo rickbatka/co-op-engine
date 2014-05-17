@@ -143,10 +143,20 @@ namespace DevTools.ViewModel
                 hasLoadedContentBefore = true;
                 Content.RootDirectory = info.Directory.FullName;
             }
+
             model.LoadTexture(filename, Content, device);
-            model.FileName = filename;
+            model.LoadMetaData(filename);
+
             UpdateParameters();
             OnPropertyChanged(() => this.FileName);
+        }
+
+        internal void OpenNewFile(string file)
+        {
+            LogDebug("Opening Image, Creating Metadata");
+
+            FileInfo info = new FileInfo(FileName);
+
         }
 
         internal void RefreshCurrentContent()
@@ -195,5 +205,7 @@ namespace DevTools.ViewModel
         }
 
         #endregion Actions
+
+        
     }
 }
