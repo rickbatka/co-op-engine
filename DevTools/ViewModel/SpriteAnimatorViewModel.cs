@@ -169,6 +169,7 @@ namespace DevTools.ViewModel
             }
         }
 
+        //not used anymore, no need
         private VMCommand _rcc;
         public VMCommand RefreshCurrentContent
         {

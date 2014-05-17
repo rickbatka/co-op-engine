@@ -67,7 +67,7 @@
 
         <DockPanel DockPanel.Dock="Right">
 
-            <Button DockPanel.Dock="Bottom" Command="{Binding RefreshCurrentContent}">refresh</Button>
+            <!--<Button DockPanel.Dock="Bottom" Command="{Binding RefreshCurrentContent}">refresh</Button>-->
             <Button DockPanel.Dock="Bottom" Command="{Binding ToggleFrameEditPanel}">Edit Frame</Button>
 
             <DockPanel DockPanel.Dock="Bottom">
