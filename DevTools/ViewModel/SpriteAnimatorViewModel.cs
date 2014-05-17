@@ -171,7 +171,9 @@ namespace DevTools.ViewModel
                             int.Parse(dimensions[2]),
                             int.Parse(dimensions[3]));
 
+                    //the same for now I think in the game as well
                     model.GetCurrentFrame().SourceRectangle = possibleNewRectangle;
+                    model.GetCurrentFrame().DrawRectangle = possibleNewRectangle;
                 }
                 catch { }
             }
