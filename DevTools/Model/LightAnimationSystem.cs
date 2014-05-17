@@ -16,16 +16,16 @@ namespace DevTools.Model
         TimeSpan currentFrameTimer;
         public int FrameCount { get { return frames.Count; } }
 
+        public LightFrame CurrentFrame
+        {
+            get { return frames[currentFrameIndex]; }
+        }
+
         public LightAnimation(List<LightFrame> frameList)
         {
             frames = frameList;
             currentFrameIndex = 0;
             currentFrameTimer = TimeSpan.Zero;
-        }
-
-        public void InsertFrame(LightFrame frame)
-        {
-            frames.Add(frame);
         }
 
         public void DrawAndUpdate(SpriteBatch spriteBatch, TimeSpan elapsedTime, Texture2D spriteSheet, float timescale)
@@ -92,5 +92,5 @@ namespace DevTools.Model
         public int FrameTime;
     }
 
-    
+
 }

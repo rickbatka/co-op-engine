@@ -21,9 +21,9 @@
         <Border Visibility="{Binding ShowFrameEdit}" DockPanel.Dock="Right" Padding="5" Margin="8" BorderBrush="Black" CornerRadius="5" BorderThickness="1" >
             <DockPanel>
                 <Label DockPanel.Dock="Top">Source</Label>
-                <TextBox DockPanel.Dock="Top" >1,1,1,1</TextBox>
+                <TextBox DockPanel.Dock="Top" Text="{Binding CurrentFrameSourceText}" ></TextBox>
                 <Label DockPanel.Dock="Top">Physics</Label>
-                <TextBox DockPanel.Dock="Top">1,1,1,1</TextBox>
+                <TextBox DockPanel.Dock="Top" Text="{Binding CurrentFramePhysicsText}"></TextBox>
                 <Label DockPanel.Dock="Top">Damage Dots</Label>
                 <ListView MaxWidth="200">dots here as list</ListView>
             </DockPanel>
@@ -36,14 +36,14 @@
         </DockPanel>
 
         <DockPanel DockPanel.Dock="Top" Margin="2">
-            <Button DockPanel.Dock="Right" Width="20" Height="20" IsEnabled="False">+</Button>
             <Label DockPanel.Dock="Right">Direction</Label>
             <ComboBox DockPanel.Dock="Left" ItemsSource="{Binding Directions}" SelectedIndex="{Binding SelectedDirection}">
             </ComboBox>
         </DockPanel>
 
         <DockPanel DockPanel.Dock="Top" Margin="2">
-            <Button DockPanel.Dock="Right" Width="20" Height="20" IsEnabled="False">+</Button>
+            <Button DockPanel.Dock="Right" Width="20" Height="20" Command="{Binding AddFrameToCurrent}">+</Button>
+            <Button DockPanel.Dock="Right" Width="20" Height="20" Command="{Binding RemoveFrameFromCurrent}">-</Button>
             <Label DockPanel.Dock="Right">Action</Label>
             <ComboBox DockPanel.Dock="Left" ItemsSource="{Binding Actions}" SelectedIndex="{Binding SelectedAction}">
             </ComboBox>
@@ -62,7 +62,8 @@
         </DockPanel>
 
         <DockPanel DockPanel.Dock="Bottom">
-            <Label DockPanel.Dock="Left" IsEnabled="False">Selection ( 0, 0, 20, 20 )</Label>
+            <Label DockPanel.Dock="Left">Selection:</Label>
+            <TextBox DockPanel.Dock="Left" KeyUp="TextBoxSelectionKeyUp" Text="{Binding CurrentSelectionText, UpdateSourceTrigger=Explicit}" />
         </DockPanel>
 
         <DockPanel DockPanel.Dock="Right">

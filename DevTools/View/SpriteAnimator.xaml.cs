@@ -127,5 +127,12 @@ namespace DevTools.View
         {
             this.Close();
         }
+
+        private void TextBoxSelectionKeyUp(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            BindingExpression expression = textBox.GetBindingExpression(TextBox.TextProperty);
+            expression.UpdateSource();
+        }
     }
 }

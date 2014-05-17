@@ -19,11 +19,21 @@ namespace DevTools.Model
         string compiledName;
 
         public Dictionary<int, LightAnimation[]> animations;
-        public int CurrentDirection;
-        public int CurrentAnimation;
+        public int CurrentDirectionIndex;
+        public int CurrentAnimationIndex;
 
         public float Timescale { get; set; }
         public string FileName { get; set; }
+
+        private LightAnimation[] CurrentDirection
+        {
+            get { return animations[CurrentAnimationIndex]; }
+        }
+
+        private LightAnimation CurrentAnimation
+        {
+            get { return animations[CurrentAnimationIndex][CurrentDirectionIndex]; }
+        }
 
         private bool isLoaded = false;
         private DateTime lastHit;
@@ -39,8 +49,8 @@ namespace DevTools.Model
         {
             lastHit = DateTime.Now;
             animations = new Dictionary<int, LightAnimation[]>();
-            CurrentAnimation = 0;
-            CurrentDirection = 0;
+            CurrentAnimationIndex = 0;
+            CurrentDirectionIndex = 0;
             Timescale = 1;
         }
 
@@ -53,20 +63,20 @@ namespace DevTools.Model
         public void Draw(SpriteBatch spriteBatch)
         {
             TimeSpan elapsedTime = HitAndGetInterval();
-            if (currentTexture != null && animations[CurrentAnimation] != null)
+            if (currentTexture != null && animations[CurrentAnimationIndex] != null)
             {
-                animations[CurrentAnimation][CurrentDirection].DrawAndUpdate(spriteBatch, elapsedTime, currentTexture, Timescale);
+                animations[CurrentAnimationIndex][CurrentDirectionIndex].DrawAndUpdate(spriteBatch, elapsedTime, currentTexture, Timescale);
             }
         }
 
         internal void DrawPhysics(SpriteBatch spriteBatch)
         {
-            animations[CurrentAnimation][CurrentDirection].DrawPhysics(spriteBatch, debugTex);
+            animations[CurrentAnimationIndex][CurrentDirectionIndex].DrawPhysics(spriteBatch, debugTex);
         }
 
         internal void DrawDamageDots(SpriteBatch spriteBatch)
         {
-            animations[CurrentAnimation][CurrentDirection].DrawDamageDots(spriteBatch, debugTex);
+            animations[CurrentAnimationIndex][CurrentDirectionIndex].DrawDamageDots(spriteBatch, debugTex);
         }
 
         internal void DrawSelection(SpriteBatch spriteBatch, Rectangle CurrentSelection)
@@ -173,9 +183,9 @@ namespace DevTools.Model
 
         internal int GetAnimationLength()
         {
-            if (currentTexture != null && animations[CurrentAnimation] != null)
+            if (currentTexture != null && animations[CurrentAnimationIndex] != null)
             {
-                return animations[CurrentAnimation][CurrentDirection].FrameCount;
+                return animations[CurrentAnimationIndex][CurrentDirectionIndex].FrameCount;
             }
             else
             {
@@ -185,16 +195,21 @@ namespace DevTools.Model
 
         internal int GetCurrentFrameIndex()
         {
-            if (currentTexture != null && animations[CurrentAnimation] != null)
+            if (currentTexture != null && animations[CurrentAnimationIndex] != null)
             {
-                return animations[CurrentAnimation][CurrentDirection].currentFrameIndex;
+                return animations[CurrentAnimationIndex][CurrentDirectionIndex].currentFrameIndex;
             }
             else return 0;
         }
 
+        internal LightFrame GetCurrentFrame()
+        {
+            return animations[CurrentAnimationIndex][CurrentDirectionIndex].CurrentFrame;
+        }
+
         internal void SetFrameIndex(int value)
         {
-            animations[CurrentAnimation][CurrentDirection].SetIndex(value);
+            animations[CurrentAnimationIndex][CurrentDirectionIndex].SetIndex(value);
         }
 
         private void CreateFileWatcher(FileInfo file)
@@ -218,9 +233,26 @@ namespace DevTools.Model
         {
         }
 
-        internal void AddFrame()
+        internal void CreateNewFrame()
         {
-            throw new NotImplementedException();
+            LightFrame newFrame = new LightFrame()
+            {
+                DamageDots = new Rectangle[0],
+                DrawRectangle = currentTexture.Bounds,
+                FrameTime = 50,
+                PhysicsRectangle = Rectangle.Empty,
+                SourceRectangle = currentTexture.Bounds,
+            };
+
+            CurrentAnimation.frames.Insert(GetCurrentFrameIndex(), newFrame);
+        }
+
+        internal void RemoveFrame()
+        {
+            if(CurrentAnimation.frames.Count > 1)
+            {
+                CurrentAnimation.frames.Remove(CurrentAnimation.CurrentFrame);
+            }
         }
     }
 }

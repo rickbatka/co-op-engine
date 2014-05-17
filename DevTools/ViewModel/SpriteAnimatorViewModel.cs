@@ -17,13 +17,12 @@ namespace DevTools.ViewModel
     internal class SpriteAnimatorViewModel : ViewModelBase
     {
         AnimationToolSystem model;
-        
 
         #region PropertyBinds
 
         public int maxSliderValue
         {
-            get { return model.GetAnimationLength(); }
+            get { return model.GetAnimationLength() - 1; }
         }
         public int CurrentSliderValue
         {
@@ -81,8 +80,8 @@ namespace DevTools.ViewModel
 
         public int SelectedDirection
         {
-            get { return model.CurrentDirection; }
-            set { model.CurrentDirection = value; }
+            get { return model.CurrentDirectionIndex; }
+            set { model.CurrentDirectionIndex = value; }
         }
         public ObservableCollection<string> Directions
         {
@@ -94,8 +93,8 @@ namespace DevTools.ViewModel
 
         public int SelectedAction
         {
-            get { return model.CurrentAnimation; }
-            set { model.CurrentAnimation = value; }
+            get { return model.CurrentAnimationIndex; }
+            set { model.CurrentAnimationIndex = value; }
         }
         public ObservableCollection<string> Actions
         {
@@ -122,8 +121,89 @@ namespace DevTools.ViewModel
             get { return _cs; }
             set
             {
+                LogDebug("Set Selection");
                 _cs = value;
                 OnPropertyChanged(() => this.CurrentSelection);
+                OnPropertyChanged(() => this.CurrentSelectionText);
+            }
+        }
+
+        public string CurrentSelectionText
+        {
+            get { return MetaFileAnimationManager.GetRectangleCSV(CurrentSelection); }
+            set
+            {
+                string[] dimensions = value.Split(',');
+                try
+                {
+                    Rectangle possibleNewSelection = new Rectangle(
+                            int.Parse(dimensions[0]),
+                            int.Parse(dimensions[1]),
+                            int.Parse(dimensions[2]),
+                            int.Parse(dimensions[3]));
+                    CurrentSelection = possibleNewSelection;
+                }
+                catch { }
+            }
+        }
+
+        public string CurrentFrameSourceText
+        {
+            get
+            {
+                try
+                {
+                    return MetaFileAnimationManager.GetRectangleCSV(model.GetCurrentFrame().SourceRectangle);
+                }
+                catch
+                {
+                    return "NO FILE";
+                }
+            }
+            set
+            {
+                string[] dimensions = value.Split(',');
+                try
+                {
+                    Rectangle possibleNewRectangle = new Rectangle(
+                            int.Parse(dimensions[0]),
+                            int.Parse(dimensions[1]),
+                            int.Parse(dimensions[2]),
+                            int.Parse(dimensions[3]));
+
+                    model.GetCurrentFrame().SourceRectangle = possibleNewRectangle;
+                }
+                catch { }
+            }
+        }
+
+        public string CurrentFramePhysicsText
+        {
+            get
+            {
+                try
+                {
+                    return MetaFileAnimationManager.GetRectangleCSV(model.GetCurrentFrame().PhysicsRectangle);
+                }
+                catch
+                {
+                    return "NO FILE";
+                }
+            }
+            set
+            {
+                string[] dimensions = value.Split(',');
+                try
+                {
+                    Rectangle possibleNewRectangle = new Rectangle(
+                            int.Parse(dimensions[0]),
+                            int.Parse(dimensions[1]),
+                            int.Parse(dimensions[2]),
+                            int.Parse(dimensions[3]));
+
+                    model.GetCurrentFrame().PhysicsRectangle = possibleNewRectangle;
+                }
+                catch { }
             }
         }
 
@@ -138,11 +218,24 @@ namespace DevTools.ViewModel
             {
                 return _aftc ?? (_aftc = new VMCommand((o) =>
                     {
-                        model.AddFrame();
+                        model.CreateNewFrame();
+                        UpdateParameters();
                     }));
             }
         }
 
+        private VMCommand _rffc;
+        public VMCommand RemoveFrameFromCurrent
+        {
+            get
+            {
+                return _rffc ?? (_rffc = new VMCommand((o) =>
+                    {
+                        model.RemoveFrame();
+                        UpdateParameters();
+                    }));
+            }
+        }
 
         private VMCommand _tfep;
         public VMCommand ToggleFrameEditPanel
@@ -275,6 +368,9 @@ namespace DevTools.ViewModel
             OnPropertyChanged(() => this.CurrentSliderValue);
             OnPropertyChanged(() => this.TimescaleLabelText);
             OnPropertyChanged(() => this.FileName);
+
+            OnPropertyChanged(() => this.CurrentFramePhysicsText);
+            OnPropertyChanged(() => this.CurrentFrameSourceText);
         }
 
         #region Actions

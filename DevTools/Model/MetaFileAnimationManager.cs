@@ -133,7 +133,7 @@ namespace DevTools.Model
             return lines.ToArray();
         }
 
-        private static string GetRectangleCSV(Rectangle rectangle)
+        public static string GetRectangleCSV(Rectangle rectangle)
         {
             return rectangle.X + "," + rectangle.Y + "," + rectangle.Width + "," + rectangle.Height;
         }
