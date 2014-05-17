@@ -17,9 +17,7 @@ namespace DevTools.ViewModel
     internal class SpriteAnimatorViewModel : ViewModelBase
     {
         AnimationToolSystem model;
-        ContentManager Content;
-        GraphicsDevice device;
-        bool hasLoadedContentBefore = false;
+        
 
         #region PropertyBinds
 
@@ -133,6 +131,19 @@ namespace DevTools.ViewModel
 
         #region Command Binds
 
+        private VMCommand _aftc;
+        public VMCommand AddFrameToCurrent
+        {
+            get
+            {
+                return _aftc ?? (_aftc = new VMCommand((o) =>
+                    {
+                        model.AddFrame();
+                    }));
+            }
+        }
+
+
         private VMCommand _tfep;
         public VMCommand ToggleFrameEditPanel
         {
@@ -166,7 +177,7 @@ namespace DevTools.ViewModel
                 return _rcc ?? (_rcc = new VMCommand((o) =>
                     {
                         LogDebug("Refreshing Content");
-                        model.RecompileReload(Content, device);
+                        model.RecompileReload();
                     }));
             }
         }
@@ -197,6 +208,48 @@ namespace DevTools.ViewModel
             }
         }
 
+        private VMCommand _onf;
+        public VMCommand OpenNewFile
+        {
+            get
+            {
+                return _onf ?? (_onf = new VMCommand((o) =>
+                    {
+                        string file = BrowseForImage();
+                        if (file != null)
+                        {
+                            LogDebug("Opening Image, Creating Metadata");
+
+                            model.LoadTexture(file);
+                            model.CreateNewMetaData(file);
+
+                            UpdateParameters();
+                        }
+                    }));
+            }
+        }
+
+        private VMCommand _ofp;
+        public VMCommand OpenFilePair
+        {
+            get
+            {
+                return _ofp ?? (_ofp = new VMCommand((o) =>
+                    {
+                        string filename = BrowseForImage();
+                        if (filename != null)
+                        {
+                            LogDebug("Opening File");
+
+                            model.LoadTexture(filename);
+                            model.LoadMetaData(filename);
+
+                            UpdateParameters();
+                        }
+                    }));
+            }
+        }
+
         #endregion Command Binds
 
         public SpriteAnimatorViewModel()
@@ -220,14 +273,14 @@ namespace DevTools.ViewModel
             OnPropertyChanged(() => this.SliderText);
             OnPropertyChanged(() => this.CurrentSliderValue);
             OnPropertyChanged(() => this.TimescaleLabelText);
+            OnPropertyChanged(() => this.FileName);
         }
 
         #region Actions
 
-        public void LoadContent(ContentManager contentmgr, GraphicsDevice Device)
+        public void LoadContent(ContentManager contentmgr, GraphicsDevice device)
         {
-            Content = contentmgr;
-            device = Device;
+            model.LoadContent(contentmgr, device);
         }
 
         internal void Draw(SpriteBatch spriteBatch)
@@ -250,43 +303,22 @@ namespace DevTools.ViewModel
             model.DrawDamageDots(spriteBatch);
         }
 
-        public void OpenNewFile(string file)
+        private string BrowseForImage()
         {
-            LogDebug("Opening Image, Creating Metadata");
+            System.Windows.Forms.OpenFileDialog opener = new System.Windows.Forms.OpenFileDialog();
 
-            FileInfo info = new FileInfo(file);
-            if (!hasLoadedContentBefore)
+            opener.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+            opener.Filter = "Image files (*.jpg, *.bmp, *.png) | *.jpg; *.bmp; *.png";//"Content files| *.jpg; *.bmp; *.png | All Files (*.*) | *.*";
+
+            if (opener.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                hasLoadedContentBefore = true;
-                Content.RootDirectory = info.Directory.FullName;
+                return opener.FileName;
             }
-
-            model.LoadTexture(file, Content, device);
-            model.CreateNewMetaData(info);
-
-            UpdateParameters();
-            OnPropertyChanged(() => this.FileName);
-        }
-
-        public void OpenFilePair(string filename)
-        {
-            LogDebug("Opening File");
-
-            FileInfo info = new FileInfo(filename);
-            if (!hasLoadedContentBefore)
+            else
             {
-                hasLoadedContentBefore = true;
-                Content.RootDirectory = info.Directory.FullName;
+                return null;
             }
-
-            model.LoadTexture(filename, Content, device);
-            model.LoadMetaData(filename);
-
-            UpdateParameters();
-            OnPropertyChanged(() => this.FileName);
         }
-
-
 
         #endregion Actions
     }

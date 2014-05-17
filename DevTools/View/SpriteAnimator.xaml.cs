@@ -90,41 +90,6 @@ namespace DevTools.View
             spriteBatch.End();
         }
 
-        private void MenuFileNew(object sender, RoutedEventArgs e)
-        {
-            string file = BrowseForImage();
-            if (file != null)
-            {
-                VM.OpenNewFile(file);
-            }
-        }
-
-        private string BrowseForImage()
-        {
-            System.Windows.Forms.OpenFileDialog opener = new System.Windows.Forms.OpenFileDialog();
-
-            opener.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
-            opener.Filter = "Image files (*.jpg, *.bmp, *.png) | *.jpg; *.bmp; *.png";//"Content files| *.jpg; *.bmp; *.png | All Files (*.*) | *.*";
-
-            if (opener.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                return opener.FileName;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        private void MenuFileOpen(object sender, RoutedEventArgs e)
-        {
-            string file = BrowseForImage();
-            if (file != null)
-            {
-                VM.OpenFilePair(file);
-            }
-        }
-
         private void GraphicsBoxMouseLeftDown(object sender, HwndMouseEventArgs e)
         {
             downPosition = e.Position;
@@ -156,6 +121,11 @@ namespace DevTools.View
                     (int)((-downPosition.Y + e.Position.Y) * windowsScalingOffset)
                 );
             }
+        }
+
+        private void CloseProgram(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

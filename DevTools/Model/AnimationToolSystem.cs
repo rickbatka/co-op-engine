@@ -31,6 +31,10 @@ namespace DevTools.Model
         private Texture2D debugTex;
         private FileSystemWatcher watcher;
 
+        private ContentManager Content;
+        private GraphicsDevice Device;
+        bool hasLoadedContentBefore = false;
+
         public AnimationToolSystem()
         {
             lastHit = DateTime.Now;
@@ -38,6 +42,12 @@ namespace DevTools.Model
             CurrentAnimation = 0;
             CurrentDirection = 0;
             Timescale = 1;
+        }
+
+        public void LoadContent(ContentManager contentmgr, GraphicsDevice device)
+        {
+            Content = contentmgr;
+            Device = device;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -64,14 +74,14 @@ namespace DevTools.Model
             spriteBatch.Draw(debugTex, CurrentSelection, Color.Red);
         }
 
-        public void RecompileReload(ContentManager content, GraphicsDevice device)
+        public void RecompileReload()
         {
             //unload
-            content.Unload();
+            Content.Unload();
             //delete
             File.Delete(compiledName);
             //recompile
-            BuildAndLoad(FileName, content, device);
+            BuildAndLoad(FileName, Content, Device);
         }
 
         private void BuildAndLoad(string filename, ContentManager content, GraphicsDevice device)
@@ -97,6 +107,8 @@ namespace DevTools.Model
             uint[] white = new uint[1];
             white[0] = Color.White.PackedValue;
             debugTex.SetData<uint>(white);
+
+            CreateFileWatcher(info);
         }
 
         public void SaveMetaData()
@@ -109,11 +121,18 @@ namespace DevTools.Model
             File.WriteAllLines(metaFileName, lines);
         }
 
-        internal void LoadTexture(string filename, ContentManager content, GraphicsDevice device)
+        internal void LoadTexture(string fileName)
         {
-            FileName = filename;
-            BuildAndLoad(filename, content, device);
+            FileInfo fileInfo = new FileInfo(fileName);
 
+            if (!hasLoadedContentBefore)
+            {
+                hasLoadedContentBefore = true;
+                Content.RootDirectory = fileInfo.Directory.FullName;
+            }
+
+            FileName = fileInfo.FullName;
+            BuildAndLoad(FileName, Content, Device);
         }
 
         internal void LoadMetaData(string filename)
@@ -133,12 +152,15 @@ namespace DevTools.Model
             return textureName.DirectoryName + "\\" + textureName.Name.Replace(textureName.Extension, "") + "Data.txt";
         }
 
-        internal void CreateNewMetaData(FileInfo info)
+        internal void CreateNewMetaData(string fileName)
         {
-            string baseName = info.Name.Replace(info.Extension, "");
-            string dataName = info.DirectoryName + "\\" + baseName + "Data.txt";
+            throw new NotImplementedException();
+            //FileInfo fileInfo = new FileInfo(fileName);
 
-            //we are building it from the one in memory (UI assumption)
+            //string baseName = fileInfo.Name.Replace(fileInfo.Extension, "");
+            //string dataName = fileInfo.DirectoryName + "\\" + baseName + "Data.txt";
+
+            ////we are building it from the one in memory (UI assumption)
 
         }
 
@@ -194,7 +216,11 @@ namespace DevTools.Model
 
         private void OnChanged(object source, FileSystemEventArgs e)
         {
-            //didn't quite finish tonight... D:
+        }
+
+        internal void AddFrame()
+        {
+            throw new NotImplementedException();
         }
     }
 }

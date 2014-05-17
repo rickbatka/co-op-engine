@@ -8,10 +8,10 @@
 
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New From Image" IsEnabled="False"/>
-                <MenuItem Header="_Open" />
-                <MenuItem Header="_Save" />
-                <MenuItem Header="E_xit" IsEnabled="False"/>
+                <MenuItem Header="_New From Image" Command="{Binding OpenNewFile}"/>
+                <MenuItem Header="_Open" Command="{Binding OpenFilePair}" />
+                <MenuItem Header="_Save" Command="{Binding SaveMetaData}" />
+                <MenuItem Header="E_xit" Click="CloseProgram" />
             </MenuItem>
         </Menu>
 
@@ -50,8 +50,8 @@
         </DockPanel>
 
         <DockPanel DockPanel.Dock="Top">
-            <Button DockPanel.Dock="Right" Width="20" Height="20" Margin="4">></Button>
-            <Button DockPanel.Dock="Right" Width="20" Height="20" Margin="4">||</Button>
+            <Button DockPanel.Dock="Right" Width="20" Height="20" Margin="4" Command="{Binding Play}">></Button>
+            <Button DockPanel.Dock="Right" Width="20" Height="20" Margin="4" Command="{Binding Pause}">||</Button>
             <Label DockPanel.Dock="Right" Content="{Binding SliderText}"></Label>
             <Slider DockPanel.Dock="Left" Value="{Binding CurrentSliderValue}" Maximum="{Binding maxSliderValue}"></Slider>
         </DockPanel>
@@ -67,8 +67,8 @@
 
         <DockPanel DockPanel.Dock="Right">
 
-            <Button DockPanel.Dock="Bottom">refresh</Button>
-            <Button DockPanel.Dock="Bottom" Command="{Binding ToggleFramEditPanel}">Edit Frame</Button>
+            <Button DockPanel.Dock="Bottom" Command="{Binding RefreshCurrentContent}">refresh</Button>
+            <Button DockPanel.Dock="Bottom" Command="{Binding ToggleFrameEditPanel}">Edit Frame</Button>
 
             <DockPanel DockPanel.Dock="Bottom">
                 <CheckBox Name="SelectionCheckBox" VerticalAlignment="Center"></CheckBox>
