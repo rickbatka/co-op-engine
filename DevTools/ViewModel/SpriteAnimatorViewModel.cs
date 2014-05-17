@@ -44,6 +44,22 @@ namespace DevTools.ViewModel
             get { return CurrentSliderValue + "/" + maxSliderValue; }
         }
 
+        private bool ShowFrameEditBool;
+        public System.Windows.Visibility ShowFrameEdit
+        {
+            get 
+            {
+                if (ShowFrameEditBool)
+                {
+                    return System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    return System.Windows.Visibility.Collapsed;
+                }
+            }
+        }
+
         public readonly int MaxTimscaleSliderValue = 100;
         public int TimescaleSliderValue
         {
@@ -132,6 +148,12 @@ namespace DevTools.ViewModel
         }
 
         #region Actions
+
+        internal void ToggleFrameEditPanel()
+        {
+            ShowFrameEditBool = !ShowFrameEditBool;
+            OnPropertyChanged(() => this.ShowFrameEdit);
+        }
 
         internal void OpenFilePair(string filename)
         {

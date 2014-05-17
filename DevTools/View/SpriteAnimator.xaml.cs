@@ -137,6 +137,11 @@ namespace DevTools.View
             VM.RefreshCurrentContent();
         }
 
+        private void ButtonToggleFrameEditPanel(object sender, RoutedEventArgs e)
+        {
+            VM.ToggleFrameEditPanel();
+        }
+
         private void ButtonPause(object sender, RoutedEventArgs e)
         {
             VM.Pause();
@@ -179,5 +184,7 @@ namespace DevTools.View
                 );
             }
         }
+
+        
     }
 }
