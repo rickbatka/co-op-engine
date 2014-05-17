@@ -155,8 +155,23 @@ namespace DevTools.ViewModel
         {
             LogDebug("Opening Image, Creating Metadata");
 
-            FileInfo info = new FileInfo(FileName);
+            FileInfo info = new FileInfo(file);
+            if (!hasLoadedContentBefore)
+            {
+                hasLoadedContentBefore = true;
+                Content.RootDirectory = info.Directory.FullName;
+            }
 
+            model.LoadTexture(file, Content, device);
+            model.CreateNewMetaData(info);
+
+            UpdateParameters();
+            OnPropertyChanged(() => this.FileName);
+        }
+
+        internal void SaveMetaFile()
+        {
+            model.SaveMetaData();
         }
 
         internal void RefreshCurrentContent()
@@ -205,7 +220,5 @@ namespace DevTools.ViewModel
         }
 
         #endregion Actions
-
-        
     }
 }

@@ -124,7 +124,7 @@ namespace DevTools.View
 
         private void MenuFileSave(object sender, RoutedEventArgs e)
         {
-
+            VM.SaveMetaFile();
         }
 
         private void MenuFileExit(object sender, RoutedEventArgs e)

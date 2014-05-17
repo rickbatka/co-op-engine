@@ -9,7 +9,7 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_New From Image" Click="MenuFileNew" IsEnabled="False"/>
                 <MenuItem Header="_Open" Click="MenuFileOpen"/>
-                <MenuItem Header="_Save" Click="MenuFileSave" IsEnabled="False"/>
+                <MenuItem Header="_Save" Click="MenuFileSave"/>
                 <MenuItem Header="E_xit" Click="MenuFileExit" IsEnabled="False"/>
             </MenuItem>
         </Menu>

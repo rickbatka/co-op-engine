@@ -99,27 +99,45 @@ namespace DevTools.Model
 
         public void SaveMetaData()
         {
-            throw new NotImplementedException();
+            string[] lines = MetaFileAnimationManager.BuildFileLinesFromAnimation(animations);
+
+            string metaFileName = GetMetaFileNameFromTextureFile(new FileInfo(FileName));
+
+            File.Copy(metaFileName, FileName + "_bak", true);
+            File.WriteAllLines(metaFileName, lines);
         }
 
         internal void LoadTexture(string filename, ContentManager content, GraphicsDevice device)
         {
             FileName = filename;
             BuildAndLoad(filename, content, device);
-            
+
         }
 
         internal void LoadMetaData(string filename)
         {
             FileInfo fileInfo = new FileInfo(filename);
 
-            string baseName = fileInfo.Name.Replace(fileInfo.Extension, "");
-
-            string dataName = fileInfo.DirectoryName + "\\" + baseName + "Data.txt";
+            string dataName = GetMetaFileNameFromTextureFile(fileInfo);
             if (File.Exists(dataName))
             {
-                BuildFromAsset(File.ReadAllLines(dataName));
+                string[] lines = File.ReadAllLines(dataName);
+                animations = MetaFileAnimationManager.BuildAnimationsFromFile(lines);
             }
+        }
+
+        private string GetMetaFileNameFromTextureFile(FileInfo textureName)
+        {
+            return textureName.DirectoryName + "\\" + textureName.Name.Replace(textureName.Extension, "") + "Data.txt";
+        }
+
+        internal void CreateNewMetaData(FileInfo info)
+        {
+            string baseName = info.Name.Replace(info.Extension, "");
+            string dataName = info.DirectoryName + "\\" + baseName + "Data.txt";
+
+            //we are building it from the one in memory (UI assumption)
+
         }
 
         private TimeSpan HitAndGetInterval()
@@ -127,56 +145,6 @@ namespace DevTools.Model
             DateTime swap = lastHit;
             lastHit = DateTime.Now;
             return lastHit - swap;
-        }
-
-        private void BuildFromAsset(string[] lines)
-        {
-            int animationIndex = 0;
-            int directionIndex = 0;
-
-            List<string> currentlyBuildingAnimationLines = new List<string>();
-            foreach (var line in lines)
-            {
-                if (line.StartsWith(";"))
-                {
-                    if (currentlyBuildingAnimationLines.Count > 0)
-                    {
-                        if (!animations.ContainsKey(animationIndex))
-                        {
-                            animations.Add(animationIndex, new LightAnimation[4]);
-                        }
-                        animations[animationIndex][directionIndex] = BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>(), 1f);
-                    }
-                    var indexes = line.Split(';');
-                    animationIndex = int.Parse(indexes[1]);
-                    directionIndex = int.Parse(indexes[2]);
-                    currentlyBuildingAnimationLines = new List<string>();
-                    continue;
-                }
-                currentlyBuildingAnimationLines.Add(line);
-            }
-
-            if (currentlyBuildingAnimationLines.Count > 0)
-            {
-                //dont forget the last animation! repeated code...
-                if (!animations.ContainsKey(animationIndex))
-                {
-                    animations.Add(animationIndex, new LightAnimation[4]);
-                }
-                animations[animationIndex][directionIndex] = BuildFromDataLines(currentlyBuildingAnimationLines.ToArray<string>(), 1f);
-            }
-        }
-
-        private LightAnimation BuildFromDataLines(string[] lineData, float scale)
-        {
-            List<LightFrame> frameList = new List<LightFrame>();
-
-            for (int i = 0; i < lineData.Length; ++i)
-            {
-                frameList.Add(LightAnimationsDataReader.BuildFromDataLine(lineData[i], scale));
-            }
-
-            return new LightAnimation(frameList);
         }
 
         internal int GetAnimationLength()
