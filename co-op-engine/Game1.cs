@@ -26,11 +26,18 @@ namespace co_op_engine
         {
             
             graphics = new GraphicsDeviceManager(this);
-            Window.IsBorderless = true; // monogame fullscreen hack :)
-            this.Window.SetPosition(new Point(0, 0));
 
             Content.RootDirectory = "Content";
             Components.Add(new InputHandler(this));
+
+            //screenRectangleActual = new Rectangle(0, 0, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
+            Window.IsBorderless = true; // monogame fullscreen hack :)
+            Window.SetPosition(new Point(0, 0));
+
+            //hack
+            screenRectangleActual = new Rectangle(0, 0, 1920, 1080);
+            graphics.PreferredBackBufferWidth = screenRectangleActual.Width;
+            graphics.PreferredBackBufferHeight = screenRectangleActual.Height;
         }
 
         public void ChangeGameState(GameState state)
@@ -47,7 +54,9 @@ namespace co_op_engine
         /// </summary>
         protected override void Initialize()
         {
+
             base.Initialize();
+            
             
         }
 
@@ -63,11 +72,6 @@ namespace co_op_engine
             AssetRepository.Initialize(this);
 
             CurrentGameState = new StartMenu(this);
-
-            screenRectangleActual = new Rectangle(0, 0, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
-
-            graphics.PreferredBackBufferWidth = screenRectangleActual.Width;
-            graphics.PreferredBackBufferHeight = screenRectangleActual.Height;
         }
 
         /// <summary>

@@ -55,6 +55,16 @@ namespace co_op_engine.World.Level
         private TimeSpan PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED;
         private int PATHING_TEST_RESET_MILLI = 5000;
 
+        public void RemoveDeletedObjects()
+        {
+            var objectsToRemove = LinearReference.Where(o => o.ShouldDelete).ToArray();
+            int del = objectsToRemove.Count();
+            for (int i = 0; i < del; i++)
+            {
+                RemoveObject(objectsToRemove[i]);
+            }
+        }
+
         public void UpdateAll(GameTime gameTime)
         {
             PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED -= gameTime.ElapsedGameTime;

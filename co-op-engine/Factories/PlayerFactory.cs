@@ -147,7 +147,7 @@ namespace co_op_engine.Factories
                 durationMS: swordRenderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection),
                 damageRating: 25
             ));
-
+            sword.Friendly = true;
             return sword;
         }
 
@@ -156,6 +156,7 @@ namespace co_op_engine.Factories
             var axe = new Weapon(owner);
             var axeRenderer = new RenderBase(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations);
             axe.SetRenderer(axeRenderer);
+            axe.Friendly = true;
             return axe;
         }
 
@@ -164,6 +165,7 @@ namespace co_op_engine.Factories
             var mace = new Weapon(owner);
             var maceRenderer = new RenderBase(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations);
             mace.SetRenderer(maceRenderer);
+            mace.Friendly = true;
             return mace;
         }
     }

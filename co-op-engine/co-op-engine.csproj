@@ -79,6 +79,8 @@
     <Compile Include="Collections\SpacialBase.cs" />
     <Compile Include="Components\Brains\AI\FootSoldierBrain.cs" />
     <Compile Include="Components\Brains\Pather.cs" />
+    <Compile Include="Components\Brains\Projectiles\ArrowBrain.cs" />
+    <Compile Include="Components\Brains\TowerBrains\ArrowTowerBrain.cs" />
     <Compile Include="Components\Brains\TowerBrains\HealingAOETowerBrain.cs" />
     <Compile Include="Components\Input\KeyBindings.cs" />
     <Compile Include="Components\Particles\BloodHitEmitter.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Components\Rendering\Frame.cs" />
     <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
+    <Compile Include="Components\Weapons\AlwaysAttackingProjectileWeapon.cs" />
     <Compile Include="Components\Weapons\Effects\BasicDamageEffect.cs" />
     <Compile Include="Components\Weapons\Effects\EffectDefinitions.cs" />
     <Compile Include="Components\Weapons\Effects\BasicHealEffect.cs" />
@@ -117,6 +120,7 @@
     <Compile Include="Components\Weapons\Effects\WeaponEffectBase.cs" />
     <Compile Include="Factories\LevelFactory.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
+    <Compile Include="Factories\ProjectileFactory.cs" />
     <Compile Include="Networking\Commands\Commander.cs" />
     <Compile Include="Networking\Commands\GameObjectCommand.cs" />
     <Compile Include="Pathing\GridNode.cs" />

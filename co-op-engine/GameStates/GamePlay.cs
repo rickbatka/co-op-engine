@@ -39,6 +39,7 @@ namespace co_op_engine.GameStates
             PlayerFactory.Initialize(this);
             TowerFactory.Initialize(this);
             NetworkFactory.Initialize(this);
+            ProjectileFactory.Initialize(this);
         }
 
         public override void LoadContent()
@@ -49,6 +50,8 @@ namespace co_op_engine.GameStates
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             GameTimerManager.Instance.Update(gameTime);
+
+            container.RemoveDeletedObjects();
 
             Level.Update(gameTime);
 

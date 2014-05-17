@@ -30,7 +30,7 @@ namespace co_op_engine.Utility
             props[Constants.WEAPON_STATE_ATTACKING_PRIMARY] = new WeaponState(
                 canInitiateIdleState: false,
                 canInitiateWalkingState: false,
-                canInitiatePrimaryAttack: true,
+                canInitiatePrimaryAttack: false,
                 isAttacking: true
             );
 
