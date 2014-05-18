@@ -37,7 +37,7 @@ namespace DevTools.View
         public SpriteAnimator()
         {
             InitializeComponent();
-            DebugEventView.Visibility = System.Windows.Visibility.Collapsed;
+            //DebugEventView.Visibility = System.Windows.Visibility.Collapsed;
 
             VM = new SpriteAnimatorViewModel();
 

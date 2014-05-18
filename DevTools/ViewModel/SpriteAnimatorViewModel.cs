@@ -81,7 +81,10 @@ namespace DevTools.ViewModel
         public int SelectedDirection
         {
             get { return model.CurrentDirectionIndex; }
-            set { model.CurrentDirectionIndex = value; }
+            set
+            {
+                model.CurrentDirectionIndex = value;
+            }
         }
         public ObservableCollection<string> Directions
         {
@@ -94,7 +97,10 @@ namespace DevTools.ViewModel
         public int SelectedAction
         {
             get { return model.CurrentAnimationIndex; }
-            set { model.CurrentAnimationIndex = value; }
+            set
+            {
+                model.CurrentAnimationIndex = value;
+            }
         }
         public ObservableCollection<string> Actions
         {
@@ -173,7 +179,7 @@ namespace DevTools.ViewModel
 
                     //the same for now I think in the game as well
                     model.GetCurrentFrame().SourceRectangle = possibleNewRectangle;
-                    model.GetCurrentFrame().DrawRectangle = possibleNewRectangle;
+                    model.GetCurrentFrame().DrawRectangle = new Rectangle(0, 0, possibleNewRectangle.Width, possibleNewRectangle.Height);
                 }
                 catch { }
             }
@@ -363,6 +369,8 @@ namespace DevTools.ViewModel
 
         private void UpdateParameters()
         {
+            LogDebug("update");
+
             OnPropertyChanged(() => this.Directions);
             OnPropertyChanged(() => this.Actions);
             OnPropertyChanged(() => this.maxSliderValue);

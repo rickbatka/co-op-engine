@@ -28,7 +28,7 @@ namespace DevTools.Model
             currentFrameTimer = TimeSpan.Zero;
         }
 
-        public void DrawAndUpdate(SpriteBatch spriteBatch, TimeSpan elapsedTime, Texture2D spriteSheet, float timescale)
+        public void DrawAndUpdate(SpriteBatch spriteBatch, TimeSpan elapsedTime, Texture2D spriteSheet, float timescale, Texture2D grid)
         {
             if (timescale != 0)
             {
@@ -48,6 +48,9 @@ namespace DevTools.Model
             if (frames.Count != 0)
             {
                 spriteBatch.Draw(spriteSheet, frames[currentFrameIndex].DrawRectangle, frames[currentFrameIndex].SourceRectangle, Color.White);
+
+                spriteBatch.Draw(grid, frames[currentFrameIndex].DrawRectangle, Color.Red);
+                spriteBatch.Draw(grid, frames[currentFrameIndex].SourceRectangle, Color.Blue);
             }
         }
 

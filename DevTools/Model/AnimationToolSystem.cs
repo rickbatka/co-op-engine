@@ -40,6 +40,7 @@ namespace DevTools.Model
         private DateTime lastHit;
         private Texture2D currentTexture;
         private Texture2D debugTex;
+        private Texture2D rectangle;
         private FileSystemWatcher watcher;
 
         private ContentManager Content;
@@ -67,7 +68,7 @@ namespace DevTools.Model
             TimeSpan elapsedTime = HitAndGetInterval();
             if (currentTexture != null && animations[CurrentAnimationIndex] != null)
             {
-                animations[CurrentAnimationIndex][CurrentDirectionIndex].DrawAndUpdate(spriteBatch, elapsedTime, currentTexture, Timescale);
+                animations[CurrentAnimationIndex][CurrentDirectionIndex].DrawAndUpdate(spriteBatch, elapsedTime, currentTexture, Timescale, rectangle);
             }
         }
 
@@ -124,6 +125,8 @@ namespace DevTools.Model
             uint[] white = new uint[1];
             white[0] = Color.White.PackedValue;
             debugTex.SetData<uint>(white);
+
+            rectangle = content.Load<Texture2D>("grid");
 
             CreateFileWatcher(info);
         }
