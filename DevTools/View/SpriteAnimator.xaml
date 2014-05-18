@@ -24,6 +24,8 @@
                 <TextBox DockPanel.Dock="Top" Text="{Binding CurrentFrameSourceText}" ></TextBox>
                 <Label DockPanel.Dock="Top">Physics</Label>
                 <TextBox DockPanel.Dock="Top" Text="{Binding CurrentFramePhysicsText}"></TextBox>
+                <Label DockPanel.Dock="Top">Time (ms)</Label>
+                <TextBox DockPanel.Dock="Top" Text="{Binding CurrentFrameTimeText}"></TextBox>
                 <Label DockPanel.Dock="Top">Damage Dots</Label>
                 <ListView MaxWidth="200">dots here as list</ListView>
             </DockPanel>
@@ -63,7 +65,9 @@
 
         <DockPanel DockPanel.Dock="Bottom">
             <Label DockPanel.Dock="Left">Selection:</Label>
-            <TextBox DockPanel.Dock="Left" KeyUp="TextBoxSelectionKeyUp" Text="{Binding CurrentSelectionText, UpdateSourceTrigger=Explicit}" />
+            <TextBox DockPanel.Dock="Left" MinWidth="100" KeyUp="TextBoxSelectionKeyUp" Text="{Binding CurrentSelectionText, UpdateSourceTrigger=Explicit}" />
+            <Label DockPanel.Dock="Left">GridSnap</Label>
+            <TextBox DockPanel.Dock="Left" MinWidth="100" KeyUp="TextBoxGridSizeKeyUp" Text="{Binding GridSizeText, UpdateSourceTrigger=Explicit}" />
         </DockPanel>
 
         <DockPanel DockPanel.Dock="Right">

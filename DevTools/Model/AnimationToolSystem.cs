@@ -25,6 +25,7 @@ namespace DevTools.Model
 
         public float Timescale { get; set; }
         public string FileName { get; set; }
+        public int GridSize { get; set; }
 
         private LightAnimation[] CurrentDirection
         {
@@ -264,5 +265,6 @@ namespace DevTools.Model
                 CurrentAnimation.frames.Remove(CurrentAnimation.CurrentFrame);
             }
         }
+
     }
 }

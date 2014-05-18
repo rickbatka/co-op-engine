@@ -37,7 +37,7 @@ namespace DevTools.View
         public SpriteAnimator()
         {
             InitializeComponent();
-            //DebugEventView.Visibility = System.Windows.Visibility.Collapsed;
+            DebugEventView.Visibility = System.Windows.Visibility.Collapsed;
 
             VM = new SpriteAnimatorViewModel();
 
@@ -92,19 +92,34 @@ namespace DevTools.View
 
         private void GraphicsBoxMouseLeftDown(object sender, HwndMouseEventArgs e)
         {
-            downPosition = e.Position;
+            if (VM.GridSize > 1)
+            {
+                downPosition = RoundToNearestGridPoint(e.Position);
+            }
+            else
+            {
+                downPosition = e.Position;
+            }
+
             isDragging = true;
         }
 
         private void GraphicsBoxMouseLeftUp(object sender, HwndMouseEventArgs e)
         {
+            Point position = e.Position;
+
+            if (VM.GridSize > 1)
+            {
+                position = RoundToNearestGridPoint(e.Position);
+            }
+
             if (isDragging)
             {
                 VM.CurrentSelection = new Microsoft.Xna.Framework.Rectangle(
                     (int)(downPosition.X * windowsScalingOffset),
                     (int)(downPosition.Y * windowsScalingOffset),
-                    (int)((-downPosition.X + e.Position.X) * windowsScalingOffset),
-                    (int)((-downPosition.Y + e.Position.Y) * windowsScalingOffset)
+                    (int)((-downPosition.X + position.X) * windowsScalingOffset),
+                    (int)((-downPosition.Y + position.Y) * windowsScalingOffset)
                 );
             }
             isDragging = false;
@@ -112,13 +127,20 @@ namespace DevTools.View
 
         private void GraphicsBoxMouseMove(object sender, HwndMouseEventArgs e)
         {
+            Point position = e.Position;
+
+            if (VM.GridSize > 1)
+            {
+                position = RoundToNearestGridPoint(e.Position);
+            }
+
             if (isDragging)
             {
                 VM.CurrentSelection = new Microsoft.Xna.Framework.Rectangle(
                     (int)(downPosition.X * windowsScalingOffset),
                     (int)(downPosition.Y * windowsScalingOffset),
-                    (int)((-downPosition.X + e.Position.X) * windowsScalingOffset),
-                    (int)((-downPosition.Y + e.Position.Y) * windowsScalingOffset)
+                    (int)((-downPosition.X + position.X) * windowsScalingOffset),
+                    (int)((-downPosition.Y + position.Y) * windowsScalingOffset)
                 );
             }
         }
@@ -133,6 +155,23 @@ namespace DevTools.View
             TextBox textBox = sender as TextBox;
             BindingExpression expression = textBox.GetBindingExpression(TextBox.TextProperty);
             expression.UpdateSource();
+        }
+
+        private void TextBoxGridSizeKeyUp(object sender, KeyEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            BindingExpression expression = textBox.GetBindingExpression(TextBox.TextProperty);
+            expression.UpdateSource();
+        }
+
+        private Point RoundToNearestGridPoint(Point input)
+        {
+            int grid = VM.GridSize;
+            
+            double x = Math.Round(input.X / grid) * grid;
+            double y = Math.Round(input.Y / grid) * grid;
+
+            return new Point(x, y);
         }
     }
 }

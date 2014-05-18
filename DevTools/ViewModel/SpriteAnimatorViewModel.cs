@@ -134,6 +134,20 @@ namespace DevTools.ViewModel
             }
         }
 
+        public int GridSize
+        {
+            get { return model.GridSize; }
+        }
+        public string GridSizeText
+        {
+            get { return model.GridSize.ToString(); }
+            set
+            {
+                model.GridSize = int.Parse(value);
+                OnPropertyChanged(() => this.GridSizeText);
+            }
+        }
+
         public string CurrentSelectionText
         {
             get { return MetaFileAnimationManager.GetRectangleCSV(CurrentSelection); }
@@ -210,6 +224,31 @@ namespace DevTools.ViewModel
                             int.Parse(dimensions[3]));
 
                     model.GetCurrentFrame().PhysicsRectangle = possibleNewRectangle;
+                }
+                catch { }
+            }
+        }
+
+        public string CurrentFrameTimeText
+        {
+            get
+            {
+                try
+                {
+                    return model.GetCurrentFrame().FrameTime.ToString();
+                }
+                catch
+                {
+                    return "NO FILE";
+                }
+            }
+            set
+            {
+                try
+                {
+                    int time = int.Parse(value);
+
+                    model.GetCurrentFrame().FrameTime = time;
                 }
                 catch { }
             }
@@ -325,6 +364,7 @@ namespace DevTools.ViewModel
                             model.LoadTexture(file);
                             model.CreateNewMetaData(file);
 
+                            ResetValues();
                             UpdateParameters();
                         }
                     }));
@@ -346,6 +386,7 @@ namespace DevTools.ViewModel
                             model.LoadTexture(filename);
                             model.LoadMetaData(filename);
 
+                            ResetValues();
                             UpdateParameters();
                         }
                     }));
@@ -381,6 +422,16 @@ namespace DevTools.ViewModel
 
             OnPropertyChanged(() => this.CurrentFramePhysicsText);
             OnPropertyChanged(() => this.CurrentFrameSourceText);
+            OnPropertyChanged(() => this.CurrentFrameTimeText);
+        }
+
+        private void ResetValues()
+        {
+            SelectedDirection = 0;
+            SelectedAction = 0;
+
+            OnPropertyChanged(() => this.SelectedAction);
+            OnPropertyChanged(() => this.SelectedDirection);
         }
 
         #region Actions
