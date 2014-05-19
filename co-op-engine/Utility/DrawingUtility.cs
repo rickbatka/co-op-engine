@@ -10,6 +10,13 @@ namespace co_op_engine.Utility
 {
     public static class DrawingUtility
     {
+        public static Color RandomColor()
+        {
+            return new Color(MechanicSingleton.Instance.rand.Next(1, 255),
+                MechanicSingleton.Instance.rand.Next(1, 255),
+                MechanicSingleton.Instance.rand.Next(1, 255));
+        }
+
         public static void DrawLine(Vector2 a, Vector2 b, int width, Texture2D texture, SpriteBatch spritebatch, Color color)
         {
             //Vector2 b = v.Length() > r.Length() ? v : r;

@@ -140,7 +140,17 @@ namespace co_op_engine.Components.Physics
             owner.FacingDirection = newDirection;
         }
 
-        virtual public void Draw(SpriteBatch spriteBatch) { }
+        virtual public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(
+                AssetRepository.Instance.DebugFillTexture, 
+                owner.BoundingBox,
+                null,
+                DrawingUtility.RandomColor(),
+                0f,Vector2.Zero,
+                SpriteEffects.None,
+                1f);
+        }
 
         virtual public void DebugDraw(SpriteBatch spriteBatch) { }
 

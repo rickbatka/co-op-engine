@@ -266,7 +266,7 @@ namespace co_op_engine.Collections
         /// folds up unused quads by checking this node and it's parent, and on up if it keeps finding empty nodes
         /// </summary>
         private void Verify()
-        {/*
+        {
             if (IsParent)
             {
                 //if it's 0, collapse check parent
@@ -296,7 +296,7 @@ namespace co_op_engine.Collections
                 {
                     parent.Verify();
                 }
-            }*/
+            }
         }
 
         /// <summary>
@@ -374,12 +374,12 @@ namespace co_op_engine.Collections
 
             if (currentXInflation < newObject.BoundingBox.Width / 2)
             {
-                inflateXBy = (newObject.BoundingBox.Width / 2) - currentXInflation;
+                inflateXBy = (newObject.CurrentFrame.DrawRectangle.Width / 2) - currentXInflation;
             }
 
             if (currentYInflation < newObject.BoundingBox.Height / 2)
             {
-                inflateYBy = (newObject.BoundingBox.Height / 2) - currentYInflation;
+                inflateYBy = (newObject.CurrentFrame.DrawRectangle.Height / 2) - currentYInflation;
             }
 
             queryBounds.Inflate(inflateXBy, inflateYBy);
