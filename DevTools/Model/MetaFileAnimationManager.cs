@@ -79,16 +79,16 @@ namespace DevTools.Model
         {
             List<string> lines = new List<string>();
 
-            lines.Add("0;0;");
+            lines.Add(";0;0");
             lines.Add("50<" + textureDimensions.X + "," + textureDimensions.Y + "," + textureDimensions.Width + "," + textureDimensions.Height + ">");
 
-            lines.Add("0;1;");
+            lines.Add(";0;1");
             lines.Add("50<" + textureDimensions.X + "," + textureDimensions.Y + "," + textureDimensions.Width + "," + textureDimensions.Height + ">");
 
-            lines.Add("0;2;");
+            lines.Add(";0;2");
             lines.Add("50<" + textureDimensions.X + "," + textureDimensions.Y + "," + textureDimensions.Width + "," + textureDimensions.Height + ">");
 
-            lines.Add("0;3;");
+            lines.Add(";0;3");
             lines.Add("50<" + textureDimensions.X + "," + textureDimensions.Y + "," + textureDimensions.Width + "," + textureDimensions.Height + ">");
 
             return lines.ToArray();

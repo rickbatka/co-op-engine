@@ -183,8 +183,8 @@ namespace DevTools.Model
                 throw new Exception("MetaDataExists");
             }
 
-            File.Create(metaName);
-            FileInfo metaFileInfo = new FileInfo(metaName);
+            File.WriteAllLines(metaName, MetaFileAnimationManager.BuildFileLinesForNewMetaData(currentTexture.Bounds));
+            LoadMetaData(fileName);
         }
 
         #endregion MetaFileCRUD

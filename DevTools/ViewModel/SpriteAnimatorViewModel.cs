@@ -20,6 +20,18 @@ namespace DevTools.ViewModel
 
         #region PropertyBinds
 
+        public class DamageDotListItem { public string DotLocation; }
+        private ObservableCollection<DamageDotListItem> _ddi = new ObservableCollection<DamageDotListItem>();
+        public ObservableCollection<DamageDotListItem> DamageDotItems
+        {
+            get { return _ddi; }
+            set
+            {
+                _ddi = value;
+                OnPropertyChanged(() => this.DamageDotItems);
+            }
+        }
+
         public bool FileIsOutOfDate
         {
             get { return model.FileIsOutOfDate; }
