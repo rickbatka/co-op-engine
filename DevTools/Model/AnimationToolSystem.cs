@@ -47,6 +47,7 @@ namespace DevTools.Model
         private ContentManager Content;
         private GraphicsDevice Device;
         bool hasLoadedContentBefore = false;
+        public bool FileIsOutOfDate = false;
 
         public AnimationToolSystem()
         {
@@ -58,10 +59,143 @@ namespace DevTools.Model
             Timescale = 1;
         }
 
+        private void CreateFileWatcher(FileInfo file)
+        {
+            if (watcher != null)
+            {
+                watcher.Dispose();
+            }
+
+            watcher = new FileSystemWatcher();
+            watcher.Path = file.DirectoryName;
+            watcher.NotifyFilter = NotifyFilters.LastWrite; //can have more later | NotifyFilters.LastAccess | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+            watcher.Filter = file.Name;
+
+            watcher.Changed += new FileSystemEventHandler(OnChanged);
+
+            watcher.EnableRaisingEvents = true;
+        }
+
+        private void OnChanged(object source, FileSystemEventArgs e)
+        {
+            FileIsOutOfDate = true;
+        }
+
+        #region Content
+
+        internal void LoadTexture(string fileName)
+        {
+            FileInfo fileInfo = new FileInfo(fileName);
+
+            if (!hasLoadedContentBefore)
+            {
+                hasLoadedContentBefore = true;
+                Content.RootDirectory = fileInfo.Directory.FullName;
+            }
+
+            FileName = fileInfo.FullName;
+            BuildAndLoad(FileName, Content, Device);
+        }
+        
+        private void BuildAndLoad(string filename, ContentManager content, GraphicsDevice device)
+        {
+            content.Unload();
+
+            if (File.Exists(compiledName))
+            {
+                File.Delete(compiledName);
+            }
+
+            ContentBuilder builder = new ContentBuilder();
+            builder.BuildSingleAsset(FileName);
+
+            FileInfo info = new FileInfo(filename);
+            FileInfo compiledFileInfo = new FileInfo(info.Directory.FullName + "\\temp.xnb");
+
+            compiledName = compiledFileInfo.FullName;
+
+            content.RootDirectory = info.Directory.FullName;
+            currentTexture = content.Load<Texture2D>("temp");
+            debugTex = new Texture2D(device, 1, 1, false, SurfaceFormat.Color);
+            uint[] white = new uint[1];
+            white[0] = Color.White.PackedValue;
+            debugTex.SetData<uint>(white);
+
+            rectangle = content.Load<Texture2D>("grid");
+
+            CreateFileWatcher(info);
+        }
+
+        public void RecompileReload()
+        {
+            //unload
+            Content.Unload();
+            //delete
+            File.Delete(compiledName);
+            //recompile
+            BuildAndLoad(FileName, Content, Device);
+        }
+
         public void LoadContent(ContentManager contentmgr, GraphicsDevice device)
         {
             Content = contentmgr;
             Device = device;
+        }
+
+        #endregion Content
+
+        #region MetaFileCRUD
+
+        internal void LoadMetaData(string filename)
+        {
+            FileInfo fileInfo = new FileInfo(filename);
+
+            string dataName = GetMetaFileNameFromTextureFile(fileInfo);
+            if (File.Exists(dataName))
+            {
+                string[] lines = File.ReadAllLines(dataName);
+                animations = MetaFileAnimationManager.BuildAnimationsFromFile(lines);
+            }
+        }
+
+        public void SaveMetaData()
+        {
+            string[] lines = MetaFileAnimationManager.BuildFileLinesFromAnimation(animations);
+
+            string metaFileName = GetMetaFileNameFromTextureFile(new FileInfo(FileName));
+
+            File.Copy(metaFileName, FileName + "_bak", true);
+            File.WriteAllLines(metaFileName, lines);
+        }
+
+        private string GetMetaFileNameFromTextureFile(FileInfo textureName)
+        {
+            return textureName.DirectoryName + "\\" + textureName.Name.Replace(textureName.Extension, "") + "Data.txt";
+        }
+
+        internal void CreateNewMetaData(string fileName)
+        {
+            FileInfo fileInfo = new FileInfo(fileName);
+            string metaName = GetMetaFileNameFromTextureFile(fileInfo);
+
+            if (File.Exists(metaName))
+            {
+                throw new Exception("MetaDataExists");
+            }
+
+            File.Create(metaName);
+            FileInfo metaFileInfo = new FileInfo(metaName);
+        }
+
+        #endregion MetaFileCRUD
+
+        #region Draw
+
+        private TimeSpan HitAndGetInterval()
+        {
+            DateTime swap = lastHit;
+            lastHit = DateTime.Now;
+            return lastHit - swap;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -93,104 +227,9 @@ namespace DevTools.Model
             return new Color(rand.Next(1, 255), rand.Next(1, 255), rand.Next(1, 255));
         }
 
-        public void RecompileReload()
-        {
-            //unload
-            Content.Unload();
-            //delete
-            File.Delete(compiledName);
-            //recompile
-            BuildAndLoad(FileName, Content, Device);
-        }
+        #endregion Draw
 
-        private void BuildAndLoad(string filename, ContentManager content, GraphicsDevice device)
-        {
-            content.Unload();
-
-            if (File.Exists(compiledName))
-            {
-                File.Delete(compiledName);
-            }
-
-            ContentBuilder builder = new ContentBuilder();
-            builder.BuildSingleAsset(FileName);
-
-            FileInfo info = new FileInfo(filename);
-            FileInfo compiledFileInfo = new FileInfo(info.Directory.FullName + "\\temp.xnb");
-
-            compiledName = compiledFileInfo.FullName;
-
-            content.RootDirectory = info.Directory.FullName;
-            currentTexture = content.Load<Texture2D>("temp");
-            debugTex = new Texture2D(device, 1, 1, false, SurfaceFormat.Color);
-            uint[] white = new uint[1];
-            white[0] = Color.White.PackedValue;
-            debugTex.SetData<uint>(white);
-
-            rectangle = content.Load<Texture2D>("grid");
-
-            CreateFileWatcher(info);
-        }
-
-        public void SaveMetaData()
-        {
-            string[] lines = MetaFileAnimationManager.BuildFileLinesFromAnimation(animations);
-
-            string metaFileName = GetMetaFileNameFromTextureFile(new FileInfo(FileName));
-
-            File.Copy(metaFileName, FileName + "_bak", true);
-            File.WriteAllLines(metaFileName, lines);
-        }
-
-        internal void LoadTexture(string fileName)
-        {
-            FileInfo fileInfo = new FileInfo(fileName);
-
-            if (!hasLoadedContentBefore)
-            {
-                hasLoadedContentBefore = true;
-                Content.RootDirectory = fileInfo.Directory.FullName;
-            }
-
-            FileName = fileInfo.FullName;
-            BuildAndLoad(FileName, Content, Device);
-        }
-
-        internal void LoadMetaData(string filename)
-        {
-            FileInfo fileInfo = new FileInfo(filename);
-
-            string dataName = GetMetaFileNameFromTextureFile(fileInfo);
-            if (File.Exists(dataName))
-            {
-                string[] lines = File.ReadAllLines(dataName);
-                animations = MetaFileAnimationManager.BuildAnimationsFromFile(lines);
-            }
-        }
-
-        private string GetMetaFileNameFromTextureFile(FileInfo textureName)
-        {
-            return textureName.DirectoryName + "\\" + textureName.Name.Replace(textureName.Extension, "") + "Data.txt";
-        }
-
-        internal void CreateNewMetaData(string fileName)
-        {
-            throw new NotImplementedException();
-            //FileInfo fileInfo = new FileInfo(fileName);
-
-            //string baseName = fileInfo.Name.Replace(fileInfo.Extension, "");
-            //string dataName = fileInfo.DirectoryName + "\\" + baseName + "Data.txt";
-
-            ////we are building it from the one in memory (UI assumption)
-
-        }
-
-        private TimeSpan HitAndGetInterval()
-        {
-            DateTime swap = lastHit;
-            lastHit = DateTime.Now;
-            return lastHit - swap;
-        }
+        #region Animation
 
         internal int GetAnimationLength()
         {
@@ -223,26 +262,9 @@ namespace DevTools.Model
             animations[CurrentAnimationIndex][CurrentDirectionIndex].SetIndex(value);
         }
 
-        private void CreateFileWatcher(FileInfo file)
-        {
-            if (watcher != null)
-            {
-                watcher.Dispose();
-            }
+        #endregion Animation
 
-            watcher = new FileSystemWatcher();
-            watcher.Path = file.DirectoryName;
-            watcher.NotifyFilter = NotifyFilters.LastWrite; //can have more later | NotifyFilters.LastAccess | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            watcher.Filter = file.Name;
-
-            watcher.Changed += new FileSystemEventHandler(OnChanged);
-
-            watcher.EnableRaisingEvents = true;
-        }
-
-        private void OnChanged(object source, FileSystemEventArgs e)
-        {
-        }
+        #region Animation CRUD
 
         internal void CreateNewFrame()
         {
@@ -266,5 +288,14 @@ namespace DevTools.Model
             }
         }
 
+        internal void AddAction()
+        {
+        }
+
+        internal void RemoveAction()
+        {
+        }
+
+        #endregion Animation CRUD
     }
 }

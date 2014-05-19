@@ -27,7 +27,13 @@
                 <Label DockPanel.Dock="Top">Time (ms)</Label>
                 <TextBox DockPanel.Dock="Top" Text="{Binding CurrentFrameTimeText}"></TextBox>
                 <Label DockPanel.Dock="Top">Damage Dots</Label>
-                <ListView MaxWidth="200">dots here as list</ListView>
+                <ListView MaxWidth="200">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding DotLocation}"></TextBox>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </DockPanel>
         </Border>
 

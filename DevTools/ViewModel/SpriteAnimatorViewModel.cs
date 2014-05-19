@@ -20,6 +20,12 @@ namespace DevTools.ViewModel
 
         #region PropertyBinds
 
+        public bool FileIsOutOfDate
+        {
+            get { return model.FileIsOutOfDate; }
+            set { model.FileIsOutOfDate = value; }
+        }
+
         public int maxSliderValue
         {
             get { return model.GetAnimationLength() - 1; }

@@ -69,25 +69,34 @@ namespace DevTools.View
 
         private void RenderBox(object sender, GraphicsDeviceEventArgs e)
         {
-            e.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
-
-            spriteBatch.Begin();
-            VM.Draw(spriteBatch);
-
-            if (PhysBoxCheckBox.IsChecked.Value)
+            if (!VM.FileIsOutOfDate)
             {
-                VM.DrawPhysics(spriteBatch);
-            }
-            if (DamageDotsCheckBox.IsChecked.Value)
-            {
-                VM.DrawDamageDots(spriteBatch);
-            }
-            if (SelectionCheckBox.IsChecked.Value)
-            {
-                VM.DrawSelection(spriteBatch);
-            }
 
-            spriteBatch.End();
+                e.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
+
+                spriteBatch.Begin();
+                VM.Draw(spriteBatch);
+
+                if (PhysBoxCheckBox.IsChecked.Value)
+                {
+                    VM.DrawPhysics(spriteBatch);
+                }
+                if (DamageDotsCheckBox.IsChecked.Value)
+                {
+                    VM.DrawDamageDots(spriteBatch);
+                }
+                if (SelectionCheckBox.IsChecked.Value)
+                {
+                    VM.DrawSelection(spriteBatch);
+                }
+
+                spriteBatch.End();
+            }
+            else
+            {
+                VM.RefreshCurrentContent.Execute(null);
+                VM.FileIsOutOfDate = false;
+            }
         }
 
         private void GraphicsBoxMouseLeftDown(object sender, HwndMouseEventArgs e)
