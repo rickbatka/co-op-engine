@@ -19,6 +19,8 @@ using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
 using co_op_engine.Components.Weapons.Effects;
 using co_op_engine.Components.Brains.AI;
+using co_op_engine.Components.Movement;
+using co_op_engine.Components.Engines;
 
 namespace co_op_engine.Factories
 {
@@ -59,6 +61,8 @@ namespace co_op_engine.Factories
             var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
             player.SetRenderer(renderer);
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
+            player.SetMover(new WalkingMover(player));
+            player.SetEngine(new WalkerEngine(player));
             player.SetCombat(new CombatBase(player));
 
             // wire up the events between components
@@ -90,6 +94,9 @@ namespace co_op_engine.Factories
             enemy.SetPhysics(new CollidingPhysics(enemy));
             var renderer = new RenderBase(enemy, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
             enemy.SetRenderer(renderer);
+
+            enemy.SetMover(new WalkingMover(enemy));
+            enemy.SetEngine(new WalkerEngine(enemy));
 
             if (id == -1)
             {
@@ -129,6 +136,8 @@ namespace co_op_engine.Factories
             player.SetRenderer(renderer);
             player.SetBrain(new NetworkPlayerBrain(player));
             player.SetCombat(new COMBATPLACEHOLDER(player));
+            player.SetMover(new WalkingMover(player));
+            player.SetEngine(new WalkerEngine(player));
             player.EquipWeapon(GetSword(player));
 
             gameRef.container.AddObject(player);

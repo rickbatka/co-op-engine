@@ -30,10 +30,10 @@ namespace co_op_engine.Components.Brains.TowerBrains
 			DrawArea.X = Owner.Position.X - Radius;
 			DrawArea.Y = Owner.Position.Y - Radius;
 
-            if (Owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
-            {
-                QueryRange();
-            }
+			if (Owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
+			{
+				QueryRange();
+			}
 		}
 
 		override public void Draw(SpriteBatch spriteBatch)
@@ -61,20 +61,20 @@ namespace co_op_engine.Components.Brains.TowerBrains
 				if (collider != Owner
 					&& IsWithinRadius(collider))
 				{
-                    if(collider.Friendly)
-                    {
-                        HandleFriendlyInRange(collider);
-                    }
-                    else
-                    {
-                        HandleNonFriendlyInRange(collider);
-                    }
+					if(collider.Friendly)
+					{
+						HandleFriendlyInRange(collider);
+					}
+					else
+					{
+						HandleNonFriendlyInRange(collider);
+					}
 				}
 			}
 		}
 
-        protected virtual void HandleFriendlyInRange(GameObject collider) { }
-        protected virtual void HandleNonFriendlyInRange(GameObject collider) { }
+		protected virtual void HandleFriendlyInRange(GameObject collider) { }
+		protected virtual void HandleNonFriendlyInRange(GameObject collider) { }
 
 		private bool IsWithinRadius(GameObject collider)
 		{

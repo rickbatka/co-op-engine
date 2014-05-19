@@ -1,5 +1,6 @@
 ﻿using co_op_engine.Components.Input;
 using co_op_engine.Factories;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -33,7 +34,8 @@ namespace co_op_engine.Components.Brains.TowerBrains
                 && Owner.Weapon.CurrentWeaponStateProperties.CanInitiatePrimaryAttack)
             {
                 Owner.Weapon.PrimaryAttack(shotCooldown);
-                ProjectileFactory.Instance.GetArrow(Owner, collider);
+                var arrow = ProjectileFactory.Instance.GetArrow(Owner, collider);
+                arrow.FireOnWasFiredAtFixedPoint(this, new FireProjectileEventArgs { TargetVector = collider.Position });
             }
         }
 

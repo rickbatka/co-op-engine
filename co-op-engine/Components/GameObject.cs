@@ -12,6 +12,8 @@ using co_op_engine.Networking.Commands;
 using co_op_engine.Components.Weapons.Effects;
 using System.Collections.Generic;
 using co_op_engine.World.Level;
+using co_op_engine.Components.Movement;
+using co_op_engine.Components.Engines;
 
 namespace co_op_engine.Components
 {
@@ -22,6 +24,8 @@ namespace co_op_engine.Components
         public BrainBase Brain;
         public Weapon Weapon;
         public CombatBase Combat;
+        public MoverBase Mover;
+        public EngineBase Engine;
 
         public Level CurrentLevel;
 
@@ -36,6 +40,7 @@ namespace co_op_engine.Components
         public bool Visible { get; set; }
         public string DisplayName { get { return "ID: " + ID; } }
         public float SpeedAccel = 75f;
+        public float BoostModifier = 2f;
 
         public Texture2D Texture { get; set; }
 
@@ -97,6 +102,16 @@ namespace co_op_engine.Components
             this.Weapon = weapon;
         }
 
+        public void SetMover(MoverBase mover)
+        {
+            this.Mover = mover;
+        }
+
+        public void SetEngine(EngineBase engine)
+        {
+            this.Engine = engine;
+        }
+
         public void Update(GameTime gameTime)
         {
             if(Brain != null)
@@ -105,26 +120,13 @@ namespace co_op_engine.Components
                 Brain.Update(gameTime);
                 Brain.AfterUpdate();
             }
-            
-            if(Physics != null)
-            {
-                Physics.Update(gameTime);
-            }
 
-            if(Renderer != null)
-            {
-                Renderer.Update(gameTime);
-            }
-            
-            if (Combat != null)
-            {
-                Combat.Update(gameTime);
-            }
-
-            if (Weapon != null)
-            {
-                Weapon.Update(gameTime);
-            }
+            if (Physics != null) { Physics.Update(gameTime); }
+            if (Renderer != null) { Renderer.Update(gameTime); }
+            if (Combat != null) { Combat.Update(gameTime); }
+            if (Weapon != null) { Weapon.Update(gameTime); }
+            if (Mover != null) { Mover.Update(gameTime); }
+            if (Engine != null) { Engine.Update(gameTime); }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -214,11 +216,13 @@ namespace co_op_engine.Components
         public event EventHandler<EventArgs> OnWasAffectedByNonFriendlyWeapon;
         public event EventHandler<EventArgs> OnUsedWeaponEffectOnFriendly;
         public event EventHandler<EventArgs> OnWasAffectedByFriendlyWeapon;
+        public event EventHandler<FireProjectileEventArgs> OnWasFiredAtFixedPoint;
 
         public void FireOnDeath(object sender, EventArgs args) { if (OnDeath != null) OnDeath(sender, args); }
         public void FireOnWasAffectedByFriendlyWeapon(object sender, EventArgs args) { if (OnWasAffectedByFriendlyWeapon != null) OnWasAffectedByFriendlyWeapon(sender, args); }
         public void FireOnWasAffectedByNonFriendlyWeapon(object sender, EventArgs args) { if (OnWasAffectedByNonFriendlyWeapon != null) OnWasAffectedByNonFriendlyWeapon(sender, args); }
         public void FireOnDidAttackNonFriendly(object sender, EventArgs args) { if (OnDidAttackNonFriendly != null) OnDidAttackNonFriendly(sender, args); }
         public void FireOnUsedWeaponEffectOnFriendly(object sender, EventArgs args) { if (OnUsedWeaponEffectOnFriendly != null) OnUsedWeaponEffectOnFriendly(sender, args); }
+        public void FireOnWasFiredAtFixedPoint(object sender, FireProjectileEventArgs args) { if (OnWasFiredAtFixedPoint != null) OnWasFiredAtFixedPoint(sender, args); }
     }
 }

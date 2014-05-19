@@ -1,4 +1,6 @@
-﻿using System;
+﻿using co_op_engine.Components;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,5 +30,11 @@ namespace co_op_engine.Utility
         public static readonly int PARTICLE_LIFETIME_MS = 100;
 
         public static readonly int BEING_HURT_EFFECT_TIME_MS = 60;
+    }
+
+    public class FireProjectileEventArgs : EventArgs
+    {
+        public GameObject TargetObject;
+        public Vector2 TargetVector;
     }
 }
