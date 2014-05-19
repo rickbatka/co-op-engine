@@ -288,14 +288,6 @@ namespace DevTools.Model
             }
         }
 
-        internal void AddAction()
-        {
-        }
-
-        internal void RemoveAction()
-        {
-        }
-
         #endregion Animation CRUD
     }
 }

@@ -79,17 +79,14 @@ namespace DevTools.Model
         {
             List<string> lines = new List<string>();
 
-            lines.Add(";0;0");
-            lines.Add("50<" + textureDimensions.X + "," + textureDimensions.Y + "," + textureDimensions.Width + "," + textureDimensions.Height + ">");
-
-            lines.Add(";0;1");
-            lines.Add("50<" + textureDimensions.X + "," + textureDimensions.Y + "," + textureDimensions.Width + "," + textureDimensions.Height + ">");
-
-            lines.Add(";0;2");
-            lines.Add("50<" + textureDimensions.X + "," + textureDimensions.Y + "," + textureDimensions.Width + "," + textureDimensions.Height + ">");
-
-            lines.Add(";0;3");
-            lines.Add("50<" + textureDimensions.X + "," + textureDimensions.Y + "," + textureDimensions.Width + "," + textureDimensions.Height + ">");
+            for (int i = 0; i < 10; ++i)
+            {
+                for (int j = 0; j < 4; ++j)
+                {
+                    lines.Add(";" + i + ";" + j);
+                    lines.Add("50<" + textureDimensions.X + "," + textureDimensions.Y + "," + textureDimensions.Width + "," + textureDimensions.Height + ">");
+                }
+            }
 
             return lines.ToArray();
         }
@@ -111,7 +108,7 @@ namespace DevTools.Model
 
             foreach (KeyValuePair<int, LightAnimation[]> action in animations)
             {
-                for(int directionIndex=0; directionIndex<4; ++directionIndex)// LightAnimation animation in action.Value)
+                for (int directionIndex = 0; directionIndex < 4; ++directionIndex)// LightAnimation animation in action.Value)
                 {
                     lines.Add(";" + action.Key + ";" + directionIndex);
                     foreach (LightFrame frame in action.Value[directionIndex].frames)
