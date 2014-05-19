@@ -112,8 +112,7 @@ namespace co_op_engine.Collections
                 return false;
             }
 
-            //placeholder for when we need to bring back stacked objects
-
+            //moves an object over one to prevent perfect stacking and infinite splitting
             if (heldObjects.Count() != 0 && heldObjects.Any(o => o.Position == newObject.Position && o != newObject))
             {
                 newObject.Position = new Vector2(newObject.Position.X + 1, newObject.Position.Y + 1);
@@ -123,9 +122,12 @@ namespace co_op_engine.Collections
 
             if (!isParent)
             {
+                //if it's not a parent, add to this collection and set values
                 heldObjects.Add(newObject);
                 newObject.CurrentQuad = this;
                 InflateBoundry(newObject);
+
+                //if there are now too many object in this quad, split it
                 if (heldObjects.Count() > MAX_OBJECTS_PER_QUAD)
                 {
                     Split();
@@ -184,6 +186,8 @@ namespace co_op_engine.Collections
         private void Verify()
         {
 #warning no verification of quadtree currently
+
+            //should 
         }
 
         //done
@@ -220,12 +224,14 @@ namespace co_op_engine.Collections
         //done
         private void Split()
         {
+            //setup new hardbounds
             NW = new QuadTree(new RectangleFloat(hardBounds.Left, hardBounds.Top, hardBounds.Width / 2, hardBounds.Height / 2), this);
             NE = new QuadTree(new RectangleFloat(hardBounds.Left + hardBounds.Width / 2, hardBounds.Top, hardBounds.Width / 2, hardBounds.Height / 2), this);
             SW = new QuadTree(new RectangleFloat(hardBounds.Left, hardBounds.Top + hardBounds.Height / 2, hardBounds.Width / 2, hardBounds.Height / 2), this);
             SE = new QuadTree(new RectangleFloat(hardBounds.Left + hardBounds.Width / 2, hardBounds.Top + hardBounds.Height / 2, hardBounds.Width / 2, hardBounds.Height / 2), this);
 
-            //heh got a little tricky with this one ^_^
+            //no tricks, this um err, it attempts to insert the each object into the new subquads
+            //  on failure it does a master insert
             foreach (GameObject obj in heldObjects)
             {
                 if (!Insert(obj))
@@ -234,7 +240,7 @@ namespace co_op_engine.Collections
                 }
             }
 
-            //memory grab issue
+            //clear references from current list, set to so gc will clear reference counting and pick it up
             heldObjects.Clear();
             heldObjects = null;
         }
