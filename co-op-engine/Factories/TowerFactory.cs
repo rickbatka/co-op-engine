@@ -76,7 +76,6 @@ namespace co_op_engine.Factories
             healingEffect.AffectsFriendlies = true;
             healingEffect.AffectsNonFriendlies = false;
             healingAOEWeapon.EquipEffect(healingEffect);
-            healingAOEWeapon.Friendly = true;
             tower.EquipWeapon(healingAOEWeapon);
 
             if (fromNetwork)
@@ -115,7 +114,6 @@ namespace co_op_engine.Factories
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));
 
             var emptyWeapon = new Weapon(tower);
-            emptyWeapon.Friendly = true;
             tower.EquipWeapon(emptyWeapon);
 
             if (fromNetwork)

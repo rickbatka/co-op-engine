@@ -48,7 +48,6 @@ namespace co_op_engine.Factories
             var arrowWeapon = new AlwaysAttackingProjectileWeapon(arrowContainerObject);
             arrowWeapon.EquipEffect(new BasicDamageEffect(durationMS: 250, damageRating: 25));
             arrowWeapon.SetRenderer((new RenderBase(arrowWeapon, AssetRepository.Instance.ArrowTexture, AssetRepository.Instance.ArrowAnimations)));
-            arrowWeapon.Friendly = true;
             arrowContainerObject.EquipWeapon(arrowWeapon);
     
             arrowContainerObject.CurrentState = Constants.ACTOR_STATE_IDLE;

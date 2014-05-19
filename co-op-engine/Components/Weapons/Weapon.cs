@@ -22,7 +22,7 @@ namespace co_op_engine.Components.Weapons
         public virtual WeaponState CurrentWeaponStateProperties { get { return WeaponStates.States[CurrentState]; } }
 
         public bool Visible { get; set; }
-        public bool Friendly = false;
+        public bool Friendly { get { return owner.Friendly; } }
         public Frame CurrentFrame { get; set; }
         public Texture2D Texture { get; set; }
         public Vector2 Position { get { return owner.Position; } }
