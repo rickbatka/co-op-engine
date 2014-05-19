@@ -28,7 +28,7 @@ namespace co_op_engine.Utility
         public Texture2D AxeTexture;
         public Texture2D MaceTexture;
         public Texture2D DebugFillTexture;
-        public Texture2D GreenCircle;
+        public Texture2D Circle;
         public Texture2D HealBeam;
         public Texture2D FuzzyLazer;
         public BackgroundTile BushesTile;
@@ -81,7 +81,7 @@ namespace co_op_engine.Utility
             SwordTexture = gameRef.Content.Load<Texture2D>("Sword");
             AxeTexture = gameRef.Content.Load<Texture2D>("Axe");
             MaceTexture = gameRef.Content.Load<Texture2D>("Mace");
-            GreenCircle = gameRef.Content.Load<Texture2D>("HealCircle");
+            Circle = gameRef.Content.Load<Texture2D>("circle");
             HealBeam = gameRef.Content.Load<Texture2D>("HealZap");
             FuzzyLazer = gameRef.Content.Load<Texture2D>("FuzzyLazer");
             BushesTile = new BackgroundTile(gameRef.Content.Load<Texture2D>("bushes"), 450, 450);

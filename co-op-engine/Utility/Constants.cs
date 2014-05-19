@@ -35,6 +35,5 @@ namespace co_op_engine.Utility
     public class FireProjectileEventArgs : EventArgs
     {
         public GameObject TargetObject;
-        public Vector2 TargetVector;
     }
 }

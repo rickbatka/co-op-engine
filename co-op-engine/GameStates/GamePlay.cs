@@ -132,13 +132,13 @@ namespace co_op_engine.GameStates
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             GameRef.spriteBatch.Begin(
-                SpriteSortMode.FrontToBack, 
-                null, 
-                SamplerState.LinearWrap, 
-                null, 
-                null, 
-                null,
-                Camera.Instance.Transformation
+                sortMode: SpriteSortMode.FrontToBack, 
+                blendState: BlendState.NonPremultiplied, 
+                samplerState: SamplerState.LinearWrap, 
+                depthStencilState: null,
+                rasterizerState: null, 
+                effect: null,
+                transformMatrix: Camera.Instance.Transformation
             );
             Level.Draw(GameRef.spriteBatch);
             

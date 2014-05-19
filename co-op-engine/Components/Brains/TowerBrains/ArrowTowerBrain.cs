@@ -35,7 +35,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
             {
                 Owner.Weapon.PrimaryAttack(shotCooldown);
                 var arrow = ProjectileFactory.Instance.GetArrow(Owner, collider);
-                arrow.FireOnWasFiredAtFixedPoint(this, new FireProjectileEventArgs { TargetVector = collider.Position });
+                arrow.FireOnWasFiredAtFixedPoint(this, new FireProjectileEventArgs { TargetObject = collider });
             }
         }
 

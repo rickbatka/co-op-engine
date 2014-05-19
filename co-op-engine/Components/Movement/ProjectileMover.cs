@@ -1,4 +1,5 @@
-﻿using co_op_engine.Utility;
+﻿using co_op_engine.Components.Particles;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -24,25 +25,29 @@ namespace co_op_engine.Components.Movement
             owner.OnWasFiredAtFixedPoint += HandleWasFired;
         }
 
-        //@TODO arg should take gameobject target, and should predict!!!
         public void HandleWasFired(object sender, FireProjectileEventArgs args)
         {
             Origin = Owner.Position;
-            //change target to be edge of tower radius, so it always flies the same distance
-            Target = GetTarget(Origin, args.TargetVector);
+            Target = GetTarget(Origin, args.TargetObject);
             IsTracking = true;
         }
 
-        private Vector2 GetTarget(Vector2 origin, Vector2 target)
+        private Vector2 GetTarget(Vector2 origin, GameObject target)
         {
-            
-            var difference = target - origin;
-            var length = difference.Length();
+            // lame interpolation to try to lead the target and actually hit them once in a while...
+            var newTarget = target.Position + (target.Velocity * ((ShotDuration / 2) / 1000f));
+            var difference = newTarget - origin;
             difference.Normalize();
 
+            // rotate arrow toward target
+            Owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(difference);
+            
+            //change target to be edge of tower radius, so it always flies the same distance
             float newX = origin.X + difference.X * arrowDistance;
             float newY = origin.Y + difference.Y * arrowDistance;
-            return new Vector2(newX, newY);
+            newTarget = new Vector2(newX, newY);
+            
+            return newTarget;
         }
 
         public override void Update(GameTime gameTime)
@@ -51,12 +56,6 @@ namespace co_op_engine.Components.Movement
             {
                 //mark the time we start tracking our path
                 TimeShotFired = gameTime.TotalGameTime.TotalMilliseconds;
-                var directionTowardTarget = Target - Owner.Position;
-                directionTowardTarget.Normalize();
-
-                Owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(directionTowardTarget);
-
-                
             }
 
             if(IsTracking)
@@ -74,6 +73,10 @@ namespace co_op_engine.Components.Movement
             {
                 //todo puff of smoke if it misses, then disappear
                 IsTracking = false;
+                Owner.ShouldDelete = true;
+                ParticleEngine.Instance.AddEmitter(
+                    new DustFastEmitter(Owner)
+                );
             }
 
             if (IsTracking)

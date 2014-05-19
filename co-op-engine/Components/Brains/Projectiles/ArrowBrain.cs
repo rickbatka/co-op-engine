@@ -10,7 +10,6 @@ namespace co_op_engine.Components.Brains.Projectiles
     public class ArrowBrain : BrainBase
     {
         
-
         public ArrowBrain(GameObject owner, GameObject target)
             :base(owner, false)
         {
