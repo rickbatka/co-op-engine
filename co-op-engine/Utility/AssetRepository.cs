@@ -31,6 +31,7 @@ namespace co_op_engine.Utility
         public Texture2D Circle;
         public Texture2D HealBeam;
         public Texture2D FuzzyLazer;
+        public Texture2D Slime;
         public BackgroundTile BushesTile;
 
         string[] heroAnimationData;
@@ -45,6 +46,8 @@ namespace co_op_engine.Utility
         public AnimationSet TowerAnimations { get { return AnimationSet.BuildFromAsset(towerAnimationData); } }
         string[] arrowAnimationData;
         public AnimationSet ArrowAnimations { get { return AnimationSet.BuildFromAsset(arrowAnimationData); } }
+        string[] slimeAnimationData;
+        public AnimationSet SlimeAnimations { get { return AnimationSet.BuildFromAsset(slimeAnimationData); } }
 
         public void TempSetWindowText(string text)
         {
@@ -84,6 +87,7 @@ namespace co_op_engine.Utility
             Circle = gameRef.Content.Load<Texture2D>("circle");
             HealBeam = gameRef.Content.Load<Texture2D>("HealZap");
             FuzzyLazer = gameRef.Content.Load<Texture2D>("FuzzyLazer");
+            Slime = gameRef.Content.Load<Texture2D>("slime");
             BushesTile = new BackgroundTile(gameRef.Content.Load<Texture2D>("bushes"), 450, 450);
 
             heroAnimationData = File.ReadAllLines("content/HeroNoArmsData.txt");
@@ -92,6 +96,7 @@ namespace co_op_engine.Utility
             maceAnimationData = File.ReadAllLines("content/MaceData.txt");
             towerAnimationData = File.ReadAllLines("content/TowerData.txt");
             arrowAnimationData = File.ReadAllLines("content/arrowData.txt");
+            slimeAnimationData = File.ReadAllLines("content/slimeData.txt");
         }
     }
 }

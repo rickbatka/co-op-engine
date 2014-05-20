@@ -92,7 +92,9 @@ namespace co_op_engine.Factories
             enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
 
             enemy.SetPhysics(new CollidingPhysics(enemy));
-            var renderer = new RenderBase(enemy, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
+            //var renderer = new RenderBase(enemy, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
+            var renderer = new RenderBase(enemy, AssetRepository.Instance.Slime, AssetRepository.Instance.SlimeAnimations);
+
             enemy.SetRenderer(renderer);
 
             enemy.SetMover(new WalkingMover(enemy));
