@@ -135,6 +135,7 @@
     <Compile Include="Pathing\PathFinder.cs" />
     <Compile Include="Pathing\PathingGrid.cs" />
     <Compile Include="Pathing\PathRequest.cs" />
+    <Compile Include="Sound\SoundManager.cs" />
     <Compile Include="Utility\Camera\CameraEffectBase.cs" />
     <Compile Include="Utility\Camera\CameraShakeEffect.cs" />
     <Compile Include="Utility\Input\InputTypes.cs" />
@@ -220,6 +221,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
