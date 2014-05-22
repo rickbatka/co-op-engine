@@ -12,17 +12,16 @@ namespace ContentCompiler.ContentCompilation
 {
     public class ContentBuilder : IDisposable
     {
-        const string xnaVersion = ", Version=4.0.0.0, PublicKeyToken=842cf8be1de50553";
-
         public event EventHandler<ContentBuildEventArgs> OnOutput;
 
         static string[] pipelineAssemblies =
         {
-            //"Microsoft.Xna.Framework.Content.Pipeline.FBXImporter" + xnaVersion,
-            //"Microsoft.Xna.Framework.Content.Pipeline.XImporter" + xnaVersion,
-            //"Microsoft.Xna.Framework.Content.Pipeline.TextureImporter" + xnaVersion,
-            //"Microsoft.Xna.Framework.Content.Pipeline.EffectImporter" + xnaVersion,
+            @"Microsoft.Xna.Framework.Content.Pipeline.EffectImporter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL",
+            @"Microsoft.Xna.Framework.Content.Pipeline.FBXImporter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL",
             @"Microsoft.Xna.Framework.Content.Pipeline.TextureImporter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL",
+            @"Microsoft.Xna.Framework.Content.Pipeline.XImporter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL",
+            @"Microsoft.Xna.Framework.Content.Pipeline.AudioImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL",
+            @"Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL",
         };
 
         Project buildProject;
@@ -206,18 +205,35 @@ namespace ContentCompiler.ContentCompilation
 
         public void GatherInputFiles(string inputDirectory)
         {
-            DirectoryInfo dinfo = new DirectoryInfo(inputDirectory);
-            FileInfo[] infos = dinfo.GetFiles("*.png"); //there should be an expression fot this, but explorer was being an ass
-            infos.ToList().AddRange(dinfo.GetFiles("*.jpg"));
-            infos.ToList().AddRange(dinfo.GetFiles("*.tif"));
-            infos.ToList().AddRange(dinfo.GetFiles("*.bmp"));
-
             Clear();
 
-            foreach (FileInfo finfo in infos)
+            DirectoryInfo dinfo = new DirectoryInfo(inputDirectory);
+            FileInfo[] textureInfos = dinfo.GetFiles("*.png"); //there should be an expression for this, but explorer was being an ass
+            textureInfos.ToList().AddRange(dinfo.GetFiles("*.jpg"));
+            textureInfos.ToList().AddRange(dinfo.GetFiles("*.tif"));
+            textureInfos.ToList().AddRange(dinfo.GetFiles("*.bmp"));
+
+            foreach (FileInfo finfo in textureInfos)
             {
                 TriggerOutput(finfo.FullName);
                 Add(finfo.FullName, finfo.Name.Replace(finfo.Extension, ""), "TextureImporter", "TextureProcessor");
+            }
+
+            FileInfo[] audioEffect = dinfo.GetFiles("*.wav");
+
+            foreach (FileInfo finfo in audioEffect)
+            {
+                TriggerOutput(finfo.FullName);
+                Add(finfo.FullName, finfo.Name.Replace(finfo.Extension, ""), "WavImporter", "SoundEffectProcessor");
+            }
+
+            //I have distain for them making the distinction between song and soundeffect as song uses winmediaplayer backend to play it and it's got a gross api
+            FileInfo[] songs = dinfo.GetFiles("*.mp3");
+
+            foreach (FileInfo finfo in songs)
+            {
+                TriggerOutput(finfo.FullName);
+                Add(finfo.FullName, finfo.Name.Replace(finfo.Extension, ""), "Mp3Importer", "SongProcessor");
             }
         }
 
