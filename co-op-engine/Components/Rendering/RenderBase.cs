@@ -41,7 +41,7 @@ namespace co_op_engine.Components.Rendering
 
             spriteBatch.Draw(
                 owner.Texture,
-                owner.Position,
+                owner.Position.Rounded(),
                 owner.CurrentFrame.SourceRectangle,
                 GetSpriteDrawColor(),
                 owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
@@ -106,7 +106,7 @@ namespace co_op_engine.Components.Rendering
             //    width: owner.CurrentFrame.DrawRectangle.Width,
             //    height: owner.CurrentFrame.DrawRectangle.Height
             //);
-            return new Vector2(owner.Position.X, owner.Position.Y);
+            return owner.Position.Rounded();
         }
 
         protected Vector2 GetCenterOrigin()

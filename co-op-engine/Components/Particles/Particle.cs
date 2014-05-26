@@ -11,7 +11,7 @@ namespace co_op_engine.Components.Particles
 {
     public interface IParticle
     {
-        Rectangle DrawRectangle { get; set; }
+        RectangleFloat DrawRectangle { get; set; }
         Texture2D Texture { get; }
         Color DrawColor { get; }
         bool IsAlive { get; }
@@ -45,13 +45,13 @@ namespace co_op_engine.Components.Particles
                 _position = value;
                 if (DrawRectangle != null)
                 {
-                    drawRectangle.X = (int)_position.X;
-                    drawRectangle.Y = (int)_position.Y;
+                    drawRectangle.X = _position.X;
+                    drawRectangle.Y = _position.Y;
                 }
             }
         }
-        private Rectangle drawRectangle;
-        public Rectangle DrawRectangle { get { return drawRectangle; } set { drawRectangle = value; } }
+        private RectangleFloat drawRectangle;
+        public RectangleFloat DrawRectangle { get { return drawRectangle; } set { drawRectangle = value; } }
         public Texture2D Texture { get; set; }
 
         private int width;
@@ -67,7 +67,7 @@ namespace co_op_engine.Components.Particles
             Lifetime = TimeSpan.FromMilliseconds(500);
             width = 3;
             height = 3;
-            drawRectangle = new Rectangle((int)this.Position.X, (int)this.Position.Y, width, height);
+            drawRectangle = new RectangleFloat(this.Position.X, this.Position.Y, width, height);
             Texture = AssetRepository.Instance.PlainWhiteTexture;
             DrawColor = Color.White;
         }
@@ -96,7 +96,7 @@ namespace co_op_engine.Components.Particles
         {
             spriteBatch.Draw(
                     texture: Texture,
-                    destinationRectangle: DrawRectangle,
+                    destinationRectangle: DrawRectangle.ToRectangle(),
                     sourceRectangle: null,
                     color: DrawColor,
                     rotation: 0f,

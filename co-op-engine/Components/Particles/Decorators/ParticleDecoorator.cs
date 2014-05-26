@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using co_op_engine.Utility;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace co_op_engine.Components.Particles.Decorators
     {
         protected IParticle particle;
 
-        public Rectangle DrawRectangle { get { return particle.DrawRectangle; } set { particle.DrawRectangle = value; } }
+        public RectangleFloat DrawRectangle { get { return particle.DrawRectangle; } set { particle.DrawRectangle = value; } }
         public Texture2D Texture { get { return particle.Texture; } }
         public Color DrawColor { get { return particle.DrawColor; } }
         public bool IsAlive { get { return particle.IsAlive; } }

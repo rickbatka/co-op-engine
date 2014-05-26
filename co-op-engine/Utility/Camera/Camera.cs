@@ -48,7 +48,7 @@ namespace co_op_engine.Utility.Camera
             get
             {
                 return Matrix.CreateScale(zoom) *
-                    Matrix.CreateTranslation(new Vector3(-Position, 0f));
+                    Matrix.CreateTranslation(new Vector3(-Position.Rounded(), 0f));
             }
         }
 
@@ -83,8 +83,8 @@ namespace co_op_engine.Utility.Camera
                 if (Math.Abs(distanceToTarget.X) > targetAquisitionGranularity || Math.Abs(distanceToTarget.Y) > targetAquisitionGranularity)
                 {
                     Position = new Vector2(
-                        (float)(int)(Position.X + distanceToTarget.X * followEasingAmount),
-                        (float)(int)(Position.Y + distanceToTarget.Y * followEasingAmount)
+                        (Position.X + distanceToTarget.X * followEasingAmount),
+                        (Position.Y + distanceToTarget.Y * followEasingAmount)
                     );
                 }
             }

@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+=======
+﻿using Microsoft.Xna.Framework;
+using System;
+>>>>>>> vector rounding for camera / draw positioning, better than casting to ints
 
 namespace co_op_engine.Utility
 {
@@ -150,7 +155,7 @@ namespace co_op_engine.Utility
 
         public Rectangle ToRectangle()
         {
-            return new Rectangle((int)X, (int)Y, (int)Width, (int)Height);
+            return new Rectangle((int)Math.Round(X), (int)Math.Round(Y), (int)Math.Round(Width), (int)Math.Round(Height));
         }
 
         //public static implicit operator Rectangle(RectangleFloat rectf)

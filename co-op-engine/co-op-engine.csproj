@@ -138,6 +138,7 @@
     <Compile Include="Utility\Camera\CameraEffectBase.cs" />
     <Compile Include="Utility\Camera\CameraShakeEffect.cs" />
     <Compile Include="Utility\Input\InputTypes.cs" />
+    <Compile Include="VectorExtensions.cs" />
     <Compile Include="World\Level\GameDirectorBase.cs" />
     <Compile Include="World\TiledBackground.cs" />
     <Compile Include="Networking\NetworkBase.cs" />
