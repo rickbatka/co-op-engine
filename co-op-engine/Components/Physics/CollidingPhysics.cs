@@ -35,7 +35,7 @@ namespace co_op_engine.Components.Physics
                 {
                     OnCollision(this.owner, colliders);
                 }
-                HandleCollisionPatternMethodTesting(colliders);
+                HandleCollision(colliders);
             }
             else if (previousPosition != owner.Position)
             {
@@ -71,7 +71,7 @@ namespace co_op_engine.Components.Physics
             }
         }
 
-        private void HandleCollisionPatternMethodTesting(List<GameObject> colliders)
+        private void HandleCollision(List<GameObject> colliders)
         {
             GameObject biggest = colliders[0];
             Point biggestOverlap = Point.Zero;
@@ -146,85 +146,6 @@ namespace co_op_engine.Components.Physics
 
             owner.Position += ownerMovement;
             biggest.Position += biggestMovement;
-
-            owner.CurrentQuad.NotifyOfMovement(owner);
-            this.VerifyBoundingBox();
-
-            biggest.CurrentQuad.NotifyOfMovement(biggest);
-            biggest.Physics.VerifyBoundingBox();
-        }
-
-        private void HandleCollision(List<GameObject> collidors)
-        {
-            //this is gonna be a depth resolution collision
-            //only using first one for now, could use others later
-
-            //take largest collider and resolve it only, this should remove problem of getting stuck 
-            // on static walls because you will always be colliding more with the closest wall, 
-            // correctly resolving the collision.
-
-            GameObject biggest = collidors[0];
-            Point biggestOverlap = Point.Zero;
-            foreach (var obj in collidors)
-            {
-                var currentPoint = new Point(
-                    -(Math.Abs(obj.BoundingBox.X - owner.BoundingBox.X) - ((owner.BoundingBox.Width + obj.BoundingBox.Width) / 2)),
-                    -(Math.Abs(obj.BoundingBox.Y - owner.BoundingBox.Y) - ((owner.BoundingBox.Height + obj.BoundingBox.Height) / 2)));
-
-                if ((biggestOverlap.X * biggestOverlap.Y) <= (currentPoint.X * currentPoint.Y))
-                {
-                    biggestOverlap = currentPoint;
-                    biggest = obj;
-                }
-            }
-
-            int xOverlap = biggestOverlap.X;
-            int yOverlap = biggestOverlap.Y;
-
-            Vector2 newOwnerPos = new Vector2(owner.Position.X, owner.Position.Y);
-            Vector2 newBiggestPos = new Vector2(biggest.Position.X, biggest.Position.Y);
-
-            int mod = biggest.UsedInPathing ? 1 : 2;
-            if (xOverlap < yOverlap)
-            {
-                if (owner.Position.X < biggest.Position.X)
-                {
-                    newOwnerPos.X -= xOverlap / mod;
-                    if (!biggest.UsedInPathing)
-                    {
-                        newBiggestPos.X += xOverlap / mod;
-                    }
-                }
-                else
-                {
-                    newOwnerPos.X += xOverlap / mod;
-                    if (!biggest.UsedInPathing)
-                    {
-                        newBiggestPos.X -= xOverlap / mod;
-                    }
-                }
-            }
-            else
-            {
-                if (owner.Position.Y < biggest.Position.Y)
-                {
-                    newOwnerPos.Y -= yOverlap / mod;
-                    if (!biggest.UsedInPathing)
-                    {
-                        newBiggestPos.Y += yOverlap / mod;
-                    }
-                }
-                else
-                {
-                    newOwnerPos.Y += yOverlap / mod;
-                    if (!biggest.UsedInPathing)
-                    {
-                        newBiggestPos.Y -= yOverlap / mod;
-                    }
-                }
-            }
-            owner.Position = newOwnerPos;
-            biggest.Position = newBiggestPos;
 
             owner.CurrentQuad.NotifyOfMovement(owner);
             this.VerifyBoundingBox();

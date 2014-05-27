@@ -42,7 +42,8 @@ namespace co_op_engine.World.Level
 
         public void RemoveObject(GameObject removeObject)
         {
-            var removed = removeObject.CurrentQuad.Remove(removeObject);
+#warning we cannot rely on local remove, sometimes this isn't valid mid update
+            var removed = removeObject.CurrentQuad.Remove(removeObject); 
             removed = removed && LinearReference.Remove(removeObject);
             removed = removed && IndexedReference.Remove(removeObject.ID);
             if (!removed)
@@ -112,7 +113,7 @@ namespace co_op_engine.World.Level
 
         public void DebugDraw(SpriteBatch spriteBatch)
         {
-            //SpacialReference.Draw(spriteBatch);
+            SpacialReference.Draw(spriteBatch);
         }
 
         public GameObject GetObjectById(int Id)

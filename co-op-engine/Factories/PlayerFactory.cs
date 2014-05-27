@@ -59,11 +59,14 @@ namespace co_op_engine.Factories
 
             player.Position = position.Value;
 
+            var mover = new WalkingMover(player);
+            mover.DefineNoF(200, .5f);
+
             player.SetPhysics(new CollidingPhysics(player));
             var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations(player.Scale));
             player.SetRenderer(renderer);
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
-            player.SetMover(new WalkingMover(player));
+            player.SetMover(mover);
             player.SetEngine(new WalkerEngine(player));
             player.SetCombat(new CombatBase(player));
 
@@ -102,7 +105,9 @@ namespace co_op_engine.Factories
 
             enemy.SetRenderer(renderer);
 
-            enemy.SetMover(new WalkingMover(enemy));
+            var mover = new WalkingMover(enemy);
+            mover.DefineNoMu(150, 100);
+            enemy.SetMover(mover);
             enemy.SetEngine(new WalkerEngine(enemy));
 
             if (id == -1)
