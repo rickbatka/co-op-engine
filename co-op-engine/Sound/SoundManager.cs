@@ -40,12 +40,12 @@ namespace co_op_engine.Sound
         private void UpdateInternal(GameTime gameTime)
         {
             //remove done effects
-            foreach (SoundEffectInstance effect in runningSoundEffects)
+            for (int i = 0; i < runningSoundEffects.Count; ++i)
             {
-                if (effect.State == SoundState.Stopped)
+                if (runningSoundEffects[i].State == SoundState.Stopped)
                 {
-                    runningSoundEffects.Remove(effect);
-                    effect.Dispose();
+                    runningSoundEffects.Remove(runningSoundEffects[i]);
+                    runningSoundEffects[i].Dispose();
                 }
             }
 
@@ -55,9 +55,9 @@ namespace co_op_engine.Sound
                 float elapsedRatio = (float)(crossfadeTimer.TotalMilliseconds / (float)crossfadeTimerMilli);
                 if (deactivatingMusic != null && !deactivatingMusic.IsDisposed)
                 {
-                    deactivatingMusic.Volume = 1 - elapsedRatio;
+                    deactivatingMusic.Volume = elapsedRatio;
                 }
-                activeMusic.Volume = elapsedRatio;
+                activeMusic.Volume = 1 - elapsedRatio;
 
                 crossfadeTimer -= gameTime.ElapsedGameTime;
                 if (crossfadeTimer <= TimeSpan.Zero)
@@ -72,6 +72,7 @@ namespace co_op_engine.Sound
             }
         }
 
+        //done
         public static void CrossfadeMusic(int fadeMilli, SoundEffect music)
         {
             instance.CrossfadeMusicInst(fadeMilli, music);
@@ -82,13 +83,14 @@ namespace co_op_engine.Sound
             
             if (activeMusic != null && !activeMusic.IsDisposed)
             {
-                if (!deactivatingMusic.IsDisposed)
+                if (deactivatingMusic!= null && !deactivatingMusic.IsDisposed)
                 {
                     deactivatingMusic.Dispose();
                 }
                 deactivatingMusic = activeMusic;
             }
 
+            song.Play();
             activeMusic = song;
             activeMusic.Volume = 0f;
             crossfadeTimerMilli = fadeMilli;
@@ -96,18 +98,46 @@ namespace co_op_engine.Sound
         }
 
         public static void PauseMusic()
-        { }
+        {
+            instance.activeMusic.Pause();
+        }
 
         public static void PlayMusic()
-        { }
+        {
+            instance.activeMusic.Play();
+        }
 
         public static void PlaySoundEffect(SoundEffect effect, float volume = 1)
-        { }
+        {
+            instance.PlaySoundEffectInst(effect, volume);
+        }
+        private void PlaySoundEffectInst(SoundEffect effect, float volume)
+        {
+            SoundEffectInstance effectInstance = effect.CreateInstance();
+            effectInstance.Play();
+
+            runningSoundEffects.Add(effectInstance);
+        }
 
         public static void MuteAll()
-        { }
+        {
+            instance.activeMusic.Volume = 0f;
 
+            foreach (var effect in instance.runningSoundEffects)
+            {
+                effect.Volume = 0;
+            }
+        }
+
+        //TODO this just sets them to volume 1, we need something to record previous volume in muteall and restore it, needs data object
         public static void UnMuteAll()
-        { }
+        {
+            instance.activeMusic.Volume = 1f;
+
+            foreach (var effect in instance.runningSoundEffects)
+            {
+                effect.Volume = 1f;
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using co_op_engine.GameStates;
 using co_op_engine.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,9 @@ namespace co_op_engine.Utility
         public Texture2D FuzzyLazer;
         public Texture2D Slime;
         public BackgroundTile BushesTile;
+
+        public SoundEffect Music1;
+        public SoundEffect Music2;
 
         string[] heroAnimationData;
         public AnimationSet HeroAnimations(float scale){ return AnimationSet.BuildFromAsset(heroAnimationData, scale); } 
@@ -89,6 +93,9 @@ namespace co_op_engine.Utility
             FuzzyLazer = gameRef.Content.Load<Texture2D>("FuzzyLazer");
             Slime = gameRef.Content.Load<Texture2D>("slime");
             BushesTile = new BackgroundTile(gameRef.Content.Load<Texture2D>("bushes"), 450, 450);
+
+            Music1 = gameRef.Content.Load<SoundEffect>("music_active");
+            Music2 = gameRef.Content.Load<SoundEffect>("music_waiting");
 
             heroAnimationData = File.ReadAllLines("content/HeroNoArmsData.txt");
             swordAnimationData = File.ReadAllLines("content/SwordData.txt");

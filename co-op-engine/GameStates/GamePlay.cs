@@ -5,6 +5,7 @@ using System.Text;
 using co_op_engine.Collections;
 using co_op_engine.Components;
 using co_op_engine.Factories;
+using co_op_engine.Sound;
 using co_op_engine.Utility;
 using co_op_engine.World.Level;
 using Microsoft.Xna.Framework;
@@ -40,6 +41,8 @@ namespace co_op_engine.GameStates
             TowerFactory.Initialize(this);
             NetworkFactory.Initialize(this);
             ProjectileFactory.Initialize(this);
+
+            SoundManager.CrossfadeMusic(5000, AssetRepository.Instance.Music1);
         }
 
         public override void LoadContent()
@@ -50,6 +53,9 @@ namespace co_op_engine.GameStates
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             GameTimerManager.Instance.Update(gameTime);
+
+            DEBUGAREATESTING();
+            SoundManager.Update(gameTime);
 
             container.RemoveDeletedObjects();
 
@@ -74,6 +80,14 @@ namespace co_op_engine.GameStates
                 Camera.Instance.Update(gameTime);
             }
             
+        }
+
+        private void DEBUGAREATESTING()
+        {
+            if (InputHandler.KeyPressed(Microsoft.Xna.Framework.Input.Keys.M))
+            {
+                SoundManager.CrossfadeMusic(5000, AssetRepository.Instance.Music2);
+            }
         }
 
         private void RouteNetCommand(NetworkCommandObject command)
