@@ -34,7 +34,6 @@ namespace co_op_engine
             Window.IsBorderless = true; // monogame fullscreen hack :)
             Window.SetPosition(new Point(0, 0));
 
-            //hack
             screenRectangleActual = new Rectangle(0, 0, 1920, 1080);
             graphics.PreferredBackBufferWidth = screenRectangleActual.Width;
             graphics.PreferredBackBufferHeight = screenRectangleActual.Height;
@@ -80,7 +79,6 @@ namespace co_op_engine
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>

@@ -39,10 +39,7 @@ namespace ContentCompiler
 
                     DirectoryInfo inputDirectoryInfo = new DirectoryInfo(inputDirectory);
                     List<FileInfo> moveFiles = new List<FileInfo>();
-                    moveFiles.AddRange(inputDirectoryInfo.GetFiles("*.spritefont"));
                     moveFiles.AddRange(inputDirectoryInfo.GetFiles("*.txt"));
-                    moveFiles.AddRange(inputDirectoryInfo.GetFiles("*.xnb"));//hack, still can't compile spritefonts
-
 
                     foreach (FileInfo filename in moveFiles)
                     {

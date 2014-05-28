@@ -33,6 +33,7 @@ namespace co_op_engine.Pathing
         private ObjectContainer containerRef;
         private int GridSpacing = 20;
         private int lengthyPathThreshhold = 200;
+        private bool ShuttingDown = false;
 
         private int TESTING_LAST_PATH_G = 0;
         private int TESTING_LAST_PATH_LENGTH = 0;
@@ -50,6 +51,12 @@ namespace co_op_engine.Pathing
             pathingThread.Start();
         }
 
+        public void ShutDownPathing()
+        {
+            ShuttingDown = true; //will catch it if there are issues with the abort call;
+            pathingThread.Abort();
+        }
+
         /// <summary>
         /// Be sure your callback is quick and threadsafe, it won't be getting called on the same thread it enters
         /// </summary>
@@ -61,8 +68,7 @@ namespace co_op_engine.Pathing
 
         private void PathingLoop()
         {
-#warning needs to live and die with gameplay object, shouldn't be a while true forever
-            while (true)
+            while (!ShuttingDown)
             {
                 List<PathRequest> requests = pathRequests.Gather();
 
@@ -257,8 +263,11 @@ namespace co_op_engine.Pathing
 
         public void Draw(SpriteBatch spriteBatch)
         {
-#warning this is unsafe and will blow up if game runs for a while, for debugging only
-            grid.Draw(spriteBatch);
+            try
+            {
+                grid.Draw(spriteBatch);
+            }
+            catch { } //this is needed for threadsafety and race conditions
             spriteBatch.DrawString(
                 spriteFont: AssetRepository.Instance.Arial, 
                 text: TESTING_LAST_PATH_G.ToString() + '\n' + TESTING_LAST_PATH_LENGTH.ToString(), 

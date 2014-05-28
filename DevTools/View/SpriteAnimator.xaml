@@ -27,10 +27,14 @@
                 <Label DockPanel.Dock="Top">Time (ms)</Label>
                 <TextBox DockPanel.Dock="Top" Text="{Binding CurrentFrameTimeText}"></TextBox>
                 <Label DockPanel.Dock="Top">Damage Dots</Label>
-                <ListView MaxWidth="200">
+                <Button DockPanel.Dock="Top" HorizontalAlignment="Left" Width="20" Height="20" Command="{Binding AddDotToFrame}">+</Button>
+                <ListView MaxWidth="200" ItemsSource="{Binding DamageDotItems}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding DotLocation}"></TextBox>
+                            <DockPanel>
+                                <Button DockPanel.Dock="Right" Width="20" Height="20" Command="{Binding RemoveDotFromFrame}" >-</Button>
+                                <TextBox DockPanel.Dock="Left" Text="{Binding DotLocation}"></TextBox>
+                            </DockPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

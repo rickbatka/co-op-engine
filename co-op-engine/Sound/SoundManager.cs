@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
@@ -34,6 +31,12 @@ namespace co_op_engine.Sound
 
         public static void Update(GameTime gameTime)
         {
+            //TODO this is debug stuff, remove it eventually
+            if (InputHandler.KeyPressed(Microsoft.Xna.Framework.Input.Keys.M))
+            {
+                SoundManager.CrossfadeMusic(5000, AssetRepository.Instance.Music2);
+            }
+
             //instance predicate got that annoying
             instance.UpdateInternal(gameTime);
         }

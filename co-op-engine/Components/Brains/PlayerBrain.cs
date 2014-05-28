@@ -95,7 +95,6 @@ namespace co_op_engine.Components.Brains
             }
 
             /*
-             * TODO
              * Pretty much everything below here is for debugging / testing.
              * */
             if (InputHandler.KeyPressed(Keys.T))

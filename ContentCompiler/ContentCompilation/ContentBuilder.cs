@@ -208,7 +208,8 @@ namespace ContentCompiler.ContentCompilation
             Clear();
 
             DirectoryInfo dinfo = new DirectoryInfo(inputDirectory);
-            FileInfo[] textureInfos = dinfo.GetFiles("*.png"); //there should be an expression for this, but explorer was being an ass
+
+            FileInfo[] textureInfos = dinfo.GetFiles("*.png");
             textureInfos.ToList().AddRange(dinfo.GetFiles("*.jpg"));
             textureInfos.ToList().AddRange(dinfo.GetFiles("*.tif"));
             textureInfos.ToList().AddRange(dinfo.GetFiles("*.bmp"));
@@ -220,20 +221,24 @@ namespace ContentCompiler.ContentCompilation
             }
 
             FileInfo[] audioEffect = dinfo.GetFiles("*.wav");
-
             foreach (FileInfo finfo in audioEffect)
             {
                 TriggerOutput(finfo.FullName);
                 Add(finfo.FullName, finfo.Name.Replace(finfo.Extension, ""), "WavImporter", "SoundEffectProcessor");
             }
 
-            //I have distain for them making the distinction between song and soundeffect as song uses winmediaplayer backend to play it and it's got a gross api
             FileInfo[] songs = dinfo.GetFiles("*.mp3");
-
             foreach (FileInfo finfo in songs)
             {
                 TriggerOutput(finfo.FullName);
                 Add(finfo.FullName, finfo.Name.Replace(finfo.Extension, ""), "Mp3Importer", "SongProcessor");
+            }
+
+            FileInfo[] fonts = dinfo.GetFiles("*.spritefont");
+            foreach (FileInfo font in fonts)
+            {
+                TriggerOutput(font.FullName);
+                Add(font.FullName, font.Name.Replace(font.Extension, ""), "FontDescriptionImporter", "FontDescriptionProcessor");
             }
         }
 

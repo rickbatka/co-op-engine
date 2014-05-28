@@ -50,11 +50,14 @@ namespace co_op_engine.GameStates
             Level.LoadContent();
         }
 
+        public void ClosingGameplay()
+        {
+            PathFinder.Instance.ShutDownPathing();
+        }
+
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             GameTimerManager.Instance.Update(gameTime);
-
-            DEBUGAREATESTING();
             SoundManager.Update(gameTime);
 
             container.RemoveDeletedObjects();
@@ -78,15 +81,6 @@ namespace co_op_engine.GameStates
             if(Level.MatchState == MatchStates.Playing)
             {
                 Camera.Instance.Update(gameTime);
-            }
-            
-        }
-
-        private void DEBUGAREATESTING()
-        {
-            if (InputHandler.KeyPressed(Microsoft.Xna.Framework.Input.Keys.M))
-            {
-                SoundManager.CrossfadeMusic(5000, AssetRepository.Instance.Music2);
             }
         }
 
