@@ -9,7 +9,6 @@ namespace DevTools.ViewModel.Shared
 {
     internal class VMCommand : ICommand
     {
-
         private Action<object> CommandAction;
 
         public VMCommand(Action<object> action)

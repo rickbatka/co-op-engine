@@ -254,7 +254,11 @@ namespace DevTools.Model
 
         internal LightFrame GetCurrentFrame()
         {
-            return animations[CurrentAnimationIndex][CurrentDirectionIndex].CurrentFrame;
+            if (hasLoadedContentBefore)
+            {
+                return animations[CurrentAnimationIndex][CurrentDirectionIndex].CurrentFrame;
+            }
+            return null;
         }
 
         internal void SetFrameIndex(int value)

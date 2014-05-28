@@ -110,19 +110,22 @@ namespace DevTools.Model
             {
                 for (int directionIndex = 0; directionIndex < 4; ++directionIndex)// LightAnimation animation in action.Value)
                 {
-                    lines.Add(";" + action.Key + ";" + directionIndex);
-                    foreach (LightFrame frame in action.Value[directionIndex].frames)
+                    if (action.Value[directionIndex] != null)
                     {
-                        string line = frame.FrameTime + "<" + GetRectangleCSV(frame.SourceRectangle) + ">";
-                        if (frame.PhysicsRectangle != null && frame.PhysicsRectangle != Rectangle.Empty)
+                        lines.Add(";" + action.Key + ";" + directionIndex);
+                        foreach (LightFrame frame in action.Value[directionIndex].frames)
                         {
-                            line += "{" + GetRectangleCSV(frame.PhysicsRectangle) + "}";
+                            string line = frame.FrameTime + "<" + GetRectangleCSV(frame.SourceRectangle) + ">";
+                            if (frame.PhysicsRectangle != null && frame.PhysicsRectangle != Rectangle.Empty)
+                            {
+                                line += "{" + GetRectangleCSV(frame.PhysicsRectangle) + "}";
+                            }
+                            foreach (Rectangle damageDot in frame.DamageDots)
+                            {
+                                line += "(" + GetRectangleCSV(damageDot) + ")";
+                            }
+                            lines.Add(line);
                         }
-                        foreach (Rectangle damageDot in frame.DamageDots)
-                        {
-                            line += "(" + GetRectangleCSV(damageDot) + ")";
-                        }
-                        lines.Add(line);
                     }
                 }
             }

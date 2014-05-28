@@ -20,11 +20,55 @@ namespace DevTools.ViewModel
 
         #region PropertyBinds
 
-        public class DamageDotListItem { public string DotLocation; }
+        public class DamageDotListItem
+        {
+            public string HACKDot;
+            public string DotLocation
+            {
+                get { return HACKDot;}
+                set
+                {
+                    HACKDot = value;
+                    Update(this, value);
+                } 
+            }
+            public Rectangle original;
+            public Action<DamageDotListItem, string> Update;
+            public Action<DamageDotListItem> Remove;
+            public VMCommand RemoveDotFromFrame
+            {
+                get
+                {
+                    return new VMCommand((o) =>
+                        {
+                            Remove(this);
+                        });
+                }
+            }
+        }
         private ObservableCollection<DamageDotListItem> _ddi = new ObservableCollection<DamageDotListItem>();
         public ObservableCollection<DamageDotListItem> DamageDotItems
         {
-            get { return _ddi; }
+            get
+            {
+                var frame = model.GetCurrentFrame();
+                if (frame == null)
+                    return new ObservableCollection<DamageDotListItem>();
+
+                var list = new ObservableCollection<DamageDotListItem>();
+
+                foreach (var dot in frame.DamageDots)
+                {
+                    list.Add(new DamageDotListItem()
+                    {
+                        HACKDot = MetaFileAnimationManager.GetRectangleCSV(dot),
+                        Remove = RemoveDotFromFrame,
+                        original = dot,
+                        Update = UpdateDot,
+                    });
+                }
+                return list;
+            }
             set
             {
                 _ddi = value;
@@ -411,6 +455,24 @@ namespace DevTools.ViewModel
             }
         }
 
+        private VMCommand _adtf;
+        public VMCommand AddDotToFrame
+        {
+            get
+            {
+                return _adtf ?? (_adtf = new VMCommand((o) =>
+                    {
+                        var dots = model.GetCurrentFrame().DamageDots.ToList<Rectangle>();
+                        dots.Add(new Rectangle(0, 0, 0, 0));
+                        model.GetCurrentFrame().DamageDots = dots.ToArray();
+
+                        OnPropertyChanged(() => this.DamageDotItems);
+
+                        LogDebug("AddingDot");
+                    }));
+            }
+        }
+
         #endregion Command Binds
 
         public SpriteAnimatorViewModel()
@@ -441,6 +503,8 @@ namespace DevTools.ViewModel
             OnPropertyChanged(() => this.CurrentFramePhysicsText);
             OnPropertyChanged(() => this.CurrentFrameSourceText);
             OnPropertyChanged(() => this.CurrentFrameTimeText);
+
+            OnPropertyChanged(() => this.DamageDotItems);
         }
 
         private void ResetValues()
@@ -494,6 +558,41 @@ namespace DevTools.ViewModel
             {
                 return null;
             }
+        }
+
+        public void RemoveDotFromFrame(DamageDotListItem sender)
+        {
+            model.GetCurrentFrame().DamageDots = model.GetCurrentFrame().DamageDots.ToList().Where(r => MetaFileAnimationManager.GetRectangleCSV(r) != sender.DotLocation).ToArray();
+
+            OnPropertyChanged(() => this.DamageDotItems);
+
+            LogDebug("AddingDot");
+        }
+
+        public void UpdateDot(DamageDotListItem sender, string update)
+        {
+            for(int i=0; i< model.GetCurrentFrame().DamageDots.Count(); ++i)
+            {
+                if (model.GetCurrentFrame().DamageDots[i] == sender.original)
+                {
+                    string[] dimensions = update.Split(',');
+                    try
+                    {
+                        Rectangle rect = new Rectangle(
+                                int.Parse(dimensions[0]),
+                                int.Parse(dimensions[1]),
+                                int.Parse(dimensions[2]),
+                                int.Parse(dimensions[3]));
+                        model.GetCurrentFrame().DamageDots[i] = rect;
+                        sender.original = rect;
+                    }
+                    catch { }
+
+                    return;
+                }
+            }
+
+            OnPropertyChanged(() => this.DamageDotItems);
         }
 
         #endregion Actions
