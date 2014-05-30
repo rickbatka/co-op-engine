@@ -8,7 +8,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Particles
 {
-    class FireEmitter : Emitter
+    public class FireEmitter : Emitter
     {
         private GameObject owner;
         public FireEmitter(GameObject owner)

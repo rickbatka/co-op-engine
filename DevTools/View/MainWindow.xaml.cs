@@ -1,4 +1,6 @@
-﻿using System;
+﻿extern alias xnaFrameworkAlias;
+extern alias xnaGraphicsAlias;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,10 +16,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DevTools.GraphicsControls.Boiler;
 using DevTools.GraphicsControls;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 using ContentCompiler.ContentCompilation;
 using DevTools.View;
+using xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics;
+using xnaFrameworkAlias.Microsoft.Xna.Framework.Content;
 
 namespace DevTools
 {

@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿extern alias xnaFrameworkAlias;
+extern alias xnaGraphicsAlias;
+using xnaFrameworkAlias.Microsoft.Xna.Framework;
+using xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;

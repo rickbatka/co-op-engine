@@ -1,13 +1,13 @@
-﻿
-// this code was pieced from another codebase, probably has an MIT attached, don't release
-
+﻿// this code was pieced from another codebase, probably has an MIT attached, don't release
+extern alias xnaGraphicsAlias;
+extern alias monoFrameworkAlias;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using Microsoft.Xna.Framework.Graphics;
+using xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics;
 using DevTools.GraphicsControls.Boiler;
 
 namespace DevTools.GraphicsControls
@@ -19,6 +19,7 @@ namespace DevTools.GraphicsControls
         private IntPtr hWnd;
 
         private GraphicsDeviceService graphicsService;
+        private MonoGraphicsDeviceService monoGraphicsService;
         private ServiceContainer services = new ServiceContainer();
 
 
@@ -70,6 +71,12 @@ namespace DevTools.GraphicsControls
             {
                 graphicsService.Release(disposing);
                 graphicsService = null;
+            }
+
+            if (monoGraphicsService != null)
+            {
+                monoGraphicsService.Release(disposing);
+                monoGraphicsService = null;
             }
 
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
@@ -130,12 +137,14 @@ namespace DevTools.GraphicsControls
 
             Viewport viewport = new Viewport(0, 0, width, height);
             graphicsService.GraphicsDevice.Viewport = viewport;
+            monoGraphicsService.GraphicsDevice.Viewport = new monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.Viewport(0, 0, width, height);
 
             if (RenderXna != null)
             {
                 RenderXna(this, new GraphicsDeviceEventArgs(graphicsService.GraphicsDevice));
             }
             graphicsService.GraphicsDevice.Present(viewport.Bounds, null, hWnd);
+            monoGraphicsService.GraphicsDevice.Present();
         }
 
         void XnaWindowHost_Loaded(object sender, RoutedEventArgs e)
@@ -143,11 +152,14 @@ namespace DevTools.GraphicsControls
             if (graphicsService == null)
             {
                 graphicsService = GraphicsDeviceService.AddRef(hWnd, (int)ActualWidth, (int)ActualHeight);
+                monoGraphicsService = MonoGraphicsDeviceService.AddRef(hWnd, (int)ActualWidth, (int)ActualHeight);
+
                 services.AddService<IGraphicsDeviceService>(graphicsService);
+                services.AddService<monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.IGraphicsDeviceService>(monoGraphicsService);
 
                 if (LoadContent != null)
                 {
-                    LoadContent(this, new LoadContentArgs(graphicsService.GraphicsDevice, graphicsService, services));
+                    LoadContent(this, new LoadContentArgs(graphicsService.GraphicsDevice, graphicsService, services, monoGraphicsService.GraphicsDevice));
                 }
             }
         }
@@ -370,12 +382,15 @@ namespace DevTools.GraphicsControls
         public GraphicsDevice GraphicsDevice { get; private set; }
         public GraphicsDeviceService GraphicsService { get; private set; }
         public ServiceContainer Services;
+        public monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.GraphicsDevice MonoDevice { get; private set; }
 
-        public LoadContentArgs(GraphicsDevice device, GraphicsDeviceService graphicsService, ServiceContainer services)
+        public LoadContentArgs(GraphicsDevice device, GraphicsDeviceService graphicsService, ServiceContainer services,
+            monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.GraphicsDevice monoDevice)
         {
             GraphicsDevice = device;
             GraphicsService = graphicsService;
             Services = services;
+            MonoDevice = monoDevice;
         }
     }
 }

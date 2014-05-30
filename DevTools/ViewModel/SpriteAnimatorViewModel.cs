@@ -1,16 +1,18 @@
-﻿using System;
+﻿extern alias xnaFrameworkAlias;
+extern alias xnaGraphicsAlias;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DevTools.Model;
 using DevTools.ViewModel.Shared;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using System.Collections.ObjectModel;
 using System.IO;
-using Microsoft.Xna.Framework;
 using DevTools.GraphicsControls;
+using xnaFrameworkAlias.Microsoft.Xna.Framework.Content;
+using xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics;
+using xnaFrameworkAlias.Microsoft.Xna.Framework;
 
 namespace DevTools.ViewModel
 {

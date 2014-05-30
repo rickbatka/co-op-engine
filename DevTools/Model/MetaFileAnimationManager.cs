@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿extern alias xnaFrameworkAlias;
+using xnaFrameworkAlias.Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;

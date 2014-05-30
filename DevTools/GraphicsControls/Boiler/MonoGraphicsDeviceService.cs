@@ -1,17 +1,17 @@
-﻿extern alias xnaGraphicsAlias;
+﻿extern alias monoFrameworkAlias;
 using System;
 using System.Threading;
-using xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics;
+using monoFrameworkAlias.Microsoft.Xna.Framework.Graphics;
 
 namespace DevTools.GraphicsControls.Boiler
 {
-    public class GraphicsDeviceService : xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics.IGraphicsDeviceService
+    public class MonoGraphicsDeviceService : monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.IGraphicsDeviceService
     {
-        private static readonly GraphicsDeviceService instance = new GraphicsDeviceService();
+        private static readonly MonoGraphicsDeviceService instance = new MonoGraphicsDeviceService();
         private static int refCount;
 
-        private xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics.PresentationParameters parameters;
-        public xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics.GraphicsDevice GraphicsDevice
+        private monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.PresentationParameters parameters;
+        public monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.GraphicsDevice GraphicsDevice
         {
             get;
             private set;
@@ -22,11 +22,11 @@ namespace DevTools.GraphicsControls.Boiler
         public event EventHandler<EventArgs> DeviceReset;
         public event EventHandler<EventArgs> DeviceResetting;
 
-        private GraphicsDeviceService() { }
+        private MonoGraphicsDeviceService() { }
 
         private void CreateDevice(IntPtr windowHandle, int width, int height)
         {
-            parameters = new xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics.PresentationParameters();
+            parameters = new monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.PresentationParameters();
             parameters.BackBufferWidth = Math.Max(width, 1);
             parameters.BackBufferHeight = Math.Max(height, 1);
             parameters.BackBufferFormat = SurfaceFormat.Color;
@@ -35,9 +35,9 @@ namespace DevTools.GraphicsControls.Boiler
             parameters.PresentationInterval = PresentInterval.Immediate;
             parameters.IsFullScreen = false;
 
-            this.GraphicsDevice = new xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics.GraphicsDevice(
-                xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter,
-                xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics.GraphicsProfile.Reach,
+            this.GraphicsDevice = new monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.GraphicsDevice(
+                monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DefaultAdapter,
+                monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.GraphicsProfile.Reach,
                 parameters);
 
             if (DeviceCreated != null)
@@ -46,7 +46,7 @@ namespace DevTools.GraphicsControls.Boiler
             }
         }
 
-        public static GraphicsDeviceService AddRef(IntPtr handle, int width, int height)
+        public static MonoGraphicsDeviceService AddRef(IntPtr handle, int width, int height)
         {
             if (Interlocked.Increment(ref refCount) == 1)
             {
@@ -82,8 +82,8 @@ namespace DevTools.GraphicsControls.Boiler
             parameters.BackBufferWidth = Math.Max(parameters.BackBufferWidth, width);
             parameters.BackBufferHeight = Math.Max(parameters.BackBufferHeight, height);
 
-            this.GraphicsDevice.Reset(parameters);
-
+            // hope this isnt important lol
+            //this.GraphicsDevice.Reset(parameters);
             if (DeviceReset != null)
             {
                 DeviceReset(this, EventArgs.Empty);
@@ -91,11 +91,11 @@ namespace DevTools.GraphicsControls.Boiler
         }
     }
 
-    public class GraphicsDeviceEventArgs : EventArgs
+    public class MonoGraphicsDeviceEventArgs : EventArgs
     {
-        public GraphicsDevice GraphicsDevice { get; private set; }
-        
-        public GraphicsDeviceEventArgs(GraphicsDevice device)
+        public monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.GraphicsDevice GraphicsDevice { get; private set; }
+
+        public MonoGraphicsDeviceEventArgs(monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.GraphicsDevice device)
         {
             GraphicsDevice = device;
         }

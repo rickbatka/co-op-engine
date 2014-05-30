@@ -1,13 +1,15 @@
-﻿using System;
+﻿extern alias xnaFrameworkAlias;
+extern alias xnaGraphicsAlias;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+using xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics;
+using xnaFrameworkAlias.Microsoft.Xna.Framework;
 using System.IO;
 using ContentCompiler.ContentCompilation;
+using xnaFrameworkAlias.Microsoft.Xna.Framework.Content;
 
 namespace DevTools.Model
 {

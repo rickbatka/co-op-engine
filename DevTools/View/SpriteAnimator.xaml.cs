@@ -1,4 +1,6 @@
-﻿using System;
+﻿extern alias xnaFrameworkAlias;
+extern alias xnaGraphicsAlias;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,9 +15,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using DevTools.GraphicsControls;
 using DevTools.GraphicsControls.Boiler;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using DevTools.ViewModel;
+using xnaFrameworkAlias.Microsoft.Xna.Framework.Content;
+using xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics;
 
 namespace DevTools.View
 {
@@ -29,7 +31,7 @@ namespace DevTools.View
             get { return this.DataContext as SpriteAnimatorViewModel; }
             set { this.DataContext = value; }
         }
-        SpriteBatch spriteBatch;
+        xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch;
         private double windowsScalingOffset = 1.0;
         private bool isDragging = false;
         private Point downPosition;
@@ -64,7 +66,7 @@ namespace DevTools.View
         public void LoadContent(object sender, LoadContentArgs e)
         {
             VM.LoadContent(new ContentManager(e.Services, "Content"), e.GraphicsDevice);
-            spriteBatch = new SpriteBatch(e.GraphicsDevice);
+            spriteBatch = new xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics.SpriteBatch(e.GraphicsDevice);
         }
 
         private void RenderBox(object sender, GraphicsDeviceEventArgs e)
@@ -72,7 +74,7 @@ namespace DevTools.View
             if (!VM.FileIsOutOfDate)
             {
 
-                e.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
+                e.GraphicsDevice.Clear(xnaFrameworkAlias.Microsoft.Xna.Framework.Color.CornflowerBlue);
 
                 spriteBatch.Begin();
                 VM.Draw(spriteBatch);
@@ -124,7 +126,7 @@ namespace DevTools.View
 
             if (isDragging)
             {
-                VM.CurrentSelection = new Microsoft.Xna.Framework.Rectangle(
+                VM.CurrentSelection = new xnaFrameworkAlias.Microsoft.Xna.Framework.Rectangle(
                     (int)(downPosition.X * windowsScalingOffset),
                     (int)(downPosition.Y * windowsScalingOffset),
                     (int)((-downPosition.X + position.X) * windowsScalingOffset),
@@ -145,7 +147,7 @@ namespace DevTools.View
 
             if (isDragging)
             {
-                VM.CurrentSelection = new Microsoft.Xna.Framework.Rectangle(
+                VM.CurrentSelection = new xnaFrameworkAlias.Microsoft.Xna.Framework.Rectangle(
                     (int)(downPosition.X * windowsScalingOffset),
                     (int)(downPosition.Y * windowsScalingOffset),
                     (int)((-downPosition.X + position.X) * windowsScalingOffset),

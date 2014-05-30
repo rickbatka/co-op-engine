@@ -95,6 +95,7 @@
     <Compile Include="Components\Particles\Decorators\VariableSizeDecorator.cs" />
     <Compile Include="Components\Particles\DustFastEmitter.cs" />
     <Compile Include="Components\Particles\Emitter.cs" />
+    <Compile Include="Components\Particles\EmptyEmitter.cs" />
     <Compile Include="Components\Particles\FireEmitter.cs" />
     <Compile Include="Components\Particles\Particle.cs" />
     <Compile Include="Components\Particles\ParticleEngine.cs" />
