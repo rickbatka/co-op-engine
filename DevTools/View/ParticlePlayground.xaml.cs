@@ -49,7 +49,7 @@ namespace DevTools.View
         {
             //todo testing 
             e.GraphicsDevice.Clear(xnaFrameworkAlias.Microsoft.Xna.Framework.Color.White);
-
+            
             VM.UpdateAndDraw();
         }
 
@@ -64,6 +64,7 @@ namespace DevTools.View
             tex.SetData<monoFrameworkAlias.Microsoft.Xna.Framework.Color>(new monoFrameworkAlias.Microsoft.Xna.Framework.Color[] { monoFrameworkAlias.Microsoft.Xna.Framework.Color.White });
             VM.spriteBatch = monoSpriteBatch;
             VM.PlainTexture = tex;
+            VM.ContentLoaded();
         }
     }
 }

@@ -48,17 +48,17 @@ namespace co_op_engine.Components.Particles
             }
 
             //DEBUG drawing
-            spriteBatch.DrawString(
-                spriteFont: AssetRepository.Instance.Arial,
-                text: "Particles: alive: " + NumAliveParticles,
-                position: new Vector2(Camera.Instance.ViewBoundsRectangle.Right - 250, Camera.Instance.ViewBoundsRectangle.Top + 25),
-                color: Color.White,
-                rotation: 0f,
-                origin: Vector2.Zero,
-                scale: 1f,
-                effects: SpriteEffects.None,
-                depth: 1f
-            );
+            //spriteBatch.DrawString(
+            //    spriteFont: AssetRepository.Instance.Arial,
+            //    text: "Particles: alive: " + NumAliveParticles,
+            //    position: new Vector2(Camera.Instance.ViewBoundsRectangle.Right - 250, Camera.Instance.ViewBoundsRectangle.Top + 25),
+            //    color: Color.White,
+            //    rotation: 0f,
+            //    origin: Vector2.Zero,
+            //    scale: 1f,
+            //    effects: SpriteEffects.None,
+            //    depth: 1f
+            //);
         }
 
         public void Add(IParticle particle)

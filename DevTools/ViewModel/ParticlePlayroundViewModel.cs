@@ -17,6 +17,7 @@ using xnaFrameworkAlias.Microsoft.Xna.Framework;
 using xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics;
 using DevTools.GraphicsControls.Boiler;
 using co_op_engine.Utility;
+using co_op_engine.Utility.Camera;
 
 
 namespace DevTools.ViewModel
@@ -36,9 +37,16 @@ namespace DevTools.ViewModel
             totalGameTime = new TimeSpan(0);
             lastHit = DateTime.Now;
 
-            Engine = ParticleEngine.Instance;
+            
+            
+        }
 
-            //Engine.AddEmitter(new EmptyEmitter());
+        // textures and stuff will be loaded when it gets here
+        public void ContentLoaded()
+        {
+            Camera.Instantiate(new monoFrameworkAlias.Microsoft.Xna.Framework.Rectangle(0,0, 1000, 1000));
+            Engine = ParticleEngine.Instance;
+            Engine.AddEmitter(new EmptyEmitter(PlainTexture));
         }
 
         public void UpdateAndDraw()
@@ -91,6 +99,7 @@ namespace DevTools.ViewModel
 
         internal void Draw()
         {
+            Camera.Instance.Position = monoFrameworkAlias.Microsoft.Xna.Framework.Vector2.Zero;
             monoDevice.Clear(monoFrameworkAlias.Microsoft.Xna.Framework.Color.Black);
             //TODO AAAH HAHH AHHAHA AHAHAHA HA!!!!!! So close. set up the textures above in loadcontent
             spriteBatch.Begin(
@@ -99,10 +108,10 @@ namespace DevTools.ViewModel
                 samplerState: monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.SamplerState.PointWrap,
                 depthStencilState: monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.DepthStencilState.Default,
                 rasterizerState: monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.RasterizerState.CullNone);
-
-            spriteBatch.Draw(PlainTexture, new monoFrameworkAlias.Microsoft.Xna.Framework.Rectangle(0, 0, 64, 64), monoFrameworkAlias.Microsoft.Xna.Framework.Color.Green);
+            Engine.Draw(spriteBatch);
+            //spriteBatch.Draw(PlainTexture, new monoFrameworkAlias.Microsoft.Xna.Framework.Rectangle(0, 0, 64, 64), monoFrameworkAlias.Microsoft.Xna.Framework.Color.Green);
             spriteBatch.End();
-            //Engine.Draw(spriteBatch);
+            //
         }
 
     }

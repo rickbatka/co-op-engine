@@ -61,15 +61,15 @@ namespace co_op_engine.Components.Particles
 
         public Color DrawColor { get; set; }
 
-        public Particle()
+        public Particle(Texture2D texture = null)
         {
             IsAlive = true;
             Lifetime = TimeSpan.FromMilliseconds(500);
             width = 3;
             height = 3;
             drawRectangle = new RectangleFloat(this.Position.X, this.Position.Y, width, height);
-            Texture = AssetRepository.Instance.PlainWhiteTexture;
             DrawColor = Color.White;
+            Texture = texture != null ? texture : AssetRepository.Instance.PlainWhiteTexture;
         }
 
         public void Begin() { }

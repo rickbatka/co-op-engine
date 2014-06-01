@@ -24,7 +24,6 @@ namespace co_op_engine.Components.Particles
         protected override void EmitParticle()
         {
             var particle = new Particle();
-            particle.Texture = AssetRepository.Instance.PlainWhiteTexture;
             particle.Lifetime = TimeSpan.FromMilliseconds(300);
             particle.Position = GetEmitPosition();
             particle.Velocity = GetEmitVelocity();
