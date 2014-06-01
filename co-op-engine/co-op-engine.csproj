@@ -116,7 +116,6 @@
     <Compile Include="Components\Physics\NonCollidingPhysics.cs" />
     <Compile Include="Components\Physics\PhysicsBase.cs" />
     <Compile Include="Components\Rendering\Frame.cs" />
-    <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
     <Compile Include="Components\Weapons\AlwaysAttackingProjectileWeapon.cs" />
     <Compile Include="Components\Weapons\Effects\BasicDamageEffect.cs" />

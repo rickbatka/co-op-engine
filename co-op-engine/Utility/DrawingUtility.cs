@@ -1,4 +1,5 @@
-﻿using co_op_engine.Components.Rendering;
+﻿using co_op_engine.Components;
+using co_op_engine.Components.Rendering;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -142,7 +143,7 @@ namespace co_op_engine.Utility
             return new Vector2(point.X, point.Y);
         }
 
-        public static Vector2 GetAbsolutePosition(IRenderable owner, Point relativePosition)
+        public static Vector2 GetAbsolutePosition(GameObject owner, Point relativePosition)
         {
             return DrawingUtility.RotateVectorAboutOrigin(
                 fThetaRadian: owner.RotationTowardFacingDirectionRadians,

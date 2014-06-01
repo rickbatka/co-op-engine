@@ -17,7 +17,7 @@ using co_op_engine.Components.Engines;
 
 namespace co_op_engine.Components
 {
-    public class GameObject : IRenderable
+    public class GameObject
     {
         public PhysicsBase Physics;
         public RenderBase Renderer;
@@ -41,6 +41,7 @@ namespace co_op_engine.Components
         public string DisplayName { get { return "ID: " + ID; } }
         public float SpeedAccel = 75f;
         public float BoostModifier = 2f;
+        public float Scale = 1f;
 
         public Texture2D Texture { get; set; }
 

@@ -48,6 +48,8 @@ namespace co_op_engine.Factories
             player.ConstructionStamp = "Player";
             player.Friendly = true;
 
+            player.Scale = 2f;
+
             player.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
 
             if(position == null)
@@ -58,7 +60,7 @@ namespace co_op_engine.Factories
             player.Position = position.Value;
 
             player.SetPhysics(new CollidingPhysics(player));
-            var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
+            var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations(player.Scale));
             player.SetRenderer(renderer);
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
             player.SetMover(new WalkingMover(player));
@@ -86,14 +88,17 @@ namespace co_op_engine.Factories
         public GameObject GetEnemyFootSoldier(int id = -1)
         {
             var enemy = new GameObject(gameRef.Level);
-            enemy.ConstructionStamp = "Enemy";
+            enemy.ConstructionStamp = "EnemyFootSoldier";
 
             enemy.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
 
             enemy.SetPhysics(new CollidingPhysics(enemy));
-            //var renderer = new RenderBase(enemy, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
-            var renderer = new RenderBase(enemy, AssetRepository.Instance.Slime, AssetRepository.Instance.SlimeAnimations);
+            //var renderer = new RenderBase(enemy, AssetRepository.Instance.Slime, AssetRepository.Instance.SlimeAnimations);
+
+            enemy.Scale = 2f;
+            var renderer = new RenderBase(enemy, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations(enemy.Scale));
+            //var renderer = new RenderBase(enemy, AssetRepository.Instance.Slime, AssetRepository.Instance.SlimeAnimations(enemy.Scale));
 
             enemy.SetRenderer(renderer);
 
@@ -126,6 +131,48 @@ namespace co_op_engine.Factories
             return enemy;
         }
 
+        public GameObject GetEnemySlime(int id = -1)
+        {
+            var enemy = new GameObject(gameRef.Level);
+            enemy.ConstructionStamp = "EnemySlime";
+
+            enemy.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
+            enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
+
+            enemy.SetPhysics(new CollidingPhysics(enemy));
+
+            enemy.Scale = 1.5f;
+            var renderer = new RenderBase(enemy, AssetRepository.Instance.Slime, AssetRepository.Instance.SlimeAnimations(enemy.Scale));
+
+            enemy.SetRenderer(renderer);
+
+            enemy.SetMover(new WalkingMover(enemy));
+            enemy.SetEngine(new WalkerEngine(enemy));
+
+            if (id == -1)
+            {
+                enemy.SetBrain(new FootSoldierBrain(enemy, gameRef.container.GetObjectById(0)));
+            }
+            else
+            {
+                enemy.SetBrain(new NetworkPlayerBrain(enemy));
+            }
+
+            enemy.SetCombat(new CombatBase(enemy));
+
+            enemy.Children.Add(GetNewSword(enemy));
+
+            gameRef.container.AddObject(enemy);
+
+            if (id == -1)
+            {
+                NetCommander.CreatedObject(enemy);
+            }
+
+            enemy.SpeedAccel = 25f;
+
+            return enemy;
+        }
         public GameObject GetNetworkPlayer(int id = -1)
         {
             var player = new GameObject(gameRef.Level);
@@ -134,7 +181,7 @@ namespace co_op_engine.Factories
             player.Position = new Vector2(100, 100);
 
             player.SetPhysics(new CollidingPhysics(player));
-            var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations);
+            var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations(player.Scale));
             player.SetRenderer(renderer);
             player.SetBrain(new NetworkPlayerBrain(player));
             player.SetCombat(new COMBATPLACEHOLDER(player));

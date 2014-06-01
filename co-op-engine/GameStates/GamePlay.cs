@@ -134,7 +134,7 @@ namespace co_op_engine.GameStates
             GameRef.spriteBatch.Begin(
                 sortMode: SpriteSortMode.FrontToBack, 
                 blendState: BlendState.NonPremultiplied, 
-                samplerState: SamplerState.LinearWrap, 
+                samplerState: SamplerState.PointWrap, 
                 depthStencilState: null,
                 rasterizerState: null, 
                 effect: null,

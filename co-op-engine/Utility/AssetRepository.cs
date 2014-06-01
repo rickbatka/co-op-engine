@@ -35,19 +35,19 @@ namespace co_op_engine.Utility
         public BackgroundTile BushesTile;
 
         string[] heroAnimationData;
-        public AnimationSet HeroAnimations { get { return AnimationSet.BuildFromAsset(heroAnimationData); } }
+        public AnimationSet HeroAnimations(float scale){ return AnimationSet.BuildFromAsset(heroAnimationData, scale); } 
         string[] swordAnimationData;
-        public AnimationSet SwordAnimations { get { return AnimationSet.BuildFromAsset(swordAnimationData); } }
+        public AnimationSet SwordAnimations(float scale){ return AnimationSet.BuildFromAsset(swordAnimationData, scale); }
         string[] axeAnimationData;
-        public AnimationSet AxeAnimations { get { return AnimationSet.BuildFromAsset(axeAnimationData); } }
+        public AnimationSet AxeAnimations(float scale){ return AnimationSet.BuildFromAsset(axeAnimationData, scale); }
         string[] maceAnimationData;
-        public AnimationSet MaceAnimations { get { return AnimationSet.BuildFromAsset(maceAnimationData); } }
+        public AnimationSet MaceAnimations(float scale){ return AnimationSet.BuildFromAsset(maceAnimationData, scale); }
         string[] towerAnimationData;
-        public AnimationSet TowerAnimations { get { return AnimationSet.BuildFromAsset(towerAnimationData); } }
+        public AnimationSet TowerAnimations(float scale){ return AnimationSet.BuildFromAsset(towerAnimationData, scale); }
         string[] arrowAnimationData;
-        public AnimationSet ArrowAnimations { get { return AnimationSet.BuildFromAsset(arrowAnimationData); } }
+        public AnimationSet ArrowAnimations(float scale){ return AnimationSet.BuildFromAsset(arrowAnimationData, scale); }
         string[] slimeAnimationData;
-        public AnimationSet SlimeAnimations { get { return AnimationSet.BuildFromAsset(slimeAnimationData); } }
+        public AnimationSet SlimeAnimations(float scale){ return AnimationSet.BuildFromAsset(slimeAnimationData, scale); }
 
         public void TempSetWindowText(string text)
         {

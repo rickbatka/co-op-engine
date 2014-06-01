@@ -35,11 +35,11 @@ namespace co_op_engine.Factories
             tower.ConstructionStamp = "InvisibleWallTall";
             tower.Friendly = true;
             tower.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
-            tower.CurrentFrame = AssetRepository.Instance.TowerAnimations.CurrentAnimatedRectangle.CurrentFrame;
+            tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UsedInPathing = true;
             tower.SetPhysics(new CollidingPhysics(tower));
-            tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations));
+            tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             //tower.SetBrain(new HealingAOETowerBrain(tower, new TowerPlacingInput(gameRef, tower.BoundingBox)));
             tower.CurrentState = Constants.ACTOR_STATE_IDLE;
 
@@ -63,11 +63,11 @@ namespace co_op_engine.Factories
             tower.ConstructionStamp = "FriendlyAOEHealingTower";
             tower.Friendly = true;
             tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
-            tower.CurrentFrame = AssetRepository.Instance.TowerAnimations.CurrentAnimatedRectangle.CurrentFrame;
+            tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UsedInPathing = true;
             tower.SetPhysics(new CollidingPhysics(tower));
-            tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations));
+            tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             tower.SetBrain(new HealingAOETowerBrain(tower,
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));
 
@@ -105,11 +105,11 @@ namespace co_op_engine.Factories
             tower.ConstructionStamp = "ArrowTower";
             tower.Friendly = true;
             tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
-            tower.CurrentFrame = AssetRepository.Instance.TowerAnimations.CurrentAnimatedRectangle.CurrentFrame;
+            tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UsedInPathing = true;
             tower.SetPhysics(new CollidingPhysics(tower));
-            tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations));
+            tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             tower.SetBrain(new ArrowTowerBrain(tower,
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));
 

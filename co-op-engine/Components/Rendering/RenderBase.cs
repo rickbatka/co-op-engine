@@ -14,13 +14,13 @@ namespace co_op_engine.Components.Rendering
 {
     public class RenderBase
     {
-        protected readonly IRenderable owner;
+        protected readonly GameObject owner;
 
         public AnimationSet animationSet;
 
         public Animation CurrentAnimation { get { return animationSet.CurrentAnimatedRectangle; } }
 
-        public RenderBase(IRenderable owner, Texture2D texture, AnimationSet animationSet)
+        public RenderBase(GameObject owner, Texture2D texture, AnimationSet animationSet)
         {
             this.owner = owner;
             this.owner.Texture = texture;
@@ -46,7 +46,7 @@ namespace co_op_engine.Components.Rendering
                 GetSpriteDrawColor(),
                 owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
                 GetCenterOrigin(),
-                1f,
+                owner.Scale,
                 SpriteEffects.None,
                 owner.Position.Y / Camera.Instance.ViewBoundsRectangle.Bottom
             );
@@ -67,11 +67,12 @@ namespace co_op_engine.Components.Rendering
             //the full curent render box
             spriteBatch.Draw(
                 texture: AssetRepository.Instance.PlainWhiteTexture,
-                destinationRectangle: GetDrawTarget(),
+                position: GetDrawTarget(),
                 sourceRectangle: owner.CurrentFrame.SourceRectangle,
                 color: new Color(Color.Green, 0.01f),
                 rotation: owner.FullyRotatable ? owner.RotationTowardFacingDirectionRadians : 0f,
                 origin: GetCenterOrigin(),
+                scale: owner.Scale,
                 effect: SpriteEffects.None,
                 depth: 0f);
 
@@ -97,14 +98,15 @@ namespace co_op_engine.Components.Rendering
             }
         }
 
-        private Rectangle GetDrawTarget()
+        private Vector2 GetDrawTarget()
         {
-            return new Rectangle(
-                x: (int)(owner.Position.X),
-                y: (int)(owner.Position.Y),
-                width: owner.CurrentFrame.DrawRectangle.Width,
-                height: owner.CurrentFrame.DrawRectangle.Height
-            );
+            //return new Rectangle(
+            //    x: (int)(owner.Position.X),
+            //    y: (int)(owner.Position.Y),
+            //    width: owner.CurrentFrame.DrawRectangle.Width,
+            //    height: owner.CurrentFrame.DrawRectangle.Height
+            //);
+            return new Vector2(owner.Position.X, owner.Position.Y);
         }
 
         protected Vector2 GetCenterOrigin()

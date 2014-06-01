@@ -83,8 +83,8 @@ namespace co_op_engine.Utility.Camera
                 if (Math.Abs(distanceToTarget.X) > targetAquisitionGranularity || Math.Abs(distanceToTarget.Y) > targetAquisitionGranularity)
                 {
                     Position = new Vector2(
-                        Position.X + distanceToTarget.X * followEasingAmount,
-                        Position.Y + distanceToTarget.Y * followEasingAmount
+                        (float)(int)(Position.X + distanceToTarget.X * followEasingAmount),
+                        (float)(int)(Position.Y + distanceToTarget.Y * followEasingAmount)
                     );
                 }
             }

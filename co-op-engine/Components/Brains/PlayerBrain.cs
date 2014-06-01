@@ -110,7 +110,14 @@ namespace co_op_engine.Components.Brains
 
             if (InputHandler.KeyPressed(Keys.E))
             {
-                PlayerFactory.Instance.GetEnemyFootSoldier();
+                if (MechanicSingleton.Instance.rand.Next(1, 10) > 5)
+                {
+                    PlayerFactory.Instance.GetEnemyFootSoldier();
+                }
+                else
+                {
+                    PlayerFactory.Instance.GetEnemySlime();
+                }
             }
 
             if (InputHandler.KeyPressed(Keys.C))
