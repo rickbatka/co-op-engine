@@ -31,22 +31,33 @@ namespace DevTools.ViewModel
         public monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch;
         public monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.Texture2D PlainTexture;
         public monoFrameworkAlias.Microsoft.Xna.Framework.Graphics.GraphicsDevice monoDevice;
+        private EmptyEmitter TheEmitter;
 
         public ParticlePlaygroundViewModel()
         {
             totalGameTime = new TimeSpan(0);
             lastHit = DateTime.Now;
-
-            
-            
+            yVelocity = -1;
         }
+
+        #region controls
+        private float yvel;
+        public float yVelocity {
+            get { return yvel; }
+            set { yvel = value; if (TheEmitter != null) { TheEmitter.yVelocity = yVelocity; } UpdateParameters(); }
+        }
+        public string yVelocityLabelText { get { return yVelocity.ToString(); } }
+
+        public string blah { get { return "vlah"; } }
+        #endregion
 
         // textures and stuff will be loaded when it gets here
         public void ContentLoaded()
         {
             Camera.Instantiate(new monoFrameworkAlias.Microsoft.Xna.Framework.Rectangle(0,0, 1000, 1000));
             Engine = ParticleEngine.Instance;
-            Engine.AddEmitter(new EmptyEmitter(PlainTexture));
+            TheEmitter = new EmptyEmitter(PlainTexture);
+            Engine.AddEmitter(TheEmitter);
         }
 
         public void UpdateAndDraw()
@@ -77,19 +88,7 @@ namespace DevTools.ViewModel
         {
             //LogDebug("update");
 
-            //OnPropertyChanged(() => this.Directions);
-            //OnPropertyChanged(() => this.Actions);
-            //OnPropertyChanged(() => this.maxSliderValue);
-            //OnPropertyChanged(() => this.SliderText);
-            //OnPropertyChanged(() => this.CurrentSliderValue);
-            //OnPropertyChanged(() => this.TimescaleLabelText);
-            //OnPropertyChanged(() => this.FileName);
-
-            //OnPropertyChanged(() => this.CurrentFramePhysicsText);
-            //OnPropertyChanged(() => this.CurrentFrameSourceText);
-            //OnPropertyChanged(() => this.CurrentFrameTimeText);
-
-            //OnPropertyChanged(() => this.DamageDotItems);
+            OnPropertyChanged(() => this.yVelocityLabelText);
         }
 
         public void LoadContent( xnaFrameworkAlias.Microsoft.Xna.Framework.Content.ContentManager contentmgr, xnaGraphicsAlias.Microsoft.Xna.Framework.Graphics.GraphicsDevice device)

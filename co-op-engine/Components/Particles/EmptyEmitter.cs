@@ -15,7 +15,7 @@ namespace co_op_engine.Components.Particles
 
         public EmptyEmitter(Texture2D texture = null)
         {
-            this.duration = TimeSpan.FromMilliseconds(4000);
+            this.duration = TimeSpan.FromMilliseconds(1200000);
             this.frequency = 25;
             this.Texture = texture != null ? texture : AssetRepository.Instance.PlainWhiteTexture;
         }

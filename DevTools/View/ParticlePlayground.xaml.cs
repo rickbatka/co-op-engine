@@ -66,5 +66,8 @@ namespace DevTools.View
             VM.PlainTexture = tex;
             VM.ContentLoaded();
         }
+
+
+
     }
 }
