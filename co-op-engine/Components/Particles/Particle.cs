@@ -20,6 +20,7 @@ namespace co_op_engine.Components.Particles
         Vector2 Position { get; set; }
         int Width { get; set; }
         int Height { get; set; }
+        float Transparency { get; set; }
 
         void Begin();
         void Update(GameTime gameTime);
@@ -53,6 +54,7 @@ namespace co_op_engine.Components.Particles
         private RectangleFloat drawRectangle;
         public RectangleFloat DrawRectangle { get { return drawRectangle; } set { drawRectangle = value; } }
         public Texture2D Texture { get; set; }
+        public float Transparency { get; set; }
 
         private int width;
         public int Width { get { return width; } set { width = value; drawRectangle.Width = value; } }
@@ -70,6 +72,7 @@ namespace co_op_engine.Components.Particles
             drawRectangle = new RectangleFloat(this.Position.X, this.Position.Y, width, height);
             DrawColor = Color.White;
             Texture = texture != null ? texture : AssetRepository.Instance.PlainWhiteTexture;
+            Transparency = 1f;
         }
 
         public void Begin() { }
@@ -98,7 +101,7 @@ namespace co_op_engine.Components.Particles
                     texture: Texture,
                     destinationRectangle: DrawRectangle.ToRectangle(),
                     sourceRectangle: null,
-                    color: DrawColor,
+                    color: DrawColor * Transparency,
                     rotation: 0f,
                     origin: Vector2.Zero,
                     effect: SpriteEffects.None,

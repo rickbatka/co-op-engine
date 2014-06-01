@@ -90,6 +90,8 @@
     <Compile Include="Components\Movement\WalkingMover.cs" />
     <Compile Include="Components\Particles\BloodHitEmitter.cs" />
     <Compile Include="Components\Particles\Decorators\DelayedStartDecorator.cs" />
+    <Compile Include="Components\Particles\Decorators\FadeDecorator.cs" />
+    <Compile Include="Components\Particles\Decorators\InflationDecorator.cs" />
     <Compile Include="Components\Particles\Decorators\ParticleDecoorator.cs" />
     <Compile Include="Components\Particles\Decorators\SlowDownDecorator.cs" />
     <Compile Include="Components\Particles\Decorators\VariableSizeDecorator.cs" />

@@ -21,6 +21,7 @@ namespace co_op_engine.Components.Particles.Decorators
         public Vector2 Position { get { return particle.Position; } set { particle.Position = value; } }
         public int Width { get { return particle.Width; } set { particle.Width = value; } }
         public int Height { get { return particle.Height; } set { particle.Height = value; } }
+        public float Transparency { get { return particle.Transparency; } set { particle.Transparency = value; } }
 
         public ParticleDecorator(IParticle particle)
         {
