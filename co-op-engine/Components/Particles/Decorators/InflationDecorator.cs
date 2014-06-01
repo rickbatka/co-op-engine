@@ -62,11 +62,6 @@ namespace co_op_engine.Components.Particles.Decorators
                     var temp = DrawRectangle;
                     temp.Inflate((float)expansionDimensions, (float)expansionDimensions);
                     DrawRectangle = temp;
-                    /*temp.Inflate((float)expansionDimensions, (float)expansionDimensions);
-                    DrawRectangle = new Rectangle( (int)(DrawRectangle.X - expansionDimensions.X),
-                        (int)(DrawRectangle.Y - expansionDimensions.Y),
-                        (int)(DrawRectangle.Width + expansionDimensions.X * 2),
-                        (int)(DrawRectangle.Height + expansionDimensions.Y * 2));*/
 
                     if (timer.TotalMilliseconds > endTime)
                     {
