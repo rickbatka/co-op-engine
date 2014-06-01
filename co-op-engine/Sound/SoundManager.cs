@@ -1,6 +1,8 @@
 ﻿using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using System;
+using System.Collections.Generic;
 
 namespace co_op_engine.Sound
 {
@@ -34,7 +36,7 @@ namespace co_op_engine.Sound
             //TODO this is debug stuff, remove it eventually
             if (InputHandler.KeyPressed(Microsoft.Xna.Framework.Input.Keys.M))
             {
-                SoundManager.CrossfadeMusic(5000, AssetRepository.Instance.Music2);
+                //SoundManager.CrossfadeMusic(5000, AssetRepository.Instance.Music2);
             }
 
             //instance predicate got that annoying

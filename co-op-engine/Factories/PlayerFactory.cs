@@ -161,7 +161,7 @@ namespace co_op_engine.Factories
 
             enemy.SetCombat(new CombatBase(enemy));
 
-            enemy.Children.Add(GetNewSword(enemy));
+            enemy.EquipWeapon(GetSword(enemy));
 
             gameRef.container.AddObject(enemy);
 
@@ -199,7 +199,7 @@ namespace co_op_engine.Factories
         {
             var sword = new Weapon(owner);
 
-            var swordRenderer = new RenderBase(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations);
+            var swordRenderer = new RenderBase(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations(owner.Scale));
             sword.SetRenderer(swordRenderer);
 
             sword.EquipEffect(new BasicDamageEffect(
@@ -212,7 +212,7 @@ namespace co_op_engine.Factories
         public Weapon GetAxe(GameObject owner)
         {
             var axe = new Weapon(owner);
-            var axeRenderer = new RenderBase(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations);
+            var axeRenderer = new RenderBase(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations(owner.Scale));
             axe.SetRenderer(axeRenderer);
             return axe;
         }
@@ -220,7 +220,7 @@ namespace co_op_engine.Factories
         public Weapon GetMace(GameObject owner)
         {
             var mace = new Weapon(owner);
-            var maceRenderer = new RenderBase(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations);
+            var maceRenderer = new RenderBase(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations(owner.Scale));
             mace.SetRenderer(maceRenderer);
             return mace;
         }

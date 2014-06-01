@@ -143,7 +143,7 @@ namespace co_op_engine.Utility
             return new Vector2(point.X, point.Y);
         }
 
-        public static Vector2 GetAbsolutePosition(GameObject owner, Point relativePosition)
+        public static Vector2 GetAbsolutePosition(IRenderable owner, Point relativePosition)
         {
             return DrawingUtility.RotateVectorAboutOrigin(
                 fThetaRadian: owner.RotationTowardFacingDirectionRadians,

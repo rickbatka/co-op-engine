@@ -94,8 +94,8 @@ namespace co_op_engine.Utility
             Slime = gameRef.Content.Load<Texture2D>("slime");
             BushesTile = new BackgroundTile(gameRef.Content.Load<Texture2D>("bushes"), 450, 450);
 
-            Music1 = gameRef.Content.Load<SoundEffect>("music_active");
-            Music2 = gameRef.Content.Load<SoundEffect>("music_waiting");
+            //Music1 = gameRef.Content.Load<SoundEffect>("music_active");
+            //Music2 = gameRef.Content.Load<SoundEffect>("music_waiting");
 
             heroAnimationData = File.ReadAllLines("content/HeroNoArmsData.txt");
             swordAnimationData = File.ReadAllLines("content/SwordData.txt");

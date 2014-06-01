@@ -7,6 +7,7 @@ using co_op_engine.Components.Rendering;
 using co_op_engine.Components.Weapons;
 using co_op_engine.Components.Weapons.Effects;
 using co_op_engine.GameStates;
+using co_op_engine.Networking.Commands;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using System;
@@ -47,7 +48,7 @@ namespace co_op_engine.Factories
 
             var arrowWeapon = new AlwaysAttackingProjectileWeapon(arrowContainerObject);
             arrowWeapon.EquipEffect(new BasicDamageEffect(durationMS: 250, damageRating: 25));
-            arrowWeapon.SetRenderer((new RenderBase(arrowWeapon, AssetRepository.Instance.ArrowTexture, AssetRepository.Instance.ArrowAnimations)));
+            arrowWeapon.SetRenderer((new RenderBase(arrowWeapon, AssetRepository.Instance.ArrowTexture, AssetRepository.Instance.ArrowAnimations(arrowContainerObject.Scale))));
             arrowContainerObject.EquipWeapon(arrowWeapon);
     
             arrowContainerObject.CurrentState = Constants.ACTOR_STATE_IDLE;
@@ -58,30 +59,5 @@ namespace co_op_engine.Factories
             return arrowContainerObject;
         }
 
-        private GameObject GetArrowWeapon(GameObject owner, int id = -1)
-        {
-            var arrowWeapon = new GameObject(gameRef.Level);
-            arrowWeapon.ConstructionStamp = "ArrowAlwaysOnWeapon";
-            arrowWeapon.Parent = owner;
-            arrowWeapon.Friendly = owner.Friendly;
-
-            arrowWeapon.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
-            arrowWeapon.Position = owner.Position;
-
-            arrowWeapon.SetPhysics(new NonCollidingPhysics(arrowWeapon));
-
-            //sword.SetMover(new WeaponMover(sword));
-            arrowWeapon.SetEngine(new AlwaysAttackingProjectileWeaponEngine(arrowWeapon));
-            arrowWeapon.SetBrain(new ArrowTowerWeaponBrain(arrowWeapon));
-            //sword.SetCombat(new CombatBase(sword));
-
-            arrowWeapon.EquipEffect(new BasicDamageEffect(durationMS: 250, damageRating: 25));
-            arrowWeapon.SetRenderer((new RenderBase(arrowWeapon, AssetRepository.Instance.ArrowTexture, AssetRepository.Instance.ArrowAnimations(arrowWeapon.Scale))));
-
-            gameRef.container.AddObject(arrowWeapon);
-
-            if (id == -1)
-            {
-                NetCommander.CreatedObject(arrowWeapon);
     }
 }

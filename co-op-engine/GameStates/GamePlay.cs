@@ -42,7 +42,7 @@ namespace co_op_engine.GameStates
             NetworkFactory.Initialize(this);
             ProjectileFactory.Initialize(this);
 
-            SoundManager.CrossfadeMusic(5000, AssetRepository.Instance.Music1);
+            //SoundManager.CrossfadeMusic(5000, AssetRepository.Instance.Music1);
         }
 
         public override void LoadContent()

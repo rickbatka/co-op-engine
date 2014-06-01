@@ -28,6 +28,7 @@ namespace co_op_engine.Components.Weapons
         public Vector2 Position { get { return owner.Position; } }
         public int FacingDirection { get { return owner.FacingDirection; } set { owner.FacingDirection = value; } }
         public float RotationTowardFacingDirectionRadians { get { return owner.RotationTowardFacingDirectionRadians; } set { owner.RotationTowardFacingDirectionRadians = value; } }
+        public float Scale { get { return owner.Scale; } }
 
         public List<WeaponEffectBase> Effects = new List<WeaponEffectBase>();
 

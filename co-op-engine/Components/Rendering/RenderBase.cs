@@ -14,13 +14,13 @@ namespace co_op_engine.Components.Rendering
 {
     public class RenderBase
     {
-        protected readonly GameObject owner;
+        protected readonly IRenderable owner;
 
         public AnimationSet animationSet;
 
         public Animation CurrentAnimation { get { return animationSet.CurrentAnimatedRectangle; } }
 
-        public RenderBase(GameObject owner, Texture2D texture, AnimationSet animationSet)
+        public RenderBase(IRenderable owner, Texture2D texture, AnimationSet animationSet)
         {
             this.owner = owner;
             this.owner.Texture = texture;
