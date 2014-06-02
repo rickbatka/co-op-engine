@@ -31,10 +31,9 @@ namespace co_op_engine.Components.Brains.TowerBrains
         {
             base.HandleFriendlyInRange(collider);
 
-            if(Owner.CurrentStateProperties.CanInitiatePrimaryAttackState
-                && Owner.Weapon.CurrentWeaponStateProperties.CanInitiatePrimaryAttack)
+
+            if (Owner.Weapon.TryInitiateAttack(healCooldown))
             {
-                Owner.Weapon.PrimaryAttack(healCooldown);
                 collider.HandleHitByWeapon(Owner.Weapon);
                 ParticleEngine.Instance.Add(
                     new LineParticle()

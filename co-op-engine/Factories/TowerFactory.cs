@@ -6,6 +6,7 @@ using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
 using co_op_engine.Components.Weapons;
 using co_op_engine.Components.Weapons.Effects;
+using co_op_engine.Components.Weapons.WeaponEngines;
 using co_op_engine.GameStates;
 using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
@@ -72,6 +73,7 @@ namespace co_op_engine.Factories
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));
 
             var healingAOEWeapon = new Weapon(tower);
+            healingAOEWeapon.SetEngine(new WeaponEngine(healingAOEWeapon));
             var healingEffect = new BasicHealEffect(durationMS: 250, healRating: 25);
             healingEffect.AffectsFriendlies = true;
             healingEffect.AffectsNonFriendlies = false;
@@ -114,6 +116,7 @@ namespace co_op_engine.Factories
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));
 
             var emptyWeapon = new Weapon(tower);
+            emptyWeapon.SetEngine(new WeaponEngine(emptyWeapon));
             tower.EquipWeapon(emptyWeapon);
 
             if (fromNetwork)

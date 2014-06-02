@@ -89,7 +89,7 @@ namespace co_op_engine.Components.Brains.AI
                 && Owner.CurrentStateProperties.CanInitiatePrimaryAttackState
                 && Owner.Weapon != null)
             {
-                Owner.Weapon.PrimaryAttack();
+                Owner.Weapon.TryInitiateAttack();
             }
         }
 

@@ -21,6 +21,7 @@ using co_op_engine.Components.Weapons.Effects;
 using co_op_engine.Components.Brains.AI;
 using co_op_engine.Components.Movement;
 using co_op_engine.Components.Engines;
+using co_op_engine.Components.Weapons.WeaponEngines;
 
 namespace co_op_engine.Factories
 {
@@ -102,7 +103,7 @@ namespace co_op_engine.Factories
             enemy.SetRenderer(renderer);
 
             var mover = new WalkingMover(enemy);
-            mover.DefineNoMu(150, 100);
+            mover.DefineNoMu(100, 75);
             enemy.SetMover(mover);
             enemy.SetEngine(new WalkerEngine(enemy));
 
@@ -142,12 +143,14 @@ namespace co_op_engine.Factories
 
             enemy.SetPhysics(new CollidingPhysics(enemy));
 
-            enemy.Scale = 1.5f;
+            enemy.Scale = 2.5f;
             var renderer = new RenderBase(enemy, AssetRepository.Instance.Slime, AssetRepository.Instance.SlimeAnimations(enemy.Scale));
 
             enemy.SetRenderer(renderer);
 
-            enemy.SetMover(new WalkingMover(enemy));
+            var mover = new WalkingMover(enemy);
+            mover.DefineNoMu(50, 75);
+            enemy.SetMover(mover);
             enemy.SetEngine(new WalkerEngine(enemy));
 
             if (id == -1)
@@ -161,7 +164,7 @@ namespace co_op_engine.Factories
 
             enemy.SetCombat(new CombatBase(enemy));
 
-            enemy.EquipWeapon(GetSword(enemy));
+            //enemy.EquipWeapon(GetSword(enemy));
 
             gameRef.container.AddObject(enemy);
 
@@ -201,6 +204,7 @@ namespace co_op_engine.Factories
 
             var swordRenderer = new RenderBase(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations(owner.Scale));
             sword.SetRenderer(swordRenderer);
+            sword.SetEngine(new WeaponEngine(sword));
 
             sword.EquipEffect(new BasicDamageEffect(
                 durationMS: swordRenderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection),
@@ -214,6 +218,7 @@ namespace co_op_engine.Factories
             var axe = new Weapon(owner);
             var axeRenderer = new RenderBase(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations(owner.Scale));
             axe.SetRenderer(axeRenderer);
+            axe.SetEngine(new WeaponEngine(axe));
             return axe;
         }
 
@@ -222,6 +227,7 @@ namespace co_op_engine.Factories
             var mace = new Weapon(owner);
             var maceRenderer = new RenderBase(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations(owner.Scale));
             mace.SetRenderer(maceRenderer);
+            mace.SetEngine(new WeaponEngine(mace));
             return mace;
         }
     }

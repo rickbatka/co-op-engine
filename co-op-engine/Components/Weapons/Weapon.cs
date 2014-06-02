@@ -14,14 +14,17 @@ namespace co_op_engine.Components.Weapons
 {
     public class Weapon : IRenderable
     {
-        private GameObject owner;
+        public GameObject owner;
         private RenderBase renderer;
         private WeaponEngine Engine;
+        public SpacialBase CurrentQuad { get { return owner.CurrentQuad; } }
 
         public int ID;
-        private TimeSpan currentAttackTimer;
+        public int OwnerId;
+
         public int CurrentState { get; set; }
         public virtual WeaponState CurrentWeaponStateProperties { get { return WeaponStates.States[CurrentState]; } }
+        public int CurrentOwnerState { get { return owner.CurrentState; } }
 
         public bool Visible { get; set; }
         public bool Friendly { get { return owner.Friendly; } }
@@ -32,12 +35,14 @@ namespace co_op_engine.Components.Weapons
         public float RotationTowardFacingDirectionRadians { get { return owner.RotationTowardFacingDirectionRadians; } set { owner.RotationTowardFacingDirectionRadians = value; } }
         public float Scale { get { return owner.Scale; } }
 
+
         public List<WeaponEffectBase> Effects = new List<WeaponEffectBase>();
 
         public Weapon(GameObject owner)
         {
             this.owner = owner;
             this.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
+            this.OwnerId = owner.ID;
             this.Visible = true;
         }
 
@@ -53,17 +58,14 @@ namespace co_op_engine.Components.Weapons
 
         public void Update(GameTime gameTime)
         {
-            QueryForHits();
-            UpdateState(gameTime);
+            if (Engine != null)
+            {
+                Engine.Update(gameTime);
+            }
 
             if(renderer != null)
             {
                 renderer.Update(gameTime);
-            }
-
-            if(Engine != null)
-            {
-                Engine.Update(gameTime);
             }
         }
 
@@ -93,50 +95,27 @@ namespace co_op_engine.Components.Weapons
             }
         }
 
-        public void TryInitiateAttack()
+        public bool TryInitiateAttack(int attackTimer = 0)
         {
-            if (CurrentWeaponStateProperties.CanInitiatePrimaryAttack)
+            if (CurrentWeaponStateProperties.CanInitiatePrimaryAttack && Engine != null)
             {
-                PrimaryAttack();
+                Engine.PrimaryAttack(attackTimer);
+                return true;
             }
+            return false;
         }
 
-        public void PrimaryAttack(int attackTimer = 0)
+        public int GetAttackDuration()
         {
-            if(attackTimer == 0)
+            if (renderer != null)
             {
-                attackTimer = renderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection);
+                return renderer.animationSet.GetAnimationDuration(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection);
             }
-            currentAttackTimer = TimeSpan.FromMilliseconds(attackTimer);
-            CurrentState = Constants.WEAPON_STATE_ATTACKING_PRIMARY;
+
+            return 0;
         }
 
-        private void QueryForHits()
-        {
-            if (CurrentWeaponStateProperties.IsAttacking)
-            {
-                // damage dots come from the animated renderer, if there are any
-                if (renderer != null)
-                {
-                    var damageDots = renderer.CurrentAnimation.CurrentFrame.DamageDots;
-                    foreach (var damageDot in damageDots)
-                    {
-                        var damageDotPositionVector = DrawingUtility.GetAbsolutePosition(this, damageDot.Location);
-                        var colliders = owner.CurrentQuad.MasterQuery(DrawingUtility.VectorToPointRect(damageDotPositionVector));
-                        foreach (var collider in colliders)
-                        {
-                            if (collider.ID != owner.ID)
-                            {
-                                collider.HandleHitByWeapon(this);
-                                FireUsedWeaponEvent(collider);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void FireUsedWeaponEvent(GameObject receiver)
+        public void FireUsedWeaponEvent(GameObject receiver)
         {
             if(this.Friendly == receiver.Friendly)
             {
@@ -145,37 +124,6 @@ namespace co_op_engine.Components.Weapons
             else
             {
                 owner.FireOnDidAttackNonFriendly(this, null);
-            }
-        }
-
-        protected virtual void UpdateState(GameTime gameTime)
-        {
-            if (CurrentState == Constants.WEAPON_STATE_ATTACKING_PRIMARY)
-            {
-                currentAttackTimer -= gameTime.ElapsedGameTime;
-                if (currentAttackTimer <= TimeSpan.Zero)
-                {
-                    CurrentState = Constants.WEAPON_STATE_IDLE;
-                    currentAttackTimer = TimeSpan.Zero;
-                    if (renderer != null)
-                    {
-                        renderer.animationSet.GetAnimationFallbackToDefault(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection).Reset();
-                    }
-                }
-            }
-
-            // switch to idle weapon animation of the player goes idle
-            if (owner.CurrentState == Constants.ACTOR_STATE_IDLE
-                && CurrentWeaponStateProperties.CanInitiateIdleState)
-            {
-                CurrentState = Constants.WEAPON_STATE_IDLE;
-            }
-
-            // switch to walking weapon animation of the player started walking
-            if (owner.CurrentState == Constants.ACTOR_STATE_WALKING
-                && CurrentWeaponStateProperties.CanInitiateWalkingState)
-            {
-                CurrentState = Constants.WEAPON_STATE_WALKING;
             }
         }
 
@@ -188,6 +136,14 @@ namespace co_op_engine.Components.Weapons
                 }
                 return false;
             } 
+        }
+
+        public void ResetAttackAnimation()
+        {
+            if (renderer != null)
+            {
+                renderer.animationSet.GetAnimationFallbackToDefault(Constants.WEAPON_STATE_ATTACKING_PRIMARY, owner.FacingDirection).Reset();
+            }
         }
 
         public void EquipEffect(WeaponEffectBase effect)
