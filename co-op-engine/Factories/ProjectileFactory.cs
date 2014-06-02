@@ -6,6 +6,7 @@ using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
 using co_op_engine.Components.Weapons;
 using co_op_engine.Components.Weapons.Effects;
+using co_op_engine.Components.Weapons.WeaponEngines;
 using co_op_engine.GameStates;
 using co_op_engine.Networking.Commands;
 using co_op_engine.Utility;
@@ -46,7 +47,8 @@ namespace co_op_engine.Factories
             arrowContainerObject.SetBrain(new ArrowBrain(arrowContainerObject, target));
             arrowContainerObject.SetMover(new ProjectileMover(arrowContainerObject));
 
-            var arrowWeapon = new AlwaysAttackingProjectileWeapon(arrowContainerObject);
+            var arrowWeapon = new Weapon(arrowContainerObject);
+            arrowWeapon.SetEngine(new AlwaysAttackingWeaponEngine(arrowWeapon));
             arrowWeapon.EquipEffect(new BasicDamageEffect(durationMS: 250, damageRating: 25));
             arrowWeapon.SetRenderer((new RenderBase(arrowWeapon, AssetRepository.Instance.ArrowTexture, AssetRepository.Instance.ArrowAnimations(arrowContainerObject.Scale))));
             arrowContainerObject.EquipWeapon(arrowWeapon);

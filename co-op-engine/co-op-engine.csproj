@@ -121,12 +121,14 @@
     <Compile Include="Components\Rendering\Frame.cs" />
     <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
-    <Compile Include="Components\Weapons\AlwaysAttackingProjectileWeapon.cs" />
     <Compile Include="Components\Weapons\Effects\BasicDamageEffect.cs" />
     <Compile Include="Components\Weapons\Effects\EffectDefinitions.cs" />
     <Compile Include="Components\Weapons\Effects\BasicHealEffect.cs" />
     <Compile Include="Components\Weapons\Weapon.cs" />
     <Compile Include="Components\Weapons\Effects\WeaponEffectBase.cs" />
+    <Compile Include="Components\Weapons\WeaponEngines\AlwaysAttackingWeaponEngine.cs" />
+    <Compile Include="Components\Weapons\WeaponEngines\BasicAttackWithCooldownWeaponEngine.cs" />
+    <Compile Include="Components\Weapons\WeaponEngines\WeaponEngine.cs" />
     <Compile Include="Factories\LevelFactory.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Factories\ProjectileFactory.cs" />

@@ -1,6 +1,7 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components.Rendering;
 using co_op_engine.Components.Weapons.Effects;
+using co_op_engine.Components.Weapons.WeaponEngines;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,6 +16,7 @@ namespace co_op_engine.Components.Weapons
     {
         private GameObject owner;
         private RenderBase renderer;
+        private WeaponEngine Engine;
 
         public int ID;
         private TimeSpan currentAttackTimer;
@@ -44,14 +46,24 @@ namespace co_op_engine.Components.Weapons
             this.renderer = renderer;
         }
 
+        public void SetEngine(WeaponEngine engine)
+        {
+            this.Engine = engine;
+        }
+
         public void Update(GameTime gameTime)
         {
-            UpdateState(gameTime);
             QueryForHits();
+            UpdateState(gameTime);
 
             if(renderer != null)
             {
                 renderer.Update(gameTime);
+            }
+
+            if(Engine != null)
+            {
+                Engine.Update(gameTime);
             }
         }
 
@@ -61,6 +73,11 @@ namespace co_op_engine.Components.Weapons
             {
                 renderer.Draw(spriteBatch);
             }
+
+            if(Engine != null)
+            {
+                Engine.Draw(spriteBatch);
+            }
         }
 
         public void DebugDraw(SpriteBatch spriteBatch)
@@ -68,6 +85,11 @@ namespace co_op_engine.Components.Weapons
             if (renderer != null)
             {
                 renderer.DebugDraw(spriteBatch);
+            }
+
+            if(Engine != null)
+            {
+                Engine.DebugDraw(spriteBatch);
             }
         }
 
