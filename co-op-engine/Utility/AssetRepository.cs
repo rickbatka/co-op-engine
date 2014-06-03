@@ -33,6 +33,7 @@ namespace co_op_engine.Utility
         public Texture2D HealBeam;
         public Texture2D FuzzyLazer;
         public Texture2D Slime;
+        public Texture2D HealCircle;
         public BackgroundTile BushesTile;
 
         public SoundEffect Music1;
@@ -90,6 +91,7 @@ namespace co_op_engine.Utility
             MaceTexture = gameRef.Content.Load<Texture2D>("Mace");
             Circle = gameRef.Content.Load<Texture2D>("circle");
             HealBeam = gameRef.Content.Load<Texture2D>("HealZap");
+            HealCircle = gameRef.Content.Load<Texture2D>("HealCircle");
             FuzzyLazer = gameRef.Content.Load<Texture2D>("FuzzyLazer");
             Slime = gameRef.Content.Load<Texture2D>("slime");
             BushesTile = new BackgroundTile(gameRef.Content.Load<Texture2D>("bushes"), 450, 450);

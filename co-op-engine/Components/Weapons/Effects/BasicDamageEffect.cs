@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Components.Particles;
+using co_op_engine.Components.Particles.Emitters;
 using co_op_engine.Utility;
 using co_op_engine.Utility.Camera;
 using Microsoft.Xna.Framework;

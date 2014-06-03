@@ -35,7 +35,7 @@ namespace co_op_engine.Utility
             );
         }
 
-        public static void DrawLineScaledWithImageJittered(Vector2 a, Vector2 b, int width, Texture2D texture, SpriteBatch spriteBatch, Color color)
+        public static void DrawLineScaledWithImageJittered(Vector2 a, Vector2 b, int width, Texture2D texture, float transparency, SpriteBatch spriteBatch, Color color)
         {
             //build scale get length, if length > scale stretch, otherwise crops sourceRectangle
 
@@ -53,7 +53,7 @@ namespace co_op_engine.Utility
                     texture: texture,
                     destinationRectangle: new Rectangle((int)(a.X), (int)(a.Y), (int)(width), (int)(Math.Abs((a - b).Length()))),
                     sourceRectangle: new Rectangle(0, offset, texture.Width, texture.Height - 10),
-                    color: color,
+                    color: color * transparency,
                     rotation: Vector2ToRadian(a - b),
                     origin: new Vector2(texture.Width / 2, 0),
                     effect: SpriteEffects.None,
@@ -69,7 +69,7 @@ namespace co_op_engine.Utility
                     texture: texture,
                     destinationRectangle: new Rectangle((int)(a.X), (int)(a.Y), (int)(width), (int)(Math.Abs((a - b).Length()))),
                     sourceRectangle: new Rectangle(0, offset, texture.Width, (int)distance),
-                    color: color,
+                    color: color * transparency,
                     rotation: Vector2ToRadian(a - b),
                     origin: new Vector2(texture.Width / 2, 0),
                     effect: SpriteEffects.None,

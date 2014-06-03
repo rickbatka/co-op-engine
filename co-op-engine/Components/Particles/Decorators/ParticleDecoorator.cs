@@ -22,6 +22,7 @@ namespace co_op_engine.Components.Particles.Decorators
         public int Width { get { return particle.Width; } set { particle.Width = value; } }
         public int Height { get { return particle.Height; } set { particle.Height = value; } }
         public float Transparency { get { return particle.Transparency; } set { particle.Transparency = value; } }
+        public float Rotation { get { return particle.Rotation; } set { particle.Rotation = value; } }
 
         public ParticleDecorator(IParticle particle)
         {
@@ -38,7 +39,10 @@ namespace co_op_engine.Components.Particles.Decorators
             particle.Update(gameTime);
         }
 
-        public virtual void End() { }
+        public virtual void End() 
+        {
+            particle.End();
+        }
         public virtual void Draw(SpriteBatch spriteBatch) 
         {
             particle.Draw(spriteBatch);

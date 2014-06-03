@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using co_op_engine.Components.Particles;
 using co_op_engine.Components.Particles.Decorators;
+using co_op_engine.Components.Particles.Emitters;
 
 namespace co_op_engine.Components.Brains.TowerBrains
 {
@@ -35,17 +36,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
             if (Owner.Weapon.TryInitiateAttack(healCooldown))
             {
                 collider.HandleHitByWeapon(Owner.Weapon);
-                ParticleEngine.Instance.Add(
-                    new LineParticle()
-                    {
-                        DrawColor = Color.White,
-                        Lifetime = TimeSpan.FromMilliseconds(200),
-                        Texture = AssetRepository.Instance.FuzzyLazer,
-                        width = 40,
-                        end = Owner.Position,
-                        start = collider.Position
-                    }
-                );
+                ParticleEngine.Instance.AddEmitter(new HealBeam(Owner, collider));
             }
         }
 

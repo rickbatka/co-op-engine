@@ -21,6 +21,7 @@ namespace co_op_engine.Components.Particles
         int Width { get; set; }
         int Height { get; set; }
         float Transparency { get; set; }
+        float Rotation { get; set; }
 
         void Begin();
         void Update(GameTime gameTime);
@@ -33,6 +34,7 @@ namespace co_op_engine.Components.Particles
         public bool IsAlive { get; set; }
         public TimeSpan Lifetime { get; set; }
         public Vector2 Velocity { get; set; }
+        public float Rotation { get; set; }
 
         private Vector2 _position;
         public Vector2 Position
@@ -46,8 +48,8 @@ namespace co_op_engine.Components.Particles
                 _position = value;
                 if (DrawRectangle != null)
                 {
-                    drawRectangle.X = _position.X;
-                    drawRectangle.Y = _position.Y;
+                    drawRectangle.X = _position.X - (drawRectangle.Width/2);
+                    drawRectangle.Y = _position.Y - (drawRectangle.Height/2);
                 }
             }
         }
@@ -73,6 +75,7 @@ namespace co_op_engine.Components.Particles
             DrawColor = Color.White;
             Texture = texture != null ? texture : AssetRepository.Instance.PlainWhiteTexture;
             Transparency = 1f;
+            Rotation = 0f;
         }
 
         public void Begin() { }
@@ -102,7 +105,7 @@ namespace co_op_engine.Components.Particles
                     destinationRectangle: DrawRectangle.ToRectangle(),
                     sourceRectangle: null,
                     color: DrawColor * Transparency,
-                    rotation: 0f,
+                    rotation: Rotation,
                     origin: Vector2.Zero,
                     effect: SpriteEffects.None,
                     depth: Position.Y / Camera.Instance.ViewBoundsRectangle.Bottom
@@ -114,11 +117,17 @@ namespace co_op_engine.Components.Particles
     {
         public Vector2 start;
         public Vector2 end;
-        public int width;
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            DrawingUtility.DrawLineScaledWithImageJittered(start, end, width, this.Texture, spriteBatch, this.DrawColor);
+            DrawingUtility.DrawLineScaledWithImageJittered(
+                start,
+                end,
+                base.Width,
+                this.Texture,
+                Transparency,
+                spriteBatch,
+                this.DrawColor);
         }
     }
 }

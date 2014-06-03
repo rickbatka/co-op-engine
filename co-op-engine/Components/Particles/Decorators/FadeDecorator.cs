@@ -48,7 +48,7 @@ namespace co_op_engine.Components.Particles.Decorators
                     float progress = (float)((timer.TotalMilliseconds - start) / duration);
                     float transparency = MathHelper.Lerp(initialAlpha, endAlpha, progress);
 
-                    base.Transparency = transparency;
+                    Transparency = transparency;
 
                     if (timer.TotalMilliseconds > start + duration)
                     {
