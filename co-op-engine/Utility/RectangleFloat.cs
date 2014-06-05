@@ -158,6 +158,11 @@ namespace co_op_engine.Utility
         //    return rectf.ToRectangle();
         //}
 
+        public override string ToString()
+        {
+            return X + "," + Y + "," + Width + "," + Height;
+        }
+
         public static implicit operator RectangleFloat(Rectangle rect)
         {
             return FromRectangle(rect);

@@ -186,9 +186,23 @@ namespace co_op_engine.Collections
         //NOT DONE FOIDJF LIDJ F#####################################################################
         private void Verify()
         {
-#warning no verification of quadtree currently
+            if (parent != null)
+            {
+                if (parent.ChildCount() <= parent.ObjectLimit)
+                {
+                    parent.Consolidate();
+                }
+            }
+        }
 
-            //should 
+        private void Consolidate()
+        {
+            heldObjects = GatherAll();
+            foreach (var obj in heldObjects)
+            {
+                obj.CurrentQuad = this;
+            }
+            NW = NE = SW = SE = null;
         }
 
         //done
@@ -255,12 +269,12 @@ namespace co_op_engine.Collections
 
             if (currentXInflation < newObject.BoundingBox.Width / 2)
             {
-                inflateXBy = (newObject.BoundingBox.Width / 2) - currentXInflation;
+                inflateXBy = (int)((float)newObject.CurrentFrame.DrawRectangle.Width / 1.5f) - currentXInflation;
             }
 
             if (currentYInflation < newObject.BoundingBox.Height / 2)
             {
-                inflateYBy = (newObject.BoundingBox.Height / 2) - currentYInflation;
+                inflateYBy = (int)((float)newObject.CurrentFrame.DrawRectangle.Height / 1.5f) - currentYInflation;
             }
 
             queryBounds.Inflate(inflateXBy, inflateYBy);
