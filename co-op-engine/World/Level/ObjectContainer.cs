@@ -28,7 +28,7 @@ namespace co_op_engine.World.Level
         public ObjectContainer(Rectangle levelBounds)
         {
             PATHING_TEST_REMOVE_IF_FORGOTTEN_AND_COMMITTED = TimeSpan.Zero;
-            SpacialReference = new ElasticQuadTree(co_op_engine.Utility.RectangleFloat.FromRectangle(levelBounds), null);
+            SpacialReference = new QuadTree(co_op_engine.Utility.RectangleFloat.FromRectangle(levelBounds), null);
             LinearReference = new List<GameObject>();
             IndexedReference = new Dictionary<int, GameObject>();
         }

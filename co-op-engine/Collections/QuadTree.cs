@@ -26,11 +26,12 @@ namespace co_op_engine.Collections
         private QuadTree SE;
 
         private List<GameObject> heldObjects;
-        private const int MAX_OBJECTS_PER_QUAD = 2;
+        private int ObjectLimit;
 
         //done
-        public QuadTree(RectangleFloat bounds, QuadTree parent)
+        public QuadTree(RectangleFloat bounds, QuadTree parent, int objectLimit = 2)
         {
+            ObjectLimit = objectLimit;
             heldObjects = new List<GameObject>();
             this.hardBounds = bounds;
             this.queryBounds = bounds;
@@ -113,12 +114,12 @@ namespace co_op_engine.Collections
             }
 
             //moves an object over one to prevent perfect stacking and infinite splitting
-            if (heldObjects.Count() != 0 && heldObjects.Any(o => o.Position == newObject.Position && o != newObject))
-            {
-                newObject.Position = new Vector2(newObject.Position.X + 1, newObject.Position.Y + 1);
-                MasterInsert(newObject);
-                return true;
-            }
+            //if (heldObjects.Count() != 0 && heldObjects.Any(o => o.Position == newObject.Position && o != newObject))
+            //{
+            //    newObject.Position = new Vector2(newObject.Position.X + 1, newObject.Position.Y + 1);
+            //    MasterInsert(newObject);
+            //    return true;
+            //}
 
             if (!isParent)
             {
@@ -128,7 +129,7 @@ namespace co_op_engine.Collections
                 InflateBoundry(newObject);
 
                 //if there are now too many object in this quad, split it
-                if (heldObjects.Count() > MAX_OBJECTS_PER_QUAD)
+                if (heldObjects.Count() > ObjectLimit)
                 {
                     Split();
                 }
@@ -225,24 +226,22 @@ namespace co_op_engine.Collections
         private void Split()
         {
             //setup new hardbounds
-            NW = new QuadTree(new RectangleFloat(hardBounds.Left, hardBounds.Top, hardBounds.Width / 2, hardBounds.Height / 2), this);
-            NE = new QuadTree(new RectangleFloat(hardBounds.Left + hardBounds.Width / 2, hardBounds.Top, hardBounds.Width / 2, hardBounds.Height / 2), this);
-            SW = new QuadTree(new RectangleFloat(hardBounds.Left, hardBounds.Top + hardBounds.Height / 2, hardBounds.Width / 2, hardBounds.Height / 2), this);
-            SE = new QuadTree(new RectangleFloat(hardBounds.Left + hardBounds.Width / 2, hardBounds.Top + hardBounds.Height / 2, hardBounds.Width / 2, hardBounds.Height / 2), this);
+            NW = new QuadTree(new RectangleFloat(hardBounds.Left, hardBounds.Top, hardBounds.Width / 2, hardBounds.Height / 2), this, ObjectLimit+1);
+            NE = new QuadTree(new RectangleFloat(hardBounds.Left + hardBounds.Width / 2, hardBounds.Top, hardBounds.Width / 2, hardBounds.Height / 2), this, ObjectLimit + 1);
+            SW = new QuadTree(new RectangleFloat(hardBounds.Left, hardBounds.Top + hardBounds.Height / 2, hardBounds.Width / 2, hardBounds.Height / 2), this, ObjectLimit + 1);
+            SE = new QuadTree(new RectangleFloat(hardBounds.Left + hardBounds.Width / 2, hardBounds.Top + hardBounds.Height / 2, hardBounds.Width / 2, hardBounds.Height / 2), this, ObjectLimit + 1);
 
             //no tricks, this um err, it attempts to insert the each object into the new subquads
             //  on failure it does a master insert
-            foreach (GameObject obj in heldObjects)
+            var temp = heldObjects;
+            heldObjects = null;
+            foreach (GameObject obj in temp)
             {
                 if (!Insert(obj))
                 {
                     MasterInsert(obj);
                 }
             }
-
-            //clear references from current list, set to so gc will clear reference counting and pick it up
-            heldObjects.Clear();
-            heldObjects = null;
         }
 
         //direct copy, was already robust enough
