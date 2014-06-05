@@ -31,7 +31,15 @@ namespace co_op_engine.Collections
         //done
         public QuadTree(RectangleFloat bounds, QuadTree parent, int objectLimit = 2)
         {
-            ObjectLimit = objectLimit;
+            if (bounds.Width < 2 || bounds.Height < 2)
+            {
+                ObjectLimit = 100; //prevention of rounding issues ^_^
+            }
+            else
+            {
+                ObjectLimit = objectLimit;
+            }
+            
             heldObjects = new List<GameObject>();
             this.hardBounds = bounds;
             this.queryBounds = bounds;
