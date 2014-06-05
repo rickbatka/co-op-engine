@@ -6,6 +6,7 @@
 *.SyncArchive
 *.SyncID
 *.SyncIgnore
+*.!Sync
 
 # ignore large content files
 *.mp3

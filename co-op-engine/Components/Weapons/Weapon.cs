@@ -14,7 +14,7 @@ namespace co_op_engine.Components.Weapons
 {
     public class Weapon : IRenderable
     {
-        public GameObject owner;
+        private GameObject owner;
         private RenderBase renderer;
         private WeaponEngine Engine;
         public SpacialBase CurrentQuad { get { return owner.CurrentQuad; } }
