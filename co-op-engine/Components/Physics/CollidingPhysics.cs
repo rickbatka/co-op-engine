@@ -65,10 +65,10 @@ namespace co_op_engine.Components.Physics
 
             owner.CurrentQuad.Draw(spriteBatch);
 
-            if (!owner.CurrentQuad.DEBUGEXPOSURE_DONOTUSE().Contains(owner))
-            {
-                spriteBatch.Draw(AssetRepository.Instance.DebugFillTexture, owner.BoundingBox, Color.Yellow);
-            }
+            //if (!owner.CurrentQuad.DEBUGEXPOSURE_DONOTUSE().Contains(owner))
+            //{
+            //    spriteBatch.Draw(AssetRepository.Instance.DebugFillTexture, owner.BoundingBox, Color.Yellow);
+            //}
         }
 
         private void HandleCollision(List<GameObject> colliders)

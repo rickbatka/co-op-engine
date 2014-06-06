@@ -400,10 +400,5 @@ namespace co_op_engine.Collections
                 Verify();
             }
         }
-
-        public override List<GameObject> DEBUGEXPOSURE_DONOTUSE()
-        {
-            return new List<GameObject>() { this.containedObject };
-        }
     }
 }

@@ -75,7 +75,18 @@ namespace co_op_engine.Collections
         //done
         public override bool Remove(GameObject newObject)
         {
-            return heldObjects.Remove(newObject);
+            var success = heldObjects.Remove(newObject);
+
+            if (success)
+            {
+                queryBounds = hardBounds;
+                foreach (var obj in heldObjects)
+                {
+                    InflateBoundry(obj);
+                }
+            }
+
+            return success;
         }
 
         //done
@@ -299,11 +310,6 @@ namespace co_op_engine.Collections
                 }
                 Verify();
             }
-        }
-
-        public override List<GameObject> DEBUGEXPOSURE_DONOTUSE()
-        {
-            return heldObjects;
         }
     }
 }

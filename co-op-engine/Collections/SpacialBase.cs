@@ -17,6 +17,5 @@ namespace co_op_engine.Collections
         abstract public void Draw(SpriteBatch spriteBatch);
         abstract public bool Insert(GameObject newObject);
         abstract public void NotifyOfMovement(GameObject ownedObject);
-        abstract public List<GameObject> DEBUGEXPOSURE_DONOTUSE();
     }
 }
