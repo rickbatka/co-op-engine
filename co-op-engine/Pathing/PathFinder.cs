@@ -236,7 +236,14 @@ namespace co_op_engine.Pathing
             bool done = false;
             while (!done)
             {
-                positions.Insert(0, grid.GetPositionFromNode(currentNode));
+                var pos = grid.GetPositionFromNode(currentNode);
+
+                if (positions.Contains(pos))
+                {
+                    return new Path(positions); //TODO this if a hack, pathfinder is creating loops
+                }
+
+                positions.Insert(0, pos);
 
                 if (currentNode.Target != null)
                 {
