@@ -30,6 +30,7 @@ namespace co_op_engine.Components.Weapons.Effects
                  new BloodHitEmitter(Receiver, RotationAtTimeOfHit)
             );
 
+            //@TODO camera should subscribe to OnDeath and do this in response
             if (Receiver.Health <= 0)
             {
                 Camera.Instance.Shake();
@@ -39,6 +40,7 @@ namespace co_op_engine.Components.Weapons.Effects
             }
         }
 
+        //@TODO yeah, this needs to be better
         private void KnockBack()
         {
             Receiver.CurrentState = Constants.ACTOR_STATE_BEING_HURT;

@@ -31,8 +31,8 @@ namespace co_op_engine.Components.Weapons
         public Frame CurrentFrame { get; set; }
         public Texture2D Texture { get; set; }
         public Vector2 Position { get { return owner.Position; } }
-        public int FacingDirection { get { return owner.FacingDirection; } set { owner.FacingDirection = value; } }
-        public float RotationTowardFacingDirectionRadians { get { return owner.RotationTowardFacingDirectionRadians; } set { owner.RotationTowardFacingDirectionRadians = value; } }
+        public int FacingDirection { get { return owner.FacingDirection; } }
+        public float RotationTowardFacingDirectionRadians { get { return owner.RotationTowardFacingDirectionRadians; } }
         public float Scale { get { return owner.Scale; } }
 
 

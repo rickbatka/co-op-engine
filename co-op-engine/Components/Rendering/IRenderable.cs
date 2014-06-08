@@ -13,8 +13,8 @@ namespace co_op_engine.Components.Rendering
         Texture2D Texture { get; set; }
         Vector2 Position { get; }
         int CurrentState { get; }
-        int FacingDirection { get; set; }
-        float RotationTowardFacingDirectionRadians { get; set; }
+        int FacingDirection { get; }
+        float RotationTowardFacingDirectionRadians { get; }
         float Scale { get; }
         bool FullyRotatable { get; }
         bool Visible { get; set; }
