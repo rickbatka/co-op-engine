@@ -12,6 +12,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Weapons
 {
+    /*
     public class Weapon : IRenderable
     {
         private GameObject owner;
@@ -151,4 +152,5 @@ namespace co_op_engine.Components.Weapons
             this.Effects.Add(effect);
         }
     }
+     * */
 }

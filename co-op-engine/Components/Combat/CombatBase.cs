@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Components.Particles;
+using co_op_engine.Components.Skills;
 using co_op_engine.Components.Weapons;
 using co_op_engine.Components.Weapons.Effects;
 using co_op_engine.Utility;
@@ -34,31 +35,31 @@ namespace co_op_engine.Components.Combat
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
 
-        public void HandleHitByWeapon(Weapon weapon)
+        public void HandleHitBySkill(Skill skill)
         {
-            foreach(var effect in weapon.Effects)
+            foreach(var effect in skill.Effects)
             {
-                string hash = GetHash(weapon.ID, effect);
+                string hash = GetHash(skill.ID, effect);
                 if (owner.CurrentStateProperties.IsVulnerable 
-                    && IsAffected(weapon, effect)
+                    && IsAffected(skill, effect)
                     && !effectsByWeapon.ContainsKey(hash))
                 {
                     // get the effect from the weapon, set its receiver to this owner, register it in the list of actie effects
                     var newEffect = (WeaponEffectBase)effect.Clone();
                     newEffect.SetReceiver(owner);
-                    newEffect.SetRotationAtTimeOfHit(DrawingUtility.RadianToVector2(weapon.RotationTowardFacingDirectionRadians));
+                    newEffect.SetRotationAtTimeOfHit(DrawingUtility.RadianToVector2(skill.RotationTowardFacingDirectionRadians));
                     effectsByWeapon.Add(hash, newEffect);
 
                     // Apply the status effect
                     newEffect.Apply();
-                    FireWasAffectedEvent(weapon, effect);
+                    FireWasAffectedEvent(skill, effect);
                 }
             }
         }
 
-        private bool IsAffected(Weapon weapon, WeaponEffectBase effect)
+        private bool IsAffected(Skill skill, WeaponEffectBase effect)
         {
-            if(owner.Friendly == weapon.Friendly)
+            if(owner.Friendly == skill.Friendly)
             {
                 return effect.AffectsFriendlies;
             }
@@ -66,9 +67,9 @@ namespace co_op_engine.Components.Combat
             return effect.AffectsNonFriendlies;
         }
 
-        private void FireWasAffectedEvent(Weapon weapon, WeaponEffectBase effect)
+        private void FireWasAffectedEvent(Skill skill, WeaponEffectBase effect)
         {
-            if (owner.Friendly == weapon.Friendly)
+            if (owner.Friendly == skill.Friendly)
             {
                 owner.FireOnWasAffectedByFriendlyWeapon(this, null);
             }

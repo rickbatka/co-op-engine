@@ -4,6 +4,7 @@ using co_op_engine.Components.Combat;
 using co_op_engine.Components.Input;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
+using co_op_engine.Components.Skills;
 using co_op_engine.Components.Weapons;
 using co_op_engine.Components.Weapons.Effects;
 using co_op_engine.Components.Weapons.WeaponEngines;
@@ -72,8 +73,9 @@ namespace co_op_engine.Factories
             tower.SetBrain(new HealingAOETowerBrain(tower,
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));
 
-            var healingAOEWeapon = new Weapon(tower);
-            healingAOEWeapon.SetEngine(new WeaponEngine(healingAOEWeapon));
+            tower.SetSkills(new SkillsComponent(tower));
+
+            var healingAOEWeapon = new Weapon(tower.Skills, tower);
             var healingEffect = new BasicHealEffect(durationMS: 250, healRating: 25);
             healingEffect.AffectsFriendlies = true;
             healingEffect.AffectsNonFriendlies = false;
@@ -114,9 +116,9 @@ namespace co_op_engine.Factories
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             tower.SetBrain(new ArrowTowerBrain(tower,
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));
+            tower.SetSkills(new SkillsComponent(tower));
 
-            var emptyWeapon = new Weapon(tower);
-            emptyWeapon.SetEngine(new WeaponEngine(emptyWeapon));
+            var emptyWeapon = new Weapon(tower.Skills, tower);
             tower.EquipWeapon(emptyWeapon);
 
             if (fromNetwork)

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using co_op_engine.World.Level;
 using co_op_engine.Components.Movement;
 using co_op_engine.Components.Engines;
+using co_op_engine.Components.Skills;
 
 namespace co_op_engine.Components
 {
@@ -22,7 +23,7 @@ namespace co_op_engine.Components
         public PhysicsBase Physics;
         public RenderBase Renderer;
         public BrainBase Brain;
-        public Weapon Weapon;
+        public SkillsComponent Skills;
         public CombatBase Combat;
         public MoverBase Mover;
         public EngineBase Engine;
@@ -99,9 +100,14 @@ namespace co_op_engine.Components
             this.Combat = combat;
         }
 
+        public void SetSkills(SkillsComponent skills)
+        {
+            this.Skills = skills;
+        }
+
         public void EquipWeapon(Weapon weapon)
         {
-            this.Weapon = weapon;
+            this.Skills.SetWeapon(weapon);
         }
 
         public void SetMover(MoverBase mover)
@@ -126,7 +132,7 @@ namespace co_op_engine.Components
             if (Physics != null) { Physics.Update(gameTime); }
             if (Renderer != null) { Renderer.Update(gameTime); }
             if (Combat != null) { Combat.Update(gameTime); }
-            if (Weapon != null) { Weapon.Update(gameTime); }
+            if (Skills != null) { Skills.Update(gameTime); }
             if (Mover != null) { Mover.Update(gameTime); }
             if (Engine != null) { Engine.Update(gameTime); }
         }
@@ -153,10 +159,9 @@ namespace co_op_engine.Components
                 Combat.DebugDraw(spriteBatch);
             }
 
-            if (Weapon != null)
+            if(Skills != null)
             {
-                Weapon.Draw(spriteBatch);
-                //Weapon.DebugDraw(spriteBatch);
+                Skills.Draw(spriteBatch);
             }
 
             //@TODO DEBUGDRAW DEBUG DRAW
@@ -164,11 +169,11 @@ namespace co_op_engine.Components
             //Physics.DebugDraw(spriteBatch);
         }
 
-        public void HandleHitByWeapon(Weapon weapon)
+        public void HandleHitBySkill(Skill skill)
         {
             if (Combat != null)
             {
-                Combat.HandleHitByWeapon(weapon);
+                Combat.HandleHitBySkill(skill);
             }
         }
 

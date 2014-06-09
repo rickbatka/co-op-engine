@@ -30,7 +30,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
         {
             base.HandleNonFriendlyInRange(collider);
 
-            if (Owner.Weapon.TryInitiateAttack(shotCooldown))
+            if (Owner.Skills.TryInititateWeaponAttack(shotCooldown))
             {
                 var arrow = ProjectileFactory.Instance.GetArrow(Owner, collider);
                 arrow.FireOnWasFiredAtFixedPoint(this, new FireProjectileEventArgs { TargetObject = collider });

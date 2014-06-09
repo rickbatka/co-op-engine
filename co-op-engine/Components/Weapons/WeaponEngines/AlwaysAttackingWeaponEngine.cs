@@ -7,6 +7,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Weapons.WeaponEngines
 {
+    /*
     public class AlwaysAttackingWeaponEngine : WeaponEngine
     {
         public AlwaysAttackingWeaponEngine(Weapon weapon)
@@ -23,4 +24,5 @@ namespace co_op_engine.Components.Weapons.WeaponEngines
             }
         }
     }
+     * */
 }

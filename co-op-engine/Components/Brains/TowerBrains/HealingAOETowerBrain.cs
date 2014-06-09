@@ -33,9 +33,9 @@ namespace co_op_engine.Components.Brains.TowerBrains
             base.HandleFriendlyInRange(collider);
 
 
-            if (Owner.Weapon.TryInitiateAttack(healCooldown))
+            if (Owner.Skills.TryInititateWeaponAttack(healCooldown))
             {
-                collider.HandleHitByWeapon(Owner.Weapon);
+                collider.HandleHitBySkill(Owner.Skills.WeaponSkill);
                 ParticleEngine.Instance.AddEmitter(new HealBeam(Owner, collider));
             }
         }

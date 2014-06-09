@@ -19,7 +19,6 @@ namespace co_op_engine.Components.Brains
 
         private Vector2 previousMovementVector;
         private int previousState;
-        private Weapon previousWeapon;
         private Vector2 boostStartMovementVector;
 
         public PlayerBrain(GameObject owner, PlayerControlInput input)
@@ -53,8 +52,7 @@ namespace co_op_engine.Components.Brains
         {
             input.AfterUpdate();
             if ((previousMovementVector != null && previousMovementVector != Owner.InputMovementVector)
-                || (previousState != Owner.CurrentState)
-                || previousWeapon != null && previousWeapon != Owner.Weapon)
+                || (previousState != Owner.CurrentState))
             {
                 SendUpdate(new PlayerBrainUpdateParams()
                 {
@@ -67,7 +65,6 @@ namespace co_op_engine.Components.Brains
 
             previousMovementVector = Owner.InputMovementVector;
             previousState = Owner.CurrentState;
-            previousWeapon = Owner.Weapon;
             base.AfterUpdate();
         }
 
@@ -91,7 +88,7 @@ namespace co_op_engine.Components.Brains
         {
             if (input.IsPressingAttackButton())
             {
-                Owner.Weapon.TryInitiateAttack();
+                Owner.Skills.TryInititateWeaponAttack();
             }
 
             /*

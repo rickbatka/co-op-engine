@@ -87,9 +87,9 @@ namespace co_op_engine.Components.Brains.AI
         {
             if((Target.Position - Owner.Position).Length() <= AttackDistance
                 && Owner.CurrentStateProperties.CanInitiatePrimaryAttackState
-                && Owner.Weapon != null)
+                && Owner.Skills != null)
             {
-                Owner.Weapon.TryInitiateAttack();
+                Owner.Skills.TryInititateWeaponAttack();
             }
         }
 

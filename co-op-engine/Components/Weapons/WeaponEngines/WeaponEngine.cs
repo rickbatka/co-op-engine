@@ -8,6 +8,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Weapons.WeaponEngines
 {
+    /*
     public class WeaponEngine
     {
         protected Weapon Weapon;
@@ -91,4 +92,5 @@ namespace co_op_engine.Components.Weapons.WeaponEngines
             }
         }
     }
+     * */
 }

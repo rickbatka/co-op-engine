@@ -7,6 +7,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Weapons.WeaponEngines
 {
+    /*
     class BasicAttackWithCooldownWeaponEngine : WeaponEngine
     {
         public BasicAttackWithCooldownWeaponEngine(Weapon weapon)
@@ -19,4 +20,5 @@ namespace co_op_engine.Components.Weapons.WeaponEngines
 
         }
     }
+     * */
 }

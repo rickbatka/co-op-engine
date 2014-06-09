@@ -123,6 +123,13 @@
     <Compile Include="Components\Rendering\Frame.cs" />
     <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
+    <Compile Include="Components\Skills\Boost.cs" />
+    <Compile Include="Components\Skills\Rage.cs" />
+    <Compile Include="Components\Skills\Skill.cs" />
+    <Compile Include="Components\Skills\SkillsComponent.cs" />
+    <Compile Include="Components\Skills\Spell.cs" />
+    <Compile Include="Components\Skills\Weapon.cs" />
+    <Compile Include="Components\Skills\Weapons\AlwaysAttackingWeapon.cs" />
     <Compile Include="Components\Weapons\Effects\BasicDamageEffect.cs" />
     <Compile Include="Components\Weapons\Effects\EffectDefinitions.cs" />
     <Compile Include="Components\Weapons\Effects\BasicHealEffect.cs" />
@@ -175,7 +182,6 @@
     <Compile Include="Utility\MechanicSingleton.cs" />
     <Compile Include="Utility\RectangleFloat.cs" />
     <Compile Include="Utility\ActorStates.cs" />
-    <Compile Include="Utility\WeaponStates.cs" />
     <Compile Include="World\Level\Level.cs" />
     <Compile Include="World\Level\ObjectContainer.cs" />
   </ItemGroup>
