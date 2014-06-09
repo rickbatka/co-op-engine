@@ -53,7 +53,5 @@ namespace co_op_engine.Components.Skills
                 CurrentState = Constants.ACTOR_STATE_WALKING;
             }
         }
-
-
     }
 }

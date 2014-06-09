@@ -35,7 +35,7 @@ namespace co_op_engine.Components.Skills
         public float Scale { get { return Owner.Scale; } }
 
 
-        public List<WeaponEffectBase> Effects = new List<WeaponEffectBase>();
+        public List<StatusEffect> Effects = new List<StatusEffect>();
 
         public Skill(SkillsComponent skillsComponent, GameObject owner)
         {
@@ -132,7 +132,7 @@ namespace co_op_engine.Components.Skills
             }
         }
 
-        public void EquipEffect(WeaponEffectBase effect)
+        public void EquipEffect(StatusEffect effect)
         {
             this.Effects.Add(effect);
         }

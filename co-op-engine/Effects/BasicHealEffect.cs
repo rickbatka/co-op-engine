@@ -5,7 +5,7 @@ using System.Text;
 
 namespace co_op_engine.Effects
 {
-    public class BasicHealEffect : WeaponEffectBase
+    public class BasicHealEffect : StatusEffect
     {
         int HealRating;
 

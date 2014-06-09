@@ -7,9 +7,9 @@ using System.Text;
 
 namespace co_op_engine.Effects
 {
-    public abstract class WeaponEffectBase : ICloneable
+    public abstract class StatusEffect : ICloneable
     {
-        public int WeaponEffectID;
+        public int StatusEffectID;
         protected GameObject Receiver;
         int DurationMS;
         public TimeSpan Timer;
@@ -18,9 +18,9 @@ namespace co_op_engine.Effects
         public bool AffectsNonFriendlies = true;
         public bool AffectsFriendlies = false;
 
-        protected WeaponEffectBase(int weaponEffectId, int durationMs)
+        protected StatusEffect(int weaponEffectId, int durationMs)
         {
-            this.WeaponEffectID = weaponEffectId;
+            this.StatusEffectID = weaponEffectId;
             this.DurationMS = durationMs;
         }
 

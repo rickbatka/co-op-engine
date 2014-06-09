@@ -10,7 +10,7 @@ using System.Text;
 
 namespace co_op_engine.Effects
 {
-    public class BasicDamageEffect : WeaponEffectBase
+    public class BasicDamageEffect : StatusEffect
     {
         int DamageRating;
 

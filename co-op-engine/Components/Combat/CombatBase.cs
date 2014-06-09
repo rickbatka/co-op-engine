@@ -14,7 +14,7 @@ namespace co_op_engine.Components.Combat
     public class CombatBase
     {
         protected GameObject owner;
-        Dictionary<string, WeaponEffectBase> effectsByWeapon = new Dictionary<string, WeaponEffectBase>();
+        Dictionary<string, StatusEffect> effectsByWeapon = new Dictionary<string, StatusEffect>();
 
         private TimeSpan dyingAnimationTimer;
 
@@ -43,7 +43,7 @@ namespace co_op_engine.Components.Combat
                     && !effectsByWeapon.ContainsKey(hash))
                 {
                     // get the effect from the weapon, set its receiver to this owner, register it in the list of actie effects
-                    var newEffect = (WeaponEffectBase)effect.Clone();
+                    var newEffect = (StatusEffect)effect.Clone();
                     newEffect.SetReceiver(owner);
                     newEffect.SetRotationAtTimeOfHit(DrawingUtility.RadianToVector2(skill.RotationTowardFacingDirectionRadians));
                     effectsByWeapon.Add(hash, newEffect);
@@ -55,7 +55,7 @@ namespace co_op_engine.Components.Combat
             }
         }
 
-        private bool IsAffected(Skill skill, WeaponEffectBase effect)
+        private bool IsAffected(Skill skill, StatusEffect effect)
         {
             if(owner.Friendly == skill.Friendly)
             {
@@ -65,7 +65,7 @@ namespace co_op_engine.Components.Combat
             return effect.AffectsNonFriendlies;
         }
 
-        private void FireWasAffectedEvent(Skill skill, WeaponEffectBase effect)
+        private void FireWasAffectedEvent(Skill skill, StatusEffect effect)
         {
             if (owner.Friendly == skill.Friendly)
             {
@@ -168,9 +168,9 @@ namespace co_op_engine.Components.Combat
             return aboveHead;
         }
 
-        private string GetHash(int weaponId, WeaponEffectBase effect)
+        private string GetHash(int weaponId, StatusEffect effect)
         {
-            return "" + weaponId + "_" + effect.WeaponEffectID;
+            return "" + weaponId + "_" + effect.StatusEffectID;
         }
 
         internal void ReceiveCommand(Networking.Commands.GameObjectCommand command)
