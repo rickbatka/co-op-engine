@@ -1,7 +1,6 @@
 ﻿using co_op_engine.Components.Particles;
 using co_op_engine.Components.Skills;
-using co_op_engine.Components.Weapons;
-using co_op_engine.Components.Weapons.Effects;
+using co_op_engine.Effects;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +16,6 @@ namespace co_op_engine.Components.Combat
         protected GameObject owner;
         Dictionary<string, WeaponEffectBase> effectsByWeapon = new Dictionary<string, WeaponEffectBase>();
 
-        private Vector2 beingHurtHitRotation;
         private TimeSpan dyingAnimationTimer;
 
         public CombatBase(GameObject owner)

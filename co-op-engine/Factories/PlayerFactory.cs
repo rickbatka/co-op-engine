@@ -11,18 +11,16 @@ using System.Linq;
 using System.Text;
 using co_op_engine.World.Level;
 using co_op_engine.GameStates;
-using co_op_engine.Components.Weapons;
 using Microsoft.Xna.Framework;
 using co_op_engine.Utility;
 using co_op_engine.Components.Combat;
 using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
-using co_op_engine.Components.Weapons.Effects;
 using co_op_engine.Components.Brains.AI;
 using co_op_engine.Components.Movement;
 using co_op_engine.Components.Engines;
-using co_op_engine.Components.Weapons.WeaponEngines;
 using co_op_engine.Components.Skills;
+using co_op_engine.Effects;
 
 namespace co_op_engine.Factories
 {

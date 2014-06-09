@@ -130,14 +130,10 @@
     <Compile Include="Components\Skills\Spell.cs" />
     <Compile Include="Components\Skills\Weapon.cs" />
     <Compile Include="Components\Skills\Weapons\AlwaysAttackingWeapon.cs" />
-    <Compile Include="Components\Weapons\Effects\BasicDamageEffect.cs" />
-    <Compile Include="Components\Weapons\Effects\EffectDefinitions.cs" />
-    <Compile Include="Components\Weapons\Effects\BasicHealEffect.cs" />
-    <Compile Include="Components\Weapons\Weapon.cs" />
-    <Compile Include="Components\Weapons\Effects\WeaponEffectBase.cs" />
-    <Compile Include="Components\Weapons\WeaponEngines\AlwaysAttackingWeaponEngine.cs" />
-    <Compile Include="Components\Weapons\WeaponEngines\BasicAttackWithCooldownWeaponEngine.cs" />
-    <Compile Include="Components\Weapons\WeaponEngines\WeaponEngine.cs" />
+    <Compile Include="Effects\BasicDamageEffect.cs" />
+    <Compile Include="Effects\EffectDefinitions.cs" />
+    <Compile Include="Effects\BasicHealEffect.cs" />
+    <Compile Include="Effects\WeaponEffectBase.cs" />
     <Compile Include="Factories\LevelFactory.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Factories\ProjectileFactory.cs" />
@@ -235,7 +231,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Components\Weapons\Effects\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
