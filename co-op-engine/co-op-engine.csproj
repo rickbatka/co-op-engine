@@ -137,6 +137,8 @@
     <Compile Include="Factories\LevelFactory.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Factories\ProjectileFactory.cs" />
+    <Compile Include="GameRules\Director.cs" />
+    <Compile Include="GameRules\Spawner.cs" />
     <Compile Include="Networking\Commands\Commander.cs" />
     <Compile Include="Networking\Commands\GameObjectCommand.cs" />
     <Compile Include="Pathing\GridNode.cs" />
