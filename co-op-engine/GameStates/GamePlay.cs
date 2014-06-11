@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Input;
 using co_op_engine.World;
 using co_op_engine.Utility.Camera;
 using co_op_engine.Pathing;
+using co_op_engine.GameRules;
 
 namespace co_op_engine.GameStates
 {
@@ -41,6 +42,7 @@ namespace co_op_engine.GameStates
             TowerFactory.Initialize(this);
             NetworkFactory.Initialize(this);
             ProjectileFactory.Initialize(this);
+            
 
             //SoundManager.CrossfadeMusic(5000, AssetRepository.Instance.Music1);
         }
@@ -76,11 +78,6 @@ namespace co_op_engine.GameStates
                 {
                     RouteNetCommand(command);
                 }
-            }
-            
-            if(Level.MatchState == MatchStates.Playing)
-            {
-                Camera.Instance.Update(gameTime);
             }
         }
 

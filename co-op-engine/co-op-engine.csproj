@@ -137,8 +137,6 @@
     <Compile Include="Factories\LevelFactory.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Factories\ProjectileFactory.cs" />
-    <Compile Include="GameRules\Director.cs" />
-    <Compile Include="GameRules\Spawner.cs" />
     <Compile Include="Networking\Commands\Commander.cs" />
     <Compile Include="Networking\Commands\GameObjectCommand.cs" />
     <Compile Include="Pathing\GridNode.cs" />
@@ -152,7 +150,9 @@
     <Compile Include="Utility\Camera\CameraShakeEffect.cs" />
     <Compile Include="Utility\Input\InputTypes.cs" />
     <Compile Include="VectorExtensions.cs" />
+    <Compile Include="World\Level\Director.cs" />
     <Compile Include="World\Level\GameDirectorBase.cs" />
+    <Compile Include="World\Level\Spawners\SpawnerBase.cs" />
     <Compile Include="World\TiledBackground.cs" />
     <Compile Include="Networking\NetworkBase.cs" />
     <Compile Include="Utility\AssetRepository.cs" />

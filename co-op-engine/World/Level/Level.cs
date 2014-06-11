@@ -15,7 +15,6 @@ namespace co_op_engine.World.Level
      * Playing: match is underway. constantly evaluate game conditions mainly for win state, maybe time warning or other stuff
      * Ended: because we'll want to display some stuff about the match that just happened before we jump to another screen
      */
-    public enum MatchStates { Starting, Playing, Ended }
 
     public class Level
     {

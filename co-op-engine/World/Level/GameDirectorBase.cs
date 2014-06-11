@@ -9,9 +9,32 @@ using System.Text;
 
 namespace co_op_engine.World.Level
 {
+    public enum MatchStates { Starting, Playing, Ended }
+
     public class GameDirectorBase
     {
-        private Level Level;
+        //things the director needs to be aware of:
+        //hits
+        //kills
+        //damage
+        //spawns
+        //errors
+        //network
+
+        //actions:
+        //spawning, directly or setting up systems and letting them go
+        //resource monitoring (towers)
+        //pausing
+        //connection management(networking)
+        //saving/loading maybe
+        //evaluating win/lose and triggering correct response
+
+        //things that talk to this:
+        //effects doing damage/killing
+        //players constructing towers
+        //spawners notify of spawn
+        //error recovery from EVERYWHERE? maybe this should be in a logging class
+        //network conenction, add / remove, handle adjustment
 
         private string SmallStatusText = "Match in progress.";
         private string BigCenterBannerText = "Game over?";
@@ -21,72 +44,21 @@ namespace co_op_engine.World.Level
 
         public GameDirectorBase(Level level)
         {
-            Level = level;
-            Level.MatchState = MatchStates.Starting;
         }
 
         public void Update(GameTime gameTime)
         {
-            CheckMatchState();
             CheckWinConditions(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(Level.MatchState != MatchStates.Playing)
-            {
-                // draw center banner
-                spriteBatch.DrawString(
-                    spriteFont: AssetRepository.Instance.Arial,
-                    text: BigCenterBannerText,
-                    position: DrawingUtility.PointToVector(Camera.Instance.ViewBoundsRectangle.Center),
-                    color: Color.White,
-                    rotation: 0f,
-                    origin: Vector2.Zero,
-                    scale: 5f,
-                    effects: SpriteEffects.None,
-                    depth: 1f
-                );
-            }
-            else
-            {
-                // draw status text in right
-                spriteBatch.DrawString(
-                    spriteFont: AssetRepository.Instance.Arial,
-                    text: SmallStatusText,
-                    position: new Vector2(x: Camera.Instance.ViewBoundsRectangle.Right - 250, y: Camera.Instance.ViewBoundsRectangle.Top + 100),
-                    color: Color.White,
-                    rotation: 0f,
-                    origin: Vector2.Zero,
-                    scale: 1f,
-                    effects: SpriteEffects.None,
-                    depth: 1f
-                );
-            }
-        }
-
-        private void CheckMatchState()
-        {
-            if(Level.MatchState == MatchStates.Starting)
-            {
-                // for now, we don't have anything to do 
-                ChangeToState(MatchStates.Playing);
-            }
-        }
-
-        private void ChangeToState(MatchStates matchState)
-        {
-            Level.MatchState = matchState;
+            //should be for debug use only
         }
 
         private void CheckWinConditions(GameTime gameTime)
         {
-            //if(PlayerOneKills >= 1)
-            if(gameTime.TotalGameTime.TotalSeconds >= 150)
-            {
-                BigCenterBannerText = "You won.";
-                ChangeToState(MatchStates.Ended);
-            }
+            //lets say 50 kills
         }
     }
 }
