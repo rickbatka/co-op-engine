@@ -69,8 +69,8 @@ namespace co_op_engine.Factories
             player.SetSkills(new SkillsComponent(player));
 
             // wire up the events between components
-            //player.EquipWeapon(GetSword(player));
-            player.EquipWeapon(GetRage2(player));
+            player.EquipWeapon(GetSword(player));
+            //player.EquipWeapon(GetRage2(player));
 
             gameRef.container.AddObject(player);
 
