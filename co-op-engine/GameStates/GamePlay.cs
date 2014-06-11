@@ -69,7 +69,7 @@ namespace co_op_engine.GameStates
             container.UpdateAll(gameTime);
             
             ParticleEngine.Instance.Update(gameTime);
-
+            
             var netCommands = NetCommander.RendPendingCommands();
 
             if (netCommands.Count > 0)
@@ -79,6 +79,8 @@ namespace co_op_engine.GameStates
                     RouteNetCommand(command);
                 }
             }
+
+            Camera.Instance.Update(gameTime);
         }
 
         private void RouteNetCommand(NetworkCommandObject command)

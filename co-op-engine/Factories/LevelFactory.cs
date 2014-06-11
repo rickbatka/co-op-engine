@@ -23,7 +23,7 @@ namespace co_op_engine.Factories
         public Level GetLevel1()
         {
             var level1 = new Level();
-            level1.SetGameDirector(new GameDirectorBase(level1));
+            level1.SetGameDirector(new GameDirectorBase());
             return level1;
         }
 

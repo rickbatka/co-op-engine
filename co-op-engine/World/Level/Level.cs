@@ -65,6 +65,7 @@ namespace co_op_engine.World.Level
             GameDirector.Draw(spriteBatch);
 
             //debugdraw
+#if DEBUG
             spriteBatch.Draw(
                 texture: AssetRepository.Instance.DebugGridTexture,
                 destinationRectangle: Bounds,
@@ -75,6 +76,7 @@ namespace co_op_engine.World.Level
                 effect: SpriteEffects.None,
                 depth: 1f
             );
+#endif
         }
     }
 }
