@@ -69,7 +69,8 @@ namespace co_op_engine.Factories
             player.SetSkills(new SkillsComponent(player));
 
             // wire up the events between components
-            player.EquipWeapon(GetSword(player));
+            //player.EquipWeapon(GetSword(player));
+            player.EquipWeapon(GetRage2(player));
 
             gameRef.container.AddObject(player);
 
@@ -197,6 +198,16 @@ namespace co_op_engine.Factories
             gameRef.container.AddObject(player);
 
             return player;
+        }
+
+        //@TODO testing anim
+        public Weapon GetRage2(GameObject owner)
+        {
+            var rage = new Weapon(owner.Skills, owner);
+            rage.Scale = 16f;
+            var rageRenderer = new RenderBase(rage, AssetRepository.Instance.Rage2, AssetRepository.Instance.Rage2Animations(rage.Scale));
+            rage.SetRenderer(rageRenderer);
+            return rage;
         }
 
         public Weapon GetSword(GameObject owner)

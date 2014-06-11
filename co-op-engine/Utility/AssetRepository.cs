@@ -34,6 +34,7 @@ namespace co_op_engine.Utility
         public Texture2D FuzzyLazer;
         public Texture2D Slime;
         public Texture2D HealCircle;
+        public Texture2D Rage2;
         public BackgroundTile BushesTile;
 
         public SoundEffect Music1;
@@ -53,6 +54,8 @@ namespace co_op_engine.Utility
         public AnimationSet ArrowAnimations(float scale){ return AnimationSet.BuildFromAsset(arrowAnimationData, scale); }
         string[] slimeAnimationData;
         public AnimationSet SlimeAnimations(float scale){ return AnimationSet.BuildFromAsset(slimeAnimationData, scale); }
+        string[] rage2AnimationData;
+        public AnimationSet Rage2Animations(float scale) { return AnimationSet.BuildFromAsset(rage2AnimationData, scale); }
 
         public void TempSetWindowText(string text)
         {
@@ -94,6 +97,7 @@ namespace co_op_engine.Utility
             HealCircle = gameRef.Content.Load<Texture2D>("HealCircle");
             FuzzyLazer = gameRef.Content.Load<Texture2D>("FuzzyLazer");
             Slime = gameRef.Content.Load<Texture2D>("slime");
+            Rage2 = gameRef.Content.Load<Texture2D>("rage2");
             BushesTile = new BackgroundTile(gameRef.Content.Load<Texture2D>("bushes"), 450, 450);
 
             //Music1 = gameRef.Content.Load<SoundEffect>("music_active");
@@ -106,6 +110,7 @@ namespace co_op_engine.Utility
             towerAnimationData = File.ReadAllLines("content/TowerData.txt");
             arrowAnimationData = File.ReadAllLines("content/arrowData.txt");
             slimeAnimationData = File.ReadAllLines("content/slimeData.txt");
+            rage2AnimationData = File.ReadAllLines("content/rage2data.txt");
         }
     }
 }

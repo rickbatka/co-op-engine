@@ -133,7 +133,7 @@
     <Compile Include="Effects\BasicDamageEffect.cs" />
     <Compile Include="Effects\EffectDefinitions.cs" />
     <Compile Include="Effects\BasicHealEffect.cs" />
-    <Compile Include="Effects\WeaponEffectBase.cs" />
+    <Compile Include="Effects\StatusEffect.cs" />
     <Compile Include="Factories\LevelFactory.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Factories\ProjectileFactory.cs" />
@@ -231,9 +231,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components\Weapons\Effects\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

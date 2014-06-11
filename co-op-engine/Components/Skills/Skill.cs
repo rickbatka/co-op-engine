@@ -29,10 +29,10 @@ namespace co_op_engine.Components.Skills
         public bool Friendly { get { return Owner.Friendly; } }
         public Frame CurrentFrame { get; set; }
         public Texture2D Texture { get; set; }
-        public Vector2 Position { get { return Owner.Position; } }
+        public Vector2 Position { get { return new Vector2(Owner.Position.X, Owner.Position.Y - 1);  }}//Owner.Position; } }
         public int FacingDirection { get { return Owner.FacingDirection; } }
         public float RotationTowardFacingDirectionRadians { get { return Owner.RotationTowardFacingDirectionRadians; } }
-        public float Scale { get { return Owner.Scale; } }
+        public float Scale { get; set; }
 
 
         public List<StatusEffect> Effects = new List<StatusEffect>();
@@ -44,6 +44,7 @@ namespace co_op_engine.Components.Skills
             this.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
             this.OwnerId = owner.ID;
             this.Visible = true;
+            this.Scale = owner.Scale;
         }
 
         public void SetRenderer(RenderBase renderer)
