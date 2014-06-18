@@ -11,110 +11,136 @@ namespace co_op_engine.Utility
 
         private static ActorState[] BuildStateProperties()
         {
-            var props = new ActorState[10];
+            var props = new ActorState[12];
 
             props[Constants.ACTOR_STATE_IDLE] = new ActorState(
                 canInitiateIdleState: true,
                 canInitiateWalkingState: true,
-                canInitiatePrimaryAttackState: true,
+                canInitiateSkills: true,
                 isAttacking: false,
                 canStartDying: true,
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: true,
                 isBoosting: false,
-                canChangeMovementVector: true
+                canMove: true
             );
 
             props[Constants.ACTOR_STATE_WALKING] = new ActorState(
                 canInitiateIdleState: true,
                 canInitiateWalkingState: true,
-                canInitiatePrimaryAttackState: true,
+                canInitiateSkills: true,
                 isAttacking: false,
                 canStartDying: true,
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: true,
                 isBoosting: false,
-                canChangeMovementVector: true
+                canMove: true
             );
 
             props[Constants.ACTOR_STATE_DYING] = new ActorState(
                 canInitiateIdleState: false,
                 canInitiateWalkingState: false,
-                canInitiatePrimaryAttackState: false,
+                canInitiateSkills: false,
                 isAttacking: false,
                 canStartDying: false,
                 canFinishDying: true,
                 canBuild: false,
                 isVulnerable: false,
                 isBoosting: false,
-                canChangeMovementVector: true
+                canMove: false
             );
 
             props[Constants.ACTOR_STATE_DEAD] = new ActorState(
                 canInitiateIdleState: false,
                 canInitiateWalkingState: false,
-                canInitiatePrimaryAttackState: false,
+                canInitiateSkills: false,
                 isAttacking: false,
                 canStartDying: false,
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: false,
                 isBoosting: false,
-                canChangeMovementVector: true
+                canMove: true
             );
 
             props[Constants.ACTOR_STATE_PLACING] = new ActorState(
                 canInitiateIdleState: false,
                 canInitiateWalkingState: false,
-                canInitiatePrimaryAttackState: false,
+                canInitiateSkills: false,
                 isAttacking: false,
                 canStartDying: false,
                 canFinishDying: false,
                 canBuild: true,
                 isVulnerable: true,
                 isBoosting: false,
-                canChangeMovementVector: true
+                canMove: true
             );
 
             props[Constants.ACTOR_STATE_BEING_HURT] = new ActorState(
                 canInitiateIdleState: false,
                 canInitiateWalkingState: false,
-                canInitiatePrimaryAttackState: false,
+                canInitiateSkills: false,
                 isAttacking: false,
                 canStartDying: false,
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: false,
-                isBoosting: true,
-                canChangeMovementVector: false
+                isBoosting: false,
+                canMove: false
             );
 
             props[Constants.ACTOR_STATE_ATTACKING] = new ActorState(
                 canInitiateIdleState: false,
                 canInitiateWalkingState: false,
-                canInitiatePrimaryAttackState: false,
+                canInitiateSkills: false,
                 isAttacking: true,
                 canStartDying: true,
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: true,
                 isBoosting: false,
-                canChangeMovementVector: true
+                canMove: false
             );
 
             props[Constants.ACTOR_STATE_BOOSTING] = new ActorState(
                 canInitiateIdleState: false,
                 canInitiateWalkingState: false,
-                canInitiatePrimaryAttackState: false,
+                canInitiateSkills: false,
                 isAttacking: false,
                 canStartDying: false,
                 canFinishDying: false,
                 canBuild: false,
                 isVulnerable: true,
                 isBoosting: true,
-                canChangeMovementVector: false
+                canMove: true
+            );
+
+            props[Constants.ACTOR_STATE_RAGING] = new ActorState(
+                canInitiateIdleState: false,
+                canInitiateWalkingState: false,
+                canInitiateSkills: false,
+                isAttacking: false,
+                canStartDying: false,
+                canFinishDying: false,
+                canBuild: false,
+                isVulnerable: false,
+                isBoosting: false,
+                canMove: false
+            );
+
+            props[Constants.ACTOR_STATE_CASTING] = new ActorState(
+                canInitiateIdleState: false,
+                canInitiateWalkingState: false,
+                canInitiateSkills: false,
+                isAttacking: false,
+                canStartDying: false,
+                canFinishDying: false,
+                canBuild: false,
+                isVulnerable: false,
+                isBoosting: false,
+                canMove: false
             );
 
             return props;
@@ -126,31 +152,31 @@ namespace co_op_engine.Utility
     {
         public bool CanInitiateIdleState;
         public bool CanInitiateWalkingState;
-        public bool CanInitiatePrimaryAttackState;
+        public bool CanInitiateSkills;
         public bool IsAttacking;
         public bool CanStartDying;
         public bool CanFinishDying;
         public bool CanBuild;
         public bool IsVulnerable;
         public bool IsBoosting;
-        public bool CanChangeMovementVector;
+        public bool CanMove;
 
 
         public ActorState(bool canInitiateIdleState, bool canInitiateWalkingState, 
-            bool canInitiatePrimaryAttackState, bool isAttacking, bool canStartDying, 
+            bool canInitiateSkills, bool isAttacking, bool canStartDying, 
             bool canFinishDying, bool canBuild, bool isVulnerable, bool isBoosting,
-            bool canChangeMovementVector)
+            bool canMove)
         {
             CanInitiateIdleState = canInitiateIdleState;
             CanInitiateWalkingState = canInitiateWalkingState;
-            CanInitiatePrimaryAttackState = canInitiatePrimaryAttackState;
+            CanInitiateSkills = canInitiateSkills;
             IsAttacking = isAttacking;
             CanStartDying = canStartDying;
             CanFinishDying = canFinishDying;
             CanBuild = canBuild;
             IsVulnerable = isVulnerable;
             IsBoosting = isBoosting;
-            CanChangeMovementVector = canChangeMovementVector;
+            CanMove = canMove;
         }
     }
 }

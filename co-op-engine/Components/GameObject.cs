@@ -108,6 +108,11 @@ namespace co_op_engine.Components
             this.Skills.SetWeapon(weapon);
         }
 
+        public void EquipRage(Rage rage)
+        {
+            this.Skills.SetRage(rage);
+        }
+
         public void SetMover(MoverBase mover)
         {
             this.Mover = mover;
@@ -159,6 +164,7 @@ namespace co_op_engine.Components
 
             if(Skills != null)
             {
+                //Skills.DebugDraw(spriteBatch);
                 Skills.Draw(spriteBatch);
             }
 

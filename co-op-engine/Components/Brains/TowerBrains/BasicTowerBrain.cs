@@ -13,24 +13,21 @@ namespace co_op_engine.Components.Brains.TowerBrains
 	public class BasicTowerBrain : BrainBase
 	{
 		private TowerPlacingInput placingInput;
-		protected int Radius = 250;
-		private RectangleFloat DrawArea;
+		private RadiusProximityChecker RadiusChecker;
 
 		public BasicTowerBrain(GameObject owner, TowerPlacingInput placingInput)
 			: base(owner, false)
 		{
 			this.placingInput = placingInput;
-			DrawArea = new RectangleFloat(owner.Position.X - Radius, owner.Position.Y - Radius, Radius * 2, Radius * 2);
+			RadiusChecker = new RadiusProximityChecker(owner);
 		}
 
 		override public void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
 			HandleInput();
-			DrawArea.X = Owner.Position.X - Radius;
-			DrawArea.Y = Owner.Position.Y - Radius;
 
-			if (Owner.CurrentStateProperties.CanInitiatePrimaryAttackState)
+			if (Owner.CurrentStateProperties.CanInitiateSkills)
 			{
 				QueryRange();
 			}
@@ -55,20 +52,16 @@ namespace co_op_engine.Components.Brains.TowerBrains
 
 		private void QueryRange()
 		{
-			var colliders = Owner.CurrentQuad.MasterQuery(DrawArea);
+			var colliders = RadiusChecker.QueryRange();
 			foreach (var collider in colliders)
 			{
-				if (collider != Owner
-					&& IsWithinRadius(collider))
+				if(collider.Friendly)
 				{
-					if(collider.Friendly)
-					{
-						HandleFriendlyInRange(collider);
-					}
-					else
-					{
-						HandleNonFriendlyInRange(collider);
-					}
+					HandleFriendlyInRange(collider);
+				}
+				else
+				{
+					HandleNonFriendlyInRange(collider);
 				}
 			}
 		}
@@ -76,9 +69,5 @@ namespace co_op_engine.Components.Brains.TowerBrains
 		protected virtual void HandleFriendlyInRange(GameObject collider) { }
 		protected virtual void HandleNonFriendlyInRange(GameObject collider) { }
 
-		private bool IsWithinRadius(GameObject collider)
-		{
-			return (collider.Position - Owner.Position).Length() <= Radius;
-		}
 	}
 }

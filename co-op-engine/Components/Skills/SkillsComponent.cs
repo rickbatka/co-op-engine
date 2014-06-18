@@ -29,6 +29,12 @@ namespace co_op_engine.Components.Skills
             AllSkills.Add(WeaponSkill);
         }
 
+        public void SetRage(Rage rageSkill)
+        {
+            RageSkill = rageSkill;
+            AllSkills.Add(RageSkill);
+        }
+
         public void Draw(SpriteBatch spriteBatch) 
         { 
             foreach(var skill in AllSkills)
@@ -67,6 +73,13 @@ namespace co_op_engine.Components.Skills
             if (WeaponSkill == null) { return false; }
 
             return WeaponSkill.TryInitiateSkill(attackTimer);
+        }
+
+        public bool TryInitiateRage(int attackTimer = 0)
+        {
+            if (RageSkill == null) { return false; }
+
+            return RageSkill.TryInitiateSkill(attackTimer);
         }
     }
 }

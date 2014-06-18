@@ -68,9 +68,8 @@ namespace co_op_engine.Factories
             player.SetCombat(new CombatBase(player));
             player.SetSkills(new SkillsComponent(player));
 
-            // wire up the events between components
             player.EquipWeapon(GetSword(player));
-            //player.EquipWeapon(GetRage2(player));
+            player.EquipRage(GetRage(player));
 
             gameRef.container.AddObject(player);
 
@@ -200,13 +199,17 @@ namespace co_op_engine.Factories
             return player;
         }
 
-        //@TODO testing anim
-        public Weapon GetRage2(GameObject owner)
+        public Rage GetRage(GameObject owner)
         {
-            var rage = new Weapon(owner.Skills, owner);
+            //@TODO cost
+            var rage = new Rage(owner.Skills, owner, cost: 0);
             rage.Scale = 16f;
             var rageRenderer = new RenderBase(rage, AssetRepository.Instance.Rage2, AssetRepository.Instance.Rage2Animations(rage.Scale));
             rage.SetRenderer(rageRenderer);
+            rage.EquipEffect(new BasicDamageEffect(
+                durationMS: rageRenderer.animationSet.GetAnimationDuration(Constants.ACTOR_STATE_RAGING, Constants.South), 
+                damageRating: 100
+            ));
             return rage;
         }
 
@@ -218,7 +221,7 @@ namespace co_op_engine.Factories
             sword.SetRenderer(swordRenderer);
 
             sword.EquipEffect(new BasicDamageEffect(
-                durationMS: swordRenderer.animationSet.GetAnimationDuration(Constants.ACTOR_STATE_ATTACKING, owner.FacingDirection),
+                durationMS: swordRenderer.animationSet.GetAnimationDuration(Constants.ACTOR_STATE_ATTACKING, Constants.South),
                 damageRating: 25
             ));
             return sword;

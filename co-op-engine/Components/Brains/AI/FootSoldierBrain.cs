@@ -72,8 +72,9 @@ namespace co_op_engine.Components.Brains.AI
                     || !Pather.HasPath()) // we might have switched bak to path but not have a path yet, don't want to stutter
                 {
                     Owner.RotationTowardFacingDirectionRadians = DrawingUtility.Vector2ToRadian(Target.Position - Owner.Position);
-                    Owner.InputMovementVector = Target.Position - Owner.Position;
 
+                    Owner.InputMovementVector = Target.Position - Owner.Position;
+                    
                     if ((Target.Position - Owner.Position).Length() >= HotPursuitDistance)
                     {
                         Pather.RequestPath();
@@ -86,7 +87,7 @@ namespace co_op_engine.Components.Brains.AI
         private void Attack()
         {
             if((Target.Position - Owner.Position).Length() <= AttackDistance
-                && Owner.CurrentStateProperties.CanInitiatePrimaryAttackState
+                && Owner.CurrentStateProperties.CanInitiateSkills
                 && Owner.Skills != null)
             {
                 Owner.Skills.TryInititateWeaponAttack();

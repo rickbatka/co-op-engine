@@ -13,6 +13,7 @@ namespace co_op_engine.Effects
     public class BasicDamageEffect : StatusEffect
     {
         int DamageRating;
+        private const int KNOCKBACK_FORCE = 3000;
 
         public BasicDamageEffect(int durationMS, int damageRating)
             :base((int)EffectIdentifiers.BASIC_DAMAGE, durationMS)
@@ -40,23 +41,9 @@ namespace co_op_engine.Effects
             }
         }
 
-        //@TODO yeah, this needs to be better
         private void KnockBack()
         {
-            Receiver.CurrentState = Constants.ACTOR_STATE_BEING_HURT;
-
-            GameTimerManager.Instance.SetTimer(
-                time: Constants.BEING_HURT_EFFECT_TIME_MS,
-                updateCallback: (t) =>
-                {
-                    Receiver.InputMovementVector = RotationAtTimeOfHit;
-                },
-                endCallback: (t) =>
-                {
-                    Receiver.InputMovementVector = Vector2.Zero;
-                    Receiver.CurrentState = Constants.ACTOR_STATE_IDLE;
-                }
-            );
+            Receiver.Velocity += KNOCKBACK_FORCE * RotationAtTimeOfHit;
         }
     }
 }

@@ -16,15 +16,25 @@ namespace co_op_engine.Components.Skills
             : base(skillsComponent, owner)
         { }
 
-        override protected void PrimaryAttack(int attackTimer = 0)
+        override public bool TryInitiateSkill(int attackTimer = 0)
+        {
+            if (CurrentStateProperties.CanInitiateSkills)
+            {
+                UseSkill(attackTimer);
+                return true;
+            }
+            return false;
+        }
+
+        override protected void UseSkill(int attackTimer = 0)
         {
             if (attackTimer == 0)
             {
-                attackTimer = GetAttackDuration();
+                attackTimer = GetAnimationDuration(Constants.ACTOR_STATE_ATTACKING, Owner.FacingDirection);
             }
             currentAttackTimer = TimeSpan.FromMilliseconds(attackTimer);
             CurrentState = Constants.ACTOR_STATE_ATTACKING;
-        }
+        }   
 
         protected override void UpdateState(GameTime gameTime)
         {
@@ -35,22 +45,8 @@ namespace co_op_engine.Components.Skills
                 {
                     CurrentState = Constants.ACTOR_STATE_IDLE;
                     currentAttackTimer = TimeSpan.Zero;
-                    ResetAttackAnimation();
+                    ResetAnimation(Constants.ACTOR_STATE_ATTACKING, Owner.FacingDirection);
                 }
-            }
-
-            // switch to idle weapon animation of the player goes idle
-            if (CurrentOwnerState == Constants.ACTOR_STATE_IDLE
-                && CurrentStateProperties.CanInitiateIdleState)
-            {
-                CurrentState = Constants.ACTOR_STATE_IDLE;
-            }
-
-            // switch to walking weapon animation of the player started walking
-            if (CurrentOwnerState == Constants.ACTOR_STATE_WALKING
-                && CurrentStateProperties.CanInitiateWalkingState)
-            {
-                CurrentState = Constants.ACTOR_STATE_WALKING;
             }
         }
     }

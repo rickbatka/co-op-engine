@@ -125,6 +125,11 @@ namespace co_op_engine.Components.Input
             return KeyBindings.AttackInputs.Any(k => k.IsBeingPressed());
         }
 
+        public bool IsPressingRageButton()
+        {
+            return KeyBindings.RageInputs.Any(k => k.IsBeingPressed());
+        }
+
         public Vector2 GetMovement()
         {
             if(currentMovingDevice == Device.Keyboard)

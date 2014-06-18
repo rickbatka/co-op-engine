@@ -41,7 +41,7 @@ namespace co_op_engine.Components.Movement
         {
             //assuming gametime factor of 60fps
             float frameAdj = (float)(gameTime.ElapsedGameTime.TotalSeconds * 60);
-            if (Owner.InputMovementVector.Length() > 0) Owner.InputMovementVector.Normalize();
+            if (Owner.InputMovementVector.Length() > 0) { Owner.InputMovementVector.Normalize(); }
             Vector2 force = Owner.InputMovementVector * _force;
 
             //primary equation, applies friction scaling with velocity to give a horizontal asymtote

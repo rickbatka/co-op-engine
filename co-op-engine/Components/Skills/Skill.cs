@@ -21,9 +21,8 @@ namespace co_op_engine.Components.Skills
         public int ID;
         public int OwnerId;
 
-        public int CurrentState { get; set; }
+        public int CurrentState { get { return Owner.CurrentState; } set { Owner.CurrentState = value; } }
         public ActorState CurrentStateProperties { get { return ActorStates.States[CurrentState]; } }
-        public int CurrentOwnerState { get { return Owner.CurrentState; } }
 
         public bool Visible { get; set; }
         public bool Friendly { get { return Owner.Friendly; } }
@@ -52,9 +51,10 @@ namespace co_op_engine.Components.Skills
             this.Renderer = renderer;
         }
 
-        protected abstract void PrimaryAttack(int attackTimer = 0);
+        protected abstract void UseSkill(int attackTimer = 0);
         protected abstract void UpdateState(GameTime gameTime);
-
+        public abstract bool TryInitiateSkill(int attackTimer = 0);
+        
         public virtual void Update(GameTime gameTime)
         {
             UpdateState(gameTime);
@@ -82,21 +82,11 @@ namespace co_op_engine.Components.Skills
             }
         }
 
-        public bool TryInitiateSkill(int attackTimer = 0)
-        {
-            if (CurrentStateProperties.CanInitiatePrimaryAttackState)
-            {
-                PrimaryAttack(attackTimer);
-                return true;
-            }
-            return false;
-        }
-
-        public int GetAttackDuration()
+        public int GetAnimationDuration(int state, int facingDirection)
         {
             if (Renderer != null)
             {
-                return Renderer.animationSet.GetAnimationDuration(Constants.ACTOR_STATE_ATTACKING, Owner.FacingDirection);
+                return Renderer.animationSet.GetAnimationDuration(state, facingDirection);
             }
 
             return 0;
@@ -125,11 +115,11 @@ namespace co_op_engine.Components.Skills
             } 
         }
 
-        public void ResetAttackAnimation()
+        public void ResetAnimation(int state, int facingDirection)
         {
             if (Renderer != null)
             {
-                Renderer.animationSet.GetAnimationFallbackToDefault(Constants.ACTOR_STATE_ATTACKING, Owner.FacingDirection).Reset();
+                Renderer.animationSet.GetAnimationFallbackToDefault(state, facingDirection).Reset();
             }
         }
 
@@ -138,7 +128,7 @@ namespace co_op_engine.Components.Skills
             this.Effects.Add(effect);
         }
 
-        private void QueryForHits()
+        protected virtual void QueryForHits()
         {
             if (CurrentStateProperties.IsAttacking
                 && CurrentFrame.DamageDots != null)
@@ -158,7 +148,6 @@ namespace co_op_engine.Components.Skills
                         }
                     }
                 }
-
             }
         }
     }

@@ -45,7 +45,11 @@ namespace co_op_engine.Components.Combat
                     // get the effect from the weapon, set its receiver to this owner, register it in the list of actie effects
                     var newEffect = (StatusEffect)effect.Clone();
                     newEffect.SetReceiver(owner);
-                    newEffect.SetRotationAtTimeOfHit(DrawingUtility.RadianToVector2(skill.RotationTowardFacingDirectionRadians));
+
+                    var rotation = owner.Position - skill.Position;
+                    rotation.Normalize();
+                    newEffect.SetRotationAtTimeOfHit(rotation);
+                    
                     effectsByWeapon.Add(hash, newEffect);
 
                     // Apply the status effect

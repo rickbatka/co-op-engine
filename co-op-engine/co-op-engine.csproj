@@ -149,6 +149,7 @@
     <Compile Include="Utility\Camera\CameraEffectBase.cs" />
     <Compile Include="Utility\Camera\CameraShakeEffect.cs" />
     <Compile Include="Utility\Input\InputTypes.cs" />
+    <Compile Include="Utility\RadiusProximityChecker.cs" />
     <Compile Include="VectorExtensions.cs" />
     <Compile Include="World\Level\GameDirectorBase.cs" />
     <Compile Include="World\Level\Spawners\SpawnerBase.cs" />

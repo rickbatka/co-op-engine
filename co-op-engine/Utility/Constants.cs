@@ -27,7 +27,7 @@ namespace co_op_engine.Utility
 
         public static readonly int PARTICLE_LIFETIME_MS = 100;
 
-        public static readonly int BEING_HURT_EFFECT_TIME_MS = 60;
+        public static readonly int BEING_HURT_EFFECT_TIME_MS = 200;
     }
 
     public class FireProjectileEventArgs : EventArgs

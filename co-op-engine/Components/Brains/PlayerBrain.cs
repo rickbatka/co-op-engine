@@ -90,6 +90,11 @@ namespace co_op_engine.Components.Brains
                 Owner.Skills.TryInititateWeaponAttack();
             }
 
+            if (input.IsPressingRageButton())
+            {
+                Owner.Skills.TryInitiateRage();
+            }
+
             /*
              * Pretty much everything below here is for debugging / testing.
              * */
@@ -156,7 +161,11 @@ namespace co_op_engine.Components.Brains
 
         private void HandleMovement()
         {
-            if (Owner.CurrentStateProperties.CanChangeMovementVector)
+            if (!Owner.CurrentStateProperties.CanMove)
+            {
+                Owner.InputMovementVector = Vector2.Zero;
+            }
+            else
             {
                 Owner.InputMovementVector = input.GetMovement();
             }
