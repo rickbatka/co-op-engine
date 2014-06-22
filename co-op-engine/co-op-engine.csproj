@@ -146,8 +146,13 @@
     <Compile Include="Pathing\PathingGrid.cs" />
     <Compile Include="Pathing\PathRequest.cs" />
     <Compile Include="Sound\SoundManager.cs" />
+    <Compile Include="UIElements\HUD\MiniMap.cs" />
+    <Compile Include="UIElements\HUD\SkillButton.cs" />
+    <Compile Include="UIElements\HUD\SkillCluster.cs" />
+    <Compile Include="UIElements\HUD\StatusCluster.cs" />
     <Compile Include="Utility\Camera\CameraEffectBase.cs" />
     <Compile Include="Utility\Camera\CameraShakeEffect.cs" />
+    <Compile Include="Utility\ConstranedValue.cs" />
     <Compile Include="Utility\Input\InputTypes.cs" />
     <Compile Include="Utility\RadiusProximityChecker.cs" />
     <Compile Include="VectorExtensions.cs" />

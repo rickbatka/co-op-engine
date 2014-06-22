@@ -11,7 +11,7 @@ namespace co_op_engine.GameStates
     {
         protected Game1 GameRef;
 
-        protected ControlManager controlManager;
+        public ControlManager controlManager;
 
         public GameState(Game1 game)
         {

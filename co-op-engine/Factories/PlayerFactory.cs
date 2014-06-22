@@ -41,6 +41,7 @@ namespace co_op_engine.Factories
 
         public GameObject GetPlayer(Vector2? position = null)
         {
+
             var player = new GameObject(gameRef.Level);
             player.ConstructionStamp = "Player";
             player.Friendly = true;
@@ -81,6 +82,8 @@ namespace co_op_engine.Factories
             };
 
             NetCommander.CreatedObject(player);
+
+            gameRef.controlManager.HandlePlayerUICreation(player);
 
             return player;
         }

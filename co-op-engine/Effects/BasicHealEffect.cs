@@ -19,7 +19,7 @@ namespace co_op_engine.Effects
         {
             base.Apply();
 
-            Receiver.Health += HealRating;
+            Receiver.Health.Value += HealRating;
         }
     }
 }

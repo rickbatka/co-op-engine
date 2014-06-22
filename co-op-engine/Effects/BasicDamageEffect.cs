@@ -25,7 +25,7 @@ namespace co_op_engine.Effects
         {
             base.Apply();
 
-            Receiver.Health -= DamageRating;
+            Receiver.Health.Value -= DamageRating;
             KnockBack();
             ParticleEngine.Instance.AddEmitter(
                  new BloodHitEmitter(Receiver, RotationAtTimeOfHit)

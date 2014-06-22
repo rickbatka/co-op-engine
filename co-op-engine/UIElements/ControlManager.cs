@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using co_op_engine.Components;
 
 namespace co_op_engine.UIElements
 {
@@ -77,6 +78,14 @@ namespace co_op_engine.UIElements
                     control.Draw(spriteBatch);
                 }
             }
+        }
+
+        internal void HandlePlayerUICreation(GameObject player)
+        {
+            //add healthbar, bloodbar, etc
+            
+
+            //if it's player 1, add the rest of the UI too (could be a decent way to gate spectators if that was ever added)
         }
     }
 }

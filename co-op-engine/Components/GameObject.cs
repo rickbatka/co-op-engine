@@ -62,8 +62,8 @@ namespace co_op_engine.Components
         public int FacingDirection { get; set; }
         public float RotationTowardFacingDirectionRadians { get; set; }
         public bool FullyRotatable { get { return false; } }
-        public int Health { get; set; }
-        public int MaxHealth { get; set; }
+        public ConstrainedValue Health { get; set; }
+        public ConstrainedValue Blood { get; set; }
         public Frame CurrentFrame { get; set; }
         public string ConstructionStamp { get; set; }
         public bool ShouldDelete = false;
@@ -72,8 +72,7 @@ namespace co_op_engine.Components
         {
             CurrentLevel = currentLevel;
             CurrentState = Constants.ACTOR_STATE_IDLE;
-            Health = 100;
-            MaxHealth = 100;
+            Health = new ConstrainedValue(0,100, 100);
             Visible = true;
             Scale = 1f;
         }

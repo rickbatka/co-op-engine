@@ -114,7 +114,7 @@ namespace co_op_engine.Components.Combat
         {
             if (owner.Health <= 0)
             {
-                owner.Health = 0;
+                owner.Health.Value = 0;
 
                 if (owner.CurrentStateProperties.CanStartDying)
                 {
@@ -139,7 +139,7 @@ namespace co_op_engine.Components.Combat
             // object debug info
             spriteBatch.DrawString(
                 spriteFont: AssetRepository.Instance.Arial,
-                text: owner.Health + "/" + owner.MaxHealth,
+                text: owner.Health + "/" + owner.Health.MaxValue,
                 position: PositionAboveHead(25),
                 color: Color.White,
                 rotation: 0f,
