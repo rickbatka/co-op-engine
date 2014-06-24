@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using co_op_engine.Components;
+using co_op_engine.UIElements.HUD;
 
 namespace co_op_engine.UIElements
 {
@@ -80,12 +81,10 @@ namespace co_op_engine.UIElements
             }
         }
 
-        internal void HandlePlayerUICreation(GameObject player)
+        public void BuildHUDForPlayer(GameObject player)
         {
-            //add healthbar, bloodbar, etc
-            
-
-            //if it's player 1, add the rest of the UI too (could be a decent way to gate spectators if that was ever added)
+            var playerbars = new StatusCluster(player);
+            AddControl(playerbars);
         }
     }
 }

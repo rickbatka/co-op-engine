@@ -17,30 +17,30 @@ namespace co_op_engine.Utility
             set
             {
                 var previous = _value;
-                Value = value > MaxValue ? MaxValue : value < MinValue ? MinValue : value; //meh turnaryaryaryaryary
+                _value = value > MaxValue ? MaxValue : value < MinValue ? MinValue : value; //meh turnaryaryaryaryary
 
-                if (previous == Value)
+                if (previous == _value)
                 {
                     return; //don't fire off events if nothing happened...
                 }
 
                 if (OnValueChanged != null)
                 {
-                    OnValueChanged(this, new ConstrainedValueEventArgs(Value, previous));
+                    OnValueChanged(this, new ConstrainedValueEventArgs(_value, previous));
                 }
 
-                if (Value == MaxValue && OnFilled != null)
+                if (_value == MaxValue && OnFilled != null)
                 {
-                    OnFilled(this, new ConstrainedValueEventArgs(Value, previous));
+                    OnFilled(this, new ConstrainedValueEventArgs(_value, previous));
                 }
-                else if (Value == MinValue && OnDepleted != null)
+                else if (_value == MinValue && OnDepleted != null)
                 {
-                    OnDepleted(this, new ConstrainedValueEventArgs(Value, previous));
+                    OnDepleted(this, new ConstrainedValueEventArgs(_value, previous));
                 }
             }
         }
 
-        public float _maxValue;
+        private float _maxValue;
         public float MaxValue
         {
             get
@@ -50,16 +50,16 @@ namespace co_op_engine.Utility
             set
             {
                 var prev = _maxValue;
-                MaxValue = value;
+                _maxValue = value;
 
                 if (OnMaxValueChanged != null)
                 {
-                    OnMaxValueChanged(this, new ConstrainedValueEventArgs(MaxValue, prev));
+                    OnMaxValueChanged(this, new ConstrainedValueEventArgs(_maxValue, prev));
                 }
             }
         }
 
-        public float _minValue;
+        private float _minValue;
         public float MinValue
         {
             get
@@ -73,7 +73,7 @@ namespace co_op_engine.Utility
 
                 if (OnMinValueChanged != null)
                 {
-                    OnMinValueChanged(this, new ConstrainedValueEventArgs(MinValue, prev));
+                    OnMinValueChanged(this, new ConstrainedValueEventArgs(_minValue, prev));
                 }
             }
         }

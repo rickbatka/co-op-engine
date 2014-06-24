@@ -157,6 +157,21 @@ namespace co_op_engine.GameStates
             //PathFinder.Instance.Draw(GameRef.spriteBatch);
 
             GameRef.spriteBatch.End();
+
+
+            //UI
+            GameRef.spriteBatch.Begin(
+                SpriteSortMode.Immediate,
+                BlendState.NonPremultiplied,
+                SamplerState.PointWrap,
+                null,
+                null,
+                null);
+
+
+            controlManager.Draw(GameRef.spriteBatch);
+
+            GameRef.spriteBatch.End();
         }
 
         private void DebugDrawStrings(GameTime gameTime)

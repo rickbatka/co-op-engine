@@ -150,6 +150,7 @@
     <Compile Include="UIElements\HUD\SkillButton.cs" />
     <Compile Include="UIElements\HUD\SkillCluster.cs" />
     <Compile Include="UIElements\HUD\StatusCluster.cs" />
+    <Compile Include="UIElements\HUD\UIBar.cs" />
     <Compile Include="Utility\Camera\CameraEffectBase.cs" />
     <Compile Include="Utility\Camera\CameraShakeEffect.cs" />
     <Compile Include="Utility\ConstranedValue.cs" />

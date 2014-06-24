@@ -11,8 +11,8 @@ namespace co_op_engine.UIElements.HUD
 {
     class StatusCluster : Control
     {
-        private float health;
-        private float maxHealth;
+        private UIBar HealthBar;
+        //private UIBar ResourceBar; //(blood?)
 
         public override event EventHandler OnMouseEnter;
         public override event EventHandler OnMouseLeave;
@@ -25,16 +25,26 @@ namespace co_op_engine.UIElements.HUD
 
         public StatusCluster(GameObject watched)
         {
+            //TODO: invent definitions for ui spritesheets
             Observing = watched;
+            HealthBar = new UIBar(AssetRepository.Instance.UIBars, new Rectangle(30,30, 256,32), new Rectangle(0,8,64,8), new Rectangle(0,0,64,8));
+
+            watched.Health.OnValueChanged += HandleHealthChange;
         }
 
         private void HandleHealthChange(object sender, ConstrainedValueEventArgs e)
         {
-            health = e.NewValue;
+            var bar = sender as ConstrainedValue;
+            float ratio = bar.Value / bar.MaxValue;
+            HealthBar.UpdatePercentage(ratio);
         }
 
         private void HandleHealthMaxChange(object sender, ConstrainedValueEventArgs e)
         {
+            //dupe yes, but meh...
+            var bar = sender as ConstrainedValue;
+            float ratio = bar.Value / bar.MaxValue;
+            HealthBar.UpdatePercentage(ratio);
         }
         private void HandleMinHealthChange(object sender, ConstrainedValueEventArgs e)
         {
@@ -55,7 +65,7 @@ namespace co_op_engine.UIElements.HUD
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //draw the 2 bars
+            HealthBar.Draw(spriteBatch);
         }
     }
 }

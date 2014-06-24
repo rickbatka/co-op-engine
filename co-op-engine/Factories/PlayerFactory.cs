@@ -83,7 +83,7 @@ namespace co_op_engine.Factories
 
             NetCommander.CreatedObject(player);
 
-            gameRef.controlManager.HandlePlayerUICreation(player);
+            gameRef.controlManager.BuildHUDForPlayer(player);
 
             return player;
         }
