@@ -11,6 +11,15 @@ using System.Text;
 
 namespace co_op_engine.Components.Combat
 {
+    /// <summary>
+    /// responsible for ?
+    /// telling player when they are dead
+    /// kicking off death animation
+    /// place to put skill hit handler and events
+    /// a few minor utility operations
+    /// 
+    /// this could probably be split up into other locations
+    /// </summary>
     public class CombatBase
     {
         protected GameObject owner;

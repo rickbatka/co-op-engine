@@ -7,6 +7,11 @@ using System.Text;
 
 namespace co_op_engine.Components.Skills
 {
+    /// <summary>
+    /// responsibilities
+    /// place to store all skills data
+    /// holds methods to fire off skills
+    /// </summary>
     public class SkillsComponent
     {
         private GameObject Owner;

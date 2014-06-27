@@ -18,7 +18,9 @@ namespace co_op_engine.Components
 {
     public class GameObject : IRenderable
     {
-        //componenets
+        public int ID;
+
+        //components
         public PhysicsBase Physics;
         public RenderBase Renderer;
         public BrainBase Brain;
@@ -27,20 +29,19 @@ namespace co_op_engine.Components
         public MoverBase Mover;
         public EngineBase Engine;
 
-        public SpacialBase CurrentQuad;
-        public Vector2 Velocity;
-        public Vector2 Acceleration;
-        public Vector2 InputMovementVector;
-        public int ID;
+        public SpacialBase CurrentQuad;//RefactorNote: this is super specific to colliding physics, possibly move to better location
+        public Vector2 Velocity;//RefactorNote: move to physics, add helper method called ApplyImpulse takes vector
+        public Vector2 Acceleration;//RefactorNote: move to physics, no reason to ever change this
+        public Vector2 InputMovementVector;//RefactorNote: hmm
         public bool UsedInPathing = false;
-        public bool Friendly = false;
-        public bool Visible { get; set; }
+        public bool Friendly = false;//RefactorNote: brain and or someplace accessable to the handle effect application method
+        public bool Visible { get; set; }//RefactorNote: used only by the renderer
         public string DisplayName { get { return "ID: " + ID; } }
-        public float SpeedAccel = 75f;
-        public float BoostModifier = 2f;
-        public float Scale { get; set; }
+        public float SpeedAccel = 75f;//RefactorNote: this is specific to a dev boost
+        public float BoostModifier = 2f;//RefactorNote: this is specific to a dev boost
+        public float Scale { get; set; }//RefactorNote: purely used by renderer and skill? unsure why
 
-        public Texture2D Texture { get; set; }
+        public Texture2D Texture { get; set; }//RefactorNote: used only in renderer
 
         //physics access stuff
         public Vector2 Position
@@ -64,7 +65,7 @@ namespace co_op_engine.Components
         public bool ShouldDelete = false;
         public string ConstructionStamp { get; set; }
 
-        //character values, only specific to live entities?
+        //RefactorNote: character values, only specific to live entities?
         public ConstrainedValue Health { get; set; }
         public ConstrainedValue Blood { get; set; }
 
@@ -210,6 +211,7 @@ namespace co_op_engine.Components
             }
         }
 
+        //RefactorNote: move to static helper class for the network
         internal CreateParameters BuildCreateParams()
         {
             return new CreateParameters()
