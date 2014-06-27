@@ -25,7 +25,7 @@ namespace co_op_engine.Components.Physics
         {
             base.Update(gameTime); //moved
 
-            var colliders = owner.CurrentQuad.MasterQuery(owner.BoundingBox);
+            var colliders = owner.CurrentQuad.MasterQuery(PhysicsCollisionBox);
 
             if (!owner.UsedInPathing && colliders.Any(u => u != this.owner)) //probably a more efficient check
             {
@@ -54,7 +54,7 @@ namespace co_op_engine.Components.Physics
             base.DebugDraw(spriteBatch);
             spriteBatch.Draw(
                 texture: AssetRepository.Instance.DebugGridTexture,
-                destinationRectangle: owner.BoundingBox, 
+                destinationRectangle: PhysicsCollisionBox, 
                 sourceRectangle: null,
                 color: Color.Red,
                 rotation: 0f,
@@ -77,10 +77,10 @@ namespace co_op_engine.Components.Physics
             Point biggestOverlap = Point.Zero;
             foreach (var obj in colliders)
             {
-                var left = obj.BoundingBox.Left > owner.BoundingBox.Left ? obj.BoundingBox.Left : owner.BoundingBox.Left;
-                var right = obj.BoundingBox.Right > owner.BoundingBox.Right ? owner.BoundingBox.Right : obj.BoundingBox.Right;
-                var top = obj.BoundingBox.Top > owner.BoundingBox.Top ? obj.BoundingBox.Top : owner.BoundingBox.Top;
-                var bottom = obj.BoundingBox.Bottom > owner.BoundingBox.Bottom ? owner.BoundingBox.Bottom : obj.BoundingBox.Bottom;
+                var left = obj.PhysicsCollisionBox.Left > this.PhysicsCollisionBox.Left ? obj.PhysicsCollisionBox.Left : this.PhysicsCollisionBox.Left;
+                var right = obj.PhysicsCollisionBox.Right > this.PhysicsCollisionBox.Right ? this.PhysicsCollisionBox.Right : obj.PhysicsCollisionBox.Right;
+                var top = obj.PhysicsCollisionBox.Top > this.PhysicsCollisionBox.Top ? obj.PhysicsCollisionBox.Top : this.PhysicsCollisionBox.Top;
+                var bottom = obj.PhysicsCollisionBox.Bottom > this.PhysicsCollisionBox.Bottom ? this.PhysicsCollisionBox.Bottom : obj.PhysicsCollisionBox.Bottom;
 
                 var overlap = new Point(Math.Abs((int)(left - right)), Math.Abs((int)(top - bottom)));
 
@@ -98,13 +98,13 @@ namespace co_op_engine.Components.Physics
             int xOverlap = biggestOverlap.X;
             int yOverlap = biggestOverlap.Y;
 
-            Vector2 newOwnerBoundingBoxPos = new Vector2(owner.BoundingBox.Center.X, owner.BoundingBox.Center.Y);
-            Vector2 newBiggestBoundingBoxPos = new Vector2(biggest.BoundingBox.Center.X, biggest.BoundingBox.Center.Y);
+            Vector2 newOwnerBoundingBoxPos = new Vector2(this.PhysicsCollisionBox.Center.X, this.PhysicsCollisionBox.Center.Y);
+            Vector2 newBiggestBoundingBoxPos = new Vector2(biggest.PhysicsCollisionBox.Center.X, biggest.PhysicsCollisionBox.Center.Y);
 
             int mod = biggest.UsedInPathing ? 1 : 2;
             if (xOverlap < yOverlap)
             {
-                if (owner.BoundingBox.Center.X < biggest.BoundingBox.Center.X)
+                if (this.PhysicsCollisionBox.Center.X < biggest.PhysicsCollisionBox.Center.X)
                 {
                     newOwnerBoundingBoxPos.X -= xOverlap / mod;
                     if (!biggest.UsedInPathing)
@@ -123,7 +123,7 @@ namespace co_op_engine.Components.Physics
             }
             else
             {
-                if (owner.BoundingBox.Center.Y < biggest.BoundingBox.Center.Y)
+                if (this.PhysicsCollisionBox.Center.Y < biggest.PhysicsCollisionBox.Center.Y)
                 {
                     newOwnerBoundingBoxPos.Y -= yOverlap / mod;
                     if (!biggest.UsedInPathing)
@@ -141,8 +141,8 @@ namespace co_op_engine.Components.Physics
                 }
             }
 
-            Vector2 ownerMovement = newOwnerBoundingBoxPos - new Vector2(owner.BoundingBox.Center.X, owner.BoundingBox.Center.Y);
-            Vector2 biggestMovement = newBiggestBoundingBoxPos - new Vector2(biggest.BoundingBox.Center.X, biggest.BoundingBox.Center.Y);
+            Vector2 ownerMovement = newOwnerBoundingBoxPos - new Vector2(this.PhysicsCollisionBox.Center.X, this.PhysicsCollisionBox.Center.Y);
+            Vector2 biggestMovement = newBiggestBoundingBoxPos - new Vector2(biggest.PhysicsCollisionBox.Center.X, biggest.PhysicsCollisionBox.Center.Y);
 
             owner.Position += ownerMovement;
             biggest.Position += biggestMovement;

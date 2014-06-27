@@ -317,7 +317,7 @@ namespace co_op_engine.Collections
             //if it's not a parent add and return
             if (!IsParent)
             {
-                if (containedObject != null && containedObject.BoundingBox.Intersects(query.ToRectangle()))
+                if (containedObject != null && containedObject.PhysicsCollisionBox.Intersects(query.ToRectangle()))
                 {
                     preparedObjects.Add(containedObject);
                 }
@@ -372,12 +372,12 @@ namespace co_op_engine.Collections
             float inflateXBy = 0;
             float inflateYBy = 0;
 
-            if (currentXInflation < newObject.BoundingBox.Width / 2)
+            if (currentXInflation < newObject.PhysicsCollisionBox.Width / 2)
             {
                 inflateXBy = (newObject.CurrentFrame.DrawRectangle.Width / 2) - currentXInflation;
             }
 
-            if (currentYInflation < newObject.BoundingBox.Height / 2)
+            if (currentYInflation < newObject.PhysicsCollisionBox.Height / 2)
             {
                 inflateYBy = (newObject.CurrentFrame.DrawRectangle.Height / 2) - currentYInflation;
             }

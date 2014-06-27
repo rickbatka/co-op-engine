@@ -47,12 +47,12 @@ namespace co_op_engine.Components.Particles
 
         private Vector2 GetEmitPosition() 
         {
-            var spreadFactor = 0.2f / owner.BoundingBox.Width;
-            var minX = owner.BoundingBox.Left - spreadFactor;
-            var maxX = owner.BoundingBox.Right + spreadFactor;
+            var spreadFactor = 0.2f / owner.PhysicsCollisionBox.Width;
+            var minX = owner.PhysicsCollisionBox.Left - spreadFactor;
+            var maxX = owner.PhysicsCollisionBox.Right + spreadFactor;
             var newX = MechanicSingleton.Instance.rand.Next((int)minX, (int)maxX);
 
-            var newY = owner.BoundingBox.Top;
+            var newY = owner.PhysicsCollisionBox.Top;
             return new Vector2(newX, newY);
         }
     }

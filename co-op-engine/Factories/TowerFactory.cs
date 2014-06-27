@@ -69,7 +69,7 @@ namespace co_op_engine.Factories
             tower.SetPhysics(new CollidingPhysics(tower, gameRef.Level.Bounds));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             tower.SetBrain(new HealingAOETowerBrain(tower,
-                new TowerPlacingInput(gameRef, tower.BoundingBox)));
+                new TowerPlacingInput(gameRef, tower.PhysicsCollisionBox)));
 
             tower.SetSkills(new SkillsComponent(tower));
 
@@ -113,7 +113,7 @@ namespace co_op_engine.Factories
             tower.SetPhysics(new CollidingPhysics(tower, gameRef.Level.Bounds));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             tower.SetBrain(new ArrowTowerBrain(tower,
-                new TowerPlacingInput(gameRef, tower.BoundingBox)));
+                new TowerPlacingInput(gameRef, tower.PhysicsCollisionBox)));
             tower.SetSkills(new SkillsComponent(tower));
 
             var emptyWeapon = new Weapon(tower.Skills, tower);

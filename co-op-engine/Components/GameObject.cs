@@ -48,18 +48,25 @@ namespace co_op_engine.Components
             get { return Physics.Position; }
             set { Physics.Position = value; }
         }
-        public Rectangle BoundingBox;
+        public Rectangle PhysicsCollisionBox
+        {
+            get { return Physics.PhysicsCollisionBox; }
+            set { Physics.PhysicsCollisionBox = value; }
+        }
 
+        //state info
         public int CurrentState { get; set; }
         public ActorState CurrentStateProperties { get { return ActorStates.States[CurrentState]; } }
         public int FacingDirection { get; set; }
         public float RotationTowardFacingDirectionRadians { get; set; }
         public bool FullyRotatable { get { return false; } }
+        public Frame CurrentFrame { get; set; }
+        public bool ShouldDelete = false;
+        public string ConstructionStamp { get; set; }
+
+        //character values, only specific to live entities?
         public ConstrainedValue Health { get; set; }
         public ConstrainedValue Blood { get; set; }
-        public Frame CurrentFrame { get; set; }
-        public string ConstructionStamp { get; set; }
-        public bool ShouldDelete = false;
 
         public GameObject()
         {

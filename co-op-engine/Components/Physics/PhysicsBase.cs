@@ -22,14 +22,21 @@ namespace co_op_engine.Components.Physics
     {
         protected GameObject owner;
         private Vector2 _position;
-        public Vector2 Position
+        public virtual Vector2 Position
         {
             get { return _position; }
             set { _position = EnsureValidPosition(value); }
         }
 
         protected Rectangle LevelBounds;
-        private int levelWallDistance;
+        private int levelWallDistance = 30;
+
+        protected Rectangle _physicsCollsisionBox;
+        public virtual Rectangle PhysicsCollisionBox
+        {
+            get { return _physicsCollsisionBox; }
+            set { _physicsCollsisionBox = value; }
+        }
 
 
 
@@ -47,24 +54,24 @@ namespace co_op_engine.Components.Physics
 
         public void VerifyBoundingBox()
         {
-            owner.BoundingBox = new Rectangle(
+            PhysicsCollisionBox = new Rectangle(
                 (int)(owner.CurrentFrame.PhysicsRectangle.X + (this.owner.Position.X - this.owner.CurrentFrame.DrawRectangle.Center.X)),
                 (int)(owner.CurrentFrame.PhysicsRectangle.Y + (this.owner.Position.Y - this.owner.CurrentFrame.DrawRectangle.Center.Y)),
                 this.owner.CurrentFrame.PhysicsRectangle.Width,
                 this.owner.CurrentFrame.PhysicsRectangle.Height);
         }
 
-        protected virtual Vector2 EnsureValidPosition(Vector2 newPosition)
+        protected Vector2 EnsureValidPosition(Vector2 newPosition)
         {
             return new Vector2(
                   x: MathHelper.Clamp(
                         newPosition.X, 
-                        LevelBounds.Left + (owner.BoundingBox.Width / 2) + levelWallDistance,
-                        LevelBounds.Right - (owner.BoundingBox.Width / 2) - levelWallDistance),
+                        LevelBounds.Left + (PhysicsCollisionBox.Width / 2) + levelWallDistance,
+                        LevelBounds.Right - (PhysicsCollisionBox.Width / 2) - levelWallDistance),
                   y: MathHelper.Clamp(
                         newPosition.Y,
-                        LevelBounds.Top + (owner.BoundingBox.Height / 2) + levelWallDistance, 
-                        LevelBounds.Bottom - (owner.BoundingBox.Width / 2) - levelWallDistance));
+                        LevelBounds.Top + (PhysicsCollisionBox.Height / 2) + levelWallDistance, 
+                        LevelBounds.Bottom - (PhysicsCollisionBox.Width / 2) - levelWallDistance));
         }
 
         virtual public void Draw(SpriteBatch spriteBatch) { }

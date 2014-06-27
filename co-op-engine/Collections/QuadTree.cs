@@ -127,7 +127,7 @@ namespace co_op_engine.Collections
         //done
         public override bool Insert(GameObject newObject)
         {
-            if (!hardBounds.ContainsInclusive(newObject.BoundingBox.Center))
+            if (!hardBounds.ContainsInclusive(newObject.PhysicsCollisionBox.Center))
             {
                 return false;
             }
@@ -246,7 +246,7 @@ namespace co_op_engine.Collections
             {
                 foreach (GameObject obj in heldObjects)
                 {
-                    if (obj.BoundingBox != query && query.Intersects(obj.BoundingBox))
+                    if (obj.PhysicsCollisionBox != query && query.Intersects(obj.PhysicsCollisionBox))
                     {
                         objects.Add(obj);
                     }
@@ -286,12 +286,12 @@ namespace co_op_engine.Collections
             float inflateXBy = 0;
             float inflateYBy = 0;
 
-            if (currentXInflation < newObject.BoundingBox.Width / 2)
+            if (currentXInflation < newObject.PhysicsCollisionBox.Width / 2)
             {
                 inflateXBy = (int)((float)newObject.CurrentFrame.DrawRectangle.Width / 1.5f) - currentXInflation;
             }
 
-            if (currentYInflation < newObject.BoundingBox.Height / 2)
+            if (currentYInflation < newObject.PhysicsCollisionBox.Height / 2)
             {
                 inflateYBy = (int)((float)newObject.CurrentFrame.DrawRectangle.Height / 1.5f) - currentYInflation;
             }

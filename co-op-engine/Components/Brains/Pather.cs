@@ -41,7 +41,7 @@ namespace co_op_engine.Components.Brains
         {
             if (Target != null && Target.Position != null)
             {
-                PathFinder.RequestPath(Owner.Position, Target.Position, Owner.BoundingBox, SetPath);
+                PathFinder.RequestPath(Owner.Position, Target.Position, Owner.PhysicsCollisionBox, SetPath);
             }
         }
 

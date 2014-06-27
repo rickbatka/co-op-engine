@@ -82,7 +82,7 @@ namespace co_op_engine.World.Level
                     {
                         obstacles.Add(new MetaObstacle()
                         {
-                            bounds = obj.BoundingBox,
+                            bounds = obj.PhysicsCollisionBox,
                             pathingWeight = 900000,
                         });
                     }

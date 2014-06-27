@@ -43,8 +43,8 @@ namespace co_op_engine.Components.Particles.Emitters
         private Vector2 GetEmitPosition()
         {
             return new Vector2(
-                MechanicSingleton.Instance.rand.Next(owner.BoundingBox.Center.X - 10, owner.BoundingBox.Center.X + 10),
-                MechanicSingleton.Instance.rand.Next(owner.BoundingBox.Center.Y - 10, owner.BoundingBox.Center.Y + 10));
+                MechanicSingleton.Instance.rand.Next(owner.PhysicsCollisionBox.Center.X - 10, owner.PhysicsCollisionBox.Center.X + 10),
+                MechanicSingleton.Instance.rand.Next(owner.PhysicsCollisionBox.Center.Y - 10, owner.PhysicsCollisionBox.Center.Y + 10));
         }
 
         private Vector2 GetEmitVelocity()
