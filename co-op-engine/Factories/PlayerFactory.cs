@@ -42,7 +42,7 @@ namespace co_op_engine.Factories
         public GameObject GetPlayer(Vector2? position = null)
         {
 
-            var player = new GameObject(gameRef.Level);
+            var player = new GameObject();
             player.ConstructionStamp = "Player";
             player.Friendly = true;
 
@@ -60,7 +60,7 @@ namespace co_op_engine.Factories
             var mover = new WalkingMover(player);
             mover.DefineNoF(200, .5f);
 
-            player.SetPhysics(new CollidingPhysics(player));
+            player.SetPhysics(new CollidingPhysics(player, gameRef.Level.Bounds));
             var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations(player.Scale));
             player.SetRenderer(renderer);
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
@@ -90,13 +90,13 @@ namespace co_op_engine.Factories
 
         public GameObject GetEnemyFootSoldier(int id = -1)
         {
-            var enemy = new GameObject(gameRef.Level);
+            var enemy = new GameObject();
             enemy.ConstructionStamp = "EnemyFootSoldier";
 
             enemy.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
 
-            enemy.SetPhysics(new CollidingPhysics(enemy));
+            enemy.SetPhysics(new CollidingPhysics(enemy, gameRef.Level.Bounds));
             //var renderer = new RenderBase(enemy, AssetRepository.Instance.Slime, AssetRepository.Instance.SlimeAnimations);
 
             enemy.Scale = 2f;
@@ -139,13 +139,13 @@ namespace co_op_engine.Factories
 
         public GameObject GetEnemySlime(int id = -1)
         {
-            var enemy = new GameObject(gameRef.Level);
+            var enemy = new GameObject();
             enemy.ConstructionStamp = "EnemySlime";
 
             enemy.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
 
-            enemy.SetPhysics(new CollidingPhysics(enemy));
+            enemy.SetPhysics(new CollidingPhysics(enemy, gameRef.Level.Bounds));
 
             enemy.Scale = 2.5f;
             var renderer = new RenderBase(enemy, AssetRepository.Instance.Slime, AssetRepository.Instance.SlimeAnimations(enemy.Scale));
@@ -183,12 +183,12 @@ namespace co_op_engine.Factories
         }
         public GameObject GetNetworkPlayer(int id = -1)
         {
-            var player = new GameObject(gameRef.Level);
+            var player = new GameObject();
             player.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             player.Friendly = true;
             player.Position = new Vector2(100, 100);
 
-            player.SetPhysics(new CollidingPhysics(player));
+            player.SetPhysics(new CollidingPhysics(player, gameRef.Level.Bounds));
             var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations(player.Scale));
             player.SetRenderer(renderer);
             player.SetBrain(new NetworkPlayerBrain(player));

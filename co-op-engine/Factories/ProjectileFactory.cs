@@ -35,14 +35,14 @@ namespace co_op_engine.Factories
 
         public GameObject GetArrow(GameObject shooter, GameObject target, int id = -1)
         {
-            var arrowContainerObject = new GameObject(gameRef.Level);
+            var arrowContainerObject = new GameObject();
             arrowContainerObject.ConstructionStamp = "Arrow";
             arrowContainerObject.Friendly = true;
             arrowContainerObject.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             arrowContainerObject.CurrentFrame = AssetRepository.Instance.ArrowAnimations(arrowContainerObject.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
             arrowContainerObject.UsedInPathing = false;
-            arrowContainerObject.SetPhysics(new NonCollidingPhysics(arrowContainerObject));
+            arrowContainerObject.SetPhysics(new NonCollidingPhysics(arrowContainerObject, gameRef.Level.Bounds));
             //arrow.SetRenderer(new RenderBase(arrow, AssetRepository.Instance.ArrowTexture, AssetRepository.Instance.ArrowAnimations));
             arrowContainerObject.SetBrain(new ArrowBrain(arrowContainerObject, target));
             arrowContainerObject.SetMover(new ProjectileMover(arrowContainerObject));

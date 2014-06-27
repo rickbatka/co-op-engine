@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace co_op_engine.Components.Physics
 {
-    public delegate void ActorDirectionChangedEventHandler (PhysicsBase sender, ActorDirectionChangedEventArgs directionData);
+    public delegate void ActorDirectionChangedEventHandler(PhysicsBase sender, ActorDirectionChangedEventArgs directionData);
     public struct ActorDirectionChangedEventArgs
     {
         public int OldDirection;
@@ -21,10 +21,23 @@ namespace co_op_engine.Components.Physics
     public class PhysicsBase
     {
         protected GameObject owner;
+        private Vector2 _position;
+        public Vector2 Position
+        {
+            get { return _position; }
+            set { _position = EnsureValidPosition(value); }
+        }
 
-        public PhysicsBase(GameObject owner)
+        protected Rectangle LevelBounds;
+        private int levelWallDistance;
+
+
+
+
+        public PhysicsBase(GameObject owner, Rectangle levelBounds)
         {
             this.owner = owner;
+            LevelBounds = levelBounds;
         }
 
         virtual public void Update(GameTime gameTime)
@@ -36,9 +49,22 @@ namespace co_op_engine.Components.Physics
         {
             owner.BoundingBox = new Rectangle(
                 (int)(owner.CurrentFrame.PhysicsRectangle.X + (this.owner.Position.X - this.owner.CurrentFrame.DrawRectangle.Center.X)),
-                (int)(owner.CurrentFrame.PhysicsRectangle.Y + (this.owner.Position.Y - this.owner.CurrentFrame.DrawRectangle.Center.Y)), 
-                this.owner.CurrentFrame.PhysicsRectangle.Width, 
+                (int)(owner.CurrentFrame.PhysicsRectangle.Y + (this.owner.Position.Y - this.owner.CurrentFrame.DrawRectangle.Center.Y)),
+                this.owner.CurrentFrame.PhysicsRectangle.Width,
                 this.owner.CurrentFrame.PhysicsRectangle.Height);
+        }
+
+        protected virtual Vector2 EnsureValidPosition(Vector2 newPosition)
+        {
+            return new Vector2(
+                  x: MathHelper.Clamp(
+                        newPosition.X, 
+                        LevelBounds.Left + (owner.BoundingBox.Width / 2) + levelWallDistance,
+                        LevelBounds.Right - (owner.BoundingBox.Width / 2) - levelWallDistance),
+                  y: MathHelper.Clamp(
+                        newPosition.Y,
+                        LevelBounds.Top + (owner.BoundingBox.Height / 2) + levelWallDistance, 
+                        LevelBounds.Bottom - (owner.BoundingBox.Width / 2) - levelWallDistance));
         }
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
@@ -51,12 +77,3 @@ namespace co_op_engine.Components.Physics
         }
     }
 }
-
-
-/* * * * * *
- * notes on physics overhaul:
- *  - units units units
- *  - only use friction and force
- *  - introduce concept of impulse force along with it's own friction coefficient
- *  - 
- */

@@ -18,6 +18,7 @@ namespace co_op_engine.Components
 {
     public class GameObject : IRenderable
     {
+        //componenets
         public PhysicsBase Physics;
         public RenderBase Renderer;
         public BrainBase Brain;
@@ -26,9 +27,6 @@ namespace co_op_engine.Components
         public MoverBase Mover;
         public EngineBase Engine;
 
-        public Level CurrentLevel;
-
-        public Rectangle BoundingBox;
         public SpacialBase CurrentQuad;
         public Vector2 Velocity;
         public Vector2 Acceleration;
@@ -44,18 +42,13 @@ namespace co_op_engine.Components
 
         public Texture2D Texture { get; set; }
 
-        private Vector2 _pos;
+        //physics access stuff
         public Vector2 Position
         {
-            get { return _pos; }
-            set
-            {
-                _pos = new Vector2(
-                    x: MathHelper.Clamp(value.X, CurrentLevel.Bounds.Left + (BoundingBox.Width / 2) + Level.BorderWallSize, CurrentLevel.Bounds.Right - (BoundingBox.Width / 2) - Level.BorderWallSize) ,
-                    y: MathHelper.Clamp(value.Y, CurrentLevel.Bounds.Top + (BoundingBox.Height / 2) + Level.BorderWallSize, CurrentLevel.Bounds.Bottom - (BoundingBox.Width / 2) - Level.BorderWallSize)
-                );
-            } 
+            get { return Physics.Position; }
+            set { Physics.Position = value; }
         }
+        public Rectangle BoundingBox;
 
         public int CurrentState { get; set; }
         public ActorState CurrentStateProperties { get { return ActorStates.States[CurrentState]; } }
@@ -68,11 +61,10 @@ namespace co_op_engine.Components
         public string ConstructionStamp { get; set; }
         public bool ShouldDelete = false;
 
-        public GameObject(Level currentLevel)
+        public GameObject()
         {
-            CurrentLevel = currentLevel;
             CurrentState = Constants.ACTOR_STATE_IDLE;
-            Health = new ConstrainedValue(0,100, 100);
+            Health = new ConstrainedValue(0, 100, 100);
             Visible = true;
             Scale = 1f;
         }
@@ -124,7 +116,7 @@ namespace co_op_engine.Components
 
         public void Update(GameTime gameTime)
         {
-            if(Brain != null)
+            if (Brain != null)
             {
                 Brain.BeforeUpdate();
                 Brain.Update(gameTime);
@@ -140,28 +132,28 @@ namespace co_op_engine.Components
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(Renderer != null)
+            if (Renderer != null)
             {
                 Renderer.Draw(spriteBatch);
             }
-            
-            if(Physics != null)
+
+            if (Physics != null)
             {
                 Physics.Draw(spriteBatch);
             }
 
-            if(Brain != null)
+            if (Brain != null)
             {
                 Brain.Draw(spriteBatch);
             }
-            
+
             if (Combat != null)
             {
                 Combat.Draw(spriteBatch);
                 Combat.DebugDraw(spriteBatch);
             }
 
-            if(Skills != null)
+            if (Skills != null)
             {
                 //Skills.DebugDraw(spriteBatch);
                 Skills.Draw(spriteBatch);

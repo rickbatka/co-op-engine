@@ -31,14 +31,14 @@ namespace co_op_engine.Factories
 
         public GameObject GetInvisibleWall(bool fromNetwork = false)
         {
-            var tower = new GameObject(gameRef.Level);
+            var tower = new GameObject();
             tower.ConstructionStamp = "InvisibleWallTall";
             tower.Friendly = true;
             tower.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UsedInPathing = true;
-            tower.SetPhysics(new CollidingPhysics(tower));
+            tower.SetPhysics(new CollidingPhysics(tower, gameRef.Level.Bounds));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             //tower.SetBrain(new HealingAOETowerBrain(tower, new TowerPlacingInput(gameRef, tower.BoundingBox)));
             tower.CurrentState = Constants.ACTOR_STATE_IDLE;
@@ -59,14 +59,14 @@ namespace co_op_engine.Factories
 
         public GameObject GetFriendlyAOEHealingTower(bool fromNetwork = false, int id = -1)
         {
-            var tower = new GameObject(gameRef.Level);
+            var tower = new GameObject();
             tower.ConstructionStamp = "FriendlyAOEHealingTower";
             tower.Friendly = true;
             tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UsedInPathing = true;
-            tower.SetPhysics(new CollidingPhysics(tower));
+            tower.SetPhysics(new CollidingPhysics(tower, gameRef.Level.Bounds));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             tower.SetBrain(new HealingAOETowerBrain(tower,
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));
@@ -103,14 +103,14 @@ namespace co_op_engine.Factories
 
         public GameObject GetArrowTower(bool fromNetwork = false, int id = -1)
         {
-            var tower = new GameObject(gameRef.Level);
+            var tower = new GameObject();
             tower.ConstructionStamp = "ArrowTower";
             tower.Friendly = true;
             tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UsedInPathing = true;
-            tower.SetPhysics(new CollidingPhysics(tower));
+            tower.SetPhysics(new CollidingPhysics(tower, gameRef.Level.Bounds));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             tower.SetBrain(new ArrowTowerBrain(tower,
                 new TowerPlacingInput(gameRef, tower.BoundingBox)));

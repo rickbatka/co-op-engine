@@ -7,8 +7,8 @@ namespace co_op_engine.Components.Physics
     class NonCollidingPhysics : PhysicsBase
     {
 
-        public NonCollidingPhysics(GameObject owner)
-            : base(owner)
+        public NonCollidingPhysics(GameObject owner, Rectangle levelBounds)
+            : base(owner, levelBounds)
         { }
 
         override public void Update(GameTime gameTime)

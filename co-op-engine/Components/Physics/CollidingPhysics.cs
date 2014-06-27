@@ -15,8 +15,8 @@ namespace co_op_engine.Components.Physics
 
         private Vector2 previousPosition;
 
-        public CollidingPhysics(GameObject owner)
-            : base(owner)
+        public CollidingPhysics(GameObject owner, Rectangle levelBounds)
+            : base(owner, levelBounds)
         {
             previousPosition = owner.Position;
         }
