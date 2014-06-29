@@ -123,11 +123,12 @@
     <Compile Include="Components\Rendering\Frame.cs" />
     <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
-    <Compile Include="Components\Skills\Boost.cs" />
+    <Compile Include="Components\Skills\Boost\SimpleBoostSkill.cs" />
     <Compile Include="Components\Skills\Rage.cs" />
     <Compile Include="Components\Skills\Skill.cs" />
+    <Compile Include="Components\Skills\SkillSandbox.cs" />
     <Compile Include="Components\Skills\SkillsComponent.cs" />
-    <Compile Include="Components\Skills\Spell.cs" />
+    <Compile Include="Components\Skills\StatusEffects\BoostSimple.cs" />
     <Compile Include="Components\Skills\Weapon.cs" />
     <Compile Include="Components\Skills\Weapons\AlwaysAttackingWeapon.cs" />
     <Compile Include="Effects\BasicDamageEffect.cs" />
@@ -239,7 +240,10 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Components\Skills\Rage\" />
+    <Folder Include="Components\Skills\Spell\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

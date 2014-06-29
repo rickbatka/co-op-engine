@@ -92,7 +92,8 @@ namespace co_op_engine.Components.Brains
 
             if (input.IsPressingRageButton())
             {
-                Owner.Skills.TryInitiateRage();
+                //Owner.Skills.TryInitiateRage();
+                Owner.Skills.TryInitiateBoost();
             }
 
             /*

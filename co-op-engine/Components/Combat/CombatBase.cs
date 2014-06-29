@@ -1,5 +1,6 @@
 ﻿using co_op_engine.Components.Particles;
 using co_op_engine.Components.Skills;
+using co_op_engine.Components.Skills.StatusEffects;
 using co_op_engine.Effects;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
@@ -22,6 +23,8 @@ namespace co_op_engine.Components.Combat
     /// </summary>
     public class CombatBase
     {
+        private List<BoostSimpleStatusEffect> CurrentStatusEffects;
+
         protected GameObject owner;
         Dictionary<string, StatusEffect> effectsByWeapon = new Dictionary<string, StatusEffect>();
 
@@ -30,6 +33,7 @@ namespace co_op_engine.Components.Combat
         public CombatBase(GameObject owner)
         {
             this.owner = owner;
+            CurrentStatusEffects = new List<BoostSimpleStatusEffect>();
         }
 
         virtual public void Update(GameTime gameTime)
@@ -38,6 +42,13 @@ namespace co_op_engine.Components.Combat
             UpdateCurrentWeaponEffects(gameTime);
 
             MaybeStartDyingFromWounds();
+
+            //update status effects
+            foreach (var status in CurrentStatusEffects)
+            {
+                status.Update(gameTime);
+            }
+            CurrentStatusEffects.RemoveAll(uu => uu.Done);
         }
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
@@ -189,6 +200,12 @@ namespace co_op_engine.Components.Combat
         internal void ReceiveCommand(Networking.Commands.GameObjectCommand command)
         {
             throw new NotImplementedException();
+        }
+
+        public void ApplyStatusEffect(BoostSimpleStatusEffect statusEffect)
+        {
+            //TODO: possibly some logic on whether or not it can be applied here
+            CurrentStatusEffects.Add(statusEffect);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using co_op_engine.Components.Skills.Boost;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -19,13 +20,14 @@ namespace co_op_engine.Components.Skills
         private GameObject Owner;
 
         public Weapon WeaponSkill;
-        public Boost BoostSkill;
+        public SimpleBoostSkill BoostSkill;
         public Rage RageSkill;
-        public Spell SpellSkill;
+        //public Spell SpellSkill;
         private List<Skill> AllSkills;
 
         public SkillsComponent(GameObject owner)
         {
+            BoostSkill = new SimpleBoostSkill();
             Owner = owner;
             AllSkills = new List<Skill>();
         }
@@ -80,6 +82,12 @@ namespace co_op_engine.Components.Skills
             if (WeaponSkill == null) { return false; }
 
             return WeaponSkill.TryInitiateSkill(attackTimer);
+        }
+
+        public bool TryInitiateBoost(int attackTimer = 0)
+        {
+            BoostSkill.Activate(Owner);
+            return true;
         }
 
         public bool TryInitiateRage(int attackTimer = 0)

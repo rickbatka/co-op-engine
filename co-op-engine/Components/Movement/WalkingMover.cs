@@ -11,8 +11,20 @@ namespace co_op_engine.Components.Movement
 {
     public class WalkingMover : MoverBase
     {
+        float _maxVelocity = 1;
         float _force = 1;
         float _mu = 0.5f;
+
+        private float _currentModifier = 0;
+        public float CurrentMoveModifier
+        {
+            get { return _currentModifier; }
+            set 
+            { 
+                _currentModifier = value;
+                ApplyMaxVelocityModifier();
+            }
+        }
 
         protected float accelerationModifier
         {
@@ -27,7 +39,7 @@ namespace co_op_engine.Components.Movement
         }
 
         public WalkingMover(GameObject owner)
-            :base(owner)
+            : base(owner)
         { }
 
         /*
@@ -48,7 +60,7 @@ namespace co_op_engine.Components.Movement
             Owner.Velocity = -_mu * (Owner.Velocity + force) + (Owner.Velocity + force);
 
             //add velocity to position to simulate movement
-            Owner.Position += Owner.Velocity * frameAdj/60;
+            Owner.Position += Owner.Velocity * frameAdj / 60;
 
             base.Update(gameTime);
         }
@@ -57,18 +69,28 @@ namespace co_op_engine.Components.Movement
         {
             _mu = force / (maxVelocity + force);
             _force = force;
+            _maxVelocity = maxVelocity;
         }
 
         public void DefineNoF(float maxVelocity, float mu)
         {
             _force = (-mu * maxVelocity) / (mu - 1);
             _mu = mu;
+            _maxVelocity = maxVelocity;
         }
 
         public void Define(float force, float friction)
         {
             _force = force;
             _mu = friction;
+            _maxVelocity = (force - force * friction) / friction;
+        }
+
+        public void ApplyMaxVelocityModifier()
+        {
+            var previousMax = _maxVelocity;
+            DefineNoMu(CurrentMoveModifier + _maxVelocity, _force);
+            _maxVelocity = previousMax;//HACK: note to self, you suck at remembering to go back and fix hacks like this temp variable
         }
 
         public override void Draw(SpriteBatch spriteBatch)
