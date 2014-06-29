@@ -129,6 +129,7 @@
     <Compile Include="Components\Skills\SkillSandbox.cs" />
     <Compile Include="Components\Skills\SkillsComponent.cs" />
     <Compile Include="Components\Skills\StatusEffects\BoostSimple.cs" />
+    <Compile Include="Components\Skills\StatusEffects\StatusEffectBase.cs" />
     <Compile Include="Components\Skills\Weapon.cs" />
     <Compile Include="Components\Skills\Weapons\AlwaysAttackingWeapon.cs" />
     <Compile Include="Effects\BasicDamageEffect.cs" />

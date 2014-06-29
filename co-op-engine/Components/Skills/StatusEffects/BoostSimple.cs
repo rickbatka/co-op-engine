@@ -1,5 +1,6 @@
 ﻿using co_op_engine.Components.Movement;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,43 +8,32 @@ using System.Text;
 
 namespace co_op_engine.Components.Skills.StatusEffects
 {
-    public class BoostSimpleStatusEffect 
+    public class BoostSimpleStatusEffect : StatusEffectBase
     {
-        private GameObject ObjectReference;
-        private bool WasApplied;
         private float BoostAmount;
-        private TimeSpan Duration;
-
-        public bool Done { get; private set; }
-
-        //needs to be able to apply itself to an object
-        //needs to be able to remove itself from an object
 
         public BoostSimpleStatusEffect(GameObject applicant, float amount, TimeSpan duration)
+            :base(applicant, duration)
         {
-            ObjectReference = applicant;
             BoostAmount = amount;
-            WasApplied = false;
-            Duration = duration;
-            
-            OnApplication();
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            Duration -= gameTime.ElapsedGameTime;
-            if (Duration <= TimeSpan.Zero)
-            {
-                OnRemoval();
-            }
+            //stupid smoke trail yay
+            Particles.ParticleEngine.Instance.AddEmitter(new co_op_engine.Components.Particles.DustFastEmitter(ObjectReference));
+            base.Update(gameTime);
         }
 
-        public void ModifyDuration(int milliModification)
+        /// <summary>
+        /// for sparkles and stuff
+        /// </summary>
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            Duration += TimeSpan.FromMilliseconds(milliModification);
+            //nothing for this guy
         }
 
-        protected void OnApplication()
+        protected override void OnApplication()
         {
             if (ObjectReference.Mover is WalkingMover) //Hack: good reason to put movement equations in base class and let derived classes use them
             {
@@ -56,7 +46,7 @@ namespace co_op_engine.Components.Skills.StatusEffects
             }
         }
 
-        protected void OnRemoval()
+        protected override void OnRemoval()
         {
             if (WasApplied && ObjectReference.Mover is WalkingMover) //Hack: good reason to put movement equations in base class and let derived classes use them
             {

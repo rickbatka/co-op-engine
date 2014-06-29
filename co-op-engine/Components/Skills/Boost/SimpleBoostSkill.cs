@@ -9,7 +9,7 @@ namespace co_op_engine.Components.Skills.Boost
     {
         public override void Activate(GameObject owner)
         {
-            base.AddSpeedBoost(owner, TimeSpan.FromMilliseconds(2000), 200f);
+            AddSpeedBoost(owner, TimeSpan.FromMilliseconds(2000), 200f);
         }
     }
 }

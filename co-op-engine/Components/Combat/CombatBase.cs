@@ -205,6 +205,7 @@ namespace co_op_engine.Components.Combat
         public void ApplyStatusEffect(BoostSimpleStatusEffect statusEffect)
         {
             //TODO: possibly some logic on whether or not it can be applied here
+            statusEffect.Start();
             CurrentStatusEffects.Add(statusEffect);
         }
     }
