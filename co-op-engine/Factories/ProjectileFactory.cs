@@ -37,7 +37,7 @@ namespace co_op_engine.Factories
         {
             var arrowContainerObject = new GameObject();
             arrowContainerObject.ConstructionStamp = "Arrow";
-            arrowContainerObject.Friendly = true;
+            arrowContainerObject.Team = shooter.Team;
             arrowContainerObject.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             arrowContainerObject.CurrentFrame = AssetRepository.Instance.ArrowAnimations(arrowContainerObject.Scale).CurrentAnimatedRectangle.CurrentFrame;
 

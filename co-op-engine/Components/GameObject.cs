@@ -34,7 +34,11 @@ namespace co_op_engine.Components
         public Vector2 Acceleration;//RefactorNote: move to physics, no reason to ever change this
         public Vector2 InputMovementVector;//RefactorNote: hmm
         public bool UsedInPathing = false;
-        public bool Friendly = false;//RefactorNote: brain and or someplace accessable to the handle effect application method
+        
+        /// <summary>
+        /// Used for determining friend from foe, -1 is gaia or scenery
+        /// </summary>
+        public int Team;//RefactorNote: brain and or someplace accessable to the handle effect application method
         public bool Visible { get; set; }//RefactorNote: used only by the renderer
         public string DisplayName { get { return "ID: " + ID; } }
         public float SpeedAccel = 75f;//RefactorNote: this is specific to a dev boost
@@ -138,6 +142,7 @@ namespace co_op_engine.Components
             if (Mover != null) { Mover.Update(gameTime); }
             if (Engine != null) { Engine.Update(gameTime); }
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             if (Renderer != null)

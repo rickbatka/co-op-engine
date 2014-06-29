@@ -44,7 +44,7 @@ namespace co_op_engine.Factories
 
             var player = new GameObject();
             player.ConstructionStamp = "Player";
-            player.Friendly = true;
+            player.Team = 0;
 
             player.Scale = 2f;
 
@@ -185,7 +185,7 @@ namespace co_op_engine.Factories
         {
             var player = new GameObject();
             player.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
-            player.Friendly = true;
+            player.Team = 0;
             player.Position = new Vector2(100, 100);
 
             player.SetPhysics(new CollidingPhysics(player, gameRef.Level.Bounds));

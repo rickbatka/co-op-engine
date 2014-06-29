@@ -77,7 +77,7 @@ namespace co_op_engine.Components.Skills
                 var colliders = RadiusChecker.QueryRange();
                 foreach (var collider in colliders)
                 {
-                    if (!collider.Friendly)
+                    if (collider.Team != Owner.Team)
                     {
                         collider.HandleHitBySkill(this);
                         FireUsedWeaponEvent(collider);

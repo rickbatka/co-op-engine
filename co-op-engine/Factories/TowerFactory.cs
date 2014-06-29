@@ -33,7 +33,7 @@ namespace co_op_engine.Factories
         {
             var tower = new GameObject();
             tower.ConstructionStamp = "InvisibleWallTall";
-            tower.Friendly = true;
+            tower.Team = -1;
             tower.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
@@ -61,7 +61,7 @@ namespace co_op_engine.Factories
         {
             var tower = new GameObject();
             tower.ConstructionStamp = "FriendlyAOEHealingTower";
-            tower.Friendly = true;
+            tower.Team = 0;
             tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
@@ -105,7 +105,7 @@ namespace co_op_engine.Factories
         {
             var tower = new GameObject();
             tower.ConstructionStamp = "ArrowTower";
-            tower.Friendly = true;
+            tower.Team = 0;
             tower.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 

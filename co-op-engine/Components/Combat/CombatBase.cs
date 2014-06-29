@@ -70,7 +70,7 @@ namespace co_op_engine.Components.Combat
 
         private bool IsAffected(Skill skill, StatusEffect effect)
         {
-            if(owner.Friendly == skill.Friendly)
+            if(owner.Team == skill.Friendly)
             {
                 return effect.AffectsFriendlies;
             }
@@ -80,7 +80,7 @@ namespace co_op_engine.Components.Combat
 
         private void FireWasAffectedEvent(Skill skill, StatusEffect effect)
         {
-            if (owner.Friendly == skill.Friendly)
+            if (owner.Team == skill.Friendly)
             {
                 owner.FireOnWasAffectedByFriendlyWeapon(this, null);
             }

@@ -55,7 +55,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
 			var colliders = RadiusChecker.QueryRange();
 			foreach (var collider in colliders)
 			{
-				if(collider.Friendly)
+				if(collider.Team == Owner.Team)
 				{
 					HandleFriendlyInRange(collider);
 				}
