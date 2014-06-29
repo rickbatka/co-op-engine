@@ -101,7 +101,7 @@ namespace co_op_engine.Utility
                 canBuild: false,
                 isVulnerable: true,
                 isBoosting: false,
-                canMove: false
+                canMove: true
             );
 
             props[Constants.ACTOR_STATE_BOOSTING] = new ActorState(

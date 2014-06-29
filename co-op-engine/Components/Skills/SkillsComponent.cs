@@ -11,6 +11,8 @@ namespace co_op_engine.Components.Skills
     /// responsibilities
     /// place to store all skills data
     /// holds methods to fire off skills
+    /// 
+    /// used only by players and possibly enemies, good candidate for moving off gameobject
     /// </summary>
     public class SkillsComponent
     {

@@ -99,7 +99,7 @@ namespace co_op_engine.Utility
             FuzzyLazer = gameRef.Content.Load<Texture2D>("FuzzyLazer");
             Slime = gameRef.Content.Load<Texture2D>("slime");
             Rage2 = gameRef.Content.Load<Texture2D>("rage2");
-            UIBars = gameRef.Content.Load<Texture2D>("UIBars01a");
+            UIBars = gameRef.Content.Load<Texture2D>("UIBars01b");
             BushesTile = new BackgroundTile(gameRef.Content.Load<Texture2D>("bushes"), 450, 450);
 
             //Music1 = gameRef.Content.Load<SoundEffect>("music_active");
