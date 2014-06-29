@@ -50,17 +50,17 @@ namespace co_op_engine.Factories
 
             player.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
 
-            if(position == null)
+            var mover = new WalkingMover(player);
+            mover.DefineNoF(200, .5f);
+
+            player.SetPhysics(new CollidingPhysics(player, gameRef.Level.Bounds));
+            if (position == null)
             {
                 position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 100));
             }
 
             player.Position = position.Value;
 
-            var mover = new WalkingMover(player);
-            mover.DefineNoF(200, .5f);
-
-            player.SetPhysics(new CollidingPhysics(player, gameRef.Level.Bounds));
             var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations(player.Scale));
             player.SetRenderer(renderer);
             player.SetBrain(new PlayerBrain(player, new PlayerControlInput()));
@@ -94,9 +94,9 @@ namespace co_op_engine.Factories
             enemy.ConstructionStamp = "EnemyFootSoldier";
 
             enemy.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
-            enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
 
             enemy.SetPhysics(new CollidingPhysics(enemy, gameRef.Level.Bounds));
+            enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
             //var renderer = new RenderBase(enemy, AssetRepository.Instance.Slime, AssetRepository.Instance.SlimeAnimations);
 
             enemy.Scale = 2f;
@@ -133,6 +133,7 @@ namespace co_op_engine.Factories
             }
 
             enemy.SpeedAccel = 25f;
+            enemy.Team = 1;
 
             return enemy;
         }
@@ -143,9 +144,9 @@ namespace co_op_engine.Factories
             enemy.ConstructionStamp = "EnemySlime";
 
             enemy.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
-            enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
 
             enemy.SetPhysics(new CollidingPhysics(enemy, gameRef.Level.Bounds));
+            enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
 
             enemy.Scale = 2.5f;
             var renderer = new RenderBase(enemy, AssetRepository.Instance.Slime, AssetRepository.Instance.SlimeAnimations(enemy.Scale));
@@ -178,6 +179,7 @@ namespace co_op_engine.Factories
             }
 
             enemy.SpeedAccel = 25f;
+            enemy.Team = 1;
 
             return enemy;
         }

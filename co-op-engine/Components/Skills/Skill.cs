@@ -25,7 +25,7 @@ namespace co_op_engine.Components.Skills
         public ActorState CurrentStateProperties { get { return ActorStates.States[CurrentState]; } }
 
         public bool Visible { get; set; }
-        public int Friendly { get { return Owner.Team; } }
+        public int Team { get { return Owner.Team; } }
         public Frame CurrentFrame { get; set; }
         public Texture2D Texture { get; set; }
         public Vector2 Position { get { return new Vector2(Owner.Position.X, Owner.Position.Y - 1);  }}//Owner.Position; } }
@@ -94,7 +94,7 @@ namespace co_op_engine.Components.Skills
 
         public void FireUsedWeaponEvent(GameObject receiver)
         {
-            if(this.Friendly == receiver.Team)
+            if(this.Team == receiver.Team)
             {
                 Owner.FireOnUsedWeaponEffectOnFriendly(this, null);
             }

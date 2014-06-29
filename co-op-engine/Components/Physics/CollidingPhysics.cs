@@ -18,7 +18,7 @@ namespace co_op_engine.Components.Physics
         public CollidingPhysics(GameObject owner, Rectangle levelBounds)
             : base(owner, levelBounds)
         {
-            previousPosition = owner.Position;
+            previousPosition = base.Position;
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
