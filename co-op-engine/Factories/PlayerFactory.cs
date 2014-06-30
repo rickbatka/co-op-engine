@@ -21,6 +21,7 @@ using co_op_engine.Components.Movement;
 using co_op_engine.Components.Engines;
 using co_op_engine.Components.Skills;
 using co_op_engine.Effects;
+using co_op_engine.Components.Skills.Boost;
 
 namespace co_op_engine.Factories
 {
@@ -41,7 +42,6 @@ namespace co_op_engine.Factories
 
         public GameObject GetPlayer(Vector2? position = null)
         {
-
             var player = new GameObject();
             player.ConstructionStamp = "Player";
             player.Team = 0;
@@ -51,7 +51,7 @@ namespace co_op_engine.Factories
             player.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
 
             var mover = new WalkingMover(player);
-            mover.DefineNoF(200, .5f);
+            mover.SetMovementNoF(200, .5f);
 
             player.SetPhysics(new CollidingPhysics(player, gameRef.Level.Bounds));
             if (position == null)
@@ -71,6 +71,7 @@ namespace co_op_engine.Factories
 
             player.EquipWeapon(GetSword(player));
             player.EquipRage(GetRage(player));
+            player.Skills.SetBoost(new SimpleBoostSkill());
 
             gameRef.container.AddObject(player);
 
@@ -106,7 +107,7 @@ namespace co_op_engine.Factories
             enemy.SetRenderer(renderer);
 
             var mover = new WalkingMover(enemy);
-            mover.DefineNoMu(100, 75);
+            mover.SetMovementNoMu(100, 75);
             enemy.SetMover(mover);
             enemy.SetEngine(new WalkerEngine(enemy));
 
@@ -154,7 +155,7 @@ namespace co_op_engine.Factories
             enemy.SetRenderer(renderer);
 
             var mover = new WalkingMover(enemy);
-            mover.DefineNoMu(50, 75);
+            mover.SetMovementNoMu(50, 75);
             enemy.SetMover(mover);
             enemy.SetEngine(new WalkerEngine(enemy));
 

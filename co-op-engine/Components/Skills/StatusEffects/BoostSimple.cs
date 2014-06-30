@@ -52,7 +52,7 @@ namespace co_op_engine.Components.Skills.StatusEffects
             {
                 (ObjectReference.Mover as WalkingMover).CurrentMoveModifier -= BoostAmount;
             }
-            Done = true;
+            base.OnRemoval();
         }
     }
 }

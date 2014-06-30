@@ -20,7 +20,7 @@ namespace co_op_engine.Components.Skills
         public enum SkillState { Ready, Using, StillActive };
 
         public abstract void Activate(GameObject owner);
-
+        public SkillState CurrentSkillState;
 
         protected void DamageHealth(GameObject from, GameObject to, float amount)
         {
@@ -31,6 +31,12 @@ namespace co_op_engine.Components.Skills
         {
             var simpleBoost = new BoostSimpleStatusEffect(to, amount, duration);
             to.Combat.ApplyStatusEffect(simpleBoost);
+        }
+
+        protected void AddPoison(GameObject to, TimeSpan duration, float damage)
+        {
+            var poison = new SimplePoison(to, duration, damage);
+            to.Combat.ApplyStatusEffect(poison);
         }
     }
 }

@@ -65,21 +65,21 @@ namespace co_op_engine.Components.Movement
             base.Update(gameTime);
         }
 
-        public void DefineNoMu(float maxVelocity, float force)
+        public void SetMovementNoMu(float maxVelocity, float force)
         {
             _mu = force / (maxVelocity + force);
             _force = force;
             _maxVelocity = maxVelocity;
         }
 
-        public void DefineNoF(float maxVelocity, float mu)
+        public void SetMovementNoF(float maxVelocity, float mu)
         {
             _force = (-mu * maxVelocity) / (mu - 1);
             _mu = mu;
             _maxVelocity = maxVelocity;
         }
 
-        public void Define(float force, float friction)
+        public void SetMovement(float force, float friction)
         {
             _force = force;
             _mu = friction;
@@ -89,7 +89,7 @@ namespace co_op_engine.Components.Movement
         public void ApplyMaxVelocityModifier()
         {
             var previousMax = _maxVelocity;
-            DefineNoMu(CurrentMoveModifier + _maxVelocity, _force);
+            SetMovementNoMu(CurrentMoveModifier + _maxVelocity, _force);
             _maxVelocity = previousMax;//HACK: note to self, you suck at remembering to go back and fix hacks like this temp variable
         }
 

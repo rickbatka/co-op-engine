@@ -20,14 +20,13 @@ namespace co_op_engine.Components.Skills
         private GameObject Owner;
 
         public Weapon WeaponSkill;
-        public SimpleBoostSkill BoostSkill;
+        public SkillSandbox BoostSkill;
         public Rage RageSkill;
         //public Spell SpellSkill;
         private List<Skill> AllSkills;
 
         public SkillsComponent(GameObject owner)
         {
-            BoostSkill = new SimpleBoostSkill();
             Owner = owner;
             AllSkills = new List<Skill>();
         }
@@ -42,6 +41,11 @@ namespace co_op_engine.Components.Skills
         {
             RageSkill = rageSkill;
             AllSkills.Add(RageSkill);
+        }
+
+        public void SetBoost(SkillSandbox boostSkill)
+        {
+            BoostSkill = boostSkill;
         }
 
         public void Draw(SpriteBatch spriteBatch) 

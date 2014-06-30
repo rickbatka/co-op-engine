@@ -23,7 +23,7 @@ namespace co_op_engine.Components.Combat
     /// </summary>
     public class CombatBase
     {
-        private List<BoostSimpleStatusEffect> CurrentStatusEffects;
+        private List<StatusEffectBase> CurrentStatusEffects;
 
         protected GameObject owner;
         Dictionary<string, StatusEffect> effectsByWeapon = new Dictionary<string, StatusEffect>();
@@ -33,7 +33,7 @@ namespace co_op_engine.Components.Combat
         public CombatBase(GameObject owner)
         {
             this.owner = owner;
-            CurrentStatusEffects = new List<BoostSimpleStatusEffect>();
+            CurrentStatusEffects = new List<StatusEffectBase>();
         }
 
         virtual public void Update(GameTime gameTime)
@@ -63,7 +63,7 @@ namespace co_op_engine.Components.Combat
                     && !effectsByWeapon.ContainsKey(hash))
                 {
                     // get the effect from the weapon, set its receiver to this owner, register it in the list of actie effects
-                    var newEffect = (StatusEffect)effect.Clone();
+                    var newEffect = (StatusEffect)effect.Clone();//HACK: this is so hackey
                     newEffect.SetReceiver(owner);
 
                     var rotation = owner.Position - skill.Position;
@@ -202,7 +202,7 @@ namespace co_op_engine.Components.Combat
             throw new NotImplementedException();
         }
 
-        public void ApplyStatusEffect(BoostSimpleStatusEffect statusEffect)
+        public void ApplyStatusEffect(StatusEffectBase statusEffect)
         {
             //TODO: possibly some logic on whether or not it can be applied here
             statusEffect.Start();

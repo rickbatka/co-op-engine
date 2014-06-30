@@ -43,6 +43,9 @@ namespace co_op_engine.Components.Skills.StatusEffects
         public abstract void Draw(SpriteBatch spriteBatch);
 
         protected abstract void OnApplication();
-        protected abstract void OnRemoval();
+        protected virtual void OnRemoval()
+        {
+            Done = true;
+        }
     }
 }
