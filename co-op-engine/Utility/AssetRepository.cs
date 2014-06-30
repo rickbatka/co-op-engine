@@ -40,6 +40,7 @@ namespace co_op_engine.Utility
 
         public SoundEffect Music1;
         public SoundEffect Music2;
+        public SoundEffect SwordSwoosh1;
 
         string[] heroAnimationData;
         public AnimationSet HeroAnimations(float scale){ return AnimationSet.BuildFromAsset(heroAnimationData, scale); } 
@@ -104,6 +105,8 @@ namespace co_op_engine.Utility
 
             //Music1 = gameRef.Content.Load<SoundEffect>("music_active");
             //Music2 = gameRef.Content.Load<SoundEffect>("music_waiting");
+
+            SwordSwoosh1 = gameRef.Content.Load<SoundEffect>("sword_swing");
 
             heroAnimationData = File.ReadAllLines("content/HeroNoArmsData.txt");
             swordAnimationData = File.ReadAllLines("content/SwordData.txt");

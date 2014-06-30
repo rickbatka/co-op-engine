@@ -1,4 +1,5 @@
-﻿using co_op_engine.Utility;
+﻿using co_op_engine.Sound;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -34,6 +35,7 @@ namespace co_op_engine.Components.Skills
             }
             currentAttackTimer = TimeSpan.FromMilliseconds(attackTimer);
             CurrentState = Constants.ACTOR_STATE_ATTACKING;
+            SoundManager.PlaySoundEffect(AssetRepository.Instance.SwordSwoosh1);
         }   
 
         protected override void UpdateState(GameTime gameTime)

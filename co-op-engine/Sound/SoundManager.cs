@@ -49,8 +49,8 @@ namespace co_op_engine.Sound
             {
                 if (runningSoundEffects[i].State == SoundState.Stopped)
                 {
-                    runningSoundEffects.Remove(runningSoundEffects[i]);
                     runningSoundEffects[i].Dispose();
+                    runningSoundEffects.Remove(runningSoundEffects[i]);
                 }
             }
 
