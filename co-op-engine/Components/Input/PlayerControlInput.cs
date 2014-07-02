@@ -130,6 +130,11 @@ namespace co_op_engine.Components.Input
             return KeyBindings.RageInputs.Any(k => k.IsBeingPressed());
         }
 
+        public bool IsPressingBoostButton()
+        {
+            return KeyBindings.BoostInputs.Any(uu => uu.IsBeingPressed());
+        }
+
         public Vector2 GetMovement()
         {
             if(currentMovingDevice == Device.Keyboard)

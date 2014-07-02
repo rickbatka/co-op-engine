@@ -1,4 +1,5 @@
-﻿using co_op_engine.Components.Skills.Boost;
+﻿using co_op_engine.Components.Skills.Boosts;
+using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -19,8 +20,11 @@ namespace co_op_engine.Components.Skills
     {
         private GameObject Owner;
 
+        public int RageMeter = 0;
+
+
         public Weapon WeaponSkill;
-        public SkillSandbox BoostSkill;
+        public Boost BoostSkill;
         public Rage RageSkill;
         //public Spell SpellSkill;
         private List<Skill> AllSkills;
@@ -43,23 +47,24 @@ namespace co_op_engine.Components.Skills
             AllSkills.Add(RageSkill);
         }
 
-        public void SetBoost(SkillSandbox boostSkill)
+        public void SetBoost(Boost boostSkill)
         {
             BoostSkill = boostSkill;
+            AllSkills.Add(BoostSkill);
         }
 
-        public void Draw(SpriteBatch spriteBatch) 
-        { 
-            foreach(var skill in AllSkills)
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (var skill in AllSkills)
             {
-                if(skill != null)
+                if (skill != null)
                 {
                     skill.Draw(spriteBatch);
                 }
             }
         }
 
-        public void DebugDraw(SpriteBatch spriteBatch) 
+        public void DebugDraw(SpriteBatch spriteBatch)
         {
             foreach (var skill in AllSkills)
             {
@@ -70,7 +75,7 @@ namespace co_op_engine.Components.Skills
             }
         }
 
-        public void Update(GameTime gameTime) 
+        public void Update(GameTime gameTime)
         {
             foreach (var skill in AllSkills)
             {
@@ -83,22 +88,33 @@ namespace co_op_engine.Components.Skills
 
         public bool TryInititateWeaponAttack(int attackTimer = 0)
         {
-            if (WeaponSkill == null) { return false; }
+            if (WeaponSkill != null && ActorStates.States[Owner.CurrentState].CanInitiateSkills)
+            {
+                WeaponSkill.Activate(attackTimer);
+                return true;
+            }
 
-            return WeaponSkill.TryInitiateSkill(attackTimer);
+            return false;
         }
 
-        public bool TryInitiateBoost(int attackTimer = 0)
+        public void TryInitiateBoost(int attackTimer = 0)
         {
-            BoostSkill.Activate(Owner);
-            return true;
+            if (BoostSkill != null 
+                && ActorStates.States[Owner.CurrentState].CanInitiateSkills
+                && BoostSkill.IsReady)
+            {
+                BoostSkill.Activate();
+            }
         }
 
-        public bool TryInitiateRage(int attackTimer = 0)
+        public void TryInitiateRage(int attackTimer = 0)
         {
-            if (RageSkill == null) { return false; }
-
-            return RageSkill.TryInitiateSkill(attackTimer);
+            if (RageSkill != null
+                && ActorStates.States[Owner.CurrentState].CanInitiateSkills
+                && RageMeter >= RageSkill.RageCost)
+            {
+                RageSkill.Activate();
+            }
         }
     }
 }

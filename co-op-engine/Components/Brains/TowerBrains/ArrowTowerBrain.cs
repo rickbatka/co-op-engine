@@ -30,7 +30,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
         {
             base.HandleNonFriendlyInRange(collider);
 
-            if (Owner.Skills.TryInititateWeaponAttack(shotCooldown))
+            if (Owner.Skills.TryInititateWeaponAttack(shotCooldown))//this is odd? the tower weapon should probably create the projectile?
             {
                 var arrow = ProjectileFactory.Instance.GetArrow(Owner, collider);
                 arrow.FireOnWasFiredAtFixedPoint(this, new FireProjectileEventArgs { TargetObject = collider });

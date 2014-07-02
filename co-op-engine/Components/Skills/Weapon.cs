@@ -17,14 +17,9 @@ namespace co_op_engine.Components.Skills
             : base(skillsComponent, owner)
         { }
 
-        override public bool TryInitiateSkill(int attackTimer = 0)
+        override public void Activate(int attackTimer = 0)
         {
-            if (CurrentStateProperties.CanInitiateSkills)
-            {
-                UseSkill(attackTimer);
-                return true;
-            }
-            return false;
+            UseSkill(attackTimer);
         }
 
         override protected void UseSkill(int attackTimer = 0)
@@ -36,7 +31,7 @@ namespace co_op_engine.Components.Skills
             currentAttackTimer = TimeSpan.FromMilliseconds(attackTimer);
             CurrentState = Constants.ACTOR_STATE_ATTACKING;
             SoundManager.PlaySoundEffect(AssetRepository.Instance.SwordSwoosh1);
-        }   
+        }
 
         protected override void UpdateState(GameTime gameTime)
         {

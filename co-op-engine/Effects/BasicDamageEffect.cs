@@ -39,9 +39,6 @@ namespace co_op_engine.Effects
                     new FireEmitter(Receiver)
                 );
             }
-
-            //HACK: just testing poison here
-            Receiver.Combat.ApplyStatusEffect(new co_op_engine.Components.Skills.StatusEffects.SimplePoison(Receiver, TimeSpan.FromMilliseconds(8000), 3));
         }
 
         private void KnockBack()

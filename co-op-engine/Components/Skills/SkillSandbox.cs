@@ -9,33 +9,22 @@ namespace co_op_engine.Components.Skills
     /// <summary>
     /// Abstract sandbox class for skills
     /// </summary>
-    public abstract class SkillSandbox
+    public abstract partial class Skill
     {
-        /// <summary>
-        /// Ready: Can use/ready to activate
-        /// Using: 'casting' actively being used by player
-        /// StillActive: Skill is still active, but player can stop casting/using, like a stormcloud was
-        ///     summoned or something, we can deal with concurrent skills later if there's a need
-        /// </summary>
-        public enum SkillState { Ready, Using, StillActive };
-
-        public abstract void Activate(GameObject owner);
-        public SkillState CurrentSkillState;
-
         protected void DamageHealth(GameObject from, GameObject to, float amount)
         {
             to.Health.Value -= amount;
         }
 
-        protected void AddSpeedBoost(GameObject to, TimeSpan duration, float amount)
+        protected void ApplySpeedModifier(GameObject to, int durationMilli, float amount)
         {
-            var simpleBoost = new BoostSimpleStatusEffect(to, amount, duration);
+            var simpleBoost = new BoostSimpleStatusEffect(to, amount, durationMilli);
             to.Combat.ApplyStatusEffect(simpleBoost);
         }
 
-        protected void AddPoison(GameObject to, TimeSpan duration, float damage)
+        protected void AddDamageOverTime(GameObject to, int durationMilli, int tickIntervalMilli, float damagePerTick)//here's where we could add types later
         {
-            var poison = new SimplePoison(to, duration, damage);
+            var poison = new SimplePoison(to, durationMilli, tickIntervalMilli, damagePerTick);
             to.Combat.ApplyStatusEffect(poison);
         }
     }

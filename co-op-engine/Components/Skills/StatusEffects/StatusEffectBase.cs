@@ -16,9 +16,9 @@ namespace co_op_engine.Components.Skills.StatusEffects
 
         public bool Done { get; protected set; } //flag for being removed from active statuses
 
-        public StatusEffectBase(GameObject applicant, TimeSpan duration)
+        public StatusEffectBase(GameObject applicant, int durationMilli)
         {
-            Duration = duration;
+            Duration = TimeSpan.FromMilliseconds(durationMilli);
             WasApplied = false;
             ObjectReference = applicant;
         }

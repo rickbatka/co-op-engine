@@ -123,8 +123,10 @@
     <Compile Include="Components\Rendering\Frame.cs" />
     <Compile Include="Components\Rendering\IRenderable.cs" />
     <Compile Include="Components\Rendering\RenderBase.cs" />
-    <Compile Include="Components\Skills\Boost\SimpleBoostSkill.cs" />
+    <Compile Include="Components\Skills\Boost.cs" />
+    <Compile Include="Components\Skills\Boosts\SimpleBoostSkill.cs" />
     <Compile Include="Components\Skills\Rage.cs" />
+    <Compile Include="Components\Skills\Rages\RageExplosion.cs" />
     <Compile Include="Components\Skills\Skill.cs" />
     <Compile Include="Components\Skills\SkillSandbox.cs" />
     <Compile Include="Components\Skills\SkillsComponent.cs" />
@@ -243,8 +245,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\Skills\Rage\" />
-    <Folder Include="Components\Skills\Spell\" />
+    <Folder Include="Components\Skills\Spells\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

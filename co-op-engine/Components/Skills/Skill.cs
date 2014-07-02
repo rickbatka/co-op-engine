@@ -11,7 +11,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Skills
 {
-    public abstract class Skill : IRenderable
+    public abstract partial class Skill : IRenderable
     {
         protected GameObject Owner;
         protected SkillsComponent SkillsComponent;
@@ -53,7 +53,7 @@ namespace co_op_engine.Components.Skills
 
         protected abstract void UseSkill(int attackTimer = 0);
         protected abstract void UpdateState(GameTime gameTime);
-        public abstract bool TryInitiateSkill(int attackTimer = 0);
+        public abstract void Activate(int attackTimer = 0);
         
         public virtual void Update(GameTime gameTime)
         {

@@ -8,32 +8,19 @@ using System.Text;
 
 namespace co_op_engine.Components.Skills
 {
-    public class Rage : Skill
+    /// <summary>
+    /// defines the rage behavior as a skill type, the player goes 
+    /// into rage state until timer runs out, then returns to normal
+    /// </summary>
+    public abstract class Rage : Skill
     {
         private TimeSpan currentRageTimer;
-        protected int RageMeter = 0;
-        protected int Cost;
-        protected int Radius = 140;
-        protected RadiusProximityChecker RadiusChecker;
+        public int RageCost { get; private set; }
 
         public Rage(SkillsComponent skillsComponent, GameObject owner, int cost)
             : base(skillsComponent, owner)
         {
-            Cost = cost;
-            RadiusChecker = new RadiusProximityChecker(owner, Radius);
-        }
-
-        public override void DebugDraw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                texture: AssetRepository.Instance.PlainWhiteTexture, 
-                destinationRectangle: RadiusChecker.DrawArea.ToRectangle(), 
-                sourceRectangle: null,
-                color: Color.White,
-                rotation: 0f,
-                origin: Vector2.Zero,
-                effect: SpriteEffects.None,
-                depth: 1f);
+            RageCost = cost;
         }
 
         protected override void UpdateState(GameTime gameTime)
@@ -50,16 +37,6 @@ namespace co_op_engine.Components.Skills
             }
         }
 
-        override public bool TryInitiateSkill(int attackTimer = 0)
-        {
-            if (!CurrentStateProperties.CanInitiateSkills) { return false; }
-            if (RageMeter < Cost) { return false; }
-
-            UseSkill(attackTimer);
-
-            return true;
-        }
-
         override protected void UseSkill(int attackTimer = 0)
         {
             if (attackTimer == 0)
@@ -68,22 +45,6 @@ namespace co_op_engine.Components.Skills
             }
             currentRageTimer = TimeSpan.FromMilliseconds(attackTimer);
             CurrentState = Constants.ACTOR_STATE_RAGING;
-        }
-
-        override protected void QueryForHits()
-        {
-            if (CurrentState == Constants.ACTOR_STATE_RAGING)
-            {
-                var colliders = RadiusChecker.QueryRange();
-                foreach (var collider in colliders)
-                {
-                    if (collider.Team != Owner.Team)
-                    {
-                        collider.HandleHitBySkill(this);
-                        FireUsedWeaponEvent(collider);
-                    }
-                }
-            }
         }
     }
 }

@@ -12,8 +12,8 @@ namespace co_op_engine.Components.Skills.StatusEffects
     {
         private float BoostAmount;
 
-        public BoostSimpleStatusEffect(GameObject applicant, float amount, TimeSpan duration)
-            :base(applicant, duration)
+        public BoostSimpleStatusEffect(GameObject applicant, float amount, int durationMilli)
+            : base(applicant, durationMilli)
         {
             BoostAmount = amount;
         }

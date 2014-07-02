@@ -19,6 +19,7 @@ namespace co_op_engine.Components.Input
         public static readonly InputKey KEYBOARD_ATTACK = new InputKey(Keys.Space);
         public static readonly InputKey KEYBOARD_ATTACK_ALT = new InputKey(Keys.D7);
         public static readonly InputKey KEYBOARD_RAGE = new InputKey(Keys.D8);
+        public static readonly InputKey KEYBOARD_BOOST = new InputKey(Keys.D6);
 
         public static readonly InputMouseButton MOUSE_ATTACK = new InputMouseButton(MouseButton.Left);
         public static readonly InputTrigger TRIGGER_ATTACK = new InputTrigger(Trigger.Right, PlayerIndex.One);
@@ -28,5 +29,6 @@ namespace co_op_engine.Components.Input
         public static readonly IHeldDownable[] KeyboardMovementKeys = { KEYBOARD_MOVE_UP, KEYBOARD_MOVE_DOWN, KEYBOARD_MOVE_LEFT, KEYBOARD_MOVE_RIGHT };
         public static readonly IPressable[] AttackInputs = { KEYBOARD_ATTACK, KEYBOARD_ATTACK_ALT, MOUSE_ATTACK, TRIGGER_ATTACK, GAMEPAD_ATTACK };
         public static readonly IPressable[] RageInputs = { KEYBOARD_RAGE };
+        public static readonly IPressable[] BoostInputs = { KEYBOARD_BOOST };
     }
 }

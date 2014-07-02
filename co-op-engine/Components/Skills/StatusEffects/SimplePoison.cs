@@ -9,11 +9,12 @@ namespace co_op_engine.Components.Skills.StatusEffects
     {
         private float Damage;
         private TimeSpan TickTimer;
-        private int TickInterval = 1000;
+        private int TickInterval;
 
-        public SimplePoison(GameObject applicant, TimeSpan duration, float damage)
-            :base(applicant, duration)
+        public SimplePoison(GameObject applicant, int durationMilli, int tickIntervalMilli, float damage)
+            : base(applicant, durationMilli)
         {
+            TickInterval = tickIntervalMilli;
             Damage = damage;
             TickTimer = TimeSpan.FromMilliseconds(TickInterval);
         }
@@ -32,7 +33,7 @@ namespace co_op_engine.Components.Skills.StatusEffects
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
         {
-            //no draw
+            //no draw, could draw something on proc
         }
 
         protected override void OnApplication()

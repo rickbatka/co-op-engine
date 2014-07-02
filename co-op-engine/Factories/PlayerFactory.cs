@@ -21,7 +21,8 @@ using co_op_engine.Components.Movement;
 using co_op_engine.Components.Engines;
 using co_op_engine.Components.Skills;
 using co_op_engine.Effects;
-using co_op_engine.Components.Skills.Boost;
+using co_op_engine.Components.Skills.Boosts;
+using co_op_engine.Components.Skills.Rages;
 
 namespace co_op_engine.Factories
 {
@@ -71,7 +72,7 @@ namespace co_op_engine.Factories
 
             player.EquipWeapon(GetSword(player));
             player.EquipRage(GetRage(player));
-            player.Skills.SetBoost(new SimpleBoostSkill());
+            player.Skills.SetBoost(new SimpleBoostSkill(player.Skills, player));
 
             gameRef.container.AddObject(player);
 
@@ -208,7 +209,7 @@ namespace co_op_engine.Factories
         public Rage GetRage(GameObject owner)
         {
             //@TODO cost
-            var rage = new Rage(owner.Skills, owner, cost: 0);
+            var rage = new RageExplosion(0, owner.Skills, owner);
             rage.Scale = 16f;
             var rageRenderer = new RenderBase(rage, AssetRepository.Instance.Rage2, AssetRepository.Instance.Rage2Animations(rage.Scale));
             rage.SetRenderer(rageRenderer);
