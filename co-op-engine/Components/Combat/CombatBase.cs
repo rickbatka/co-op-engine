@@ -75,6 +75,7 @@ namespace co_op_engine.Components.Combat
             owner.Brain = new DoNothingBrain(owner);
             owner.InputMovementVector = Vector2.Zero;
             owner.CurrentState = Constants.ACTOR_STATE_DEAD;
+            owner.CurrentQuad.Remove(owner);
         }
 
         virtual public void DebugDraw(SpriteBatch spriteBatch)
