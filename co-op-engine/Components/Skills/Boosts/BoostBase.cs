@@ -4,18 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace co_op_engine.Components.Skills
+namespace co_op_engine.Components.Skills.Boosts
 {
     /// <summary>
     /// more of a placeholder, boosts aren't really confined to behavior
     /// </summary>
-    public abstract class Boost : Skill
+    public abstract class BoostBase : SkillBase
     {
         protected TimeSpan CooldownTimer;
         private int CooldownMilli;
         public bool IsReady { get { return CooldownTimer <= TimeSpan.Zero; } }
 
-        public Boost(SkillsComponent skillsComponent, GameObject owner, int cooldownMilli)
+        public BoostBase(SkillsComponent skillsComponent, GameObject owner, int cooldownMilli)
             :base(skillsComponent, owner)
         {
             CooldownTimer = TimeSpan.Zero;

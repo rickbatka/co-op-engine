@@ -5,6 +5,7 @@ using co_op_engine.Components.Input;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
 using co_op_engine.Components.Skills;
+using co_op_engine.Components.Skills.Weapons;
 using co_op_engine.GameStates;
 using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
@@ -69,7 +70,7 @@ namespace co_op_engine.Factories
             tower.SetSkills(new SkillsComponent(tower));
 
             //DOTHIS this weapon needs to be tower specific, doing the healing on it's own
-            var healingAOEWeapon = new Weapon(tower.Skills, tower);
+            var healingAOEWeapon = new WeaponBase(tower.Skills, tower);
             
             if (fromNetwork)
             {
@@ -107,7 +108,7 @@ namespace co_op_engine.Factories
                 new TowerPlacingInput(gameRef, tower.PhysicsCollisionBox)));
             tower.SetSkills(new SkillsComponent(tower));
 
-            var emptyWeapon = new Weapon(tower.Skills, tower);
+            var emptyWeapon = new WeaponBase(tower.Skills, tower);
             tower.EquipWeapon(emptyWeapon);
 
             if (fromNetwork)

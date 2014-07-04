@@ -12,7 +12,7 @@ namespace co_op_engine.Components.Skills.Rages
     /// defines the specific rage explosion logic 
     /// of checking the radius
     /// </summary>
-    public class RageExplosion : Rage
+    public class RageExplosion : RageBase
     {
         public int RageCost;//subclassThing
         protected int Radius = 140;//too specific, put in main class
@@ -66,6 +66,8 @@ namespace co_op_engine.Components.Skills.Rages
             {
                 AddDamageOverTime(receiver, 8000, 1000, 5);
             }
+
+            Knockback(receiver, 100);
         }
     }
 }

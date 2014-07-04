@@ -1,4 +1,6 @@
 ﻿using co_op_engine.Components.Skills.Boosts;
+using co_op_engine.Components.Skills.Rages;
+using co_op_engine.Components.Skills.Weapons;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,31 +25,31 @@ namespace co_op_engine.Components.Skills
         public int RageMeter = 0;
 
 
-        public Weapon WeaponSkill;
-        public Boost BoostSkill;
-        public Rage RageSkill;
+        public WeaponBase WeaponSkill;
+        public BoostBase BoostSkill;
+        public RageBase RageSkill;
         //public Spell SpellSkill;
-        private List<Skill> AllSkills;
+        private List<SkillBase> AllSkills;
 
         public SkillsComponent(GameObject owner)
         {
             Owner = owner;
-            AllSkills = new List<Skill>();
+            AllSkills = new List<SkillBase>();
         }
 
-        public void SetWeapon(Weapon weaponSkill)
+        public void SetWeapon(WeaponBase weaponSkill)
         {
             WeaponSkill = weaponSkill;
             AllSkills.Add(WeaponSkill);
         }
 
-        public void SetRage(Rage rageSkill)
+        public void SetRage(RageBase rageSkill)
         {
             RageSkill = rageSkill;
             AllSkills.Add(RageSkill);
         }
 
-        public void SetBoost(Boost boostSkill)
+        public void SetBoost(BoostBase boostSkill)
         {
             BoostSkill = boostSkill;
             AllSkills.Add(BoostSkill);

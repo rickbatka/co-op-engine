@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace co_op_engine.Components.Skills
+namespace co_op_engine.Components.Skills.Weapons
 {
-    public class Weapon : Skill
+    public class WeaponBase : SkillBase
     {
         private TimeSpan currentAttackTimer;
 
-        public Weapon(SkillsComponent skillsComponent, GameObject owner)
+        public WeaponBase(SkillsComponent skillsComponent, GameObject owner)
             : base(skillsComponent, owner)
         { }
 

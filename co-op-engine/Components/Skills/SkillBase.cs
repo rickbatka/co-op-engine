@@ -10,7 +10,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Skills
 {
-    public abstract partial class Skill : IRenderable
+    public abstract partial class SkillBase : IRenderable
     {
         protected GameObject Owner;
         protected SkillsComponent SkillsComponent;
@@ -35,7 +35,7 @@ namespace co_op_engine.Components.Skills
         public float Scale { get; set; }
 
 
-        public Skill(SkillsComponent skillsComponent, GameObject owner)
+        public SkillBase(SkillsComponent skillsComponent, GameObject owner)
         {
             this.SkillsComponent = skillsComponent;
             this.Owner = owner;

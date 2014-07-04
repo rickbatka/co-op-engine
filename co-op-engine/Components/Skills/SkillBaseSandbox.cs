@@ -8,9 +8,14 @@ using System.Text;
 namespace co_op_engine.Components.Skills
 {
     /// <summary>
-    /// Abstract sandbox class for skills
+    /// Abstract sandbox class for skills, the methods
+    /// provided in this partial are used in the highest 
+    /// implementation of skills as helper methods, skills
+    /// at that level should not implement any interactions
+    /// with other object but rather implement specific
+    /// skill mechanical logic.
     /// </summary>
-    public abstract partial class Skill
+    public abstract partial class SkillBase
     {
         protected void DamageHealth(GameObject from, GameObject to, float amount)
         {

@@ -151,10 +151,13 @@ namespace co_op_engine.GameStates
             
             container.DrawAll(GameRef.spriteBatch);
             ParticleEngine.Instance.Draw(GameRef.spriteBatch);
-            //@DEBUGDRAW DEBUG DRAW
-            //container.DebugDraw(GameRef.spriteBatch);
+
+#if DEBUGSTRINGS
+            container.DebugDraw(GameRef.spriteBatch);
             DebugDrawStrings(gameTime);
-            //PathFinder.Instance.Draw(GameRef.spriteBatch);
+            PathFinder.Instance.Draw(GameRef.spriteBatch);
+#endif
+            controlManager.DrawUI(GameRef.spriteBatch);
 
             GameRef.spriteBatch.End();
 
@@ -169,7 +172,7 @@ namespace co_op_engine.GameStates
                 null);
 
 
-            controlManager.Draw(GameRef.spriteBatch);
+            controlManager.DrawHUD(GameRef.spriteBatch);
 
             GameRef.spriteBatch.End();
         }

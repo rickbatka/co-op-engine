@@ -5,7 +5,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Skills.Boosts
 {
-    public class SimpleBoostSkill : Boost
+    public class SimpleBoostSkill : BoostBase
     {
         public SimpleBoostSkill(SkillsComponent skillsComponent, GameObject owner)
             : base(skillsComponent, owner, 5000)

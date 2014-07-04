@@ -13,6 +13,8 @@ using co_op_engine.World.Level;
 using co_op_engine.Components.Movement;
 using co_op_engine.Components.Engines;
 using co_op_engine.Components.Skills;
+using co_op_engine.Components.Skills.Weapons;
+using co_op_engine.Components.Skills.Rages;
 
 namespace co_op_engine.Components
 {
@@ -106,12 +108,12 @@ namespace co_op_engine.Components
             this.Skills = skills;
         }
 
-        public void EquipWeapon(Weapon weapon)
+        public void EquipWeapon(WeaponBase weapon)
         {
             this.Skills.SetWeapon(weapon);
         }
 
-        public void EquipRage(Rage rage)
+        public void EquipRage(RageBase rage)
         {
             this.Skills.SetRage(rage);
         }

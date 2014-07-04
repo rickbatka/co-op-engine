@@ -6,18 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace co_op_engine.Components.Skills
+namespace co_op_engine.Components.Skills.Rages
 {
     /// <summary>
     /// defines the rage behavior as a skill type, the player goes 
     /// into rage state until timer runs out, then returns to normal
     /// </summary>
-    public abstract class Rage : Skill
+    public abstract class RageBase : SkillBase
     {
         private TimeSpan currentRageTimer;
         public int RageCost { get; private set; }
 
-        public Rage(SkillsComponent skillsComponent, GameObject owner, int cost)
+        public RageBase(SkillsComponent skillsComponent, GameObject owner, int cost)
             : base(skillsComponent, owner)
         {
             RageCost = cost;

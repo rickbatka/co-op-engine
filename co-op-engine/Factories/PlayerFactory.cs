@@ -22,6 +22,7 @@ using co_op_engine.Components.Engines;
 using co_op_engine.Components.Skills;
 using co_op_engine.Components.Skills.Boosts;
 using co_op_engine.Components.Skills.Rages;
+using co_op_engine.Components.Skills.Weapons;
 
 namespace co_op_engine.Factories
 {
@@ -205,7 +206,7 @@ namespace co_op_engine.Factories
             return player;
         }
 
-        public Rage GetRage(GameObject owner)
+        public RageBase GetRage(GameObject owner)
         {
             var rage = new RageExplosion(0, owner.Skills, owner);
             rage.Scale = 16f;
@@ -215,9 +216,9 @@ namespace co_op_engine.Factories
             return rage;
         }
 
-        public Weapon GetSword(GameObject owner)
+        public WeaponBase GetSword(GameObject owner)
         {
-            var sword = new Weapon(owner.Skills, owner);
+            var sword = new WeaponBase(owner.Skills, owner);
 
             var swordRenderer = new RenderBase(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations(owner.Scale));
             sword.SetRenderer(swordRenderer);
@@ -225,17 +226,17 @@ namespace co_op_engine.Factories
             return sword;
         }
 
-        public Weapon GetAxe(GameObject owner)
+        public WeaponBase GetAxe(GameObject owner)
         {
-            var axe = new Weapon(owner.Skills, owner);
+            var axe = new WeaponBase(owner.Skills, owner);
             var axeRenderer = new RenderBase(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations(owner.Scale));
             axe.SetRenderer(axeRenderer);
             return axe;
         }
 
-        public Weapon GetMace(GameObject owner)
+        public WeaponBase GetMace(GameObject owner)
         {
-            var mace = new Weapon(owner.Skills, owner);
+            var mace = new WeaponBase(owner.Skills, owner);
             var maceRenderer = new RenderBase(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations(owner.Scale));
             mace.SetRenderer(maceRenderer);
             return mace;

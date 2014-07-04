@@ -7,7 +7,7 @@ using System.Text;
 
 namespace co_op_engine.Components.Skills.Weapons
 {
-    public class AlwaysAttackingWeapon : Weapon
+    public class AlwaysAttackingWeapon : WeaponBase
     {
         public AlwaysAttackingWeapon(SkillsComponent skillsComponent, GameObject owner)
         :base(skillsComponent, owner)

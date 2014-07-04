@@ -86,5 +86,27 @@ namespace co_op_engine.UIElements
             var playerbars = new StatusCluster(player);
             AddControl(playerbars);
         }
+
+        internal void DrawUI(SpriteBatch spriteBatch)
+        {
+            foreach (var control in controls)
+            {
+                if (control.InWorld && control.Visible)
+                {
+                    control.Draw(spriteBatch);
+                }
+            }
+        }
+
+        internal void DrawHUD(SpriteBatch spriteBatch)
+        {
+            foreach (var control in controls)
+            {
+                if (!control.InWorld && control.Visible)
+                {
+                    control.Draw(spriteBatch);
+                }
+            }
+        }
     }
 }
