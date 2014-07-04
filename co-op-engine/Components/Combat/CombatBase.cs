@@ -14,18 +14,15 @@ namespace co_op_engine.Components.Combat
 {
     /// <summary>
     /// responsible for ?
-    /// telling player when they are dead
-    /// kicking off death animation
-    /// place to put skill hit handler and events
-    /// a few minor utility operations.  
-    /// this could probably be split up into other locations
+    /// telling player when they are dead (could live in engine)
+    /// kicking off death animation (could live in engine)
+    /// tracking status effects (could go to skills, brain, or engine)
+    /// a few minor utility operations. (related to dying and drawing, moves with death stuff)
     /// </summary>
     public class CombatBase
     {
         private List<StatusEffectBase> CurrentStatusEffects;
-
         protected GameObject owner;
-
         private TimeSpan dyingAnimationTimer;
 
         public CombatBase(GameObject owner)

@@ -10,6 +10,14 @@ using System.Text;
 
 namespace co_op_engine.Components.Skills
 {
+    /// <summary>
+    /// purpose: pure data and very VERY basic helper methods
+    ///     for core functionality.
+    /// 
+    /// This should not be changed or added to without consideration
+    ///     to every skill in the codebase, most likely
+    ///     it should end up in the higher level skill implementations
+    /// </summary>
     public abstract partial class SkillBase : IRenderable
     {
         protected GameObject Owner;
@@ -134,7 +142,7 @@ namespace co_op_engine.Components.Skills
 
         protected virtual void QueryForHits()
         {
-            if (CurrentFrame.DamageDots != null)//doesn't need to be attacking anymore
+            if (CurrentFrame.DamageDots != null)
             {
                 var damageDots = CurrentFrame.DamageDots;
                 foreach (var damageDot in damageDots)

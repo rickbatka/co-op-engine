@@ -7,7 +7,11 @@ using System.Text;
 namespace co_op_engine.Components.Skills.Boosts
 {
     /// <summary>
-    /// more of a placeholder, boosts aren't really confined to behavior
+    /// Purpose: 2nd level abstract base class to set 
+    ///     the functionality of all boost skills.
+    /// 
+    /// This should not be modified without considering
+    ///     all boost skills in codebase.
     /// </summary>
     public abstract class BoostBase : SkillBase
     {
