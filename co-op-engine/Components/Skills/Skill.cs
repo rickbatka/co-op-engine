@@ -1,6 +1,5 @@
 ﻿using co_op_engine.Collections;
 using co_op_engine.Components.Rendering;
-using co_op_engine.Effects;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,6 +17,8 @@ namespace co_op_engine.Components.Skills
         private RenderBase Renderer;
         protected SpacialBase CurrentQuad { get { return Owner.CurrentQuad; } }
 
+        protected List<GameObject> HitObjectsList;
+
         public int ID;
         public int OwnerId;
 
@@ -28,13 +29,11 @@ namespace co_op_engine.Components.Skills
         public int Team { get { return Owner.Team; } }
         public Frame CurrentFrame { get; set; }
         public Texture2D Texture { get; set; }
-        public Vector2 Position { get { return new Vector2(Owner.Position.X, Owner.Position.Y - 1);  }}//Owner.Position; } }
+        public Vector2 Position { get { return new Vector2(Owner.Position.X, Owner.Position.Y - 1);  }}
         public int FacingDirection { get { return Owner.FacingDirection; } }
         public float RotationTowardFacingDirectionRadians { get { return Owner.RotationTowardFacingDirectionRadians; } }
         public float Scale { get; set; }
 
-
-        public List<StatusEffect> Effects = new List<StatusEffect>();
 
         public Skill(SkillsComponent skillsComponent, GameObject owner)
         {
@@ -44,6 +43,12 @@ namespace co_op_engine.Components.Skills
             this.OwnerId = owner.ID;
             this.Visible = true;
             this.Scale = owner.Scale;
+            HitObjectsList = new List<GameObject>();
+        }
+
+        protected bool HasntBeenHit(Object check)
+        {
+            return !HitObjectsList.Contains(check);
         }
 
         public void SetRenderer(RenderBase renderer)
@@ -53,6 +58,7 @@ namespace co_op_engine.Components.Skills
 
         protected abstract void UseSkill(int attackTimer = 0);
         protected abstract void UpdateState(GameTime gameTime);
+        protected abstract void SkillHitObject(GameObject receiver);
         public abstract void Activate(int attackTimer = 0);
         
         public virtual void Update(GameTime gameTime)
@@ -104,7 +110,8 @@ namespace co_op_engine.Components.Skills
             }
         }
 
-        public bool FullyRotatable { 
+        public bool FullyRotatable 
+        { 
             get 
             {
                 if (CurrentState == Constants.ACTOR_STATE_ATTACKING)
@@ -115,25 +122,20 @@ namespace co_op_engine.Components.Skills
             } 
         }
 
-        public void ResetAnimation(int state, int facingDirection)
+        public void ResetSkill(int state, int facingDirection)
         {
             if (Renderer != null)
             {
                 Renderer.animationSet.GetAnimationFallbackToDefault(state, facingDirection).Reset();
             }
-        }
 
-        public void EquipEffect(StatusEffect effect)
-        {
-            this.Effects.Add(effect);
+            HitObjectsList.Clear();
         }
 
         protected virtual void QueryForHits()
         {
-            if (CurrentStateProperties.IsAttacking
-                && CurrentFrame.DamageDots != null)
+            if (CurrentFrame.DamageDots != null)//doesn't need to be attacking anymore
             {
-
                 var damageDots = CurrentFrame.DamageDots;
                 foreach (var damageDot in damageDots)
                 {
@@ -143,8 +145,9 @@ namespace co_op_engine.Components.Skills
                     {
                         if (collider.ID != OwnerId)
                         {
-                            collider.HandleHitBySkill(this);
-                            FireUsedWeaponEvent(collider);
+                            SkillHitObject(collider);
+                            HitObjectsList.Add(collider);
+                            FireUsedWeaponEvent(collider);//TODO should fire successful hit event to director
                         }
                     }
                 }

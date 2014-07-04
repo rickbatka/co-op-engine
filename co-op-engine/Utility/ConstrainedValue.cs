@@ -100,6 +100,11 @@ namespace co_op_engine.Utility
         {
             return (int)cv.Value;
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 
     public class ConstrainedValueEventArgs : EventArgs

@@ -5,7 +5,6 @@ using co_op_engine.Components.Input;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
 using co_op_engine.Components.Skills;
-using co_op_engine.Effects;
 using co_op_engine.GameStates;
 using co_op_engine.Networking;
 using co_op_engine.Networking.Commands;
@@ -29,6 +28,7 @@ namespace co_op_engine.Factories
             Instance = new TowerFactory(gameRef);
         }
 
+        //in the tower factory???
         public GameObject GetInvisibleWall(bool fromNetwork = false)
         {
             var tower = new GameObject();
@@ -40,12 +40,7 @@ namespace co_op_engine.Factories
             tower.UsedInPathing = true;
             tower.SetPhysics(new CollidingPhysics(tower, gameRef.Level.Bounds));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
-            //tower.SetBrain(new HealingAOETowerBrain(tower, new TowerPlacingInput(gameRef, tower.BoundingBox)));
             tower.CurrentState = Constants.ACTOR_STATE_IDLE;
-
-            //tower.SetCombat(new CombatBase(tower));
-
-            //tower.Visible = false;
 
             gameRef.container.AddObject(tower);
 
@@ -73,13 +68,9 @@ namespace co_op_engine.Factories
 
             tower.SetSkills(new SkillsComponent(tower));
 
+            //DOTHIS this weapon needs to be tower specific, doing the healing on it's own
             var healingAOEWeapon = new Weapon(tower.Skills, tower);
-            var healingEffect = new BasicHealEffect(durationMS: 250, healRating: 25);
-            healingEffect.AffectsFriendlies = true;
-            healingEffect.AffectsNonFriendlies = false;
-            healingAOEWeapon.EquipEffect(healingEffect);
-            tower.EquipWeapon(healingAOEWeapon);
-
+            
             if (fromNetwork)
             {
                 tower.CurrentState = Constants.ACTOR_STATE_IDLE;

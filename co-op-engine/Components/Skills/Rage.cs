@@ -32,7 +32,7 @@ namespace co_op_engine.Components.Skills
                 {
                     CurrentState = Constants.ACTOR_STATE_IDLE;
                     currentRageTimer = TimeSpan.Zero;
-                    ResetAnimation(Constants.ACTOR_STATE_RAGING, Owner.FacingDirection);
+                    ResetSkill(Constants.ACTOR_STATE_RAGING, Owner.FacingDirection);
                 }
             }
         }

@@ -1,7 +1,6 @@
 ﻿using co_op_engine.Components.Particles;
 using co_op_engine.Components.Skills;
 using co_op_engine.Components.Skills.StatusEffects;
-using co_op_engine.Effects;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,8 +16,7 @@ namespace co_op_engine.Components.Combat
     /// telling player when they are dead
     /// kicking off death animation
     /// place to put skill hit handler and events
-    /// a few minor utility operations
-    /// 
+    /// a few minor utility operations.  
     /// this could probably be split up into other locations
     /// </summary>
     public class CombatBase
@@ -26,7 +24,6 @@ namespace co_op_engine.Components.Combat
         private List<StatusEffectBase> CurrentStatusEffects;
 
         protected GameObject owner;
-        Dictionary<string, StatusEffect> effectsByWeapon = new Dictionary<string, StatusEffect>();
 
         private TimeSpan dyingAnimationTimer;
 
@@ -38,12 +35,9 @@ namespace co_op_engine.Components.Combat
 
         virtual public void Update(GameTime gameTime)
         {
-            RemoveFinishedWeaponEffects();
-            UpdateCurrentWeaponEffects(gameTime);
-
+            //TODO move to appropriate area
             MaybeStartDyingFromWounds();
 
-            //update status effects
             foreach (var status in CurrentStatusEffects)
             {
                 status.Update(gameTime);
@@ -52,83 +46,6 @@ namespace co_op_engine.Components.Combat
         }
 
         virtual public void Draw(SpriteBatch spriteBatch) { }
-
-        public void HandleHitBySkill(Skill skill)
-        {
-            foreach(var effect in skill.Effects)
-            {
-                string hash = GetHash(skill.ID, effect);
-                if (owner.CurrentStateProperties.IsVulnerable 
-                    && IsAffected(skill, effect)
-                    && !effectsByWeapon.ContainsKey(hash))
-                {
-                    // get the effect from the weapon, set its receiver to this owner, register it in the list of actie effects
-                    var newEffect = (StatusEffect)effect.Clone();//HACK: this is so hackey
-                    newEffect.SetReceiver(owner);
-
-                    var rotation = owner.Position - skill.Position;
-                    rotation.Normalize();
-                    newEffect.SetRotationAtTimeOfHit(rotation);
-                    
-                    effectsByWeapon.Add(hash, newEffect);
-
-                    // Apply the status effect
-                    newEffect.Apply();
-                    FireWasAffectedEvent(skill, effect);
-                }
-            }
-        }
-
-        private bool IsAffected(Skill skill, StatusEffect effect)
-        {
-            if(owner.Team == skill.Team)
-            {
-                return effect.AffectsFriendlies;
-            }
-
-            return effect.AffectsNonFriendlies;
-        }
-
-        private void FireWasAffectedEvent(Skill skill, StatusEffect effect)
-        {
-            if (owner.Team == skill.Team)
-            {
-                owner.FireOnWasAffectedByFriendlyWeapon(this, null);
-            }
-            else
-            {
-                owner.FireOnWasAffectedByNonFriendlyWeapon(this, null);
-            }
-        }
-
-        private void UpdateCurrentWeaponEffects(GameTime gameTime)
-        {
-            foreach (var effect in effectsByWeapon.Values)
-            {
-                // Update the status effect
-                effect.Update(gameTime);
-            }
-        }
-
-        private void RemoveFinishedWeaponEffects()
-        {
-            var effectsToRemove = new List<string>();
-            foreach(var key in effectsByWeapon.Keys)
-            {
-                if(effectsByWeapon[key].IsFinished)
-                {
-                    effectsToRemove.Add(key);
-                }
-            }
-
-            int cnt = effectsToRemove.Count();
-            for (int i = 0; i < cnt; i++)
-            {
-                // Clear the status effect
-                effectsByWeapon[effectsToRemove[i]].Clear();
-                effectsByWeapon.Remove(effectsToRemove[i]);
-            }
-        }
 
         private void MaybeStartDyingFromWounds()
         {
@@ -192,11 +109,6 @@ namespace co_op_engine.Components.Combat
             return aboveHead;
         }
 
-        private string GetHash(int weaponId, StatusEffect effect)
-        {
-            return "" + weaponId + "_" + effect.StatusEffectID;
-        }
-
         internal void ReceiveCommand(Networking.Commands.GameObjectCommand command)
         {
             throw new NotImplementedException();
@@ -204,7 +116,7 @@ namespace co_op_engine.Components.Combat
 
         public void ApplyStatusEffect(StatusEffectBase statusEffect)
         {
-            //TODO: possibly some logic on whether or not it can be applied here
+            //TODO possibly some logic on whether or not it can be applied here or not, still deciding responsibilities since skills are now on the skill to check the object not the other way around
             statusEffect.Start();
             CurrentStatusEffects.Add(statusEffect);
         }

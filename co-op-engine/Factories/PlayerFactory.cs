@@ -20,7 +20,6 @@ using co_op_engine.Components.Brains.AI;
 using co_op_engine.Components.Movement;
 using co_op_engine.Components.Engines;
 using co_op_engine.Components.Skills;
-using co_op_engine.Effects;
 using co_op_engine.Components.Skills.Boosts;
 using co_op_engine.Components.Skills.Rages;
 
@@ -208,15 +207,11 @@ namespace co_op_engine.Factories
 
         public Rage GetRage(GameObject owner)
         {
-            //@TODO cost
             var rage = new RageExplosion(0, owner.Skills, owner);
             rage.Scale = 16f;
             var rageRenderer = new RenderBase(rage, AssetRepository.Instance.Rage2, AssetRepository.Instance.Rage2Animations(rage.Scale));
             rage.SetRenderer(rageRenderer);
-            rage.EquipEffect(new BasicDamageEffect(
-                durationMS: rageRenderer.animationSet.GetAnimationDuration(Constants.ACTOR_STATE_RAGING, Constants.South), 
-                damageRating: 100
-            ));
+            
             return rage;
         }
 
@@ -227,10 +222,6 @@ namespace co_op_engine.Factories
             var swordRenderer = new RenderBase(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations(owner.Scale));
             sword.SetRenderer(swordRenderer);
 
-            sword.EquipEffect(new BasicDamageEffect(
-                durationMS: swordRenderer.animationSet.GetAnimationDuration(Constants.ACTOR_STATE_ATTACKING, Constants.South),
-                damageRating: 25
-            ));
             return sword;
         }
 

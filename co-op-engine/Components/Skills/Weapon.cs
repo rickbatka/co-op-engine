@@ -42,8 +42,18 @@ namespace co_op_engine.Components.Skills
                 {
                     CurrentState = Constants.ACTOR_STATE_IDLE;
                     currentAttackTimer = TimeSpan.Zero;
-                    ResetAnimation(Constants.ACTOR_STATE_ATTACKING, Owner.FacingDirection);
+                    ResetSkill(Constants.ACTOR_STATE_ATTACKING, Owner.FacingDirection);
                 }
+            }
+        }
+
+        //HACK this is hack until I get a non base class for sword... need this to build currently
+        protected override void SkillHitObject(GameObject receiver)
+        {
+            if (HasntBeenHit(receiver))
+            {
+                DamageHealth(this.Owner, receiver, 10);
+                Knockback(receiver, 5000);
             }
         }
     }

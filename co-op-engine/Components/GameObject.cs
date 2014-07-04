@@ -172,18 +172,18 @@ namespace co_op_engine.Components
                 Skills.Draw(spriteBatch);
             }
 
-            //@TODO DEBUGDRAW DEBUG DRAW
+            //TODO DEBUGDRAW DEBUG DRAW
             //Renderer.DebugDraw(spriteBatch);
             //Physics.DebugDraw(spriteBatch);
         }
 
-        public void HandleHitBySkill(Skill skill)
-        {
-            if (Combat != null)
-            {
-                Combat.HandleHitBySkill(skill);
-            }
-        }
+        //public void HandleHitBySkill(Skill skill)
+        //{
+        //    if (Combat != null)
+        //    {
+        //        Combat.HandleHitBySkill(skill);
+        //    }
+        //}
 
         public void UpdateFromNetworkParams(GameObjectCommand command)
         {

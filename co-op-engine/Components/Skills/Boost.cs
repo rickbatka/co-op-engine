@@ -31,5 +31,10 @@ namespace co_op_engine.Components.Skills
         {
             CooldownTimer = TimeSpan.FromMilliseconds(CooldownMilli);
         }
+
+        protected override void SkillHitObject(GameObject receiver)
+        {
+            //do nothing, it's a boost, some may override this by choice but default is do nothing
+        }
     }
 }

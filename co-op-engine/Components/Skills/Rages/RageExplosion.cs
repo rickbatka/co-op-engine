@@ -52,10 +52,19 @@ namespace co_op_engine.Components.Skills.Rages
                 {
                     if (collider.Team != Owner.Team)
                     {
-                        collider.HandleHitBySkill(this);
-                        FireUsedWeaponEvent(collider);
+                        SkillHitObject(collider);
+                        HitObjectsList.Add(collider); //TODO could move this to it's own base method since these are all the same everywhere
+                        FireUsedWeaponEvent(collider);//DOTHIS this is backwards?
                     }
                 }
+            }
+        }
+
+        protected override void SkillHitObject(GameObject receiver)
+        {
+            if (HasntBeenHit(receiver))
+            {
+                AddDamageOverTime(receiver, 8000, 1000, 5);
             }
         }
     }

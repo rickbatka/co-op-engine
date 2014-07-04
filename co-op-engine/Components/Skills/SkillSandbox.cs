@@ -1,4 +1,5 @@
 ﻿using co_op_engine.Components.Skills.StatusEffects;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,15 @@ namespace co_op_engine.Components.Skills
         {
             var poison = new SimplePoison(to, durationMilli, tickIntervalMilli, damagePerTick);
             to.Combat.ApplyStatusEffect(poison);
+        }
+
+        protected void Knockback(GameObject to, int impulse)
+        {
+            var push = to.Position - Owner.Position;
+            push.Normalize();
+            push *= impulse;
+
+            to.Velocity += push;
         }
     }
 }
