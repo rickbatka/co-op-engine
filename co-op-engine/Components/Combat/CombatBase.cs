@@ -1,4 +1,5 @@
-﻿using co_op_engine.Components.Particles;
+﻿using co_op_engine.Components.Brains.AI;
+using co_op_engine.Components.Particles;
 using co_op_engine.Components.Skills;
 using co_op_engine.Components.Skills.StatusEffects;
 using co_op_engine.Utility;
@@ -51,8 +52,6 @@ namespace co_op_engine.Components.Combat
         {
             if (owner.Health <= 0)
             {
-                owner.Health.Value = 0;
-
                 if (owner.CurrentStateProperties.CanStartDying)
                 {
                     owner.CurrentState = Constants.ACTOR_STATE_DYING;
@@ -64,11 +63,18 @@ namespace co_op_engine.Components.Combat
                         updateCallback: (t) => { },
                         endCallback: (t) => 
                         { 
-                            owner.CurrentState = Constants.ACTOR_STATE_DEAD;
+                            HandleDeath();
                         }
                     );
                 }
             }
+        }
+
+        private void HandleDeath()
+        {
+            owner.Brain = new DoNothingBrain(owner);
+            owner.InputMovementVector = Vector2.Zero;
+            owner.CurrentState = Constants.ACTOR_STATE_DEAD;
         }
 
         virtual public void DebugDraw(SpriteBatch spriteBatch)

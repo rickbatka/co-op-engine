@@ -170,7 +170,36 @@ namespace DevTools.ViewModel
         {
             get
             {
-                return new ObservableCollection<string>(model.animations.Keys.Select((i) => i.ToString()));
+                return new ObservableCollection<string>(model.animations.Keys.Select((i) => GetNameForAction(i)));
+            }
+        }
+
+        private string GetNameForAction(int actionId)
+        {
+            switch (actionId)
+            {
+                case 0:
+                    return "Idle";
+                case 1:
+                    return "Walking";
+                case 2:
+                    return "Dying";
+                case 3:
+                    return "Dead";
+                case 4:
+                    return "Placing";
+                case 5:
+                    return "Being Hurt";
+                case 6:
+                    return "Attacking";
+                case 7:
+                    return "Boosting";
+                case 8:
+                    return "Raging";
+                case 9:
+                    return "Casting";
+                default:
+                    return "Unknown " + actionId;
             }
         }
 
