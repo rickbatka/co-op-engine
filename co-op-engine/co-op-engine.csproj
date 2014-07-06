@@ -134,7 +134,8 @@
     <Compile Include="Components\Skills\StatusEffects\SimplePoison.cs" />
     <Compile Include="Components\Skills\StatusEffects\StatusEffectBase.cs" />
     <Compile Include="Components\Skills\Weapons\AlwaysAttackingWeapon.cs" />
-    <Compile Include="Components\Skills\Weapons\Weapon.cs" />
+    <Compile Include="Components\Skills\Weapons\SwordWeapon.cs" />
+    <Compile Include="Components\Skills\Weapons\WeaponBase.cs" />
     <Compile Include="Factories\LevelFactory.cs" />
     <Compile Include="Factories\NetworkFactory.cs" />
     <Compile Include="Factories\ProjectileFactory.cs" />
