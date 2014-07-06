@@ -9,18 +9,13 @@ using System.Text;
 
 namespace co_op_engine.Components.Skills.Weapons
 {
-    public class WeaponBase : SkillBase
+    public abstract class WeaponBase : SkillBase
     {
         private TimeSpan currentAttackTimer;
 
         public WeaponBase(SkillsComponent skillsComponent, GameObject owner)
             : base(skillsComponent, owner)
         { }
-
-        override public void Activate(int attackTimer = 0)
-        {
-            UseSkill(attackTimer);
-        }
 
         override protected void UseSkill(int attackTimer = 0)
         {
@@ -30,8 +25,12 @@ namespace co_op_engine.Components.Skills.Weapons
             }
             currentAttackTimer = TimeSpan.FromMilliseconds(attackTimer);
             CurrentState = Constants.ACTOR_STATE_ATTACKING;
-            SoundManager.PlaySoundEffect(AssetRepository.Instance.SwordSwoosh1);
         }
+
+        /// <summary>
+        /// when the weapon hits something for the first time.
+        /// </summary>
+        protected abstract void WeaponHitSomething(GameObject thingHit);
 
         protected override void UpdateState(GameTime gameTime)
         {
@@ -47,13 +46,12 @@ namespace co_op_engine.Components.Skills.Weapons
             }
         }
 
-        //HACK this is hack until I get a non base class for sword... need this to build currently
+        // using this cause I'm making the assumption most weapons are going to behave like this, it could change later
         protected override void SkillHitObject(GameObject receiver)
         {
             if (HasntBeenHit(receiver))
             {
-                DamageHealth(this.Owner, receiver, 10);
-                Knockback(receiver, 5000);
+                WeaponHitSomething(receiver);
             }
         }
     }

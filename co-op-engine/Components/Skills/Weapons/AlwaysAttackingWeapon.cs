@@ -20,5 +20,15 @@ namespace co_op_engine.Components.Skills.Weapons
                 CurrentState = Constants.ACTOR_STATE_ATTACKING;
             }
         }
+
+        protected override void WeaponHitSomething(GameObject thingHit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Activate(int attackTimer = 0)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

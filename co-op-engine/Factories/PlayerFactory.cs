@@ -218,7 +218,7 @@ namespace co_op_engine.Factories
 
         public WeaponBase GetSword(GameObject owner)
         {
-            var sword = new WeaponBase(owner.Skills, owner);
+            var sword = new SwordWeapon(owner.Skills, owner);
 
             var swordRenderer = new RenderBase(sword, AssetRepository.Instance.SwordTexture, AssetRepository.Instance.SwordAnimations(owner.Scale));
             sword.SetRenderer(swordRenderer);
@@ -226,20 +226,20 @@ namespace co_op_engine.Factories
             return sword;
         }
 
-        public WeaponBase GetAxe(GameObject owner)
-        {
-            var axe = new WeaponBase(owner.Skills, owner);
-            var axeRenderer = new RenderBase(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations(owner.Scale));
-            axe.SetRenderer(axeRenderer);
-            return axe;
-        }
+        //public WeaponBase GetAxe(GameObject owner)
+        //{
+        //    var axe = new WeaponBase(owner.Skills, owner);
+        //    var axeRenderer = new RenderBase(axe, AssetRepository.Instance.AxeTexture, AssetRepository.Instance.AxeAnimations(owner.Scale));
+        //    axe.SetRenderer(axeRenderer);
+        //    return axe;
+        //}
 
-        public WeaponBase GetMace(GameObject owner)
-        {
-            var mace = new WeaponBase(owner.Skills, owner);
-            var maceRenderer = new RenderBase(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations(owner.Scale));
-            mace.SetRenderer(maceRenderer);
-            return mace;
-        }
+        //public WeaponBase GetMace(GameObject owner)
+        //{
+        //    var mace = new WeaponBase(owner.Skills, owner);
+        //    var maceRenderer = new RenderBase(mace, AssetRepository.Instance.MaceTexture, AssetRepository.Instance.MaceAnimations(owner.Scale));
+        //    mace.SetRenderer(maceRenderer);
+        //    return mace;
+        //}
     }
 }

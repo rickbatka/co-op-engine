@@ -73,14 +73,14 @@ namespace co_op_engine.Components.Brains
             {
                 Owner.EquipWeapon(PlayerFactory.Instance.GetSword(Owner));
             }
-            if (InputHandler.KeyPressed(Keys.D2))
-            {
-                Owner.EquipWeapon(PlayerFactory.Instance.GetAxe(Owner));
-            }
-            if (InputHandler.KeyPressed(Keys.D3))
-            {
-                Owner.EquipWeapon(PlayerFactory.Instance.GetMace(Owner));
-            }
+            //if (InputHandler.KeyPressed(Keys.D2))
+            //{
+            //    Owner.EquipWeapon(PlayerFactory.Instance.GetAxe(Owner));
+            //}
+            //if (InputHandler.KeyPressed(Keys.D3))
+            //{
+            //    Owner.EquipWeapon(PlayerFactory.Instance.GetMace(Owner));
+            //}
         }
 
         private void HandleActions()

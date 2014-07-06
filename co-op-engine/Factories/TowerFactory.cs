@@ -70,7 +70,7 @@ namespace co_op_engine.Factories
             tower.SetSkills(new SkillsComponent(tower));
 
             //DOTHIS this weapon needs to be tower specific, doing the healing on it's own
-            var healingAOEWeapon = new WeaponBase(tower.Skills, tower);
+            //var healingAOEWeapon = new WeaponBase(tower.Skills, tower);
             
             if (fromNetwork)
             {
@@ -108,7 +108,7 @@ namespace co_op_engine.Factories
                 new TowerPlacingInput(gameRef, tower.PhysicsCollisionBox)));
             tower.SetSkills(new SkillsComponent(tower));
 
-            var emptyWeapon = new WeaponBase(tower.Skills, tower);
+            var emptyWeapon = new AlwaysAttackingWeapon(tower.Skills, tower);
             tower.EquipWeapon(emptyWeapon);
 
             if (fromNetwork)

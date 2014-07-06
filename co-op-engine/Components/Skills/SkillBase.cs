@@ -37,7 +37,7 @@ namespace co_op_engine.Components.Skills
         public int Team { get { return Owner.Team; } }
         public Frame CurrentFrame { get; set; }
         public Texture2D Texture { get; set; }
-        public Vector2 Position { get { return new Vector2(Owner.Position.X, Owner.Position.Y - 1);  }}
+        public Vector2 Position { get { return new Vector2(Owner.Position.X, Owner.Position.Y - 1); } }
         public int FacingDirection { get { return Owner.FacingDirection; } }
         public float RotationTowardFacingDirectionRadians { get { return Owner.RotationTowardFacingDirectionRadians; } }
         public float Scale { get; set; }
@@ -54,27 +54,48 @@ namespace co_op_engine.Components.Skills
             HitObjectsList = new List<GameObject>();
         }
 
+        /// <summary>
+        /// checks to see if the object in question hasn't been hit by this skill
+        /// during the current activation. it automatically resets via the ResetSkill
+        /// method following the normal pattern
+        /// </summary>
         protected bool HasntBeenHit(Object check)
         {
             return !HitObjectsList.Contains(check);
         }
-
         public void SetRenderer(RenderBase renderer)
         {
             this.Renderer = renderer;
         }
 
+        /// <summary>
+        /// Starts the underlying skill pattern for the specific skill,
+        /// generally called from The Activate method
+        /// </summary>
         protected abstract void UseSkill(int attackTimer = 0);
+        /// <summary>
+        /// Called during the update loop, meant to handle the state
+        /// changes at the skill mechanic level, possibly overridden by
+        /// specific skills if they deviate from the underlying pattern
+        /// e.g. a boost that does damage
+        /// </summary>
         protected abstract void UpdateState(GameTime gameTime);
+        /// <summary>
+        /// generally overridden in the concrete implementation of a skill
+        /// this is what is invoked when the skill's damage dots hit something
+        /// </summary>
         protected abstract void SkillHitObject(GameObject receiver);
+        /// <summary>
+        /// The public entry method for initiating a skill to start
+        /// </summary>
         public abstract void Activate(int attackTimer = 0);
-        
+
         public virtual void Update(GameTime gameTime)
         {
             UpdateState(gameTime);
             QueryForHits();
 
-            if(Renderer != null)
+            if (Renderer != null)
             {
                 Renderer.Update(gameTime);
             }
@@ -108,7 +129,7 @@ namespace co_op_engine.Components.Skills
 
         public void FireUsedWeaponEvent(GameObject receiver)
         {
-            if(this.Team == receiver.Team)
+            if (this.Team == receiver.Team)
             {
                 Owner.FireOnUsedWeaponEffectOnFriendly(this, null);
             }
@@ -118,16 +139,16 @@ namespace co_op_engine.Components.Skills
             }
         }
 
-        public bool FullyRotatable 
-        { 
-            get 
+        public bool FullyRotatable
+        {
+            get
             {
                 if (CurrentState == Constants.ACTOR_STATE_ATTACKING)
                 {
                     return true;
                 }
                 return false;
-            } 
+            }
         }
 
         public void ResetSkill(int state, int facingDirection)
