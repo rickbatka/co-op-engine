@@ -5,6 +5,7 @@ using co_op_engine.Components.Input;
 using co_op_engine.Components.Physics;
 using co_op_engine.Components.Rendering;
 using co_op_engine.Components.Skills;
+using co_op_engine.Components.Skills.Tower;
 using co_op_engine.Components.Skills.Weapons;
 using co_op_engine.GameStates;
 using co_op_engine.Networking;
@@ -39,11 +40,11 @@ namespace co_op_engine.Factories
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UsedInPathing = true;
-            tower.SetPhysics(new CollidingPhysics(tower, gameRef.Level.Bounds));
+            tower.SetPhysics(new CollidingPhysics(tower, gameRef.CurrentLevel.Bounds));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             tower.CurrentState = Constants.ACTOR_STATE_IDLE;
 
-            gameRef.container.AddObject(tower);
+            gameRef.CurrentLevel.Container.AddObject(tower);
 
             if (!fromNetwork)
             {
@@ -62,12 +63,13 @@ namespace co_op_engine.Factories
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UsedInPathing = true;
-            tower.SetPhysics(new CollidingPhysics(tower, gameRef.Level.Bounds));
+            tower.SetPhysics(new CollidingPhysics(tower, gameRef.CurrentLevel.Bounds));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             tower.SetBrain(new HealingAOETowerBrain(tower,
                 new TowerPlacingInput(gameRef, tower.PhysicsCollisionBox)));
 
             tower.SetSkills(new SkillsComponent(tower));
+
 
             //DOTHIS this weapon needs to be tower specific, doing the healing on it's own
             //var healingAOEWeapon = new WeaponBase(tower.Skills, tower);
@@ -83,7 +85,7 @@ namespace co_op_engine.Factories
 
             tower.SetCombat(new CombatBase(tower));
 
-            gameRef.container.AddObject(tower);
+            gameRef.CurrentLevel.Container.AddObject(tower);
 
             if (!fromNetwork)
             {
@@ -102,14 +104,15 @@ namespace co_op_engine.Factories
             tower.CurrentFrame = AssetRepository.Instance.TowerAnimations(tower.Scale).CurrentAnimatedRectangle.CurrentFrame;
 
             tower.UsedInPathing = true;
-            tower.SetPhysics(new CollidingPhysics(tower, gameRef.Level.Bounds));
+            tower.SetPhysics(new CollidingPhysics(tower, gameRef.CurrentLevel.Bounds));
             tower.SetRenderer(new RenderBase(tower, AssetRepository.Instance.TowerTexture, AssetRepository.Instance.TowerAnimations(tower.Scale)));
             tower.SetBrain(new ArrowTowerBrain(tower,
                 new TowerPlacingInput(gameRef, tower.PhysicsCollisionBox)));
             tower.SetSkills(new SkillsComponent(tower));
 
-            var emptyWeapon = new AlwaysAttackingWeapon(tower.Skills, tower);
-            tower.EquipWeapon(emptyWeapon);
+            tower.Skills.SetTowerSkill(new ArrowTowerWeapon(tower.Skills, tower, 1000));
+            //var emptyWeapon = new AlwaysAttackingWeapon(tower.Skills, tower);
+            //tower.EquipWeapon(emptyWeapon);
 
             if (fromNetwork)
             {
@@ -122,7 +125,7 @@ namespace co_op_engine.Factories
 
             tower.SetCombat(new CombatBase(tower));
 
-            gameRef.container.AddObject(tower);
+            gameRef.CurrentLevel.Container.AddObject(tower);
 
             if (!fromNetwork)
             {

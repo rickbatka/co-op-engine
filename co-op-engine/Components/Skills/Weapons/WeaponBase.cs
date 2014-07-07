@@ -49,7 +49,7 @@ namespace co_op_engine.Components.Skills.Weapons
         // using this cause I'm making the assumption most weapons are going to behave like this, it could change later
         protected override void SkillHitObject(GameObject receiver)
         {
-            if (HasntBeenHit(receiver))
+            if (HasntBeenHit(receiver) && Owner.Team != receiver.Team)
             {
                 WeaponHitSomething(receiver);
             }

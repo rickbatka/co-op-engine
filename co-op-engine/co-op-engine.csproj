@@ -79,7 +79,7 @@
     <Compile Include="Collections\SpacialBase.cs" />
     <Compile Include="Components\Brains\AI\FootSoldierBrain.cs" />
     <Compile Include="Components\Brains\Pather.cs" />
-    <Compile Include="Components\Brains\Projectiles\ArrowBrain.cs" />
+    <Compile Include="Components\Brains\Projectiles\GenericProjectileBrain.cs" />
     <Compile Include="Components\Brains\TowerBrains\ArrowTowerBrain.cs" />
     <Compile Include="Components\Brains\TowerBrains\HealingAOETowerBrain.cs" />
     <Compile Include="Components\Engines\EngineBase.cs" />
@@ -130,9 +130,11 @@
     <Compile Include="Components\Skills\SkillBase.cs" />
     <Compile Include="Components\Skills\SkillBaseSandbox.cs" />
     <Compile Include="Components\Skills\SkillsComponent.cs" />
+    <Compile Include="Components\Skills\Spells\SpellBase.cs" />
     <Compile Include="Components\Skills\StatusEffects\BoostSimple.cs" />
     <Compile Include="Components\Skills\StatusEffects\SimplePoison.cs" />
     <Compile Include="Components\Skills\StatusEffects\StatusEffectBase.cs" />
+    <Compile Include="Components\Skills\Tower\ArrowTowerWeapon.cs" />
     <Compile Include="Components\Skills\Weapons\AlwaysAttackingWeapon.cs" />
     <Compile Include="Components\Skills\Weapons\SwordWeapon.cs" />
     <Compile Include="Components\Skills\Weapons\WeaponBase.cs" />
@@ -241,9 +243,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components\Skills\Spells\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

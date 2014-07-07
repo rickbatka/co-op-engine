@@ -13,7 +13,6 @@ namespace co_op_engine.Components.Brains.TowerBrains
     public class ArrowTowerBrain : BasicTowerBrain
     {
         Color TextureColor = new Color(Color.White, 0.001f);
-        int shotCooldown = 2000;
 
         public ArrowTowerBrain(GameObject owner, TowerPlacingInput placingInput)
             : base(owner, placingInput)
@@ -30,11 +29,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
         {
             base.HandleNonFriendlyInRange(collider);
 
-            if (Owner.Skills.TryInititateWeaponAttack(shotCooldown))//this is odd? the tower weapon should probably create the projectile?
-            {
-                var arrow = ProjectileFactory.Instance.GetArrow(Owner, collider);
-                arrow.FireOnWasFiredAtFixedPoint(this, new FireProjectileEventArgs { TargetObject = collider });
-            }
+            Owner.Skills.TryInitiateTowerSkill();
         }
 
         public override void Draw(SpriteBatch spriteBatch)

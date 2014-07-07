@@ -1,5 +1,9 @@
-﻿using co_op_engine.Components.Skills.StatusEffects;
+﻿using co_op_engine.Collections;
+using co_op_engine.Components.Movement;
+using co_op_engine.Components.Skills.StatusEffects;
+using co_op_engine.Factories;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +45,11 @@ namespace co_op_engine.Components.Skills
             push *= impulse;
 
             to.Velocity += push;
+        }
+
+        protected void ShootProjectile(GameObject projectile, GameObject target)
+        {
+            ((ProjectileMover)projectile.Mover).FireProjectile(target);
         }
     }
 }

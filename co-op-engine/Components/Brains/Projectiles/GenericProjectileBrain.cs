@@ -7,10 +7,9 @@ using System.Text;
 
 namespace co_op_engine.Components.Brains.Projectiles
 {
-    public class ArrowBrain : BrainBase
+    public class GenericProjectileBrain : BrainBase
     {
-        
-        public ArrowBrain(GameObject owner, GameObject target)
+        public GenericProjectileBrain(GameObject owner)
             :base(owner, false)
         {
             Owner.OnDidAttackNonFriendly += HandleArrowHitTarget;

@@ -77,7 +77,6 @@ namespace co_op_engine.Components.Skills
         /// Called during the update loop, meant to handle the state
         /// changes at the skill mechanic level, possibly overridden by
         /// specific skills if they deviate from the underlying pattern
-        /// e.g. a boost that does damage
         /// </summary>
         protected abstract void UpdateState(GameTime gameTime);
         /// <summary>

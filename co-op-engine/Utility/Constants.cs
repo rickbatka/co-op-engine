@@ -30,8 +30,4 @@ namespace co_op_engine.Utility
         public static readonly int BEING_HURT_EFFECT_TIME_MS = 200;
     }
 
-    public class FireProjectileEventArgs : EventArgs
-    {
-        public GameObject TargetObject;
-    }
 }

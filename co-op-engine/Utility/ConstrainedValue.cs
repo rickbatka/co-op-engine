@@ -78,6 +78,16 @@ namespace co_op_engine.Utility
             }
         }
 
+        public bool IsFull
+        {
+            get { return _value == _maxValue; }
+        }
+
+        public bool IsEmpty
+        {
+            get { return _value == _minValue; }
+        }
+
         public event EventHandler<ConstrainedValueEventArgs> OnMaxValueChanged;
         public event EventHandler<ConstrainedValueEventArgs> OnMinValueChanged;
         public event EventHandler<ConstrainedValueEventArgs> OnValueChanged;

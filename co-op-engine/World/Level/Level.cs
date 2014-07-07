@@ -18,6 +18,8 @@ namespace co_op_engine.World.Level
 
     public class Level
     {
+        public ObjectContainer Container { get; private set; }
+
         private TiledBackground Background;
         private GameDirectorBase GameDirector;
         //private AiDirectorBase AiDirector;
@@ -40,6 +42,7 @@ namespace co_op_engine.World.Level
         public void Initialize()
         {
             Bounds = new Rectangle(0, 0, 1000, 1000);
+            Container = new ObjectContainer(Bounds);
             StartingPositionPlayer0 = new Vector2(Bounds.Width / 2, Bounds.Height / 2);
         }
 
@@ -55,8 +58,12 @@ namespace co_op_engine.World.Level
 
         public void Update(GameTime gameTime)
         {
+            Container.RemoveDeletedObjects();
+
             Background.Update(gameTime);
             GameDirector.Update(gameTime);
+
+            Container.UpdateAll(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)

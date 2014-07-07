@@ -23,33 +23,29 @@ namespace co_op_engine.GameStates
 {
     public class GamePlay : GameState
     {
-        public ObjectContainer container;
-        
-        public Level Level;
+        public Level CurrentLevel;
 
         private bool isHosting;
 
         public GamePlay(Game1 game, Level level)
             : base(game)
         {
-            Level = level;
-            Level.Initialize();
-            container = new ObjectContainer(Level.Bounds);
-            PathFinder.Initialize(container);
-            NetCommander.RegisterWorldWithNetwork(container);
+            CurrentLevel = level;
+            CurrentLevel.Initialize();
+            PathFinder.Initialize(CurrentLevel.Container);
+            NetCommander.RegisterWorldWithNetwork(CurrentLevel.Container);
             Camera.Instantiate(GameRef.screenRectangleActual);
             PlayerFactory.Initialize(this);
             TowerFactory.Initialize(this);
             NetworkFactory.Initialize(this);
             ProjectileFactory.Initialize(this);
             
-
             //SoundManager.CrossfadeMusic(5000, AssetRepository.Instance.Music1);
         }
 
         public override void LoadContent()
         {
-            Level.LoadContent();
+            CurrentLevel.LoadContent();
         }
 
         public void ClosingGameplay()
@@ -61,17 +57,10 @@ namespace co_op_engine.GameStates
         {
             GameTimerManager.Instance.Update(gameTime);
             SoundManager.Update(gameTime);
-
-            container.RemoveDeletedObjects();
-
-            Level.Update(gameTime);
-
-            container.UpdateAll(gameTime);
-            
+            CurrentLevel.Update(gameTime);
             ParticleEngine.Instance.Update(gameTime);
             
             var netCommands = NetCommander.RendPendingCommands();
-
             if (netCommands.Count > 0)
             {
                 foreach (var command in netCommands)
@@ -126,7 +115,7 @@ namespace co_op_engine.GameStates
                     break;
                 case GameObjectCommandType.Update:
                     {
-                        container.GetObjectById(objCommand.ID).UpdateFromNetworkParams(objCommand);
+                        CurrentLevel.Container.GetObjectById(objCommand.ID).UpdateFromNetworkParams(objCommand);
                     }
                     break;
                 default:
@@ -147,9 +136,9 @@ namespace co_op_engine.GameStates
                 effect: null,
                 transformMatrix: Camera.Instance.Transformation
             );
-            Level.Draw(GameRef.spriteBatch);
+            CurrentLevel.Draw(GameRef.spriteBatch);
             
-            container.DrawAll(GameRef.spriteBatch);
+            CurrentLevel.Container.DrawAll(GameRef.spriteBatch);
             ParticleEngine.Instance.Draw(GameRef.spriteBatch);
 
 #if DEBUGSTRINGS
@@ -182,7 +171,7 @@ namespace co_op_engine.GameStates
             string[] debugInfos = new string[] 
             { 
                 "fps:" + 1000 / (int)gameTime.ElapsedGameTime.TotalMilliseconds,
-                "obj count:" + container.ObjectCount,
+                "obj count:" + CurrentLevel.Container.ObjectCount,
                 "net sent:" + NetCommander.SentCount,
                 "net recv:" + NetCommander.RecvCount,
             };

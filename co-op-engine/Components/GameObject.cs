@@ -234,13 +234,11 @@ namespace co_op_engine.Components
         public event EventHandler<EventArgs> OnWasAffectedByNonFriendlyWeapon;
         public event EventHandler<EventArgs> OnUsedWeaponEffectOnFriendly;
         public event EventHandler<EventArgs> OnWasAffectedByFriendlyWeapon;
-        public event EventHandler<FireProjectileEventArgs> OnWasFiredAtFixedPoint;
 
         public void FireOnDeath(object sender, EventArgs args) { if (OnDeath != null) OnDeath(sender, args); }
         public void FireOnWasAffectedByFriendlyWeapon(object sender, EventArgs args) { if (OnWasAffectedByFriendlyWeapon != null) OnWasAffectedByFriendlyWeapon(sender, args); }
         public void FireOnWasAffectedByNonFriendlyWeapon(object sender, EventArgs args) { if (OnWasAffectedByNonFriendlyWeapon != null) OnWasAffectedByNonFriendlyWeapon(sender, args); }
         public void FireOnDidAttackNonFriendly(object sender, EventArgs args) { if (OnDidAttackNonFriendly != null) OnDidAttackNonFriendly(sender, args); }
         public void FireOnUsedWeaponEffectOnFriendly(object sender, EventArgs args) { if (OnUsedWeaponEffectOnFriendly != null) OnUsedWeaponEffectOnFriendly(sender, args); }
-        public void FireOnWasFiredAtFixedPoint(object sender, FireProjectileEventArgs args) { if (OnWasFiredAtFixedPoint != null) OnWasFiredAtFixedPoint(sender, args); }
     }
 }

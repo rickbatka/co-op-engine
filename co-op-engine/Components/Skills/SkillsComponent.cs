@@ -1,5 +1,6 @@
 ﻿using co_op_engine.Components.Skills.Boosts;
 using co_op_engine.Components.Skills.Rages;
+using co_op_engine.Components.Skills.Spells;
 using co_op_engine.Components.Skills.Weapons;
 using co_op_engine.Utility;
 using Microsoft.Xna.Framework;
@@ -28,7 +29,8 @@ namespace co_op_engine.Components.Skills
         public WeaponBase WeaponSkill;
         public BoostBase BoostSkill;
         public RageBase RageSkill;
-        //public Spell SpellSkill;
+        public SpellBase SpellSkill;
+        public SkillBase TowerSkill;
         private List<SkillBase> AllSkills;
 
         public SkillsComponent(GameObject owner)
@@ -53,6 +55,12 @@ namespace co_op_engine.Components.Skills
         {
             BoostSkill = boostSkill;
             AllSkills.Add(BoostSkill);
+        }
+
+        public void SetTowerSkill(SkillBase towerSkill)
+        {
+            TowerSkill = towerSkill;
+            AllSkills.Add(towerSkill);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -88,15 +96,12 @@ namespace co_op_engine.Components.Skills
             }
         }
 
-        public bool TryInititateWeaponAttack(int attackTimer = 0)
+        public void TryInititateWeaponAttack(int attackTimer = 0)
         {
             if (WeaponSkill != null && ActorStates.States[Owner.CurrentState].CanInitiateSkills)
             {
                 WeaponSkill.Activate(attackTimer);
-                return true;
             }
-
-            return false;
         }
 
         public void TryInitiateBoost(int attackTimer = 0)
@@ -116,6 +121,22 @@ namespace co_op_engine.Components.Skills
                 && RageMeter >= RageSkill.RageCost)
             {
                 RageSkill.Activate();
+            }
+        }
+
+        public void TryInitiateSpell(int attackTimer = 0)
+        {
+            if (SpellSkill != null && ActorStates.States[Owner.CurrentState].CanInitiateSkills)
+            {
+                SpellSkill.Activate();
+            }
+        }
+
+        public void TryInitiateTowerSkill()
+        {
+            if (TowerSkill != null && ActorStates.States[Owner.CurrentState].CanInitiateSkills)
+            {
+                TowerSkill.Activate();
             }
         }
     }

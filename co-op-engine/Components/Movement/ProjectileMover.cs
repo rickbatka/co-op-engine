@@ -22,13 +22,12 @@ namespace co_op_engine.Components.Movement
         public ProjectileMover(GameObject owner)
             : base(owner)
         {
-            owner.OnWasFiredAtFixedPoint += HandleWasFired;
         }
 
-        public void HandleWasFired(object sender, FireProjectileEventArgs args)
+        public void FireProjectile(GameObject target)
         {
             Origin = Owner.Position;
-            Target = GetTarget(Origin, args.TargetObject);
+            Target = GetTarget(Owner.Position, target); //GetTarget(Origin, args.TargetObject);
             IsTracking = true;
         }
 

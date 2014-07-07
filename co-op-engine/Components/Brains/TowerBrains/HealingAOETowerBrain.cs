@@ -33,12 +33,11 @@ namespace co_op_engine.Components.Brains.TowerBrains
             base.HandleFriendlyInRange(collider);
 
 
-            //DOTHIS this was a hack, figure out a better way
-            if (Owner.Skills.TryInititateWeaponAttack(healCooldown))
-            {
-                //collider.HandleHitBySkill(Owner.Skills.WeaponSkill);
-                ParticleEngine.Instance.AddEmitter(new HealBeam(Owner, collider));
-            }
+            //DOTHIS healing beam should be a skill that is used on a collider
+            Owner.Skills.TryInititateWeaponAttack(healCooldown);
+            
+            //collider.HandleHitBySkill(Owner.Skills.WeaponSkill);
+            //    ParticleEngine.Instance.AddEmitter(new HealBeam(Owner, collider));
         }
 
         public override void Draw(SpriteBatch spriteBatch)

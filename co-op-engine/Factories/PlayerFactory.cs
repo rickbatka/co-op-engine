@@ -54,7 +54,7 @@ namespace co_op_engine.Factories
             var mover = new WalkingMover(player);
             mover.SetMovementNoF(200, .5f);
 
-            player.SetPhysics(new CollidingPhysics(player, gameRef.Level.Bounds));
+            player.SetPhysics(new CollidingPhysics(player, gameRef.CurrentLevel.Bounds));
             if (position == null)
             {
                 position = new Vector2(MechanicSingleton.Instance.rand.Next(1, 100));
@@ -74,7 +74,7 @@ namespace co_op_engine.Factories
             player.EquipRage(GetRage(player));
             player.Skills.SetBoost(new SimpleBoostSkill(player.Skills, player));
 
-            gameRef.container.AddObject(player);
+            gameRef.CurrentLevel.Container.AddObject(player);
 
             var parms = new CreateParameters()
             {
@@ -97,7 +97,7 @@ namespace co_op_engine.Factories
 
             enemy.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
 
-            enemy.SetPhysics(new CollidingPhysics(enemy, gameRef.Level.Bounds));
+            enemy.SetPhysics(new CollidingPhysics(enemy, gameRef.CurrentLevel.Bounds));
             enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
             //var renderer = new RenderBase(enemy, AssetRepository.Instance.Slime, AssetRepository.Instance.SlimeAnimations);
 
@@ -114,7 +114,7 @@ namespace co_op_engine.Factories
 
             if (id == -1)
             {
-                enemy.SetBrain(new FootSoldierBrain(enemy, gameRef.container.GetObjectById(0)));
+                enemy.SetBrain(new FootSoldierBrain(enemy, gameRef.CurrentLevel.Container.GetObjectById(0)));
             }
             else
             {
@@ -127,7 +127,7 @@ namespace co_op_engine.Factories
             // wire up the events between components
             enemy.EquipWeapon(GetSword(enemy));
 
-            gameRef.container.AddObject(enemy);
+            gameRef.CurrentLevel.Container.AddObject(enemy);
 
             if (id == -1)
             {
@@ -147,7 +147,7 @@ namespace co_op_engine.Factories
 
             enemy.ID = id == -1 ? MechanicSingleton.Instance.GetNextObjectCountValue() : id;
 
-            enemy.SetPhysics(new CollidingPhysics(enemy, gameRef.Level.Bounds));
+            enemy.SetPhysics(new CollidingPhysics(enemy, gameRef.CurrentLevel.Bounds));
             enemy.Position = new Vector2(MechanicSingleton.Instance.rand.Next(100, 500));
 
             enemy.Scale = 2.5f;
@@ -162,7 +162,7 @@ namespace co_op_engine.Factories
 
             if (id == -1)
             {
-                enemy.SetBrain(new FootSoldierBrain(enemy, gameRef.container.GetObjectById(0)));
+                enemy.SetBrain(new FootSoldierBrain(enemy, gameRef.CurrentLevel.Container.GetObjectById(0)));
             }
             else
             {
@@ -173,7 +173,7 @@ namespace co_op_engine.Factories
 
             //enemy.EquipWeapon(GetSword(enemy));
 
-            gameRef.container.AddObject(enemy);
+            gameRef.CurrentLevel.Container.AddObject(enemy);
 
             if (id == -1)
             {
@@ -192,7 +192,7 @@ namespace co_op_engine.Factories
             player.Team = 0;
             player.Position = new Vector2(100, 100);
 
-            player.SetPhysics(new CollidingPhysics(player, gameRef.Level.Bounds));
+            player.SetPhysics(new CollidingPhysics(player, gameRef.CurrentLevel.Bounds));
             var renderer = new RenderBase(player, AssetRepository.Instance.HeroTexture, AssetRepository.Instance.HeroAnimations(player.Scale));
             player.SetRenderer(renderer);
             player.SetBrain(new NetworkPlayerBrain(player));
@@ -201,7 +201,7 @@ namespace co_op_engine.Factories
             player.SetEngine(new WalkerEngine(player));
             player.EquipWeapon(GetSword(player));
 
-            gameRef.container.AddObject(player);
+            gameRef.CurrentLevel.Container.AddObject(player);
 
             return player;
         }
