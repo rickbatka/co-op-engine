@@ -34,7 +34,10 @@ namespace co_op_engine.Factories
             Instance = new ProjectileFactory(gameRef);
         }
 
-        public GameObject GetGenericProjectile(GameObject source, Vector2 start, float scale, Texture2D texture, AnimationSet animationSet)
+        /// <summary>
+        /// builds a generic projectile obejct based on the animation and texture provided
+        /// </summary>
+        public GameObject GetGenericProjectileNoWeapon(GameObject source, Vector2 start, float scale, Texture2D texture, AnimationSet animationSet, int lifeMilli)
         {
             //new it up
             var projectileContainer = new GameObject();
@@ -49,18 +52,16 @@ namespace co_op_engine.Factories
             projectileContainer.ID = MechanicSingleton.Instance.GetNextObjectCountValue();
             
             //brain, combat, engine, mover, physics, renderer, skills
-            projectileContainer.SetBrain(new GenericProjectileBrain(projectileContainer));
-            //projectileContainer.SetCombat();
-            //projectileContainer.SetEngine();
-            var mover = new ProjectileMover(projectileContainer);
-            projectileContainer.SetMover(mover);
+            //oneHit projectile brain
+            projectileContainer.SetBrain(new OneHitStraightProjectileBrain(projectileContainer, lifeMilli));
+            //no hit physics
             projectileContainer.SetPhysics(new NonCollidingPhysics(projectileContainer, gameRef.CurrentLevel.Bounds));
-            projectileContainer.SetRenderer(new RenderBase(projectileContainer, texture, animationSet));
+            //projectile weapon
             projectileContainer.SetSkills(new SkillsComponent(projectileContainer));
-
-            //used in pathing
-            projectileContainer.UsedInPathing = false;
-
+            //fixed velocity mover
+            projectileContainer.SetMover(new SimpleNoStateMover(projectileContainer));
+            //no renderer, engine, or combat
+            
             //set initial state: location, actor state, direction, velocity
             projectileContainer.Position = start;
             projectileContainer.CurrentState = Constants.ACTOR_STATE_IDLE;

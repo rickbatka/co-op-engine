@@ -12,8 +12,9 @@ namespace co_op_engine.Components.Brains.TowerBrains
 {
     public class ArrowTowerBrain : BasicTowerBrain
     {
+        public GameObject Target { get; private set; }
         Color TextureColor = new Color(Color.White, 0.001f);
-
+        
         public ArrowTowerBrain(GameObject owner, TowerPlacingInput placingInput)
             : base(owner, placingInput)
         {
@@ -28,7 +29,7 @@ namespace co_op_engine.Components.Brains.TowerBrains
         protected override void HandleNonFriendlyInRange(GameObject collider)
         {
             base.HandleNonFriendlyInRange(collider);
-
+            Target = collider;
             Owner.Skills.TryInitiateTowerSkill();
         }
 

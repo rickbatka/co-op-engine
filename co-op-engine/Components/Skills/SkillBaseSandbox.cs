@@ -46,10 +46,5 @@ namespace co_op_engine.Components.Skills
 
             to.Velocity += push;
         }
-
-        protected void ShootProjectile(GameObject projectile, GameObject target)
-        {
-            ((ProjectileMover)projectile.Mover).FireProjectile(target);
-        }
     }
 }

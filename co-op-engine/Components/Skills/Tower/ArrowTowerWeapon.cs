@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using co_op_engine.Components.Skills.Weapons;
+using co_op_engine.Components.Brains.Projectiles;
+using co_op_engine.Components.Rendering;
 
 namespace co_op_engine.Components.Skills.Tower
 {
@@ -23,9 +26,17 @@ namespace co_op_engine.Components.Skills.Tower
 
         protected override void UseSkill(int attackTimer = 0)
         {
-            ((ArrowTowerBrain)Owner.Brain).
+            var target = ((ArrowTowerBrain)Owner.Brain).Target;
             TowerShootTimer = TimeSpan.FromMilliseconds(TowerShootIntervalMilli);
-            ShootProjectile(ProjectileFactory.Instance.GetGenericProjectile(Owner, Owner.Position, 1f, AssetRepository.Instance.ArrowTexture, AssetRepository.Instance.ArrowAnimations));
+            
+            var projectile = ProjectileFactory.Instance.GetGenericProjectileNoWeapon(Owner, Owner.Position, 1f, AssetRepository.Instance.ArrowTexture, AssetRepository.Instance.ArrowAnimations(1f), 3000);
+            projectile.Skills.SetWeapon(new ArrowWeapon(projectile.Skills,projectile));
+            projectile.Skills.WeaponSkill.SetRenderer((new RenderBase(projectile.Skills.WeaponSkill, AssetRepository.Instance.ArrowTexture, AssetRepository.Instance.ArrowAnimations(1f))));
+
+            var move = target.Position - Owner.Position;
+            move.Normalize();
+
+            ((OneHitStraightProjectileBrain)projectile.Brain).Shoot(move);
         }
 
         protected override void UpdateState(Microsoft.Xna.Framework.GameTime gameTime)
